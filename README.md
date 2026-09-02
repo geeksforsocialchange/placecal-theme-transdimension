@@ -66,6 +66,18 @@ yarn run check  # fail if the committed CSS is stale
 
 Use `yarn run check` rather than `yarn check`: `check` is also a built-in Yarn command, and the built-in wins.
 
+### Content seed
+
+This engine bundles Trans Dimension's static page content (About, Privacy) as markdown in `content/`. The `transdimension:seed_pages` rake task reads those files and upserts them into PlaceCal's Pages table, owned by the trans-dimension site.
+
+Run the seed task against a specific site:
+
+```sh
+bundle exec rake transdimension:seed_pages[site-slug]
+```
+
+The task creates or updates two pages: `about` (shown in site navigation, position 10) and `privacy` (not in navigation, position 20). The About body concatenates multiple content files with section headings in the order TD's frontend renders them. The task is idempotent; running it twice on the same site produces no duplicates and updates only if content changed.
+
 ## Copyright and licence
 
 The code in this repository is licensed under the [Hippocratic License 3.0](LICENSE).
