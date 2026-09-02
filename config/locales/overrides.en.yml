@@ -1,4 +1,9 @@
-# Overrides of core PlaceCal strings for this theme. Appended to I18n.load_path
-# after core's own locale files by the engine, so keys here win. Empty until
-# WP 2.5.
-en: {}
+# Core string overrides for Trans Dimension sites. This file is appended to
+# I18n.load_path after core's locale files (see lib/transdimension/engine.rb),
+# so these values win. Only keys where TD's copy differs from core belong here.
+en:
+  navigation:
+    site:
+      join: "Join us"
+  region_filter:
+    all: "Everywhere"
