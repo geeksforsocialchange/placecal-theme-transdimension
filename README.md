@@ -66,6 +66,18 @@ yarn run check  # fail if the committed CSS is stale
 
 Use `yarn run check` rather than `yarn check`: `check` is also a built-in Yarn command, and the built-in wins.
 
+## Site record setup
+
+Creating the Trans Dimension Site record in PlaceCal requires root admin access. See `doc/site-record.md` for step-by-step instructions on configuring the Site, tags, images and contact email.
+
+After creating the site, verify it is configured correctly by running the check task.
+
+```sh
+bin/rails transdimension:check
+```
+
+The task prints PASS and FAIL lines for each required field, exits non-zero if any checks fail, and warns (but does not fail) when neighbourhoods are present.
+
 ## Copyright and licence
 
 The code in this repository is licensed under the [Hippocratic License 3.0](LICENSE).
