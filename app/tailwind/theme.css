@@ -1,0 +1,17 @@
+/* Tailwind source for the Trans Dimension theme (#3368 D4).
+   Built by `yarn build` into app/assets/builds/transdimension/theme.css, which
+   is committed; `yarn check` fails when that build is stale. Propshaft in core
+   picks the built file up from this engine's app/assets. */
+
+@import "tailwindcss/theme" layer(theme);
+/* source(none) turns off automatic content detection, so the build scans only
+   the @source globs below (this engine's own views and components). */
+@import "tailwindcss/utilities" layer(utilities) source(none);
+
+@source "../views/**/*.rb";
+@source "../components/**/*.rb";
+
+:root {
+	/* Theme tokens (colours, fonts, spacing) land here in WP 2.2. They override
+	   core's public theme variables; see core app/tailwind/public/_theme.css. */
+}

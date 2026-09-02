@@ -1,0 +1,17 @@
+{
+	"name": "placecal-theme-transdimension",
+	"version": "0.1.0",
+	"private": true,
+	"description": "Tailwind build for the PlaceCal Trans Dimension theme engine",
+	"dependencies": {
+		"@tailwindcss/cli": "4.3.3"
+	},
+	"scripts": {
+		"build": "./node_modules/.bin/tailwindcss -i app/tailwind/theme.css -o app/assets/builds/transdimension/theme.css --minify",
+		"css-check": "./node_modules/.bin/tailwindcss -i app/tailwind/theme.css -o tmp/theme-check.css --minify && cmp app/assets/builds/transdimension/theme.css tmp/theme-check.css",
+		"check": "yarn run css-check"
+	},
+	"engines": {
+		"node": "24.20.0"
+	}
+}
