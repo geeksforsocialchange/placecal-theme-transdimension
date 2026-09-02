@@ -1,4 +1,128 @@
 en:
   transdimension:
-    home:
+    # Site-level and global strings
+    site:
       title: The Trans Dimension
+      strapline: "Space and spaces for us"
+      description: "The Trans Dimension is an online community hub connecting trans communities in London and Manchester. We collate news, events and services by and for trans people."
+      logo_src: "%{canonical_url}images/logos/tdd_logo_with_strapline_on_darkBlue.png"
+    external:
+      gfsc_home: "https://gfsc.studio/"
+      gendered_intelligence_home: "https://genderedintelligence.co.uk/"
+      gendered_intelligence_name: "Gendered Intelligence"
+      google_map_search: "https://www.google.com/maps/search/?api=1&query=%{address}"
+      see_on_google_map: "See on Google map"
+      map_image_alt: "A map showing the location of %{location}"
+    # Header
+    header:
+      mobile_menu_button: "Menu"
+    # Footer
+    footer:
+      social: "Follow us out there"
+      insta_link: "https://www.instagram.com/genderedintelligence/"
+      twitter_link: "https://twitter.com/genderintell"
+      facebook_link: "https://www.facebook.com/GenderedIntelligence"
+      byline: "Created by"
+      info_title: "The Trans Dimension, c/o Gendered Intelligence"
+      info_charity: "Gendered Intelligence is a Registered Charity in England and Wales No. 1182558."
+      info_company: "Registered as a Company Limited by Guarantee in England and Wales No. 06617608."
+      info_office: "Registered office at VAI, 200a Pentonville Road, London N1 9JP."
+      credit_title: "Credits"
+      credit_1_text: "Illustrations by"
+      credit_1_name: "Harry Woodgate"
+      credit_1_link: "https://www.harrywoodgate.com/"
+      credit_2_text: "design by"
+      credit_2_name: "Squid"
+      credit_2_link: "https://studiosquid.co.uk/"
+      credit_3_text: "website by"
+      credit_3_name: "GFSC"
+      credit_3_link: "https://gfsc.studio/"
+      copyright: "© %{year} Gendered Intelligence. All rights reserved."
+      powered_by: "Powered by PlaceCal"
+    # Region selector
+    region:
+      everywhere: "Everywhere"
+    # Home/Index page
+    home:
+      title: "The Trans Dimension"
+      meta_description: "An online community hub which will connect trans communities across the UK by collating news, events and services by and for trans people in one easy-to-reach place. A collaboration between Gendered Intelligence and Geeks for Social Change."
+      intro_title: "Trusted, accessible, trans-friendly spaces. Always expanding."
+      intro_message: "The Trans Dimension is an online community hub connecting trans communities in London and Manchester. We collate news, events and services by and for trans people."
+      intro_button: "See what's on"
+      featured_header: "Upcoming Events"
+      featured_button: "View all events"
+      news_header: "Latest news"
+      news_button: "View all news"
+    # About page
+    about:
+      title: "About"
+      meta_description: "The Trans Dimension is an online community hub connecting trans communities in London and Manchester. We collate news, events and services by and for trans people."
+    # Events page
+    events:
+      title: "Events"
+      meta_description: "Events and activities by and for trans communities across the UK."
+      summary: "Upcoming events & activities for you."
+      subheading: "Upcoming events"
+      empty_all: "There are no upcoming events. Check back for updates!"
+      empty: "There are no upcoming events on this date."
+      previous_empty_all: "There have been no events in the recent past."
+      filter_today: "Today"
+      filter_tomorrow: "Tomorrow"
+      next_event: "Go to next event"
+    # Event detail page
+    event:
+      title_with_prefix: "Event - %{name}"
+      title: "%{name}"
+      meta_description: "%{description}"
+      back_to_partner: "All events by %{partner}"
+      back_to_all: "All events"
+      visit_publisher: "Visit %{publisher}'s site"
+    # Partners page
+    partners:
+      title: "Partners"
+      meta_description: "Trans Dimension partners form an online community for connecting trans people across the UK by publishing service information, events and news on PlaceCal."
+      intro_summary: "The Trans Dimension is a partnership of grassroots groups and charities with a track record of supporting the trans community."
+      intro_description: "All of our partners are explicitly trans-friendly organisations. Some are led by trans people, and some led by friends and allies. They put on events, provide services and offer support for members of our community."
+      list_heading: "All partners"
+      list_empty: "There are currently no Trans Dimension partners"
+      map_alt: "A map showing the locations of all partners with listed addresses"
+    # Partner detail page
+    partner:
+      title: "%{name}"
+      meta_description: "%{name} - %{summary}"
+      contacts_heading: "Get in touch"
+      contacts_empty: "No contact details provided"
+      address_heading: "Address"
+      address_empty: "No address provided"
+      description_empty: "Please ask %{partner} for more information"
+      upcoming_events: "Upcoming events by %{partner}"
+      previous_events: "Previous events by %{partner}"
+      events_empty: "%{partner} does not have any upcoming events. Check back for updates!"
+      back_to_all: "Go to all partners"
+    # Join Us page
+    join:
+      title: "Join us"
+      meta_description: "Want to be listed on The Trans Dimension? Get in touch and learn how you can create space and spaces for us."
+      subtitle: "Want to be listed on The Trans Dimension?"
+      description: "Get in touch and learn how you can create space and spaces for us."
+    # News listing page
+    news:
+      title: "News"
+      meta_description: "Updates & articles from our partners."
+      empty: "There is no recent news"
+      read_more: "Read the rest"
+    # News detail page
+    news_item:
+      title_with_prefix: "News - %{title}"
+      title: "%{title}"
+      meta_description: "%{title} - by %{author}"
+      return_button: "Go back to news"
+    # Privacy page
+    privacy:
+      title: "Privacy"
+      meta_description: "Privacy information for The Trans Dimension website."
+    # 404 error page
+    error:
+      title: "Error 404"
+      message: "This page could not be found."
+      button: "Back to home"
