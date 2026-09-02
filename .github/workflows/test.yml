@@ -1,0 +1,89 @@
+name: Test
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+  workflow_dispatch:
+    inputs:
+      placecal_ref:
+        description: "Ref of geeksforsocialchange/PlaceCal to build against"
+        required: false
+        default: "feature/td-extension"
+
+env:
+  # The core branch this engine is built against. Switch to "main" once the
+  # core extension PR (#3368) is merged.
+  PLACECAL_REF: ${{ github.event.inputs.placecal_ref || 'feature/td-extension' }}
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: placecal_test
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    env:
+      RAILS_ENV: test
+      DATABASE_URL: postgres://postgres:postgres@localhost:5432/placecal_test
+      PLACECAL_CORE_PATH: ${{ github.workspace }}/PlaceCal
+      BUNDLE_GEMFILE: ${{ github.workspace }}/PlaceCal/Gemfile
+
+    steps:
+      - name: Checkout the theme engine
+        uses: actions/checkout@v4
+        with:
+          path: theme
+
+      - name: Checkout PlaceCal core
+        uses: actions/checkout@v4
+        with:
+          repository: geeksforsocialchange/PlaceCal
+          ref: ${{ env.PLACECAL_REF }}
+          path: PlaceCal
+
+      - name: Set up Ruby (version from core's .ruby-version)
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version-file: PlaceCal/.ruby-version
+          bundler-cache: true
+          working-directory: PlaceCal
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: theme/package.json
+          cache: yarn
+          cache-dependency-path: theme/yarn.lock
+
+      - name: Install JS dependencies
+        working-directory: theme
+        run: yarn install --frozen-lockfile
+
+      - name: Fail if the committed Tailwind build is stale
+        working-directory: theme
+        run: yarn run check
+
+      - name: RuboCop
+        working-directory: theme
+        run: bundle exec rubocop
+
+      - name: Prepare core's test database
+        working-directory: PlaceCal
+        run: bin/rails db:schema:load
+
+      - name: RSpec
+        working-directory: theme
+        run: bundle exec rspec

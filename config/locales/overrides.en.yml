@@ -1,0 +1,4 @@
+# Overrides of core PlaceCal strings for this theme. Appended to I18n.load_path
+# after core's own locale files by the engine, so keys here win. Empty until
+# WP 2.5.
+en: {}
