@@ -66,7 +66,6 @@ yarn run check  # fail if the committed CSS is stale
 
 Use `yarn run check` rather than `yarn check`: `check` is also a built-in Yarn command, and the built-in wins.
 
-<<<<<<< HEAD
 ### Content seed
 
 This engine bundles Trans Dimension's static page content (About, Privacy) as markdown in `content/`. The `transdimension:seed_pages` rake task reads those files and upserts them into PlaceCal's Pages table, owned by the trans-dimension site.
@@ -78,7 +77,7 @@ bundle exec rake transdimension:seed_pages[site-slug]
 ```
 
 The task creates or updates two pages: `about` (shown in site navigation, position 10) and `privacy` (not in navigation, position 20). The About body concatenates multiple content files with section headings in the order TD's frontend renders them. The task is idempotent; running it twice on the same site produces no duplicates and updates only if content changed.
-=======
+
 ## Site record setup
 
 Creating the Trans Dimension Site record in PlaceCal requires root admin access. See `doc/site-record.md` for step-by-step instructions on configuring the Site, tags, images and contact email.
@@ -90,7 +89,6 @@ bin/rails transdimension:check
 ```
 
 The task prints PASS and FAIL lines for each required field, exits non-zero if any checks fail, and warns (but does not fail) when neighbourhoods are present.
->>>>>>> wp/2.7-site-record
 
 ## Copyright and licence
 

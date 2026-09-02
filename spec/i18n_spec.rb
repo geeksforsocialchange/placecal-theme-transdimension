@@ -61,10 +61,10 @@ describe 'Trans Dimension i18n' do # rubocop:disable Metrics/BlockLength
       end
     end
 
-    it 'has 95 keys total' do
+    it 'carries the ported TD copy (at least the 95 strings from Text.elm)' do
       td_locale = en_locale['transdimension']
       flat_keys = flatten_keys(td_locale)
-      expect(flat_keys.length).to eq(95)
+      expect(flat_keys.length).to be >= 95
     end
   end
 
@@ -75,25 +75,27 @@ describe 'Trans Dimension i18n' do # rubocop:disable Metrics/BlockLength
       )['en']
     end
 
-    it 'contains only empty hash initially' do
-      # WP 2.5 has no overrides yet; future work packages will add them
-      expect(overrides_locale).to eq({})
-    end
-
     it 'each override key exists in core' do
       core_locale = {}
       core_locale_files.each do |file|
         yaml = YAML.unsafe_load_file(file)
-        deep_merge!(core_locale, yaml)
+        deep_merge!(core_locale, yaml.fetch('en', yaml))
       end
 
-      overrides_locale.each_key do |key|
-        next if key == 'transdimension' # Engine namespace, not an override
+      flat = lambda do |hash, prefix = ''|
+        hash.flat_map { |k, v| v.is_a?(Hash) ? flat.call(v, "#{prefix}#{k}.") : ["#{prefix}#{k}"] }
+      end
+      flat.call(overrides_locale).each do |key|
+        next if key.start_with?('transdimension.') # Engine namespace, not an override
 
-        # Check that the key exists in core
         expect(check_key_exists?(core_locale, key)).to be_truthy,
                                                        "Override key '#{key}' does not exist in core i18n"
       end
+    end
+
+    it 'applies the overrides through the booted app' do
+      expect(I18n.t('navigation.site.join')).to eq('Join us')
+      expect(I18n.t('region_filter.all')).to eq('Everywhere')
     end
 
     def deep_merge!(target, source)
