@@ -1,7 +1,22 @@
 /* Tailwind source for the Trans Dimension theme (#3368 D4).
    Built by `yarn build` into app/assets/builds/transdimension/theme.css, which
    is committed; `yarn check` fails when that build is stale. Propshaft in core
-   picks the built file up from this engine's app/assets. */
+   picks the built file up from this engine's app/assets.
+
+   WP 2.2 ports src/Theme/Global.elm (plus PageHeader.elm and PageFooter.elm for
+   the shared chrome) from the Elm site. Values here are the Elm ones, not
+   approximations: when a number looks odd, it is because Global.elm says so.
+
+   Two variable families are overridden. `--color-*`, `--font-*`, `--text-*`,
+   `--radius-*` and `--root-font-size` are core's Tailwind tokens (see core
+   app/tailwind/public/_theme.css and its OVERRIDE CONTRACT). `--base-*` are the
+   legacy SCSS custom properties that core's application.scss still uses; both
+   have to move together or half the page stays PlaceCal-coloured.
+
+   Where core's legacy SCSS bakes a Sass literal instead of a custom property
+   (body colour, heading font, heading sizes) there is no token to override, so
+   this file restates the rule. Those are marked below.
+*/
 
 @import "tailwindcss/theme" layer(theme);
 /* source(none) turns off automatic content detection, so the build scans only
@@ -12,6 +27,621 @@
 @source "../components/**/*.rb";
 
 :root {
-	/* Theme tokens (colours, fonts, spacing) land here in WP 2.2. They override
-	   core's public theme variables; see core app/tailwind/public/_theme.css. */
+	/* Root size. The Elm site never sets one, so it renders at the browser
+	   default 16px; core raises it to 18px. Every rem in this file is a TD rem,
+	   so the root has to come back down or the whole design scales up 12.5%. */
+	--root-font-size: 16px;
+	--root-line-height: 1.5;
+
+	/* Fonts. Global.elm: fontFamilies [ "covik-sans", sansSerif ]. Covik Sans is
+	   served from Typekit kit qwi3qrw, loaded in Transdimension::Components::Head
+	   (D16). TD has no second face, so the serif slot takes Covik too. */
+	--font-sans: "covik-sans", sans-serif;
+	--font-serif: "covik-sans", sans-serif;
+	/* Global.elm weights: body 400, intro text 500, buttons and nav 600, bold 700 */
+	--font-weight-extra-bold: 700;
+	--font-weight-bold: 700;
+	--font-weight-regular: 400;
+	--font-weight-semibold: 600;
+
+	/* Type scale. Page titles are PageTemplate.elm (2.1rem, 2.5rem at tablet
+	   portrait, 3.1rem at tablet landscape); the smaller steps are Global.elm's
+	   title and intro styles. */
+	--text-2xs: 0.72rem;
+	--text-xs: 0.78rem;
+	--text-sm: 0.8rem;
+	/* footer info paragraphs, PageFooter.elm infoParagraphStyle */
+	--text-detail: 0.8777rem;
+	--text-base: 1rem;
+	--text-card: 1.2rem;
+	--text-lg: 1.2rem;
+	--text-xl: 1.3rem;
+	--text-section: 1.6rem;
+	--text-2xl: 1.6rem;
+	--text-stat: 2rem;
+	--text-3xl: 2.1rem;
+	--text-hero: clamp(2.1rem, 5vw, 3.1rem);
+	/* Global.elm smallTitleStyle letterSpacing */
+	--tracking-wide: 1.9px;
+	--leading-hero: 1.15;
+
+	/* Border radii. Global.elm uses borderRadius (rem 0.3) for every box, button
+	   and input, so the pill radius flattens too: TD has no pills. */
+	--radius-card: 0.3rem;
+	--radius-sm: 0.3rem;
+	--radius-field: 0.3rem;
+	--radius-check: 0.3rem;
+	--radius-pill: 0.3rem;
+
+	/* Brand colours, Global.elm "Brand colours":
+	   darkBlue #040F39, pink #FF7AA7, lightPink #FFBCD3, purple #814470,
+	   darkPurple #432955, white #FFFFFF. */
+	--color-background: #040f39;
+	--color-foreground: #ffffff;
+	/* Copy that sits on a pink panel: TD uses darkBlue there */
+	--color-foreground-dark: #040f39;
+	--color-foreground-darker: #040f39;
+	--color-primary: #ff7aa7;
+	--color-primary-light: #ffbcd3;
+	--color-secondary: #ff7aa7;
+	--color-secondary-light: #ffbcd3;
+	--color-secondary-deep: #ff7aa7;
+	--color-secondary-dark: #ff7aa7;
+	/* purple: hover state on white and pink buttons */
+	--color-tertiary: #814470;
+	/* every rule and border in TD is pink (Global.elm hrStyle, contentWrapperStyle) */
+	--color-rules: #ff7aa7;
+	--color-rules-dark: #ff7aa7;
+	--color-map-stripe-second: #ff7aa7;
+	--color-print-grey: #dadada;
+	/* "plain white surface" is a dark blue surface here */
+	--color-surface: #040f39;
+	--color-overlay-light: rgb(255 255 255 / 0.15);
+	--color-focus-ring: rgb(255 122 167 / 0.35);
+	--color-marker-shadow: rgb(0 0 0 / 0.25);
+	--color-dot-shadow: rgb(0 0 0 / 0.3);
+
+	/* Default-site palette, used by the legacy homepage sections */
+	--color-home-background: #040f39;
+	--color-home-background-2: #ff7aa7;
+	--color-home-background-3: #432955;
+	--color-home-blue: #ff7aa7;
+	--color-home-blue-soft: #ffbcd3;
+	--color-home-pink: #ff7aa7;
+	--color-home-pink-soft: #ffbcd3;
+	--color-home-green: #ff7aa7;
+	--color-home-green-soft: #ffbcd3;
+
+	--shadow-hero-search: 0 0 0 2px rgb(255 255 255 / 0.2);
+	--shadow-marker: 0 2px 6px var(--color-marker-shadow);
+	--shadow-dot: 0 1px 3px var(--color-dot-shadow);
+
+	/* Legacy SCSS custom properties (core app/assets/stylesheets/application.scss).
+	   Core's SCSS components read these, not the --color-* tokens above. */
+	--base-primary: #ff7aa7;
+	--base-background: #040f39;
+	--base-text: #ffffff;
+	--base-rules: #ff7aa7;
+	--base-rules-dark: #ff7aa7;
+	--base-secondary: #ff7aa7;
+	--base-tertiary: #814470;
+	--base-map-stripe-second: #ff7aa7;
+	--print-grey: #dadada;
+}
+
+/* ---------------------------------------------------------------------------
+   Global page
+   Global.elm globalStyles: body takes the dark blue ground, white copy, Covik
+   at weight 400 and the tiling starfield. The three starfield sizes and their
+   breakpoints are copied from Global.elm in its own source order, including the
+   1500px rule coming before the 900px one, so the rendered result matches the
+   live site rather than what the breakpoints look like they should do.
+   Core's base/layout.scss sets body colour and background from Sass literals,
+   so there is no token to override and these rules restate them.
+--------------------------------------------------------------------------- */
+
+body {
+	background-color: var(--color-background);
+	color: var(--color-foreground);
+	font-family: var(--font-sans);
+	font-weight: 400;
+	background-image: url("starfield-small-800.png");
+	background-repeat: repeat;
+	background-size: 800px;
+	background-position: 0 0;
+}
+
+@media only screen and (min-width: 1500px) {
+	body {
+		background-image: url("starfield-largest-1920.png");
+		background-size: 1920px;
+	}
+}
+
+@media only screen and (min-width: 900px) {
+	body {
+		background-image: url("starfield-medium-1080.png");
+		background-size: 1080px;
+	}
+}
+
+/* The layout's .page wrapper is a centred, cream, bordered column. TD runs the
+   starfield edge to edge and puts the border on the content boxes instead. */
+.page {
+	max-width: none;
+	margin-inline: auto;
+	background-color: transparent;
+	border: 0;
+}
+
+/* Headings. Core base/typography.scss sets h1 to the Trocchi Sass literal at
+   $h1-size, neither of which is a custom property.
+   Deviation from Global.elm: it paints h1-h4 dark blue, which works there only
+   because every TD heading sits on a pink panel. Core renders headings straight
+   onto the dark ground, so they inherit the copy colour instead; the panelled
+   contexts get dark blue back in the section rules below. */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+h1.sans,
+.serif,
+h2.serif,
+.p--mega {
+	font-family: var(--font-sans);
+	color: inherit;
+}
+
+h1 {
+	font-size: var(--text-3xl);
+	font-weight: 500;
+	line-height: 1.15;
+}
+
+@media only screen and (min-width: 600px) {
+	h1 {
+		font-size: 2.5rem;
+	}
+}
+
+@media only screen and (min-width: 900px) {
+	h1 {
+		font-size: 3.1rem;
+	}
+}
+
+b,
+strong {
+	font-weight: 700;
+}
+
+/* Global.elm hrStyle */
+hr {
+	border-color: var(--color-primary);
+	border-style: solid;
+	border-width: 0.5px;
+	margin: 2rem 0;
+}
+
+/* Global.elm linkStyle: white copy with a pink underline. Core's
+   a:not(.with-no-sass) rule wins on specificity, so match its selector. */
+a:not(.with-no-sass) {
+	color: var(--color-foreground);
+	text-decoration-color: var(--color-primary);
+	text-decoration-thickness: 1px;
+	text-underline-offset: 3px;
+}
+
+@media only screen and (hover: hover) and (pointer: fine) {
+	a:not(.with-no-sass):hover {
+		color: var(--color-primary);
+	}
+}
+
+/* The iCal / permalink strip under a listing. Core's components/meta.scss paints
+   it from the $base-rules Sass literal, so there is no token to move; TD has no
+   band like it, so it drops back to the page ground. */
+.meta {
+	background-color: transparent;
+	padding: 2rem 0;
+}
+
+/* Global.elm darkBlueButtonStyle: dark blue fill, white label, pink border, and
+   the 0.3rem corner every TD box has.
+   Only the painting is ported. baseButtonStyle's 1.2rem type and 0.2rem border
+   belong to TD's full-size buttons; applying them to every .btn inflates the
+   day strip and the filter pills past the viewport, and those components are
+   restyled properly in their own work packages. */
+.btn {
+	background-color: var(--color-background);
+	border-color: var(--color-primary);
+	border-radius: 0.3rem;
+	color: var(--color-foreground);
+	font-weight: 600;
+}
+
+.btn--active,
+.btn:hover {
+	background-color: var(--color-tertiary);
+	color: var(--color-foreground);
+}
+
+/* Global.elm textInputStyle */
+input[type="text"],
+input[type="email"],
+input[type="search"],
+input[type="tel"],
+input[type="url"],
+textarea,
+select {
+	background-color: var(--color-background);
+	border: 2px solid var(--color-primary);
+	border-radius: 0.3rem;
+	color: var(--color-foreground);
+	outline: none;
+}
+
+/* ---------------------------------------------------------------------------
+   Header (PageHeader.elm)
+   Below 600px: the title bar, a small logo on the left and the menu button on
+   the right, with the navigation collapsed. From 600px up the title bar is
+   display:none and the navigation becomes the full-width pink bar.
+   Core's Components::Navigation already lays the mobile case out as a grid with
+   branding and toggle on row 1 and the menu on row 2, and already reveals the
+   menu at the same 600px breakpoint, so only the painting changes.
+--------------------------------------------------------------------------- */
+
+/* PageHeader.elm lays the header out with flexbox, and so does this: the
+   wordmark and the menu button share the first line and the menu takes a
+   wrapped line of its own. Core's two-column grid renders the same thing, but
+   the flex version keeps the placement independent of how wide the collapsed
+   menu's content is. */
+.header.header__partner {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: space-between;
+	margin-inline: 0;
+	padding-top: 0;
+	padding-bottom: 1rem;
+	color: var(--color-foreground);
+}
+
+.header__partner .header__menu {
+	order: 1;
+	flex-basis: 100%;
+}
+
+/* The branding link inlines core's PlaceCal SVG (or a site logo upload), so the
+   TD wordmark goes on as a background and the inlined mark is hidden. */
+.header__branding--transdimension {
+	background-image: url("TDD_Logo_MobileHeader.svg");
+	background-repeat: no-repeat;
+	background-position: left center;
+	background-size: contain;
+	margin: 1rem;
+	width: 8.7rem;
+	height: 3.9rem;
+}
+
+.header__branding--transdimension > svg,
+.header__branding--transdimension > img {
+	display: none;
+}
+
+.header__partner .header__toggle {
+	margin: 2rem 1rem;
+	color: var(--color-foreground);
+}
+
+.header__partner .header__menu {
+	margin: 0;
+	padding: 0;
+	gap: 0.2rem;
+}
+
+.header__partner .header__menu li {
+	background-color: var(--color-primary);
+	padding: 1rem;
+	margin: 0.1rem 0;
+	font-size: 1.2rem;
+	text-align: center;
+}
+
+.header__partner .header__menu a {
+	color: var(--color-background);
+	font-weight: 600;
+	font-size: 1.2rem;
+	text-transform: none;
+	letter-spacing: normal;
+	text-decoration: none;
+	display: block;
+	border-bottom: 0.2rem solid var(--color-primary);
+	transition:
+		border-color 300ms,
+		color 300ms;
+}
+
+/* Core draws the current-page marker with an ::after bar; TD underlines the
+   link itself. */
+.header__partner .header__menu a::after {
+	display: none;
+}
+
+.header__partner .header__menu a.active {
+	border-bottom-color: var(--color-background);
+}
+
+@media only screen and (hover: hover) and (pointer: fine) {
+	.header__partner .header__menu a:hover {
+		color: var(--color-foreground);
+	}
+}
+
+@media only screen and (min-width: 600px) {
+	/* PageHeader.elm titleBarStyle and menuButtonStyle: display none */
+	.header__branding--transdimension,
+	.header__partner .header__toggle {
+		display: none;
+	}
+
+	.header.header__partner {
+		display: block;
+		padding-bottom: 1rem;
+	}
+
+	.header__partner .header__menu {
+		background-color: var(--color-primary);
+		display: flex;
+		flex-direction: row;
+		flex-wrap: wrap;
+		align-items: center;
+		/* core's menu is justify-evenly, which spreads the bar edge to edge;
+		   PageHeader.elm packs the items to the left */
+		justify-content: flex-start;
+		padding-left: 0.5rem;
+		margin: 0;
+	}
+
+	.header__partner .header__menu li {
+		padding: 1rem 0.75rem;
+		margin: 0;
+		align-self: center;
+		flex-grow: 0;
+		font-size: 1.1rem;
+	}
+}
+
+@media only screen and (min-width: 600px) and (hover: hover) and (pointer: fine) {
+	.header__partner .header__menu a:hover {
+		border-bottom-color: var(--color-background);
+		color: var(--color-background);
+	}
+}
+
+/* ---------------------------------------------------------------------------
+   Footer (PageFooter.elm)
+   TD stacks three bands: a pink band with the wordmark and the link list, a
+   dark blue band with the social links and the "created by" logos, and a pink
+   band with the legal text and the PlaceCal credit.
+   Core's Components::Footer renders a different set of blocks in one grid, so
+   the bands are rebuilt by painting and placing the blocks core does render.
+   What core has no markup for is listed in the WP report.
+--------------------------------------------------------------------------- */
+
+.footer {
+	background-color: var(--color-background);
+	color: var(--color-foreground);
+	margin-top: 2rem;
+	padding: 0;
+	font-size: 1rem;
+	line-height: 1.4;
+}
+
+.footer .container-public {
+	max-width: none;
+	padding-inline: 0;
+}
+
+.footer__inner,
+.footer__inner--nosite {
+	display: grid;
+	gap: 0;
+	grid-template-columns: 1fr;
+	grid-template-areas: "logo" "navigation" "supporters" "regional" "general" "impressum";
+}
+
+.footer__item {
+	grid-column: auto;
+}
+
+/* PageFooter.elm has no rules */
+.footer__hr {
+	display: none;
+}
+
+/* Top band: wordmark, PageFooter.elm footerLogoStyle */
+.footer__logo {
+	grid-area: logo;
+	background-color: var(--color-primary);
+	padding: 1rem;
+	text-align: center;
+	background-image: url("TDD_Logo_Footer.svg");
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: 190px 84px;
+	min-height: 7rem;
+}
+
+.footer__logo img {
+	display: none;
+}
+
+/* Top band: link list, PageFooter.elm navStyle */
+.footer__nav {
+	grid-area: navigation;
+	background-color: var(--color-primary);
+	padding: 1rem 1rem 3rem;
+	font-size: 1.1rem;
+}
+
+.footer__nav h5 {
+	display: none;
+}
+
+.footer__nav li {
+	display: block;
+	text-align: center;
+	font-weight: 600;
+	margin: 0.5rem;
+	font-size: 1.1rem;
+}
+
+.footer__nav a,
+.footer__nav a:not(.with-no-sass) {
+	color: var(--color-background);
+	text-decoration: none;
+	transition: color 300ms;
+}
+
+@media only screen and (hover: hover) and (pointer: fine) {
+	.footer__nav a:hover {
+		color: var(--color-foreground);
+	}
+}
+
+/* Middle band: "created by", PageFooter.elm createdByStyle. Core renders its
+   supporter logos here; the heading takes TD's subheadStyle. */
+.footer__supporters {
+	grid-area: supporters;
+	background-color: var(--color-background);
+	color: var(--color-primary);
+	padding: 1rem;
+	text-align: center;
+}
+
+.footer__supporters h5 {
+	color: var(--color-foreground);
+	text-transform: uppercase;
+	text-align: center;
+	letter-spacing: 1.9px;
+	font-weight: 700;
+	font-size: 1.2rem;
+	margin: 0.5rem 0 1rem;
+}
+
+.footer__supporters ul {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	gap: 1.5rem;
+	margin: 2rem 0;
+	grid-template-columns: none;
+}
+
+/* Bottom band: PageFooter.elm pinkBlockStyle and infoParagraphStyle. Core's two
+   enquiry blocks and the impressum are the copy TD keeps down here. */
+.footer__enquiries,
+.footer__impressum {
+	background-color: var(--color-primary);
+	color: var(--color-background);
+	padding: 1rem;
+	text-align: center;
+	margin-top: 0;
+	font-size: 0.8777rem;
+	line-height: 1.13;
+}
+
+.footer__enquiries--regional {
+	grid-area: regional;
+}
+
+.footer__enquiries--general {
+	grid-area: general;
+}
+
+.footer__impressum {
+	grid-area: impressum;
+}
+
+.footer__enquiries h5 {
+	color: var(--color-background);
+	text-transform: uppercase;
+	letter-spacing: 1.9px;
+	font-weight: 700;
+	font-size: 1rem;
+}
+
+.footer__enquiries a,
+.footer__enquiries a:not(.with-no-sass),
+.footer__impressum,
+.footer__impressum a,
+.footer__impressum a:not(.with-no-sass) {
+	color: var(--color-background);
+	text-decoration-color: var(--color-background);
+}
+
+@media only screen and (hover: hover) and (pointer: fine) {
+	.footer__enquiries a:hover,
+	.footer__impressum a:hover {
+		color: #432955;
+	}
+}
+
+/* "Powered by PlaceCal", PageFooter.elm poweredByPlaceCalStyle. Core has no
+   element for it, so it hangs off the impressum block. */
+.footer__impressum::after {
+	content: "";
+	display: block;
+	width: 160px;
+	height: 24px;
+	margin: 3rem auto 1rem;
+	background-image: url("footer_placecal.svg");
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: contain;
+}
+
+@media only screen and (min-width: 600px) {
+	.footer__inner,
+	.footer__inner--nosite {
+		grid-template-columns: 1fr 1fr;
+		grid-template-areas: "logo navigation" "supporters supporters" "regional general" "impressum impressum";
+	}
+
+	.footer__logo {
+		padding: 1rem 1rem 2rem;
+		background-position: left center;
+		background-size: 225px 100px;
+	}
+
+	.footer__nav {
+		padding: 1rem;
+		margin-bottom: 0;
+	}
+
+	.footer__nav ul {
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: flex-end;
+	}
+
+	.footer__nav li {
+		margin: 0 0.5rem;
+	}
+
+	.footer__supporters ul {
+		flex-direction: row;
+	}
+}
+
+@media only screen and (min-width: 1200px) {
+	.footer__supporters,
+	.footer__enquiries,
+	.footer__impressum {
+		padding-inline: 2rem;
+	}
 }
