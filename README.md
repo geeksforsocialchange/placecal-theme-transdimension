@@ -145,6 +145,8 @@ The code in this repository is licensed under the [Hippocratic License 3.0](LICE
 
 The design assets in this repository (illustrations, logos, artwork and brand copy) are copyright [Gendered Intelligence](https://genderedintelligence.co.uk). They are included here so that the Trans Dimension site can be served by PlaceCal, and they may not be reused outside that context without Gendered Intelligence's permission.
 
+The favicons in `app/assets/images/transdimension/favicons/` and the share image `app/assets/images/transdimension/og-share.png` are Gendered Intelligence's too, taken from the live [transdimension.uk](https://transdimension.uk) so that a PlaceCal-served site keeps the same browser tab icon, home screen icon and link preview.
+
 No font files are in this repository. The theme's typeface is Covik Sans, loaded at runtime from [Adobe Fonts](https://fonts.adobe.com) (Typekit kit `qwi3qrw`, linked by `app/components/transdimension/head.rb`) and licensed through Adobe Fonts by the site owner. An installation serving a different site needs its own Adobe Fonts licence and kit.
 
 Illustrations by [Harry Woodgate](https://www.harrywoodgate.com/). Site design by [Squid](https://studiosquid.co.uk/).
