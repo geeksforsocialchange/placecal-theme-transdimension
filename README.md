@@ -15,7 +15,7 @@ app/tailwind/theme.css             Tailwind source
 app/assets/builds/transdimension/  Built CSS, committed, served by Propshaft
 config/locales/en.yml              Theme strings, namespaced under transdimension.*
 config/locales/overrides.en.yml    Overrides of core strings, appended after core's locales
-content/                           Static page content
+content/                           Static page content, rendered by the views above
 doc/visual-diff/                   Region-by-region comparison against the live site
 doc/audits/                        Legacy URL audit: path list, task output tables
 ```
@@ -48,7 +48,7 @@ The host has to be a PlaceCal with the extension theme registry, that is core wi
 
 The engine checks this while it registers, and raises `Transdimension::UnsupportedHost` naming the missing capability rather than failing with a `NoMethodError` from inside an initializer. `Transdimension::Engine::REQUIRED_THEME_SETTINGS` is the list it checks.
 
-`menu_label` is set the same way but is not required: it is applied only when the host's `PlaceCal::Theme` responds to it, so an older core simply keeps its own mobile menu affordance.
+`menu_label`, `icons`, `mask_icon_color`, `theme_color`, `background_color`, `og_image` and `page` are set the same way but are not required: each is applied only when the host's `PlaceCal::Theme` responds to it. An older core keeps its own mobile menu affordance and favicon, and simply has no `/about` (it falls back to its own `/privacy` markdown).
 
 ## Development
 
@@ -100,31 +100,20 @@ yarn run check  # fail if the committed CSS is stale
 
 Use `yarn run check` rather than `yarn check`: `check` is also a built-in Yarn command, and the built-in wins.
 
-### Content seed
+### Static pages
 
-This engine bundles Trans Dimension's static page content (About, Privacy) as markdown in `content/`. The `transdimension:seed_pages` rake task reads those files and upserts them into PlaceCal's Pages table, owned by the trans-dimension site.
+This engine bundles Trans Dimension's static page content (About, Privacy) as markdown in `content/`, and renders it itself: `Transdimension::Views::About` and `Transdimension::Views::Privacy` compose the markdown files with the section headings from `config/locales/en.yml`. Nothing is seeded into the host database and there is no page admin to keep in sync.
 
-Run the seed task against a specific site:
+The engine registers the two pages while it registers the theme:
 
-```sh
-bundle exec rake transdimension:seed_pages[site-slug]
+```ruby
+theme.page 'about', 'Transdimension::Views::About', nav_label_key: 'transdimension.nav.about'
+theme.page 'privacy', 'Transdimension::Views::Privacy'
 ```
 
-The task creates or updates two pages: `about` (shown in site navigation, position 10) and `privacy` (not in navigation, position 20). The About body concatenates multiple content files with section headings in the order TD's frontend renders them. The task is idempotent; running it twice on the same site produces no duplicates and updates only if content changed.
+Core serves each at `/<slug>` on sites using the theme, lists the ones with a `nav_label_key` in the derived navigation, and includes both in the site sitemap. About carries a nav label; Privacy does not, because the footer carries that link. `privacy` is the one core route a theme page may replace.
 
-It prints one line per page, so a run says what it did:
-
-```
-created about
-unchanged privacy
-skipped about: edited in admin, run with FORCE=1 to overwrite
-```
-
-Two rules protect work done in the admin. A page whose stored title or body no longer matches the seed is assumed to have been hand edited and is skipped; rerun with `FORCE=1` to overwrite it. And `is_published` is only ever set when the page is created, so unpublishing a page in the admin sticks.
-
-```sh
-FORCE=1 bundle exec rake transdimension:seed_pages[site-slug]
-```
+Editing the copy means editing the markdown in `content/` and shipping a release. Rendered HTML is memoised per file on the view class and keyed on the file's mtime, so a content edit shows up in development without a restart and production parses each file once.
 
 ## URL audit
 

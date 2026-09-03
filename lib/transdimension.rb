@@ -16,4 +16,3 @@ end
 
 require_relative 'transdimension/version'
 require_relative 'transdimension/engine'
-require_relative 'transdimension/seed_pages'

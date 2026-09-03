@@ -94,10 +94,4 @@ URL: https://trans-dimension.placecal-staging.org (the staging proxy already ser
 
 After the site is created and verified.
 
-Run the page seed task to create the About and Privacy policy pages.
-
-```bash
-bin/rails transdimension:seed_pages[trans-dimension]
-```
-
-This task is documented in WP 2.6.
+There is nothing further to create. The About and Privacy pages are views in this engine, registered with the theme and served at `/about` and `/privacy` on any site using it, so they need no Site data and no seeding (WP 3.12).

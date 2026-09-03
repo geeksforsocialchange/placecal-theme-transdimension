@@ -2,8 +2,13 @@
 
 # rubocop:disable Metrics/BlockLength
 namespace :transdimension do
-  # Takes the site slug the same way transdimension:seed_pages does. TD_SITE_SLUG
-  # stays as a fallback for callers that cannot pass a rake argument.
+  # Takes the site slug as a rake argument. TD_SITE_SLUG stays as a fallback
+  # for callers that cannot pass one.
+  #
+  # The task checks the Site record only. The theme's About and Privacy pages
+  # are views in this engine rather than rows in the host database (WP 3.12),
+  # so there is nothing about them for an operator to get wrong; spec/requests/
+  # pages_spec.rb covers that they render.
   desc 'Verify the Trans Dimension Site record is configured correctly'
   task :check, [:site_slug] => :environment do |_t, args|
     site_slug = args[:site_slug].presence || ENV.fetch('TD_SITE_SLUG', 'trans-dimension')
@@ -92,21 +97,6 @@ namespace :transdimension do
         puts 'PASS: No neighbourhoods configured (as expected)'
       end
 
-      # Check: pages exist and are published
-      about_page = site.pages.find_by(slug: 'about')
-      privacy_page = site.pages.find_by(slug: 'privacy')
-
-      if about_page&.is_published
-        puts 'PASS: About page exists and is published'
-      else
-        warnings << "WARN: About page is missing or not published (run transdimension:seed_pages[#{site_slug}])"
-      end
-
-      if privacy_page&.is_published
-        puts 'PASS: Privacy page exists and is published'
-      else
-        warnings << "WARN: Privacy page is missing or not published (run transdimension:seed_pages[#{site_slug}])"
-      end
     end
 
     # Print warnings

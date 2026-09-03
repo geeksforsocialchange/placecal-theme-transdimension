@@ -148,8 +148,13 @@ generic slot that would give it to every theme rather than to this one.
   controller and action, and the slug for the static pages, e.g.
   `<body class="route-pages-show" data-page="about">`. Every theme could then
   style one route without a forked view.
-- **Consequence today**: `/about` takes the same generic header band as the rest
-  of the inner pages, and none of the About page's own section artwork is drawn.
+- **Status**: partly filled. Core's page slot renders the wrapper
+  `page page--<slug>` with `data-page-slug`, and the theme's own page views
+  (WP 3.12) emit the same wrapper, so `body main:has(.page--about)` can select
+  the About band. The remaining gap is the other routes, which still carry no
+  identifier.
+- **Consequence today**: `/about` has its own header band, but none of the About
+  page's own section artwork is drawn, and no other route can be styled singly.
 
 ## Laptop pass (WP 3.8)
 
