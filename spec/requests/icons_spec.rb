@@ -48,8 +48,8 @@ RSpec.describe 'Trans Dimension icons', type: :request do
 
     it 'points og:image at the theme share image at its real size' do
       expect(head_html).to match(%r{<meta property="og:image" content="[^"]*/assets/transdimension/og-share-[0-9a-f]+\.png">})
-      expect(head_html).to include('<meta property="og:image:width" content="556">')
-      expect(head_html).to include('<meta property="og:image:height" content="320">')
+      expect(head_html).to include('<meta property="og:image:width" content="1200">')
+      expect(head_html).to include('<meta property="og:image:height" content="630">')
     end
 
     it 'serves every icon it links' do

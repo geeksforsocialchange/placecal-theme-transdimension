@@ -105,11 +105,10 @@ module Transdimension
         theme.mask_icon_color '#FF7AA7' if theme.respond_to?(:mask_icon_color)
         theme.theme_color '#ff7aa7' if theme.respond_to?(:theme_color)
         theme.background_color '#040f39' if theme.respond_to?(:background_color)
-        # The live site's share image (tdd_logo_with_strapline_on_darkBlue.png).
-        # Its real pixel size is 556x320; the live site's own og:image:width and
-        # og:image:height say 1200x675, which the bytes do not bear out, so the
-        # declared size here is the file's actual one.
-        theme.og_image 'transdimension/og-share.png', width: 556, height: 320 if theme.respond_to?(:og_image)
+        # Share card: the live site's logo artwork (556x320) centred on TD dark
+        # blue at 1200x630, the size Facebook and Twitter want for a large card.
+        # The live site links the bare 556x320 file while claiming 1200x675.
+        theme.og_image 'transdimension/og-share.png', width: 1200, height: 630 if theme.respond_to?(:og_image)
       end
     end
   end
