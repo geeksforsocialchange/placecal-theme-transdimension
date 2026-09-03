@@ -645,3 +645,5 @@ select {
 		padding-inline: 2rem;
 	}
 }
+
+@import "./home.css";

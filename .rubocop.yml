@@ -74,6 +74,13 @@ Metrics/ParameterLists:
     - "app/views/**/*.rb"
     - "app/components/**/*.rb"
 
+# An RSpec describe block is one long block by construction. Core raises the
+# limit for the whole app in its .rubocop_todo.yml (Max: 322); the engine only
+# needs it for specs.
+Metrics/BlockLength:
+  Exclude:
+    - "spec/**/*.rb"
+
 Metrics/ClassLength:
   Exclude:
     - "spec/**/*.rb"
