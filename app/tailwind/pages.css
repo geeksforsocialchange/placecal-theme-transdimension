@@ -1666,7 +1666,11 @@ main > div[vocab] > .hero h1 {
 /* The directory hero is a light band with a breadcrumb; TD's is the same
    starfield title as everywhere else. */
 main > section.bg-foreground {
-	background-color: transparent !important;
+	background-color: transparent;
+	/* !important: core renders an inline style="color: var(--color-background)"
+	   on this section, which no ordinary rule can beat. The background needs no
+	   such help: core's .bg-foreground is inside @layer utilities and this file
+	   is unlayered. */
 	color: var(--color-foreground) !important;
 	padding: 0;
 }
