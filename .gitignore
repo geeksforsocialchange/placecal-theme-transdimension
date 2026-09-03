@@ -5,3 +5,4 @@ spec/examples.txt
 goldens/*
 !goldens/README.md
 !goldens/capture.sh
+Gemfile.lock
