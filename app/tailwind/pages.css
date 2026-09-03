@@ -1,0 +1,1786 @@
+/* Page templates for the Trans Dimension theme (#3368 D4, WP 2.4).
+
+   WP 2.2 (theme.css) ported Global.elm, PageHeader.elm and PageFooter.elm: the
+   tokens, the body ground and the shared chrome. This file is everything
+   between the header and the footer, route by route, ported from
+   src/Theme/PageTemplate.elm and src/Theme/Page/*.elm.
+
+   Everything here is CSS over core's own markup. Where TD needs an element core
+   does not render (an intro paragraph, a day/month split on an event date) the
+   gap is recorded in doc/core-slots-needed.md rather than worked around with
+   generated text.
+
+   TD's breakpoints (Global.elm) are 600 / 900 / 1200 / 1500. Core's are
+   Tailwind's, so every media query below is written out in TD's numbers rather
+   than borrowed from core.
+*/
+
+/* ---------------------------------------------------------------------------
+   Shared page shell
+   PageTemplate.elm mainStyle: a 1150px column with generous side margins that
+   widen with the viewport, and the page wordmark centred above the title.
+   Core's <main> is the same box, so it takes the same rules.
+
+   The illustration bands mainStyle paints (generic_header.png behind the title,
+   generic_footer.png under the content, the character cut-outs) are PNGs that
+   live in the Elm repo's public/images and are not in this engine, so they are
+   simply absent. They are art assets, not a core-markup problem.
+--------------------------------------------------------------------------- */
+
+main {
+	box-sizing: border-box;
+	margin: 0.75rem;
+	margin-bottom: 150px;
+	max-width: 1150px;
+	position: relative;
+}
+
+@media only screen and (min-width: 600px) {
+	main {
+		margin: 1rem 2rem 150px 2rem;
+	}
+}
+
+@media only screen and (min-width: 900px) {
+	main {
+		margin: 1rem 1.5rem 180px 1.5rem;
+	}
+}
+
+@media only screen and (min-width: 1200px) {
+	main {
+		margin: 1rem auto 180px auto;
+	}
+}
+
+@media only screen and (min-width: 1500px) {
+	main {
+		margin: 1rem auto 250px auto;
+	}
+}
+
+/* PageTemplate.elm viewHeader puts the wordmark above every page title and
+   hides it below tablet portrait. Core has no element for it, so it goes on as
+   a decorative background; the strapline underneath is core's own hero kicker,
+   which happens to carry exactly TD's strapline copy.
+
+   The wordmark is the mobile-header artwork (pink and white), not the footer
+   one: the footer lockup paints "TRANS DIMENSION" in dark blue for its pink
+   band, which is invisible on the starfield. */
+main::before {
+	content: "";
+	display: none;
+}
+
+@media only screen and (min-width: 600px) {
+	main::before {
+		background-image: url("TDD_Logo_MobileHeader.svg");
+		background-position: center;
+		background-repeat: no-repeat;
+		background-size: contain;
+		display: block;
+		height: 105px;
+		margin: 2.5rem auto 1rem;
+		width: 268px;
+	}
+}
+
+@media only screen and (min-width: 900px) {
+	main::before {
+		height: 120px;
+		width: 305px;
+	}
+}
+
+/* PageTemplate.elm pageHeadingStyle. Core's Components::Hero is a coloured
+   band with a kicker, a divider rule and the title; TD runs the starfield
+   straight through and centres a white italic title on it. */
+.hero {
+	background-color: transparent;
+	background-image: none;
+	color: var(--color-foreground);
+	padding: 0;
+	text-align: center;
+}
+
+.hero .container-public {
+	max-width: none;
+	padding-inline: 0;
+}
+
+.hero__divider {
+	display: none;
+}
+
+/* Global.elm smallTitleStyle. TD draws the strapline as part of the logo
+   lockup; core renders it as text, so it takes the small-title treatment and
+   sits where the lockup's strapline would be. */
+.hero h4.allcaps {
+	color: var(--color-foreground);
+	font-size: 1rem;
+	font-weight: 700;
+	letter-spacing: 1.9px;
+	margin: 0;
+	text-align: center;
+	text-transform: uppercase;
+}
+
+.hero h1 {
+	color: var(--color-foreground);
+	font-size: 2.1rem;
+	font-style: italic;
+	font-weight: 500;
+	margin-block: 0;
+	outline: none;
+	padding-bottom: 0.5rem;
+	padding-top: 2rem;
+	text-align: center;
+}
+
+@media only screen and (min-width: 600px) {
+	.hero h1 {
+		font-size: 2.5rem;
+	}
+}
+
+@media only screen and (min-width: 900px) {
+	.hero h1 {
+		font-size: 3.1rem;
+		padding-bottom: 1rem;
+	}
+}
+
+/* Global.elm contentWrapperStyle: the pink-bordered dark box every page's
+   content sits in. Core has no single wrapper element, so the border goes on
+   whichever container each route already provides; the per-route sections
+   below name them. */
+.td-box,
+#events-browser:has(.paginator),
+#partner_previews {
+	background-color: var(--color-background);
+	border: 1px solid var(--color-primary);
+	border-radius: 0.3rem;
+	box-sizing: border-box;
+	display: block;
+}
+
+/* Global.elm contentContainerStyle: the inset the box's contents keep. The
+   partner page reuses the same turbo frame for its own event list without the
+   filters, and is laid out on its own further down, so the box rules are tied
+   to the frame that carries the paginator. */
+#events-browser:has(.paginator) > *,
+#partner_previews > * {
+	margin: 0.75rem;
+}
+
+@media only screen and (min-width: 600px) {
+	#events-browser:has(.paginator) > *,
+	#partner_previews > * {
+		margin: 0 2rem;
+	}
+}
+
+@media only screen and (min-width: 1500px) {
+	#events-browser:has(.paginator) > *,
+	#partner_previews > * {
+		margin: 1.5rem;
+	}
+}
+
+/* TD has no breadcrumb trail on any page. The trailing element is kept because
+   core hangs the region and category filters off it. */
+.breadcrumb {
+	display: block;
+}
+
+.breadcrumb__element {
+	display: block;
+}
+
+.breadcrumb__element:not(.breadcrumb__element--last) {
+	display: none;
+}
+
+.breadcrumb__element--last {
+	margin: 0;
+	width: 100%;
+}
+
+/* The partner filters nest a second trailing element inside the form, which
+   core lays out as a right-aligned row. TD centres every control on the page. */
+.breadcrumb__element--last .breadcrumb__element--last {
+	align-items: center;
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.5rem;
+	justify-content: center;
+	margin-bottom: 1rem;
+}
+
+/* Global.elm hrStyle is already in theme.css; inside a content box the rules
+   TD draws are the thin pink ones between sections. */
+#events-browser hr,
+#partner_previews hr,
+.markdown-content hr {
+	margin: 1.5rem 0;
+}
+
+/* ---------------------------------------------------------------------------
+   Region selector (RegionSelector.elm)
+   Boxed pills, centred, white border on dark blue, inverting to white-on-blue
+   when the region is the current one. Core renders them as rounded Tailwind
+   pills inside the breadcrumb, so the utilities are overridden here.
+--------------------------------------------------------------------------- */
+
+.region-filter {
+	margin: 0 auto 0.5rem;
+	max-width: fit-content;
+}
+
+.region-filter ul {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0;
+	justify-content: center;
+}
+
+.region-filter li {
+	list-style-type: none;
+	margin: 0.25rem 4px;
+}
+
+.region-filter a {
+	background-color: var(--color-background);
+	border: 2px solid var(--color-foreground);
+	border-radius: 0.3rem;
+	color: var(--color-foreground);
+	cursor: pointer;
+	display: block;
+	font-size: 0.875rem;
+	font-weight: 600;
+	padding: 0.2rem 0.2rem 0.3rem;
+	text-align: center;
+	text-decoration: none;
+	transition:
+		color 300ms linear,
+		border 500ms linear,
+		background-color 300ms linear;
+	width: 100px;
+}
+
+.region-filter a[aria-current="page"] {
+	background-color: var(--color-foreground);
+	color: var(--color-background);
+}
+
+@media only screen and (hover: hover) and (pointer: fine) {
+	.region-filter a:hover {
+		background-color: var(--color-tertiary);
+		border-color: var(--color-foreground);
+		color: var(--color-foreground);
+	}
+}
+
+@media only screen and (min-width: 600px) {
+	.region-filter li {
+		margin: 0.25rem 0.375rem;
+	}
+
+	.region-filter a {
+		font-size: 1rem;
+		width: 110px;
+	}
+}
+
+@media only screen and (min-width: 900px) {
+	.region-filter {
+		margin: 2rem auto;
+	}
+
+	.region-filter li {
+		margin: 0.25rem 0.5rem;
+	}
+
+	.region-filter a {
+		font-size: 1.2rem;
+		width: 140px;
+	}
+}
+
+/* ---------------------------------------------------------------------------
+   /events — Views::Events::Index
+   The content box is core's #events-browser turbo frame, which holds the
+   filters, the day strip and the listing.
+--------------------------------------------------------------------------- */
+
+/* Core renders two day rows: Components::Timeline (the paginator arrows and
+   day buttons) and the newer day-strip filter. TD has one. The strip is the one
+   kept: it carries the same days plus "All upcoming", it is the row the 4a
+   table calls the paginator, and it is the control that keeps the sort and
+   repeating parameters. What goes with the Timeline is its back/forward arrows,
+   which TD does have; the strip scrolls horizontally instead. */
+.paginator__buttons {
+	display: none;
+}
+
+/* Paginator.elm paginationButtonListItemButtonStyle: pink border and pink label
+   on dark blue, filling pink with dark blue text for the selected day. Same
+   geometry as the region selector, one step down in the colour hierarchy. */
+.day-strip {
+	margin: 0.5rem auto 1rem;
+	max-width: fit-content;
+}
+
+.day-strip ul {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0;
+	justify-content: center;
+}
+
+.day-strip li {
+	list-style-type: none;
+	margin: 0.25rem 4px;
+}
+
+.day-strip__link {
+	background-color: var(--color-background);
+	border: 2px solid var(--color-primary);
+	border-radius: 0.3rem;
+	color: var(--color-primary);
+	display: block;
+	font-size: 0.875rem;
+	font-weight: 600;
+	padding: 0.2rem 0.2rem 0.3rem;
+	text-align: center;
+	text-decoration: none;
+	width: 100px;
+}
+
+.day-strip__link[aria-current="date"] {
+	background-color: var(--color-primary);
+	color: var(--color-background);
+}
+
+@media only screen and (hover: hover) and (pointer: fine) {
+	.day-strip__link:hover {
+		background-color: var(--color-tertiary);
+		border-color: var(--color-foreground);
+		color: var(--color-foreground);
+	}
+}
+
+@media only screen and (min-width: 600px) {
+	.day-strip li {
+		margin: 0.25rem 0.375rem;
+	}
+
+	.day-strip__link {
+		font-size: 1rem;
+		width: 110px;
+	}
+}
+
+@media only screen and (min-width: 900px) {
+	.day-strip li {
+		margin: 0.25rem 0.5rem;
+	}
+
+	.day-strip__link {
+		font-size: 1.2rem;
+		width: 140px;
+	}
+}
+
+/* Core's "Filter and sort" dropdown and the partner category filters have no
+   TD counterpart (4a keeps PlaceCal's filters), so they take the plain link
+   treatment rather than a bespoke one. */
+.filters {
+	text-align: center;
+}
+
+.filters__form {
+	margin: 0 auto;
+}
+
+.filters__link {
+	color: var(--color-primary);
+	font-weight: 600;
+}
+
+.filters__toggle {
+	display: flex;
+	justify-content: center;
+}
+
+.filters__toggle button {
+	background: none;
+	border: 0;
+	color: var(--color-primary);
+	cursor: pointer;
+}
+
+.filters__dropdown {
+	background-color: var(--color-background);
+	border: 1px solid var(--color-primary);
+	border-radius: 0.3rem;
+	text-align: left;
+}
+
+.filters__label,
+.filters__option label {
+	color: var(--color-foreground);
+}
+
+/* Components::EventList prints a day heading above each list. TD's own listing
+   has none (Events.elm renders one flat list), and every card already carries
+   its date, so the heading is taken out of the picture visually while staying
+   in the accessibility tree as the group label core intends it to be. */
+h2.udl--fw {
+	border: 0;
+	clip-path: inset(50%);
+	height: 1px;
+	margin: 0;
+	overflow: hidden;
+	padding: 0;
+	position: absolute;
+	white-space: nowrap;
+	width: 1px;
+}
+
+/* Events.elm eventsListStyle: one column, two from tablet landscape up.
+   minmax(0, 1fr) rather than 1fr: a card's own min-content width (a long
+   unbroken address or organiser name) would otherwise widen the track and push
+   the list out past the content box on narrow screens. */
+.events {
+	display: grid;
+	gap: 0 2rem;
+	grid-template-columns: minmax(0, 1fr);
+	margin: 1rem 0;
+	padding: 0;
+}
+
+@media only screen and (min-width: 900px) {
+	.events {
+		grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+	}
+}
+
+.events > li {
+	display: block;
+	width: 100%;
+}
+
+/* Events.elm viewEvent: a two-column card, the date stack on the left and the
+   title, times, postcode and organiser stacked on the right. Core nests the
+   date inside .event__details alongside the other details, so .event__details
+   goes display:contents and each detail is placed on the card's own grid. */
+.events .event {
+	column-gap: 1rem;
+	display: grid;
+	grid-auto-rows: min-content;
+	grid-template-columns: 3.6rem minmax(0, 1fr);
+	margin: 1.25rem 0.25rem 0;
+}
+
+@media only screen and (min-width: 600px) {
+	.events .event {
+		grid-template-columns: 4.5rem minmax(0, 1fr);
+		margin: 1.5rem 0 0;
+	}
+}
+
+.events .event__details {
+	border-width: 0;
+	display: contents;
+	font-size: inherit;
+	padding: 0;
+}
+
+.events .event__detail {
+	grid-column: 2;
+	margin: 0;
+	min-width: 0;
+	overflow-wrap: anywhere;
+}
+
+.events .event__detail svg {
+	display: none;
+}
+
+.events .event__header {
+	display: block;
+	grid-column: 2;
+	grid-row: 1;
+	min-width: 0;
+	overflow-wrap: anywhere;
+}
+
+.events .event__time {
+	grid-row: 2;
+}
+
+.events .event__location {
+	grid-row: 3;
+}
+
+.events .event__organiser {
+	grid-row: 4;
+}
+
+/* Events.elm eventDateStyle, eventDayStyle and eventMonthStyle. Core prints the
+   whole date as one string ("2 Sep"), so the column is narrowed until the month
+   wraps and ::first-line gives the day number its own size and colour. A real
+   day/month split is the core slot this approximates (doc/core-slots-needed.md). */
+.events .event__date {
+	align-self: start;
+	color: var(--color-primary);
+	display: block;
+	font-size: 1.2rem;
+	font-weight: 700;
+	grid-column: 1;
+	grid-row: 1 / span 4;
+	letter-spacing: 1.9px;
+	line-height: 1.25;
+	text-align: center;
+	text-transform: uppercase;
+}
+
+.events .event__date::first-line {
+	color: var(--color-foreground);
+	font-size: 2.5rem;
+	font-weight: 400;
+	letter-spacing: normal;
+	line-height: 1.1;
+}
+
+@media only screen and (min-width: 600px) {
+	.events .event__date::first-line {
+		font-size: 3.1222rem;
+	}
+}
+
+/* Events.elm eventTitleStyle */
+.events .event__header h3 {
+	display: block;
+	margin: 0 0 0.5rem;
+}
+
+.events .event__header h3 a {
+	border-bottom: 2px solid var(--color-primary);
+	color: var(--color-foreground);
+	display: block;
+	font-size: 1.2rem;
+	font-style: italic;
+	font-weight: 500;
+	line-height: 1.25rem;
+	padding-bottom: 0.5rem;
+	text-decoration: none;
+	transition:
+		color 500ms linear,
+		border 500ms linear;
+}
+
+@media only screen and (min-width: 600px) {
+	.events .event__header h3 a {
+		font-size: 1.5rem;
+		line-height: 1.877rem;
+	}
+}
+
+/* Events.elm eventParagraphStyle */
+.events .event__detail,
+.events .event__detail a {
+	color: var(--color-foreground);
+	font-size: 0.8777rem;
+	text-decoration: none;
+}
+
+@media only screen and (min-width: 600px) {
+	.events .event__detail,
+	.events .event__detail a {
+		font-size: 1.2rem;
+		line-height: 1.75rem;
+	}
+}
+
+@media only screen and (hover: hover) and (pointer: fine) {
+	.events .event:hover .event__header h3 a {
+		border-bottom-color: var(--color-foreground);
+		color: var(--color-primary);
+	}
+
+	.events .event:hover .event__date {
+		color: var(--color-foreground);
+	}
+}
+
+/* ---------------------------------------------------------------------------
+   /events/:id — Views::Events::Show
+   Event.elm: the event name sits in a pink panel at the top of the content
+   box, with the date, times, organiser and the two info columns below it.
+   Core splits the page across .event--full and .event__fullinfo, so the box is
+   drawn as two halves that meet with no gap.
+--------------------------------------------------------------------------- */
+
+.event--full {
+	background-color: var(--color-background);
+	border: 1px solid var(--color-primary);
+	border-bottom: 0;
+	border-radius: 0.3rem 0.3rem 0 0;
+	margin-bottom: 0;
+}
+
+.event__fullinfo {
+	background-color: var(--color-background);
+	border: 1px solid var(--color-primary);
+	border-bottom: 0;
+	border-radius: 0;
+	border-top: 0;
+	box-sizing: border-box;
+	margin-bottom: 0;
+	margin-top: 0;
+	max-width: none;
+	padding-bottom: 2rem;
+
+	/* Also stops the first paragraph's top margin collapsing out through the
+	   borderless top of the block and opening a seam in the box. */
+	padding-top: 1rem;
+}
+
+/* Event.elm ends the content box with a full-bleed map. Core renders it as a
+   bare sibling of the info block, so it takes the bottom of the box. The
+   background is the map's own pink ground showing through until the tiles
+   arrive. */
+main > [data-controller="leaflet"] {
+	background-color: var(--color-tertiary);
+	border: 1px solid var(--color-primary);
+	border-radius: 0 0 0.3rem 0.3rem;
+	border-top: 0;
+	box-sizing: border-box;
+	overflow: hidden;
+}
+
+/* Components::Meta: the iCal, CSV, listing-problem and permalink links core
+   puts under every listing. TD has no counterpart, so they take the small
+   centred treatment rather than sitting in the corners of the page. */
+.meta > .container-public {
+	align-items: center;
+	display: flex;
+	flex-direction: column;
+	gap: 0.35rem;
+	justify-content: center;
+	text-align: center;
+}
+
+.meta {
+	margin-top: 2rem;
+}
+
+.meta,
+.meta a {
+	color: var(--color-foreground);
+	font-size: 0.8777rem;
+}
+
+/* Global.elm textBoxPinkStyle: the show pages' title panel. Core's hero is a
+   direct child of <main> on index pages and nested one level deeper on the
+   show pages, which is what separates the two treatments. News items keep the
+   dark ground (News.elm), so the [vocab] wrapper they use is excluded. */
+main > div:not([vocab]) > .hero {
+	background-color: var(--color-primary);
+	border-radius: 0.3rem;
+	box-sizing: border-box;
+	color: var(--color-foreground-dark);
+	margin: 0.75rem;
+	padding: 1rem 0.75rem;
+}
+
+@media only screen and (min-width: 600px) {
+	main > div:not([vocab]) > .hero {
+		margin: 0 2rem;
+		padding-inline: 1.5rem;
+	}
+}
+
+@media only screen and (min-width: 1500px) {
+	main > div:not([vocab]) > .hero {
+		margin: 1.5rem;
+		padding-bottom: 2rem;
+	}
+}
+
+/* Global.elm introTextLargeStyle: the panel's copy is the intro type, not the
+   page-title type. */
+main > div:not([vocab]) > .hero h1 {
+	color: var(--color-foreground-dark);
+	font-size: 1.6rem;
+	font-style: italic;
+	font-weight: 500;
+	line-height: 2rem;
+	margin: 1rem 0.5rem;
+	padding: 0;
+}
+
+@media only screen and (min-width: 600px) {
+	main > div:not([vocab]) > .hero h1 {
+		font-size: 1.9rem;
+		line-height: 2.1rem;
+		margin: 1rem 1.5rem;
+	}
+}
+
+@media only screen and (min-width: 900px) {
+	main > div:not([vocab]) > .hero h1 {
+		font-size: 2.5rem;
+		line-height: 3.1rem;
+		margin: 2rem auto;
+		max-width: 838px;
+	}
+}
+
+/* The kicker is the site strapline, which TD does not repeat inside the panel. */
+main > div:not([vocab]) > .hero h4.allcaps {
+	display: none;
+}
+
+/* Event.elm: the date, times and organiser sit centred under the panel, the
+   date in TD's small-title treatment and the times in pink beneath it. */
+/* The bottom margin core gives the details block would collapse out through
+   the borderless foot of .event--full and open a seam between the two halves
+   of the box, so it goes. */
+.event--full .event__details {
+	border-width: 0;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 0.25rem;
+	margin-bottom: 0;
+	padding: 1.5rem 0;
+}
+
+.event--full .event__detail {
+	color: var(--color-foreground);
+	flex: none;
+	justify-content: center;
+	margin: 0;
+	text-align: center;
+}
+
+.event--full .event__detail svg {
+	display: none;
+}
+
+.event--full .event__date {
+	font-size: 1.2rem;
+	font-weight: 700;
+	letter-spacing: 1.9px;
+	order: -1;
+	text-transform: uppercase;
+}
+
+.event--full .event__time {
+	color: var(--color-primary);
+	font-size: 1.2rem;
+	font-weight: 700;
+	letter-spacing: 1.9px;
+	text-transform: uppercase;
+}
+
+.event--full .event__organiser {
+	border-top: 1px solid var(--color-primary);
+	margin-top: 1rem;
+	padding-top: 1rem;
+	width: 100%;
+}
+
+.event--full > .p-name {
+	display: none;
+}
+
+/* Event.elm eventDescriptionStyle: the description is normalFirstParagraphStyle
+   in a 636px measure. */
+.event__fullinfo > p {
+	font-size: 1.2rem;
+	margin-inline: auto;
+	max-width: 636px;
+}
+
+@media only screen and (min-width: 900px) {
+	.event__fullinfo > p:first-of-type {
+		font-size: 1.825rem;
+		line-height: 1.35em;
+		margin-block: 2rem;
+	}
+}
+
+/* Global.elm smallInlineTitleStyle: the pink allcaps section headings TD uses
+   for "Contact information", "Event address", "Get in touch" and so on. Core
+   marks all of them with .udl, whose 3px underline TD does not draw. */
+.event__fullinfo .udl,
+.event__fullinfo h3,
+.g--partner .udl,
+.g--partner h3 {
+	border-bottom: 0;
+	color: var(--color-primary);
+	display: block;
+	font-size: 1rem;
+	font-weight: 700;
+	letter-spacing: 1.9px;
+	margin-block: 2em 1.6em;
+	text-align: center;
+	text-transform: uppercase;
+}
+
+.event__fullinfo .small,
+.event__fullinfo .contact_details,
+.event__fullinfo .place_info__address {
+	font-size: 0.8777rem;
+	text-align: center;
+}
+
+/* Event.elm and Partner.elm draw a pink-toned map inside the box. The ground
+   colour is what shows while the tiles load. */
+.map--single,
+.g--partner [data-controller="leaflet"],
+.event__fullinfo .leaflet-container,
+.g--partner .leaflet-container {
+	border-radius: 0.3rem;
+}
+
+.g--partner [data-controller="leaflet"] {
+	background-color: var(--color-tertiary);
+	overflow: hidden;
+}
+
+/* ---------------------------------------------------------------------------
+   /partners — Views::Partners::Index
+   Partners.elm: two columns from tablet landscape up, each entry an italic
+   name with the area badge on its right over a pink rule, and the summary
+   underneath.
+--------------------------------------------------------------------------- */
+
+/* Partners.elm partnersListTitleStyle would sit above the list; core renders
+   no such heading (see doc/core-slots-needed.md). */
+.partners {
+	display: grid;
+	gap: 0 2rem;
+	grid-template-columns: minmax(0, 1fr);
+	margin: 1rem 0;
+	padding: 0;
+}
+
+@media only screen and (min-width: 900px) {
+	.partners {
+		grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+	}
+}
+
+.partners .preview,
+.partners .preview__header,
+.partners .preview__details {
+	min-width: 0;
+	overflow-wrap: anywhere;
+}
+
+.partners .preview {
+	margin: 1rem 0;
+}
+
+@media only screen and (min-width: 600px) {
+	.partners .preview {
+		margin: 1.5rem 0;
+	}
+}
+
+/* Partners.elm partnerTopRowStyle */
+.partners .preview__header {
+	align-items: flex-end;
+	border-bottom: 2px solid var(--color-primary);
+	border-width: 0 0 2px;
+	padding: 0.5rem 0;
+	transition: border 500ms linear;
+}
+
+@media only screen and (min-width: 900px) {
+	.partners .preview__header {
+		padding: 0.75rem 0;
+	}
+}
+
+/* Partners.elm partnerNameStyle */
+.partners .preview h3 {
+	font-size: 1.2rem;
+	font-style: italic;
+	font-weight: 500;
+	padding: 0;
+}
+
+@media only screen and (min-width: 600px) {
+	.partners .preview h3 {
+		font-size: 1.5rem;
+	}
+}
+
+.partners .preview h3 a {
+	color: var(--color-foreground);
+	text-decoration: none;
+	transition: color 500ms linear;
+}
+
+/* Partners.elm partnerAreaTagSpan: dark purple ground, pink label. Core paints
+   the badge pink, which reads as a second brand accent next to the rules. */
+.preview__neighbourhood span,
+.neighbourhood span {
+	background-color: #432955;
+	border-radius: 0.3rem;
+	color: var(--color-primary);
+	display: inline-block;
+	font-size: 0.877777rem;
+	font-weight: 600;
+	letter-spacing: normal;
+	margin-left: 0.5rem;
+	padding: 0.25rem 0.5rem;
+	text-transform: none;
+}
+
+/* Partners.elm partnerBottomRowStyle and partnerDescriptionStyle */
+.partners .preview__details {
+	padding: 0.5rem 0;
+}
+
+@media only screen and (min-width: 900px) {
+	.partners .preview__details {
+		padding: 0.75rem 0;
+	}
+}
+
+.partners .preview__details p {
+	font-size: 0.8777rem;
+	margin: 0 1rem 0 0;
+}
+
+@media only screen and (min-width: 600px) {
+	.partners .preview__details p {
+		font-size: 1.2rem;
+	}
+}
+
+@media only screen and (hover: hover) and (pointer: fine) {
+	.partners .preview:hover h3 a {
+		color: var(--color-primary);
+	}
+
+	.partners .preview:hover .preview__header {
+		border-bottom-color: var(--color-foreground);
+	}
+}
+
+/* ---------------------------------------------------------------------------
+   /partners/:slug — Views::Partners::Show
+   Partner.elm: the name in the pink panel, the description and contact columns
+   below it, then the partner's own event list in TD's card layout (which the
+   /events rules above already cover, since core reuses Components::Event).
+   The panel treatment comes from the show-page rules in the /events/:id block.
+--------------------------------------------------------------------------- */
+
+main > div:not([vocab]):has(> .container-public .g--partner) {
+	background-color: var(--color-background);
+	border: 1px solid var(--color-primary);
+	border-radius: 0.3rem;
+	box-sizing: border-box;
+}
+
+.g--partner {
+	padding-bottom: 2rem;
+}
+
+.g--partner .p--big p {
+	font-size: 1.2rem;
+	text-align: center;
+}
+
+@media only screen and (min-width: 900px) {
+	.g--partner .p--big p {
+		font-size: 1.825rem;
+		line-height: 1.35em;
+	}
+}
+
+.g--partner .contact_details,
+.g--partner .place_info__address {
+	font-size: 0.8777rem;
+	text-align: center;
+}
+
+/* Core gives the partner's own events their own copy of the events turbo frame,
+   one <ol> per day. Left alone that is a box inside the page's box and a run of
+   one-item grids; TD draws a single continuous two-column list. The frame
+   without a paginator is therefore the grid itself, and the per-day lists and
+   their items flatten into it. */
+#events-browser:not(:has(.paginator)) {
+	border: 0;
+	display: grid;
+	gap: 0 2rem;
+	grid-template-columns: minmax(0, 1fr);
+	margin: 0 0.75rem 1rem;
+}
+
+@media only screen and (min-width: 600px) {
+	#events-browser:not(:has(.paginator)) {
+		margin: 0 2rem 1rem;
+	}
+}
+
+@media only screen and (min-width: 900px) {
+	#events-browser:not(:has(.paginator)) {
+		grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+	}
+}
+
+#events-browser:not(:has(.paginator)) .events,
+#events-browser:not(:has(.paginator)) .events > li {
+	display: contents;
+}
+
+/* Partner.elm opening times: a two-column row per day, pink day labels. */
+.opening_times li {
+	border-bottom: 1px solid var(--color-primary);
+	display: flex;
+	justify-content: space-between;
+	padding: 0.4rem 0;
+}
+
+.opening_times--day {
+	color: var(--color-primary);
+	font-weight: 600;
+}
+
+/* ---------------------------------------------------------------------------
+   /news — Views::News::Index
+   News.elm newsItemStyle: each article is its own pink-bordered dark card with
+   the image on the left, the title italic, a bold meta line and the summary,
+   and a pink "read the rest" button. There is no outer content box.
+--------------------------------------------------------------------------- */
+
+.articles__article-card {
+	background-color: var(--color-background);
+	border: 1px solid var(--color-primary);
+	border-radius: 0.2rem;
+	box-sizing: border-box;
+	display: block;
+	margin: 2rem 0 3rem;
+	padding: 1.25rem 1.25rem 3rem;
+	position: relative;
+}
+
+@media only screen and (min-width: 600px) {
+	.articles__article-card {
+		padding: 3rem;
+	}
+}
+
+@media only screen and (min-width: 900px) {
+	.articles__article-card {
+		margin: 3rem;
+		padding: 2rem;
+	}
+}
+
+@media only screen and (min-width: 1200px) {
+	.articles__article-card {
+		margin: 4rem auto 5rem;
+		max-width: 920px;
+	}
+}
+
+/* News.elm newsItemArticleStyle: the image is a column of its own on the left
+   with the title, meta line, summary and button stacked beside it. Core nests
+   those in .articles__aside / .articles__main / .articles__content, so the
+   wrappers go display:contents and the card places every part itself. */
+.articles__aside,
+.articles__main,
+.articles__content {
+	display: contents;
+}
+
+.articles__article-card {
+	column-gap: 2rem;
+	display: grid;
+	grid-template-columns: minmax(0, 1fr);
+}
+
+.articles__image {
+	grid-row: 1;
+}
+
+.articles__title {
+	grid-row: 2;
+}
+
+.articles__partners {
+	grid-row: 3;
+}
+
+.articles__published {
+	grid-row: 4;
+}
+
+.articles__body {
+	grid-row: 5;
+}
+
+.articles__main > p:last-child {
+	grid-row: 6;
+	margin-bottom: 0;
+}
+
+@media only screen and (min-width: 600px) {
+	.articles__article-card {
+		grid-template-columns: 294px minmax(0, 1fr);
+	}
+
+	.articles__image {
+		grid-column: 1;
+		grid-row: 1 / span 6;
+	}
+
+	.articles__title,
+	.articles__partners,
+	.articles__published,
+	.articles__body,
+	.articles__main > p:last-child {
+		grid-column: 2;
+	}
+}
+
+@media only screen and (min-width: 900px) {
+	.articles__article-card {
+		grid-template-columns: 303px minmax(0, 1fr);
+	}
+}
+
+.articles__published {
+	font-weight: 600;
+	margin: 0;
+	text-align: center;
+}
+
+@media only screen and (min-width: 600px) {
+	.articles__published {
+		text-align: left;
+	}
+}
+
+/* News.elm newsItemTitleStyle */
+.articles__title {
+	font-size: 1.85rem;
+	font-style: italic;
+	font-weight: 400;
+	line-height: 1.3em;
+	text-align: center;
+}
+
+@media only screen and (min-width: 600px) {
+	.articles__title {
+		text-align: left;
+	}
+}
+
+.articles__partners {
+	font-weight: 600;
+	text-align: center;
+}
+
+@media only screen and (min-width: 600px) {
+	.articles__partners {
+		text-align: left;
+	}
+}
+
+.articles__image img {
+	border-radius: 0.3rem;
+	margin-bottom: 1rem;
+	object-fit: cover;
+	width: 100%;
+}
+
+/* News.elm newsItemSummaryStyle */
+.articles__body p {
+	margin-top: 0.5rem;
+	text-align: center;
+}
+
+@media only screen and (min-width: 600px) {
+	.articles__body p {
+		font-size: 1.2rem;
+		text-align: left;
+	}
+}
+
+/* Global.elm pinkButtonOnDarkBackgroundStyle */
+.articles__article-card .btn,
+.articles__article-card .btn--alt {
+	background-color: var(--color-primary);
+	border: 0.2rem solid var(--color-primary);
+	border-radius: 0.3rem;
+	color: var(--color-background);
+	display: block;
+	font-size: 1.2rem;
+	font-weight: 600;
+	margin: 0 auto;
+	max-width: max-content;
+	padding: 0.375rem 1.25rem 0.5rem;
+	text-align: center;
+	text-decoration: none;
+}
+
+@media only screen and (min-width: 600px) {
+	.articles__article-card .btn,
+	.articles__article-card .btn--alt {
+		margin: 0;
+	}
+}
+
+@media only screen and (hover: hover) and (pointer: fine) {
+	.articles__article-card .btn:hover {
+		background-color: var(--color-primary-light);
+		border-color: var(--color-primary-light);
+		color: var(--color-background);
+	}
+}
+
+.articles__pagination {
+	text-align: center;
+}
+
+/* ---------------------------------------------------------------------------
+   /news/:slug — Views::News::Show
+   NewsItem.elm keeps the dark ground: the title is pink and centred inside the
+   content box rather than sitting in a pink panel.
+--------------------------------------------------------------------------- */
+
+/* The article title is inside the content box on TD, so the box goes on the
+   wrapper that holds both the hero and the body rather than on the body alone. */
+main > div[vocab] {
+	background-color: var(--color-background);
+	border: 1px solid var(--color-primary);
+	border-radius: 0.3rem;
+	box-sizing: border-box;
+	margin: 0.75rem;
+	padding-bottom: 2rem;
+}
+
+@media only screen and (min-width: 600px) {
+	main > div[vocab] {
+		margin: 0 2rem;
+	}
+}
+
+@media only screen and (min-width: 1500px) {
+	main > div[vocab] {
+		margin: 1.5rem;
+	}
+}
+
+/* Core rules off the breadcrumb before the article; TD does not draw one. */
+main > div[vocab] > .container-public > hr {
+	display: none;
+}
+
+/* Core lays the date out in a fifth-width column beside the body. TD stacks the
+   meta lines under the title, centred. */
+.article {
+	display: block;
+}
+
+.article__aside,
+.article__main {
+	max-width: none;
+	width: 100%;
+}
+
+main > div[vocab] > .hero h1 {
+	color: var(--color-primary);
+	font-size: 1.6rem;
+	line-height: 2rem;
+	padding-top: 1rem;
+}
+
+@media only screen and (min-width: 900px) {
+	main > div[vocab] > .hero h1 {
+		font-size: 2.5rem;
+		line-height: 3.1rem;
+	}
+}
+
+main > div[vocab] > .hero h4.allcaps {
+	display: none;
+}
+
+.article__published,
+.article__author,
+.article__partners {
+	font-weight: 600;
+	margin: 0.25rem 0;
+	text-align: center;
+}
+
+.article__image img {
+	border-radius: 0.3rem;
+	margin: 1rem auto;
+	max-width: 100%;
+}
+
+.article__image-attribute {
+	font-size: 0.8777rem;
+	text-align: center;
+}
+
+/* TransMarkdown paragraphStyle: the first paragraph is the article's standfirst. */
+.article__content > p:first-child {
+	font-size: 1.2rem;
+	margin-block-end: 2em;
+}
+
+@media only screen and (min-width: 900px) {
+	.article__content > p:first-child {
+		font-size: 1.825rem;
+		line-height: 1.35em;
+	}
+}
+
+@media only screen and (min-width: 900px) {
+	.article__content,
+	.article__main {
+		margin: 0 auto;
+		max-width: 636px;
+	}
+}
+
+.article__back {
+	margin-top: 2rem;
+	text-align: center;
+}
+
+/* ---------------------------------------------------------------------------
+   Static pages — Views::Sites::Pages::Show and Views::Directory::MarkdownPage
+   TextHeavyPage.elm: an "invisible" (dark) intro panel with the page's opening
+   line in pink intro type, then the body in a 636px measure inside the content
+   box. Both core views use the same .markdown-content wrapper, so one set of
+   rules covers /about and /privacy.
+--------------------------------------------------------------------------- */
+
+/* The directory hero is a light band with a breadcrumb; TD's is the same
+   starfield title as everywhere else. */
+main > section.bg-foreground {
+	background-color: transparent !important;
+	color: var(--color-foreground) !important;
+	padding: 0;
+}
+
+main > section.bg-foreground nav {
+	display: none;
+}
+
+main > section.bg-foreground .hero-title,
+main > .container-public > h1.h1 {
+	color: var(--color-foreground);
+	font-size: 2.1rem;
+	font-style: italic;
+	font-weight: 500;
+	margin: 0;
+	padding-bottom: 0.5rem;
+	padding-top: 2rem;
+	text-align: center;
+}
+
+@media only screen and (min-width: 600px) {
+	main > section.bg-foreground .hero-title,
+	main > .container-public > h1.h1 {
+		font-size: 2.5rem;
+	}
+}
+
+@media only screen and (min-width: 900px) {
+	main > section.bg-foreground .hero-title,
+	main > .container-public > h1.h1 {
+		font-size: 3.1rem;
+	}
+}
+
+.markdown-content {
+	background-color: var(--color-background);
+	border: 1px solid var(--color-primary);
+	border-radius: 0.3rem;
+	box-sizing: border-box;
+	max-width: none;
+	padding: 1rem 0.75rem 2rem;
+}
+
+@media only screen and (min-width: 600px) {
+	.markdown-content {
+		padding: 1rem 1.5rem 2rem;
+	}
+}
+
+/* TextHeavyPage.elm bodyStyle: the measure the long-form body keeps. */
+.markdown-content > * {
+	margin-inline: auto;
+}
+
+@media only screen and (min-width: 600px) {
+	.markdown-content > * {
+		max-width: 636px;
+		padding-inline: 2.5rem;
+	}
+}
+
+@media only screen and (min-width: 900px) {
+	.markdown-content > * {
+		padding-inline: 0;
+	}
+}
+
+/* Global.elm introTextLargeStyle applied to the first paragraph, which is the
+   standfirst TextHeavyPage passes as the page's big text. */
+.markdown-content > p:first-child {
+	color: var(--color-primary);
+	font-size: 1.6rem;
+	font-style: italic;
+	font-weight: 500;
+	line-height: 2rem;
+	margin-block-end: 2em;
+	max-width: none;
+	text-align: center;
+}
+
+@media only screen and (min-width: 600px) {
+	.markdown-content > p:first-child {
+		font-size: 1.9rem;
+		line-height: 2.1rem;
+	}
+}
+
+@media only screen and (min-width: 900px) {
+	.markdown-content > p:first-child {
+		font-size: 2.5rem;
+		line-height: 3.1rem;
+		max-width: 838px;
+	}
+}
+
+/* TransMarkdown headerStyle: every heading is pink, h2 centred. */
+.markdown-content h2,
+.markdown-content h3,
+.markdown-content h4,
+.markdown-content h5,
+.markdown-content h6 {
+	color: var(--color-primary);
+	line-height: 1.2em;
+	margin-block: 1em;
+}
+
+.markdown-content h2 {
+	margin-block-start: 2em;
+	text-align: center;
+}
+
+@media only screen and (min-width: 1200px) {
+	.markdown-content p,
+	.markdown-content li {
+		font-size: 1.2rem;
+	}
+}
+
+/* TransMarkdown ulStyle and ulLiStyle: no marker, a pink square drawn in the
+   left gutter instead. */
+.markdown-content ul {
+	list-style: none;
+	margin-block: 2em;
+	padding-left: 0;
+}
+
+.markdown-content ul > li {
+	font-weight: 600;
+	padding-left: 1.5rem;
+	position: relative;
+}
+
+.markdown-content ul > li::before {
+	color: var(--color-primary);
+	content: "\25A0";
+	font-size: 1.5em;
+	left: 0;
+	position: absolute;
+	top: -0.25em;
+}
+
+.markdown-content ol {
+	list-style-type: decimal;
+	margin-block: 1em;
+	padding-left: 2em;
+}
+
+@media only screen and (min-width: 900px) {
+	.markdown-content ul > li {
+		margin-block: 0.5em;
+	}
+}
+
+/* ---------------------------------------------------------------------------
+   /get-in-touch — Views::Sites::Join
+   JoinUs.elm: a pink panel of intro copy, then the form inside the content
+   box with white allcaps labels over dark blue pink-bordered inputs, two
+   fields to a row from tablet portrait up, and a centred pink submit button.
+--------------------------------------------------------------------------- */
+
+/* Global.elm textBoxPinkStyle. Core's opening paragraph is the copy TD puts in
+   the panel; TD's heading above it has no core equivalent. */
+main > .container-editorial > .join-note {
+	background-color: var(--color-primary);
+	border-radius: 0.3rem;
+	box-sizing: border-box;
+	color: var(--color-foreground-dark);
+	font-size: 1.6rem;
+	font-style: italic;
+	font-weight: 500;
+	line-height: 2rem;
+	margin-bottom: 1.5rem;
+	padding: 2rem 0.75rem;
+	text-align: center;
+}
+
+@media only screen and (min-width: 600px) {
+	main > .container-editorial > .join-note {
+		font-size: 1.9rem;
+		line-height: 2.1rem;
+		padding-inline: 1.5rem;
+	}
+}
+
+@media only screen and (min-width: 900px) {
+	main > .container-editorial > .join-note {
+		font-size: 2.5rem;
+		line-height: 3.1rem;
+	}
+}
+
+.join-card {
+	background-color: var(--color-background);
+	border: 1px solid var(--color-primary);
+	border-radius: 0.3rem;
+	box-sizing: border-box;
+	padding: 1rem 0.75rem 2rem;
+}
+
+@media only screen and (min-width: 600px) {
+	.join-card {
+		padding: 2rem 1.5rem;
+	}
+}
+
+/* JoinUs.elm formStyle and formItemStyle */
+.join-grid {
+	display: block;
+	margin: 2rem 0;
+}
+
+@media only screen and (min-width: 600px) {
+	.join-grid {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0;
+		justify-content: space-between;
+	}
+}
+
+@media only screen and (min-width: 1200px) {
+	.join-grid {
+		margin: 2rem auto;
+		max-width: 900px;
+	}
+}
+
+.join-field {
+	display: flex;
+	flex-direction: column;
+	margin: 1.5rem 0;
+}
+
+@media only screen and (min-width: 600px) {
+	.join-grid .join-field {
+		margin: 0.75rem;
+		width: calc(50% - 1.5rem);
+	}
+}
+
+/* JoinUs.elm formLabelStyle */
+.join-label {
+	color: var(--color-foreground);
+	display: block;
+	font-weight: 700;
+	letter-spacing: 1.6px;
+	margin: 0.25rem 0;
+	text-align: center;
+	text-transform: uppercase;
+}
+
+.join-label .opt,
+.join-label .req {
+	color: var(--color-primary);
+	letter-spacing: normal;
+	margin-left: 0.35rem;
+	text-transform: none;
+}
+
+/* Global.elm textInputStyle */
+.join-control {
+	background-color: var(--color-background);
+	border: 2px solid var(--color-primary);
+	border-radius: 0.3rem;
+	box-sizing: border-box;
+	color: var(--color-foreground);
+	padding: 0.5rem 0.75rem;
+	width: 100%;
+}
+
+.join-control::placeholder {
+	color: var(--color-foreground);
+	opacity: 0.7;
+}
+
+/* JoinUs.elm textAreaStyle */
+textarea.join-control {
+	height: 140px;
+	padding: 1rem 1.5rem;
+}
+
+@media only screen and (min-width: 600px) {
+	textarea.join-control {
+		height: 100px;
+	}
+}
+
+/* JoinUs.elm formCheckboxWrapperStyle */
+.join-block {
+	margin: 1.5rem 0;
+	width: 100%;
+}
+
+@media only screen and (min-width: 600px) {
+	.join-block .join-choices {
+		display: flex;
+		justify-content: center;
+	}
+}
+
+.join-choices {
+	text-align: center;
+}
+
+.join-choice {
+	align-items: center;
+	color: var(--color-primary);
+	display: inline-flex;
+	font-weight: 600;
+	gap: 0.5rem;
+	margin: 0.5rem 1rem;
+}
+
+.join-choice__box {
+	border: 2px solid var(--color-primary);
+	border-radius: 0.3rem;
+	display: inline-block;
+	height: 1.5rem;
+	width: 1.5rem;
+}
+
+/* JoinUs.elm buttonWrapperStyle and formButtonStyle */
+/* Core sets the submit and its helper line side by side; JoinUs.elm centres the
+   button with the helper underneath. */
+.join-actions {
+	display: block;
+	text-align: center;
+	width: 100%;
+}
+
+.join-submit {
+	background-color: var(--color-primary);
+	border: 0.2rem solid var(--color-primary);
+	border-radius: 0.3rem;
+	color: var(--color-background);
+	cursor: pointer;
+	display: block;
+	font-size: 1.2rem;
+	font-weight: 600;
+	margin: 1rem auto 0;
+	max-width: max-content;
+	padding: 0.25rem 4rem;
+	text-align: center;
+}
+
+@media only screen and (hover: hover) and (pointer: fine) {
+	.join-submit:hover {
+		background-color: var(--color-primary-light);
+		border-color: var(--color-primary-light);
+	}
+}
+
+/* JoinUs.elm formHelperStyle */
+.join-actions .join-note {
+	color: var(--color-primary);
+	font-size: 0.875rem;
+	font-weight: 600;
+	line-height: 1.3em;
+	margin: 1rem auto 0;
+	max-width: 34ch;
+	text-align: center;
+}
+
+@media only screen and (min-width: 600px) {
+	.join-actions .join-note {
+		font-size: 1rem;
+	}
+}
+
+/* Core's "rather just email?" block has no TD counterpart; it takes the plain
+   dark treatment so it does not read as a second panel. Core paints it as a
+   salmon card with a pill link, both of which are undone here. */
+.join-email-cta {
+	align-items: center;
+	background: none;
+	flex-direction: column;
+	gap: 0.25rem;
+	justify-content: center;
+	margin-top: 2rem;
+	padding: 0;
+	text-align: center;
+}
+
+.join-email-cta__body {
+	color: var(--color-foreground);
+}
+
+.join-email-cta__heading {
+	color: var(--color-primary);
+	font-size: 1rem;
+	font-weight: 700;
+	letter-spacing: 1.9px;
+	text-transform: uppercase;
+}
+
+.join-email-link {
+	background: none;
+	box-shadow: none;
+	color: var(--color-foreground);
+	font-weight: 600;
+	padding: 0;
+	text-decoration: underline;
+	text-decoration-color: var(--color-primary);
+}
+
+.join-email-link:hover {
+	background: none;
+	color: var(--color-primary);
+}

@@ -647,3 +647,5 @@ select {
 }
 
 @import "./home.css";
+/* Per-route page templates (WP 2.4). */
+@import "./pages.css";
