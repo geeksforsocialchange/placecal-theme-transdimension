@@ -31,6 +31,8 @@ module Transdimension
         theme.event_filter_style :day_strip
         # PageHeader.elm: the Donate button (PHT Donorbox) at the end of the nav
         theme.nav_cta 'transdimension.header.donate', 'https://donorbox.org/the-trans-dimension'
+        # PageHeader.elm has no Join link; PageFooter.elm carries it instead
+        theme.nav_join false
         # Pink-tinted OpenFreeMap style shipped with the engine
         theme.map_style 'transdimension'
       end

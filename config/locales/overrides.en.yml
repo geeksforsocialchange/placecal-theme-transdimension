@@ -4,7 +4,7 @@
 en:
   theme_overrides:
     transdimension:
-      # Kim (2026-09-03): keep TD's nav wording for consistency with the design
+      # Kim (2026-09-03): TD's wording for the footer link (the main nav has none)
       navigation:
         site:
           join: "Join us"
@@ -18,6 +18,8 @@ en:
           title: "Events"
           page_title: "Events"
           standfirst: "Upcoming events & activities for you."
+          # Events.elm: heading between the intro panel and the list
+          list_heading: "All events"
         # Events.elm prints the day zero-padded ("02") over an uppercase month,
         # and prefixes the organiser with "by".
         # Event.elm: section name above the title panel; the page date reads
@@ -45,6 +47,8 @@ en:
           page_title: "Partners"
           standfirst: "The Trans Dimension is a partnership of grassroots groups and charities with a track record of supporting the trans community."
           standfirst_detail: "All of our partners are explicitly trans-friendly organisations. Some are led by trans people, and some led by friends and allies. They put on events, provide services and offer support for members of our community."
+          # Partners.elm: heading between the intro panel and the list
+          list_heading: "All partners"
       news:
         show:
           section: "News"
