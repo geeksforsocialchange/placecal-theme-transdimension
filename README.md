@@ -17,6 +17,7 @@ config/locales/en.yml              Theme strings, namespaced under transdimensio
 config/locales/overrides.en.yml    Overrides of core strings, appended after core's locales
 content/                           Static page content
 doc/visual-diff/                   Region-by-region comparison against the live site
+doc/audits/                        Legacy URL audit: path list, task output tables
 ```
 
 The reference screenshots of the live site live in `goldens/`, which is gitignored: they are large PNGs of a site we do not own, and they are a working artifact rather than a deliverable. Recapture them locally with `bash goldens/capture.sh` (the script is kept alongside them, so it is local too). The durable record of the comparison is the tables in `doc/visual-diff/`, which are committed.
@@ -124,6 +125,16 @@ Two rules protect work done in the admin. A page whose stored title or body no l
 ```sh
 FORCE=1 bundle exec rake transdimension:seed_pages[site-slug]
 ```
+
+## URL audit
+
+`doc/audits/` holds the record of checking every legacy Trans Dimension URL against PlaceCal: the path list, and a dated markdown table per run. The `transdimension:url_audit` rake task regenerates a table, checking each path against the live Trans Dimension site, production PlaceCal, and a local dev server running the branch under test.
+
+```sh
+bundle exec rake transdimension:url_audit
+```
+
+Each host is read from the environment, so the task can point anywhere: `TD_BASE_URL`, `PC_BASE_URL`, `DEV_BASE_URL` (set it to an empty string to skip the dev column), `AUDIT_ROUTE_HOST`, `AUDIT_URLS_FILE` and `AUDIT_OUTPUT_DIR`. The defaults are the Trans Dimension ones.
 
 ## Site record setup
 
