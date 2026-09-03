@@ -61,12 +61,35 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y libvips-dev
 
+      - name: Read core's Ruby version
+        id: ruby
+        run: echo "version=$(cat PlaceCal/.ruby-version)" >> "$GITHUB_OUTPUT"
+
       - name: Set up Ruby (version from core's .ruby-version)
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version-file: PlaceCal/.ruby-version
+          ruby-version: ${{ steps.ruby.outputs.version }}
           bundler-cache: true
           working-directory: PlaceCal
+
+      # The request specs render core's layout, which links core's built CSS,
+      # so core's assets have to be built the way core's own CI builds them.
+      - name: Set up Node for core
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: PlaceCal/.node-version
+          cache: yarn
+          cache-dependency-path: PlaceCal/yarn.lock
+
+      - name: Install core JS dependencies
+        working-directory: PlaceCal
+        run: yarn install --frozen-lockfile
+
+      - name: Build core assets
+        working-directory: PlaceCal
+        run: |
+          bin/yarn run build:all
+          bin/rails dartsass:build
 
       # A PlaceCal installation pins this engine by tag, so a tag that disagrees
       # with VERSION would ship a build claiming a version it is not. No-op on
