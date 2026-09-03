@@ -11,12 +11,12 @@ describe 'transdimension:check rake task', type: :task do
   # both so the examples can assert on what an operator would actually see.
   # Returns [output, exit_status], with a status of 0 when the task did not
   # exit.
-  def run_check
+  def run_check(*args)
     status = 0
     output = capture_stdout do
       task = Rake::Task['transdimension:check']
       task.reenable
-      task.invoke
+      task.invoke(*args)
     rescue SystemExit => e
       status = e.status
     end
@@ -37,10 +37,10 @@ describe 'transdimension:check rake task', type: :task do
 
   # The task loads the Site itself, so the uploader stubs have to be on the
   # record it gets back.
-  def stub_site_lookup(site)
+  def stub_site_lookup(site, slug: 'trans-dimension')
     allow(site.logo).to receive_messages(present?: true, file: double(present?: true))
     allow(site.hero_image).to receive_messages(present?: true, file: double(present?: true))
-    allow(Site).to receive(:find_by).with(slug: 'trans-dimension').and_return(site)
+    allow(Site).to receive(:find_by).with(slug: slug).and_return(site)
   end
 
   def create_td_site(**overrides)
@@ -148,6 +148,40 @@ describe 'transdimension:check rake task', type: :task do
       expect(output).to include('WARN: Site has neighbourhoods (expected none)')
       expect(output).not_to include('FAIL')
       expect(status).to eq(0)
+    end
+  end
+
+  describe 'choosing which site to check' do
+    it 'takes the slug from the rake argument' do
+      site = create_td_site(slug: 'another-td')
+      add_partnership_tags(site)
+      add_pages(site)
+      stub_site_lookup(site, slug: 'another-td')
+
+      _output, status = run_check('another-td')
+
+      expect(status).to eq(0)
+    end
+
+    it 'falls back to TD_SITE_SLUG when no argument is given' do
+      site = create_td_site(slug: 'env-td')
+      add_partnership_tags(site)
+      add_pages(site)
+      stub_site_lookup(site, slug: 'env-td')
+
+      ENV['TD_SITE_SLUG'] = 'env-td'
+      _output, status = run_check
+
+      expect(status).to eq(0)
+    ensure
+      ENV.delete('TD_SITE_SLUG')
+    end
+
+    it 'names the slug it was given when the site is missing' do
+      output, status = run_check('no-such-site')
+
+      expect(output).to include("FAIL: Site with slug 'no-such-site' not found")
+      expect(status).to eq(1)
     end
   end
 
