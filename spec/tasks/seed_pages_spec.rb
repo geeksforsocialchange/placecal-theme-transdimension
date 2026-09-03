@@ -66,6 +66,14 @@ describe 'transdimension:seed_pages rake task', type: :task do
       expect(privacy.body_html).to be_present
     end
 
+    it 'names the analytics and font services the site actually uses' do
+      invoke_task
+
+      privacy = site.pages.find_by(slug: 'privacy')
+      expect(privacy.body).to include('Matomo', 'stats.gfsc.community', 'Adobe Typekit')
+      expect(privacy.body).not_to include('Plausible', 'Plausable', 'newsletter')
+    end
+
     it 'is idempotent' do
       invoke_task
       about_first = site.pages.find_by(slug: 'about')
