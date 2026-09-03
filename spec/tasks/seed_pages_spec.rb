@@ -9,14 +9,26 @@ describe 'transdimension:seed_pages rake task', type: :task do
 
   let(:site) { create(:site, slug: 'td-test', theme: 'transdimension', url: 'https://td-test.lvh.me') }
 
+  # The task reports one line per page on stdout; capture it so the suite stays
+  # quiet and the examples can assert on what was reported.
   def run_task(slug = nil)
-    task = Rake::Task['transdimension:seed_pages']
-    task.reenable
-    if slug
-      task.invoke(slug)
-    else
-      task.invoke
+    capture_stdout do
+      task = Rake::Task['transdimension:seed_pages']
+      task.reenable
+      slug ? task.invoke(slug) : task.invoke
     end
+  end
+
+  def capture_stdout
+    captured = StringIO.new
+    original = $stdout
+    $stdout = captured
+    begin
+      yield
+    ensure
+      $stdout = original
+    end
+    captured.string
   end
 
   context 'when task succeeds' do
@@ -95,6 +107,87 @@ describe 'transdimension:seed_pages rake task', type: :task do
       # Updated at should not change if content is identical
       expect(about_second.updated_at).to eq(about_first.updated_at)
       expect(privacy_second.updated_at).to eq(privacy_first.updated_at)
+    end
+  end
+
+  context 'when a page has been edited in the admin' do
+    before { run_task(site.slug) }
+
+    let(:about) { site.pages.find_by(slug: 'about') }
+
+    it 'skips the edited page and says how to override' do
+      about.update!(body: 'Hand written in the admin')
+
+      output = run_task(site.slug)
+
+      expect(about.reload.body).to eq('Hand written in the admin')
+      expect(output).to include('skipped about: edited in admin, run with FORCE=1 to overwrite')
+    end
+
+    it 'skips a page whose title was edited' do
+      about.update!(title: 'About us')
+
+      run_task(site.slug)
+
+      expect(about.reload.title).to eq('About us')
+    end
+
+    it 'leaves the pages it did not skip alone' do
+      about.update!(body: 'Hand written in the admin')
+
+      output = run_task(site.slug)
+
+      expect(output).to include('unchanged privacy')
+    end
+
+    context 'with FORCE=1' do
+      around do |example|
+        ENV['FORCE'] = '1'
+        example.run
+        ENV.delete('FORCE')
+      end
+
+      it 'overwrites the edited page' do
+        about.update!(body: 'Hand written in the admin')
+
+        output = run_task(site.slug)
+
+        expect(about.reload.body).to include('Our Accessibility Process')
+        expect(output).to include('updated about')
+      end
+    end
+
+    it 'never republishes a page that was unpublished in the admin' do
+      about.update!(is_published: false)
+
+      run_task(site.slug)
+
+      expect(about.reload.is_published).to be false
+    end
+  end
+
+  context 'when reporting' do
+    it 'reports a created line per page on the first run' do
+      output = run_task(site.slug)
+
+      expect(output).to include('created about', 'created privacy')
+    end
+
+    it 'reports unchanged on a second run' do
+      run_task(site.slug)
+
+      output = run_task(site.slug)
+
+      expect(output).to include('unchanged about', 'unchanged privacy')
+    end
+
+    it 'reports updated when the seed content moves on' do
+      run_task(site.slug)
+      site.pages.find_by(slug: 'about').update!(position: 99)
+
+      output = run_task(site.slug)
+
+      expect(output).to include('updated about')
     end
   end
 

@@ -65,13 +65,7 @@ module Transdimension
     end
 
     def fetch_section_headings
-      {
-        accessibility: section_heading(:accessibility),
-        makers: section_heading(:makers),
-        gi: section_heading(:gi),
-        gfsc: section_heading(:gfsc),
-        placecal: section_heading(:placecal)
-      }
+      DEFAULT_SECTION_HEADINGS.keys.index_with { |key| section_heading(key) }
     end
 
     def seed_privacy_page
@@ -87,30 +81,44 @@ module Transdimension
       )
     end
 
-    def upsert_page(slug:, title:, body:, position:, show_in_nav:)
-      page = site.pages.find_or_initialize_by(slug:)
-      page.assign_attributes(
-        title:,
-        body:,
-        position:,
-        show_in_nav:,
-        is_published: true
-      )
+    # Existing pages may have been edited in the admin, and the seed must not
+    # silently throw that away: a page whose stored title or body differs from
+    # the seed is left alone unless FORCE=1. is_published is only ever set when
+    # the page is created, so unpublishing a page in the admin sticks.
+    def upsert_page(slug:, **attrs)
+      page = site.pages.find_by(slug:)
+      return create_page(slug, attrs) if page.nil?
 
-      status = save_and_determine_status(page)
-      Rails.logger.debug { "#{title} page: #{status}" }
+      if edited_in_admin?(page, attrs) && !force?
+        report "skipped #{slug}: edited in admin, run with FORCE=1 to overwrite"
+        return
+      end
+
+      update_page(page, slug, attrs)
     end
 
-    def save_and_determine_status(page)
-      if page.new_record?
-        page.save!
-        'created'
-      elsif page.changed?
-        page.save!
-        'updated'
-      else
-        'unchanged'
-      end
+    def create_page(slug, attrs)
+      site.pages.create!(slug:, is_published: true, **attrs)
+      report "created #{slug}"
+    end
+
+    def update_page(page, slug, attrs)
+      page.assign_attributes(attrs)
+      changed = page.changed?
+      page.save! if changed
+      report "#{changed ? 'updated' : 'unchanged'} #{slug}"
+    end
+
+    def edited_in_admin?(page, attrs)
+      page.title != attrs[:title] || page.body != attrs[:body]
+    end
+
+    def force?
+      ENV['FORCE'] == '1'
+    end
+
+    def report(line)
+      $stdout.puts(line)
     end
 
     def read_content_file(path)

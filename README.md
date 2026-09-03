@@ -80,6 +80,20 @@ bundle exec rake transdimension:seed_pages[site-slug]
 
 The task creates or updates two pages: `about` (shown in site navigation, position 10) and `privacy` (not in navigation, position 20). The About body concatenates multiple content files with section headings in the order TD's frontend renders them. The task is idempotent; running it twice on the same site produces no duplicates and updates only if content changed.
 
+It prints one line per page, so a run says what it did:
+
+```
+created about
+unchanged privacy
+skipped about: edited in admin, run with FORCE=1 to overwrite
+```
+
+Two rules protect work done in the admin. A page whose stored title or body no longer matches the seed is assumed to have been hand edited and is skipped; rerun with `FORCE=1` to overwrite it. And `is_published` is only ever set when the page is created, so unpublishing a page in the admin sticks.
+
+```sh
+FORCE=1 bundle exec rake transdimension:seed_pages[site-slug]
+```
+
 ## Site record setup
 
 Creating the Trans Dimension Site record in PlaceCal requires root admin access. See `doc/site-record.md` for step-by-step instructions on configuring the Site, tags, images and contact email.
