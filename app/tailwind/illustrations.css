@@ -107,7 +107,9 @@ main:not(:has(.td-home)) {
 		--td-band-inset: -1.5rem;
 		--td-wordmark-size: 305px auto;
 		--td-title-padding-top: 275px;
-		--td-title-block: 350px;
+		/* the title block is the padding plus one 1.5 line of 3.1rem plus the
+		   rem 1 under it: 275 + 74.4 + 16 */
+		--td-title-block: 365px;
 	}
 }
 

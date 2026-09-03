@@ -84,6 +84,7 @@ main {
    container core wraps it in gives up its own gutter to <main>. */
 main > .container-public {
 	max-width: none;
+	padding-block: 0;
 	padding-inline: 0;
 }
 
@@ -207,6 +208,16 @@ main > .hero .hero__standfirst:has(+ .hero__standfirst-detail) {
 	border-bottom: 0;
 }
 
+/* Partners.elm introTextLargeStyle margin: rem 3 above the big line and rem
+   1.5 between it and the smaller paragraph, on top of the panel's own
+   padding. */
+@media only screen and (min-width: 900px) {
+	.hero__standfirst:has(+ .hero__standfirst-detail) {
+		padding-bottom: 1.5rem;
+		padding-top: 4.5rem;
+	}
+}
+
 .hero__standfirst-detail {
 	background-color: var(--color-primary);
 	border-radius: 0 0 0.3rem 0.3rem;
@@ -227,10 +238,11 @@ main > .hero .hero__standfirst:has(+ .hero__standfirst-detail) {
 
 @media only screen and (min-width: 900px) {
 	.hero__standfirst-detail {
-		font-size: 1.15rem;
-		line-height: 1.7rem;
-		padding-inline: max(2rem, calc((100% - 838px) / 2));
-		padding-bottom: 2.125rem;
+		font-size: 1.2rem;
+		line-height: 1.8rem;
+		padding-inline: max(2rem, calc((100% - 892px) / 2));
+		padding-bottom: 2.5rem;
+		padding-top: 1.5rem;
 	}
 }
 
@@ -599,7 +611,10 @@ h2.udl--fw {
 
 @media only screen and (min-width: 600px) {
 	.events .event {
-		grid-template-columns: 4.5rem minmax(0, 1fr);
+		/* Events.elm: the date column is 76px and the title starts right on
+		   its edge, with no gutter between the two. */
+		column-gap: 0;
+		grid-template-columns: 4.75rem minmax(0, 1fr);
 		margin: 1.5rem 0 0;
 	}
 }
@@ -1659,8 +1674,10 @@ main > .container-public > h1.h1 {
 	font-size: 2.1rem;
 	font-style: italic;
 	font-weight: 500;
+	/* pageHeadingStyle, as on the listing pages */
+	line-height: 1.5;
 	margin: 0;
-	padding-bottom: 0.5rem;
+	padding-bottom: 1rem;
 	padding-top: 2rem;
 	text-align: center;
 }
@@ -1805,26 +1822,25 @@ main > .container-public > h1.h1 {
    fields to a row from tablet portrait up, and a centred pink submit button.
 --------------------------------------------------------------------------- */
 
-/* Partners.elm / Events.elm: the "ALL PARTNERS" style heading between the
-   intro panel and the list, from core's list heading slot. */
+/* Partners.elm has an "ALL PARTNERS" heading at the top of the list, inside
+   the content box, in Global.elm's smallInlineTitleStyle. Events.elm has no
+   equivalent: the filters follow the intro panel directly, and core's heading
+   there would break the join between the panel and the box. */
 .list-heading {
-	color: var(--color-foreground);
-	font-size: 1.6rem;
-	font-weight: 700;
-	letter-spacing: 0.05em;
-	line-height: 1.2;
-	margin: 0 0 1rem;
-	padding-top: 2rem;
-	text-align: center;
-	text-transform: uppercase;
+	display: none;
 }
 
-@media only screen and (min-width: 900px) {
-	.list-heading {
-		font-size: 2.2rem;
-		margin-bottom: 1.5rem;
-		padding-top: 3rem;
-	}
+#partner_previews .list-heading {
+	color: var(--color-foreground);
+	display: block;
+	font-size: 1.2rem;
+	font-weight: 700;
+	letter-spacing: 0.05em;
+	line-height: 1.5;
+	margin: 2rem 0 0;
+	padding-top: 0;
+	text-align: left;
+	text-transform: uppercase;
 }
 
 /* Global.elm textBoxPinkStyle. Core's opening paragraph is the copy TD puts in
@@ -1855,7 +1871,18 @@ main > .container-editorial > .join-note {
 	main > .container-editorial > .join-note {
 		font-size: 2.5rem;
 		line-height: 3.1rem;
+		/* JoinUs.elm: the panel sits flush under the page title, with rem 3
+		   above the copy and rem 2.5 under it, in an 838px measure. */
+		margin-top: 0;
+		padding-block: 4.5rem 2.5rem;
+		padding-inline: max(2rem, calc((100% - 838px) / 2));
 	}
+}
+
+/* Core's editorial container adds a gutter above the panel; TD's panel butts
+   onto the page title's padding like every other intro panel. */
+main > .container-editorial {
+	padding-block: 0;
 }
 
 .join-card {
@@ -2170,24 +2197,31 @@ main > div[vocab]:has(.hero__section) {
 
 @media only screen and (min-width: 900px) {
 	main > div:not([vocab]) > .hero h1 {
-		font-size: 2.4rem;
-		line-height: 3rem;
+		font-size: 2.5rem;
+		line-height: 3.1rem;
+		/* Global.elm introTextLargeStyle: rem 1 above and below, in an 838px
+		   measure (re-measured WP 3.8). */
+		margin: 1rem auto;
+		max-width: 838px;
 	}
 }
 
 
-/* Partners.elm intro panel at desktop: taller top padding, a clear gap
-   before the smaller paragraph, and body-size type for it. */
+/* Partners.elm intro panel at desktop (re-measured WP 3.8): rem 3 above the
+   big line, rem 1.5 between the two, rem 1.5 below the smaller paragraph, all
+   on top of the panel's own rem 1.5 / rem 1 padding. */
 @media only screen and (min-width: 900px) {
 	.hero__standfirst:has(+ .hero__standfirst-detail) {
-		padding-top: 3.25rem;
+		padding-bottom: 1.5rem;
+		padding-top: 4.5rem;
 	}
 
 	.hero__standfirst-detail {
-		font-size: 1.125rem;
-		line-height: 1.75rem;
-		padding-top: 2rem;
-		padding-bottom: 2.75rem;
+		font-size: 1.2rem;
+		line-height: 1.8rem;
+		padding-bottom: 2.5rem;
+		padding-inline: max(2rem, calc((100% - 892px) / 2));
+		padding-top: 1.5rem;
 	}
 }
 
@@ -2252,11 +2286,20 @@ main > div[vocab]:has(.hero__section) {
 }
 
 @media only screen and (min-width: 900px) {
+	/* the panel is flush on the top of the box, so it cancels the box's own
+	   padding rather than sitting inside it */
+	.page--about .markdown-content {
+		padding-top: 0;
+	}
+
 	.page--about .markdown-content > p:first-child {
 		font-size: 2.5rem;
 		line-height: 3.1rem;
-		padding-block: 2.125rem;
-		padding-inline: max(2rem, calc((100% - 838px) / 2));
+		margin-top: 0;
+		padding-block: 4rem;
+		/* the percentage resolves against the box's content width, which is
+		   1.5rem narrower each side than the panel the negative margins make */
+		padding-inline: max(2rem, calc((100% - 838px) / 2 + 1.5rem));
 	}
 }
 
