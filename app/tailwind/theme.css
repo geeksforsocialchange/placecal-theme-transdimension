@@ -445,3 +445,22 @@ select {
 @import "./footer.css";
 /* Decorative artwork on the inner pages (WP 2.10). */
 @import "./illustrations.css";
+
+/* PageHeader.elm: the Donate button is a white pill with dark text at the
+   end of the nav; the mobile toggle shows "Menu" next to a pink "+". */
+.header__partner .header__cta-link,
+.header__partner .header__cta-link:not(.with-no-sass) {
+	background-color: #fff;
+	border-radius: 0.3rem;
+	color: var(--color-home-background);
+	font-weight: 700;
+	margin-left: auto;
+	padding: 0.5rem 1.25rem;
+	text-decoration: none;
+}
+
+.header__partner .header__toggle-label {
+	color: #fff;
+	font-size: 1.1rem;
+	font-weight: 700;
+}

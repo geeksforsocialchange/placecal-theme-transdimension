@@ -2220,3 +2220,11 @@ main > div[vocab] .article__content {
 .leaflet-control-zoom a {
 	color: var(--color-home-background);
 }
+
+/* Paginator.elm: day buttons are 40px tall in 18px type at desktop. */
+@media only screen and (min-width: 900px) {
+	.day-strip__link {
+		font-size: 1.125rem;
+		padding: 0.3rem 0.5rem 0.4rem;
+	}
+}

@@ -29,6 +29,10 @@ module Transdimension
         theme.head 'Transdimension::Components::Head'
         theme.footer 'Transdimension::Components::Footer'
         theme.event_filter_style :day_strip
+        # PageHeader.elm: the Donate button (PHT Donorbox) at the end of the nav
+        theme.nav_cta 'transdimension.header.donate', 'https://donorbox.org/the-trans-dimension'
+        # Pink-tinted OpenFreeMap style shipped with the engine
+        theme.map_style 'transdimension'
       end
     end
   end
