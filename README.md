@@ -18,6 +18,7 @@ config/locales/overrides.en.yml    Overrides of core strings, appended after cor
 content/                           Static page content, rendered by the views above
 doc/visual-diff.md                 Open deviations from the live site, with reasons
 doc/audits/                        Legacy URL audit: path list, task output tables
+bin/td-dev-gemfile                 Writes core's Gemfile.td-dev for dev and CI
 ```
 
 The reference screenshots of the live site live in `goldens/`, which is gitignored: they are large PNGs of a site we do not own, and they are a working artifact rather than a deliverable. Recapture them locally with `bash goldens/capture.sh` (the script is kept alongside them, so it is local too). The durable record of the comparison is `doc/visual-diff.md`, which is committed.
@@ -52,15 +53,10 @@ The engine checks this while it registers, and raises `Transdimension::Unsupport
 
 The specs boot the PlaceCal core application with this engine loaded, so they need a checkout of core and core's gem bundle. Check core out next to this repo (the default core path is `../PlaceCal`, override it with `PLACECAL_CORE_PATH`).
 
-Core's own `Gemfile` pins this engine to a git tag, which would run the specs against the released gem rather than your working tree. So point Bundler at a Gemfile that swaps that pin for a `path:` entry. Create `Gemfile.td-dev` in the core checkout (do not commit it; add it to core's `.git/info/exclude`):
+Core's own `Gemfile` pins this engine to a git tag, which would run the specs against the released gem rather than your working tree. So point Bundler at a Gemfile that swaps that pin for a `path:` entry. `bin/td-dev-gemfile` writes it into the core checkout (do not commit it there; add it to core's `.git/info/exclude`). CI runs the same script.
 
-```ruby
-# Local-only Gemfile: core with the TD extension from the sibling path checkout
-# instead of the pinned git tag.
-core = File.read(File.expand_path('Gemfile', __dir__))
-core = core.sub(/^group :extensions do.*?^end\n/m, '')
-instance_eval(core, File.expand_path('Gemfile', __dir__), 1)
-gem 'placecal-theme-transdimension', path: '../placecal-theme-transdimension'
+```sh
+bin/td-dev-gemfile /path/to/PlaceCal
 ```
 
 Then run the specs against it:
@@ -93,10 +89,8 @@ The theme's CSS is built by `@tailwindcss/cli` from `app/tailwind/theme.css`, sc
 ```sh
 yarn install
 yarn build      # rebuild the committed CSS
-yarn run check  # fail if the committed CSS is stale
+yarn css-check  # fail if the committed CSS is stale
 ```
-
-Use `yarn run check` rather than `yarn check`: `check` is also a built-in Yarn command, and the built-in wins.
 
 ### Static pages
 
