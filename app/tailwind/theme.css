@@ -132,10 +132,11 @@
 /* ---------------------------------------------------------------------------
    Global page
    Global.elm globalStyles: body takes the dark blue ground, white copy, Covik
-   at weight 400 and the tiling starfield. The three starfield sizes and their
-   breakpoints are copied from Global.elm in its own source order, including the
-   1500px rule coming before the 900px one, so the rendered result matches the
-   live site rather than what the breakpoints look like they should do.
+   at weight 400 and the tiling starfield.
+   Global.elm also has a min-width 1500px rule for a 1920px starfield, but it
+   sits above the 900px rule there, so at equal specificity the 900px one always
+   wins and the 1920px image never paints on the live site. Not ported, and the
+   asset is not shipped.
    Core's base/layout.scss sets body colour and background from Sass literals,
    so there is no token to override and these rules restate them.
 --------------------------------------------------------------------------- */
@@ -149,13 +150,6 @@ body {
 	background-repeat: repeat;
 	background-size: 800px;
 	background-position: 0 0;
-}
-
-@media only screen and (min-width: 1500px) {
-	body {
-		background-image: url("starfield-largest-1920.png");
-		background-size: 1920px;
-	}
 }
 
 @media only screen and (min-width: 900px) {
@@ -465,8 +459,9 @@ select {
 	font-weight: 700;
 }
 
-/* PageHeader.elm: Donate sits at the far right of the nav bar. */
-@media only screen and (min-width: 768px) {
+/* PageHeader.elm: Donate sits at the far right of the nav bar, from the width
+   at which the nav goes horizontal (600px, above). */
+@media only screen and (min-width: 600px) {
 	.header__partner .header__menu .header__cta {
 		margin-left: auto;
 	}
