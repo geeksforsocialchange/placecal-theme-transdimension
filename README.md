@@ -34,7 +34,7 @@ Add the engine to the PlaceCal installation's `Gemfile`, pinned to a tag, in the
 group :extensions do
   gem 'placecal-theme-transdimension',
       github: 'geeksforsocialchange/placecal-theme-transdimension',
-      tag: 'v0.3.7'
+      tag: 'v0.3.8'
 end
 ```
 
