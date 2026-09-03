@@ -125,6 +125,8 @@ bundle exec rake transdimension:url_audit
 
 Each host is read from the environment, so the task can point anywhere: `TD_BASE_URL`, `PC_BASE_URL`, `DEV_BASE_URL` (set it to an empty string to skip the dev column), `AUDIT_ROUTE_HOST`, `AUDIT_URLS_FILE` and `AUDIT_OUTPUT_DIR`. The defaults are the Trans Dimension ones.
 
+This is a cutover tool: delete it, and `doc/audits/`, once TD is live and the redirects have been checked against production.
+
 ## Site record setup
 
 Creating the Trans Dimension Site record in PlaceCal requires root admin access. See `doc/site-record.md` for step-by-step instructions on configuring the Site, tags, images and contact email.
