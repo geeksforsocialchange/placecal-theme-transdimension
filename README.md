@@ -137,7 +137,7 @@ bundle exec rake transdimension:check[site-slug]
 
 The site slug is optional: without it the task falls back to `TD_SITE_SLUG`, and then to `trans-dimension`.
 
-The task prints PASS and FAIL lines for each required field, exits non-zero if any checks fail, and warns (but does not fail) when neighbourhoods are present.
+The task prints PASS, WARN and FAIL lines for each required field and exits non-zero if any check fails. The neighbourhood check follows `doc/site-record.md`: a single country-unit neighbourhood passes, anything else warns without failing.
 
 ## Copyright and licence
 
