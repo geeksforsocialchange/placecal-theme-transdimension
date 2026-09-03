@@ -131,3 +131,22 @@ generic slot that would give it to every theme rather than to this one.
   applies to the large wordmark above the page title, which the theme draws with
   `main::before` because `PageTemplate.elm`'s header lockup has no core element
   at all.
+
+## Illustrations (WP 2.10)
+
+### 11. A route or page identifier on the page
+
+- **Core**: `app/views/layouts/application.rb`; `<body>` and
+  `<main>` carry no class, id or data attribute naming the route or the static
+  page being rendered.
+- **Element**: none.
+- **TD**: `src/Theme/PageTemplate.elm` gives `/about` its own header artwork
+  (`about_1_header.png`, the generic band plus a character cut-out) and a set of
+  section illustrations keyed to that page; `pageHeadingAboutStyle` is a
+  separate style from `pageHeadingGenericStyle` for exactly this reason.
+- **Slot**: a class or data attribute on `<body>` or `<main>` naming the
+  controller and action, and the slug for the static pages, e.g.
+  `<body class="route-pages-show" data-page="about">`. Every theme could then
+  style one route without a forked view.
+- **Consequence today**: `/about` takes the same generic header band as the rest
+  of the inner pages, and none of the About page's own section artwork is drawn.
