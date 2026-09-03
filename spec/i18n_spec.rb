@@ -85,10 +85,11 @@ describe 'Trans Dimension i18n' do # rubocop:disable Metrics/BlockLength
       expect(en_locale['transdimension']['home'].keys).to match_array(home_keys)
     end
 
-    it 'carries the keys the seed task and the theme registration read' do
+    it 'carries the keys the page views and the theme registration read' do
       expect(en_locale['transdimension']['about'].keys)
         .to match_array(%w[title accessibility makers gi gfsc placecal])
       expect(en_locale['transdimension']['privacy'].keys).to match_array(%w[title subtitle])
+      expect(en_locale['transdimension']['nav'].keys).to match_array(%w[about])
       expect(en_locale['transdimension']['site'].keys).to match_array(%w[title description])
       expect(en_locale['transdimension']['header'].keys).to match_array(%w[donate donate_url])
       expect(en_locale['transdimension']['external'].keys)
@@ -97,7 +98,7 @@ describe 'Trans Dimension i18n' do # rubocop:disable Metrics/BlockLength
 
     it 'holds no keys beyond those groups' do
       expect(en_locale['transdimension'].keys)
-        .to match_array(%w[site external header footer home about privacy])
+        .to match_array(%w[site external nav header footer home about privacy])
     end
   end
 
