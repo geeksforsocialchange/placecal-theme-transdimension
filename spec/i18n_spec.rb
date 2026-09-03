@@ -90,10 +90,10 @@ describe 'Trans Dimension i18n' do
 
     it 'applies the overrides only for sites on this theme' do
       helper = Class.new { include PlaceCal::ThemeTranslation }.new
-      Current.site = build(:site, theme: 'transdimension')
+      Current.theme = PlaceCal::Theme.for(build(:site, theme: 'transdimension'))
       expect(helper.t('navigation.site.join')).to eq('Join us')
       expect(helper.t('region_filter.all')).to eq('Everywhere')
-      Current.site = build(:site, theme: 'pink')
+      Current.theme = PlaceCal::Theme.for(build(:site, theme: 'pink'))
       expect(helper.t('region_filter.all')).to eq('All')
     ensure
       Current.reset
