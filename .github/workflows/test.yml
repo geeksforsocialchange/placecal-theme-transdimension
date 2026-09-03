@@ -3,6 +3,7 @@ name: Test
 on:
   push:
     branches: ["main"]
+    tags: ["v*"]
   pull_request:
   workflow_dispatch:
     inputs:
@@ -60,6 +61,23 @@ jobs:
           ruby-version-file: PlaceCal/.ruby-version
           bundler-cache: true
           working-directory: PlaceCal
+
+      # A PlaceCal installation pins this engine by tag, so a tag that disagrees
+      # with VERSION would ship a build claiming a version it is not. No-op on
+      # branch pushes and pull requests.
+      - name: Fail if a pushed tag disagrees with VERSION
+        working-directory: theme
+        run: |
+          if [ "$GITHUB_REF_TYPE" != "tag" ]; then
+            echo "Not a tag push, nothing to check."
+            exit 0
+          fi
+          version=$(ruby -e 'require "./lib/transdimension/version"; print Transdimension::VERSION')
+          if [ "$GITHUB_REF_NAME" != "v$version" ]; then
+            echo "Tag $GITHUB_REF_NAME does not match VERSION $version (expected v$version)."
+            exit 1
+          fi
+          echo "Tag $GITHUB_REF_NAME matches VERSION $version."
 
       - name: Set up Node
         uses: actions/setup-node@v4

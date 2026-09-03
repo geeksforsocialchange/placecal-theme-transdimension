@@ -33,7 +33,7 @@ Add the engine to the PlaceCal installation's `Gemfile`, pinned to a tag, in the
 group :extensions do
   gem 'placecal-theme-transdimension',
       github: 'geeksforsocialchange/placecal-theme-transdimension',
-      tag: 'v0.1.0'
+      tag: 'v0.3.5'
 end
 ```
 
@@ -55,6 +55,10 @@ BUNDLE_GEMFILE=/path/to/PlaceCal/Gemfile bundle exec rubocop
 ```
 
 Both are what `.github/workflows/test.yml` runs.
+
+### Releasing
+
+Installations pin this engine by tag, so a release is a version bump followed by a tag. Bump `lib/transdimension/version.rb` and `package.json` together (a spec fails if they disagree, or if the latest tag is ahead of `VERSION`), merge, then tag the merge commit `v<version>`. CI fails a tag push whose tag name does not match `VERSION`.
 
 ### Tailwind
 
