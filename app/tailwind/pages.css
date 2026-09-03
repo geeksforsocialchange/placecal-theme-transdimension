@@ -67,13 +67,13 @@ main {
    The wordmark is the mobile-header artwork (pink and white), not the footer
    one: the footer lockup paints "TRANS DIMENSION" in dark blue for its pink
    band, which is invisible on the starfield. */
-main::before {
+main:not(:has(.td-home))::before {
 	content: "";
 	display: none;
 }
 
 @media only screen and (min-width: 600px) {
-	main::before {
+	main:not(:has(.td-home))::before {
 		background-image: url("TDD_Logo_MobileHeader.svg");
 		background-position: center;
 		background-repeat: no-repeat;
@@ -86,7 +86,7 @@ main::before {
 }
 
 @media only screen and (min-width: 900px) {
-	main::before {
+	main:not(:has(.td-home))::before {
 		height: 120px;
 		width: 305px;
 	}
