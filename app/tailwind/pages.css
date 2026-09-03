@@ -109,6 +109,8 @@ main > .container-public {
 	font-size: 2.1rem;
 	font-style: italic;
 	font-weight: 500;
+	/* PageTemplate.elm pageHeadingStyle: lineHeight 1.5, not core's tight 1.15 */
+	line-height: 1.5;
 	margin-block: 0;
 	outline: none;
 	padding-bottom: 0.5rem;
@@ -144,7 +146,8 @@ main > .container-public {
 	font-style: italic;
 	font-weight: 500;
 	line-height: 2rem;
-	margin: 1rem 0 0;
+	/* the panel butts straight onto the page title's padding */
+	margin: 0;
 	padding: 1.5rem 1.25rem;
 	text-align: center;
 }
@@ -163,6 +166,14 @@ main > .container-public {
 		line-height: 3.1rem;
 		padding-block: 2rem;
 		padding-inline: max(2rem, calc((100% - 838px) / 2));
+	}
+}
+
+/* PageTemplate.elm viewIntro drops an extra rem 1 under the copy on the widest
+   screens. */
+@media only screen and (min-width: 1500px) {
+	.hero__standfirst {
+		padding-bottom: 3rem;
 	}
 }
 
@@ -1355,9 +1366,13 @@ main > div:not([vocab]):has(> .container-public .g--partner) {
 	margin-bottom: 0;
 }
 
+/* News.elm newsItemMetaStyle puts the partner and the date on one line. Core
+   renders them as two elements in two different wrappers, so they cannot share
+   a flex parent; the card grid gives the byline row its own pair of columns
+   instead and every other part spans both. */
 @media only screen and (min-width: 600px) {
 	.articles__article-card {
-		grid-template-columns: 294px minmax(0, 1fr);
+		grid-template-columns: 294px max-content minmax(0, 1fr);
 	}
 
 	.articles__image {
@@ -1366,23 +1381,40 @@ main > div:not([vocab]):has(> .container-public .g--partner) {
 	}
 
 	.articles__title,
-	.articles__partners,
-	.articles__published,
 	.articles__body,
 	.articles__main > p:last-child {
+		grid-column: 2 / -1;
+	}
+
+	.articles__partners {
 		grid-column: 2;
+		grid-row: 3;
+	}
+
+	.articles__published {
+		grid-column: 3;
+		grid-row: 3;
+		justify-self: start;
+	}
+
+	/* the bullet between them */
+	.articles__published::before {
+		content: "\2022";
+		padding-inline: 0.4em;
 	}
 }
 
 @media only screen and (min-width: 900px) {
 	.articles__article-card {
-		grid-template-columns: 303px minmax(0, 1fr);
+		grid-template-columns: 303px max-content minmax(0, 1fr);
 	}
 }
 
 .articles__published {
+	font-size: 1rem;
 	font-weight: 600;
-	margin: 0;
+	line-height: 1.5;
+	margin: 1rem 0 0;
 	text-align: center;
 }
 
@@ -1398,6 +1430,7 @@ main > div:not([vocab]):has(> .container-public .g--partner) {
 	font-style: italic;
 	font-weight: 400;
 	line-height: 1.3em;
+	margin: 0;
 	text-align: center;
 }
 
@@ -1408,7 +1441,10 @@ main > div:not([vocab]):has(> .container-public .g--partner) {
 }
 
 .articles__partners {
+	font-size: 1rem;
 	font-weight: 600;
+	line-height: 1.5;
+	margin: 1rem 0 0;
 	text-align: center;
 }
 
@@ -1418,22 +1454,40 @@ main > div:not([vocab]):has(> .container-public .g--partner) {
 	}
 }
 
+/* News.elm newsItemImageStyle: 303x202 with an even 1rem above and below, and
+   no border (core tags the image .border). */
 .articles__image img {
+	aspect-ratio: 303 / 202;
+	border: 0;
+	display: block;
 	border-radius: 0.3rem;
-	margin-bottom: 1rem;
+	margin: 1rem 0;
 	object-fit: cover;
 	width: 100%;
 }
 
-/* News.elm newsItemSummaryStyle */
+/* core's grid helper puts a gutter margin on every .gi; the card places its
+   own columns, so the gutter only narrows the text. */
+.articles__article-card .gi {
+	margin: 0;
+}
+
+/* News.elm newsItemSummaryStyle. TD's summary runs to about 130 characters,
+   which is three lines in the card; core truncates at 200, so the clamp keeps
+   the card the same height until core takes the shorter excerpt. */
 .articles__body p {
-	margin-top: 0.5rem;
+	margin: 1rem 0 0;
 	text-align: center;
 }
 
 @media only screen and (min-width: 600px) {
 	.articles__body p {
+		-webkit-box-orient: vertical;
+		display: -webkit-box;
 		font-size: 1.2rem;
+		-webkit-line-clamp: 3;
+		line-clamp: 3;
+		overflow: hidden;
 		text-align: left;
 	}
 }
@@ -2155,13 +2209,13 @@ main > div[vocab]:has(.hero__section) {
 }
 
 .articles .articles__article-card {
-	margin-bottom: 3.5rem;
-	padding-bottom: 2.5rem;
+	margin-bottom: 5rem;
+	padding-bottom: 2rem;
 	position: relative;
 }
 
 .articles .articles__article-card .btn--mt {
-	bottom: -1.5rem;
+	bottom: -1rem;
 	left: 50%;
 	margin: 0;
 	position: absolute;

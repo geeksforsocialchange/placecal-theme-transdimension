@@ -412,16 +412,16 @@ select {
 	   is split between the li and the link so the current-page rule can sit
 	   clear of the text and still leave an even band below it. */
 	.header__partner .header__menu li {
-		padding: 25px 12px 23px;
-		margin: 0;
+		padding: 16px 12px;
+		margin: 1.6px 0;
 		align-self: center;
 		flex-grow: 0;
-		font-size: 1.1rem;
+		font-size: 1.2rem;
 	}
 
 	.header__partner .header__menu a {
-		line-height: 24px;
-		padding-bottom: 3px;
+		line-height: 1.5;
+		padding-bottom: 0;
 	}
 }
 
@@ -446,10 +446,11 @@ select {
 .header__partner .header__cta-link:not(.with-no-sass) {
 	background-color: #fff;
 	border-radius: 0.3rem;
+	border-bottom: 0;
 	color: var(--color-home-background);
 	font-weight: 700;
 	margin-left: auto;
-	padding: 0.5rem 1.25rem;
+	padding: 0.375rem 1.25rem 0.5rem;
 	text-decoration: none;
 }
 

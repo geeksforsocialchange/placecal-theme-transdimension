@@ -16,7 +16,7 @@
 	flex-direction: column;
 	margin-top: 2rem;
 	font-size: 1rem;
-	line-height: 1.4;
+	line-height: 1.5;
 }
 
 /* ---------------------------------------------------------------------------
@@ -48,7 +48,8 @@
 	text-align: center;
 	font-weight: 600;
 	margin: 0.5rem;
-	font-size: 1.125rem;
+	font-size: 1.1rem;
+	line-height: 1.5;
 }
 
 /* Core's a:not(.with-no-sass) rule paints every link white with a pink
@@ -89,6 +90,8 @@
 		display: flex;
 		flex-wrap: wrap;
 		justify-content: flex-end;
+		/* core's list margin would make the pink band a row taller */
+		margin: 0;
 	}
 
 	.td-footer__nav li {
@@ -257,7 +260,7 @@
 
 .td-footer__info {
 	font-size: var(--text-detail);
-	line-height: 1.13;
+	line-height: 1.2875;
 	margin: 1rem 2rem;
 	text-align: center;
 }
