@@ -19,6 +19,14 @@
    Page wrapper, Index.elm pageWrapperStyle
 --------------------------------------------------------------------------- */
 
+/* Index.elm gives the home page no mainStyle column: the wrapper runs the full
+   viewport and the page's own margins do the insetting. Core uses one <main>
+   for every route, so the listing column is taken back off here. */
+main:has(.td-home) {
+	margin-inline: 0;
+	max-width: none;
+}
+
 .td-home {
 	margin: 0 0.75rem;
 }
@@ -84,9 +92,10 @@
 @media only screen and (min-width: 1200px) {
 	.td-section {
 		padding: 3rem 1rem 3rem 1rem;
-		/* Index.elm: the panel spans about 870px at 1250 (x 190 to 1060) */
-		margin-left: 4rem;
-		margin-right: 4rem;
+		/* Index.elm sectionStyle: the intro and news panels sit 7rem inside the
+		   wrapper (measured at 1440: x 208 to 1232 in a 1248 wrapper). */
+		margin-left: 7rem;
+		margin-right: 7rem;
 	}
 
 	.td-section::before {
@@ -96,7 +105,8 @@
 
 @media only screen and (min-width: 1500px) {
 	.td-section {
-		max-width: 950px;
+		/* content 950 plus the 1rem side padding: these boxes are border-box */
+		max-width: 982px;
 		margin-left: auto;
 		margin-right: auto;
 	}
@@ -315,10 +325,10 @@
 
 @media only screen and (min-width: 1200px) {
 	.td-section--events {
-		/* Index.elm: the events box runs 3rem beyond the container each side
-		   (x 97 to 1153 at 1250), wider than the intro and news panels. */
-		margin-left: -3rem;
-		margin-right: -3rem;
+		/* Index.elm: the events box is the full width of the wrapper, wider
+		   than the intro and news panels. */
+		margin-left: 0;
+		margin-right: 0;
 	}
 
 	.td-section--events::before {
@@ -330,7 +340,7 @@
 
 @media only screen and (min-width: 1500px) {
 	.td-section--events {
-		max-width: 1150px;
+		max-width: 1182px;
 		margin-left: auto;
 		margin-right: auto;
 		margin-top: 220px;
@@ -422,6 +432,8 @@
 @media only screen and (min-width: 1200px) {
 	.td-section--news {
 		margin-bottom: 200px;
+		/* newsSectionStyle keeps the shell's own 3rem top padding at desktop */
+		padding-top: 3rem;
 	}
 
 	.td-section--news::before {

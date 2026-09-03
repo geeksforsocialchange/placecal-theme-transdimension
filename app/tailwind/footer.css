@@ -314,16 +314,12 @@
 	text-decoration-line: underline;
 }
 
-/* Detail pass (WP 2.12): PageFooter.elm keeps one line of space between the
-   charity block and the credits block. */
+/* Measured against the live footer (WP 3.8): the two blocks abut, and the
+   space between them is their own padding, not a margin. */
 .td-footer__legal .td-footer__block {
-	margin-block: 0.5rem;
-}
-
-.td-footer__legal .td-footer__block + .td-footer__block {
-	margin-top: 0;
+	margin-block: 0;
 }
 
 .td-footer__legal .td-footer__block + .td-footer__block .td-footer__info--title {
-	margin-top: 0.25rem;
+	margin-top: 0;
 }
