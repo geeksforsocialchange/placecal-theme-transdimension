@@ -171,7 +171,8 @@ main > .container-public {
 }
 
 /* PageTemplate.elm viewIntro drops an extra rem 1 under the copy on the widest
-   screens. */
+   screens; the panels that close on a second element are handled at the foot
+   of this file, after the rules those elements pick up their padding from. */
 @media only screen and (min-width: 1500px) {
 	.hero__standfirst {
 		padding-bottom: 3rem;
@@ -2446,4 +2447,31 @@ main > div[vocab] .article__content {
 .event__fullinfo .place_info__address,
 .g--partner .place_info__address {
 	line-height: 1.6;
+}
+
+
+/* WP 3.8. The widest-screen rem 1 under the intro copy, for the panels whose
+   closing element is styled further up this file (the rules here have to come
+   after those to win). */
+@media only screen and (min-width: 1500px) {
+	.hero__standfirst:has(+ .hero__standfirst-detail) {
+		padding-bottom: 1.5rem;
+	}
+
+	.hero__standfirst-detail {
+		padding-bottom: 3.5rem;
+	}
+
+	.page--about .markdown-content > p:first-child,
+	main > .container-editorial > .join-note {
+		padding-bottom: 5rem;
+	}
+}
+
+/* The card's column gap belongs between the image and the text, not inside
+   the byline, whose two halves are in adjacent columns. */
+@media only screen and (min-width: 600px) {
+	.articles .articles__published {
+		margin-left: -2rem;
+	}
 }

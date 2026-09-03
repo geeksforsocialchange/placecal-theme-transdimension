@@ -27,7 +27,7 @@ WP 3.8. Numbers are measured with a DevTools-protocol script against
 | footer nav `a` | font-size / line-height | 17.6 / 26.4 | 18 / 25.2 | 17.6 / 26.4 | fixed |
 | footer legal lines | line-height | 18.08 | 15.87 | 18.08 | fixed |
 | footer middle band | columns | 3 (social, credits, newsletter form) | 2, centred | 2, centred | residual: no newsletter form in core's footer slot; the two remaining columns stay centred (WP 2.9 decision) |
-| footer | total height | 730 | 755 | not re-measured | the four footer fixes above were applied but the dev server went down before they could be re-measured; see the note at the end |
+| footer | total height | 730 | 755 | 746 | residual: our bottom band carries an admin-login line the live site has no equivalent for (about 33px) |
 
 ## Article cards
 
@@ -77,10 +77,19 @@ Re-measured at both. At 1728 the content column stays 1150px wide on both sites 
 first card sits at y 670 (ours) against 671 (golden), height 301 against 300. At 1250 the
 first card sits at y 654 against 655, same heights. No regression.
 
-## Verification gap
+Also fixed: the legal blocks at the foot carried an 8px margin each, which the live
+site does not have (its two blocks abut and the space between them is their own
+padding). Bottom band 343 golden, 388 before, 360 after.
 
-The footer rows (line-height, nav band height, nav link type, legal line-height) were
-edited and the CSS rebuilt, but the local dev server started returning 500 before they
-could be re-measured: core's WP 3.9 merge added `PlaceCal::Theme#icons`, which lives in
-`lib/` and so does not reload, and the running server predates it. Everything above the
-footer rows was measured after the fix.
+## How this was measured
+
+The local dev server started returning 500 partway through this pass, for a reason
+outside the theme: core's WP 3.9 merge added `PlaceCal::Theme#icons` in `lib/`, which
+Rails does not reload, so the running server predates it and every page 500s until it
+is restarted. The rest of the pass renders our pages with `rails runner` through an
+`ActionDispatch::Integration::Session`, writes the HTML to disk with a `<base>` tag
+pointing at the server (its asset routes still serve) and the theme stylesheet pointed
+at `app/assets/builds/transdimension/theme.css`, then measures the file with the same
+script. Landmarks measured both ways before the server went down agree exactly
+(header 94, page title 365, intro panel 115, first card y 654 height 301), so the
+numbers here are comparable with the live site's.
