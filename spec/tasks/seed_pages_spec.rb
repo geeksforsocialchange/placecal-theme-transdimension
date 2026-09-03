@@ -57,7 +57,8 @@ describe 'transdimension:seed_pages rake task', type: :task do
       invoke_task
 
       privacy = site.pages.find_by(slug: 'privacy')
-      expect(privacy.title).to eq('Privacy')
+      expect(privacy.title).to eq('Privacy Policy')
+      expect(privacy.body).to start_with('The Trans Dimension is committed to protecting your privacy online.')
       expect(privacy.position).to eq(20)
       expect(privacy.show_in_nav).to be false
       expect(privacy.is_published).to be true

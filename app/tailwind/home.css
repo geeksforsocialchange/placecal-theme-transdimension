@@ -94,7 +94,14 @@
 
 	.td-section::before {
 		background-size: 1366px;
-		margin: 0 -11rem;
+		margin: 0 -14rem;
+	}
+
+	/* Index.elm: the events box is wider than the intro and news panels
+	   (x 97 to 1153 at 1250). Its band keeps the same absolute position. */
+
+	.td-section--events::before {
+		margin: 0 -7rem;
 	}
 }
 
@@ -320,16 +327,18 @@
 
 @media only screen and (min-width: 1200px) {
 	.td-section--events {
-		margin-left: 0 !important;
-		margin-right: 0 !important;
+		/* Index.elm: the events box runs 3rem beyond the container each side
+		   (x 97 to 1153 at 1250), wider than the intro and news panels. */
+		margin-left: -3rem !important;
+		margin-right: -3rem !important;
 	}
 
 	.td-section--events::before {
 		background-image: url("illustrations/1366px/homepage_3.png");
 		height: 200px;
 		top: -200px;
-		margin-left: -7rem !important;
-		margin-right: -7rem !important;
+		margin-left: -4rem !important;
+		margin-right: -4rem !important;
 	}
 }
 
@@ -614,6 +623,7 @@
 
 .td-home .region-filter ul {
 	display: flex;
+	width: 100%;
 	flex-wrap: wrap;
 	justify-content: center;
 	gap: 0;
@@ -939,4 +949,25 @@
 	.td-news__image {
 		margin-top: 1rem;
 	}
+}
+
+/* Core's .region-filter is max-width: fit-content, which left-aligns it
+   inside the box; TD centres the region buttons. */
+.td-home .region-filter {
+	max-width: none;
+}
+
+/* The illustration bands are 100vw wide with the artwork centred; centring
+   the pseudo-element on the viewport (sections are themselves centred)
+   places the art exactly where Index.elm's full-bleed backgrounds sit,
+   whatever the section's own margins are. Overrides the per-breakpoint
+   negative margins above. */
+.td-section::before,
+.td-section--intro::before,
+.td-section--events::before,
+.td-section--news::before {
+	left: 50%;
+	margin-left: 0 !important;
+	margin-right: 0 !important;
+	transform: translateX(-50%);
 }

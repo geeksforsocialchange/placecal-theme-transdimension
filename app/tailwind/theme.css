@@ -375,6 +375,11 @@ select {
 	border-bottom-color: var(--color-background);
 }
 
+/* PageHeader.elm shows no current-page rule on the homepage. */
+.header__partner .header__menu a[aria-current][href="/"] {
+	border-bottom-color: transparent;
+}
+
 @media only screen and (hover: hover) and (pointer: fine) {
 	.header__partner .header__menu a:hover {
 		color: var(--color-foreground);
