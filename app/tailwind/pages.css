@@ -2207,3 +2207,9 @@ main > div[vocab] .gi {
 main > div[vocab] .article__content {
 	text-align: left;
 }
+
+/* Partners.elm: the badge never wraps; the name wraps instead. */
+.partners .preview .preview__neighbourhood {
+	flex-shrink: 0;
+	white-space: nowrap;
+}
