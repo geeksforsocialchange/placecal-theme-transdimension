@@ -44,11 +44,9 @@ The CSS is committed prebuilt, so core's Docker build needs no extra Node step.
 
 The host has to be a PlaceCal with the extension theme registry, that is core with #3368 merged. Specifically, `PlaceCal::Extensions.register_theme` must exist and the theme it yields must support every setting this engine uses:
 
-`stylesheet`, `homepage_view`, `head`, `footer`, `event_filter_style`, `nav_cta`, `nav_join`, `map_style`
+`stylesheet`, `homepage_view`, `head`, `footer`, `event_filter_style`, `nav_cta`, `nav_join`, `map_style`, `menu_label`, `icons`, `theme_color`, `background_color`, `og_image`, `page`
 
-The engine checks this while it registers, and raises `Transdimension::UnsupportedHost` naming the missing capability rather than failing with a `NoMethodError` from inside an initializer. `Transdimension::Engine::REQUIRED_THEME_SETTINGS` is the list it checks.
-
-`menu_label`, `icons`, `mask_icon_color`, `theme_color`, `background_color`, `og_image` and `page` are set the same way but are not required: each is applied only when the host's `PlaceCal::Theme` responds to it. An older core keeps its own mobile menu affordance and favicon, and simply has no `/about` (it falls back to its own `/privacy` markdown).
+The engine checks this while it registers, and raises `Transdimension::UnsupportedHost` naming the missing capability rather than failing with a `NoMethodError` from inside an initializer. `Transdimension::Engine::REQUIRED_THEME_SETTINGS` is the list it checks. Core pins this engine by tag in its own Gemfile and the two ship together, so every setting is required and none is applied conditionally.
 
 ## Development
 
