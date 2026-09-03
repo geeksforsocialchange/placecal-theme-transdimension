@@ -1085,8 +1085,8 @@ main > div:not([vocab]) > .hero h1 {
    underneath.
 --------------------------------------------------------------------------- */
 
-/* Partners.elm partnersListTitleStyle would sit above the list; core renders
-   no such heading (see doc/core-slots-needed.md). */
+/* Partners.elm partnersListTitleStyle sits above the list; core renders it as
+   `.list-heading`, filled from overrides.en.yml. */
 .partners {
 	display: grid;
 	gap: 0 2rem;
