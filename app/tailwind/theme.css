@@ -464,3 +464,10 @@ select {
 	font-size: 1.1rem;
 	font-weight: 700;
 }
+
+/* PageHeader.elm: Donate sits at the far right of the nav bar. */
+@media only screen and (min-width: 768px) {
+	.header__partner .header__menu .header__cta {
+		margin-left: auto;
+	}
+}
