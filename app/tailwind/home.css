@@ -613,38 +613,30 @@ main:has(.td-home) {
    wrapping instead, which centres the same way for any number of regions.
 --------------------------------------------------------------------------- */
 
+/* Only the homepage deltas live here: everything else this row needs is the
+   shared `.region-filter` block in pages.css, which applies on the homepage
+   too. */
+
 .td-home .region-filter {
+	/* Core's .region-filter is max-width: fit-content, which left-aligns it
+	   inside the box; TD centres the region buttons and lets them bleed into
+	   the section's own padding. */
 	margin: 0 -0.5rem;
+	max-width: none;
 }
 
 .td-home .region-filter ul {
-	display: flex;
 	width: 100%;
-	flex-wrap: wrap;
-	justify-content: center;
-	gap: 0;
 	margin: 0 auto 0.5rem auto;
 	padding: 0;
 	list-style: none;
 }
 
 .td-home .region-filter li {
-	margin: 0.25rem 4px;
 	list-style: none;
 }
 
 .td-home .region-filter a {
-	display: block;
-	width: 100px;
-	padding: 0.2rem 0.2rem 0.3rem 0.2rem;
-	border: 2px solid var(--color-foreground);
-	border-radius: 0.3rem;
-	background-color: var(--color-background);
-	color: var(--color-foreground);
-	font-size: 0.875rem;
-	font-weight: 600;
-	text-align: center;
-	text-decoration: none;
 	transition:
 		background-color 300ms,
 		border-color 300ms,
@@ -652,8 +644,6 @@ main:has(.td-home) {
 }
 
 .td-home .region-filter a[aria-current="page"] {
-	background-color: var(--color-foreground);
-	color: var(--color-background);
 	border-color: var(--color-foreground);
 }
 
@@ -666,35 +656,13 @@ main:has(.td-home) {
 
 @media only screen and (hover: hover) and (pointer: fine) {
 	.td-home .region-filter a:hover {
-		background-color: #432955;
-		color: var(--color-foreground);
-		border-color: var(--color-foreground);
-	}
-}
-
-@media only screen and (min-width: 600px) {
-	.td-home .region-filter li {
-		margin: 0.25rem 0.375rem;
-	}
-
-	.td-home .region-filter a {
-		width: 110px;
-		font-size: 1rem;
+		background-color: var(--color-home-background-3);
 	}
 }
 
 @media only screen and (min-width: 900px) {
 	.td-home .region-filter {
 		margin: 2rem -1rem;
-	}
-
-	.td-home .region-filter li {
-		margin: 0.25rem 0.5rem;
-	}
-
-	.td-home .region-filter a {
-		width: 140px;
-		font-size: 1.2rem;
 	}
 }
 
@@ -945,12 +913,6 @@ main:has(.td-home) {
 	.td-news__image {
 		margin-top: 1rem;
 	}
-}
-
-/* Core's .region-filter is max-width: fit-content, which left-aligns it
-   inside the box; TD centres the region buttons. */
-.td-home .region-filter {
-	max-width: none;
 }
 
 /* The illustration bands are 100vw wide with the artwork centred; centring
