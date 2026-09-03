@@ -61,10 +61,43 @@ describe 'Trans Dimension i18n' do # rubocop:disable Metrics/BlockLength
       end
     end
 
-    it 'carries the ported TD copy (at least the 95 strings from Text.elm)' do
-      td_locale = en_locale['transdimension']
-      flat_keys = flatten_keys(td_locale)
-      expect(flat_keys.length).to be >= 95
+    # The file holds only what the theme itself renders: copy that replaces a
+    # core string lives in overrides.en.yml. Name the keys rather than counting
+    # them, so a key deleted out from under a view fails here.
+    it 'carries every key the footer component reads' do
+      footer_keys = %w[
+        social byline gfsc_alt info_title credit_title copyright powered_by
+        insta_link twitter_link facebook_link insta_alt twitter_alt facebook_alt
+        info_charity info_company info_office
+        credit_1_text credit_1_name credit_1_link
+        credit_2_text credit_2_name credit_2_link
+        credit_3_text credit_3_name credit_3_link
+      ]
+      expect(en_locale['transdimension']['footer'].keys).to match_array(footer_keys)
+    end
+
+    it 'carries every key the homepage view and its cards read' do
+      home_keys = %w[
+        meta_title meta_description logo_alt intro_title intro_message
+        intro_button events_header events_button events_empty event_by
+        news_header news_button news_read_more
+      ]
+      expect(en_locale['transdimension']['home'].keys).to match_array(home_keys)
+    end
+
+    it 'carries the keys the seed task and the theme registration read' do
+      expect(en_locale['transdimension']['about'].keys)
+        .to match_array(%w[title accessibility makers gi gfsc placecal])
+      expect(en_locale['transdimension']['privacy'].keys).to match_array(%w[title subtitle])
+      expect(en_locale['transdimension']['site'].keys).to match_array(%w[title description])
+      expect(en_locale['transdimension']['header'].keys).to match_array(%w[donate donate_url])
+      expect(en_locale['transdimension']['external'].keys)
+        .to match_array(%w[gfsc_home gendered_intelligence_home gendered_intelligence_name])
+    end
+
+    it 'holds no keys beyond those groups' do
+      expect(en_locale['transdimension'].keys)
+        .to match_array(%w[site external header footer home about privacy])
     end
   end
 
@@ -129,14 +162,14 @@ describe 'Trans Dimension i18n' do # rubocop:disable Metrics/BlockLength
   end
 
   describe 'i18n resolution' do
-    it 'resolves transdimension.home.title through the booted app' do
-      expect(I18n.t('transdimension.home.title')).to eq('The Trans Dimension')
+    it 'resolves transdimension.home.meta_title through the booted app' do
+      expect(I18n.t('transdimension.home.meta_title')).to eq('Home')
     end
 
     it 'resolves transdimension keys after core locale files are loaded' do
       # Verify that engine locale files are appended after core's
       expect(I18n.t('transdimension.site.title')).to eq('The Trans Dimension')
-      expect(I18n.t('transdimension.site.strapline')).to eq('Space and spaces for us')
+      expect(I18n.t('transdimension.header.donate')).to eq('Donate')
     end
   end
 end
