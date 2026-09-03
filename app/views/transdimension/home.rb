@@ -13,6 +13,8 @@
 # the region choice is read off the controller's own helper methods, the same
 # ones core's Views::Sites::Default is handed as props.
 class Transdimension::Views::Home < Views::Base
+  include Transdimension::Components
+
   prop :site, Site, reader: :private
 
   # Index.elm shows the next 8 upcoming events across the two columns.
@@ -69,7 +71,7 @@ class Transdimension::Views::Home < Views::Base
   def render_event_list
     if events.any?
       ul(class: 'td-events__list') do
-        events.each { |event| render Transdimension::Components::EventCard.new(event: event) }
+        events.each { |event| EventCard(event: event) }
       end
     else
       p(class: 'td-events__empty') { t('transdimension.home.events_empty') }
@@ -79,7 +81,7 @@ class Transdimension::Views::Home < Views::Base
   def render_news
     section(class: 'td-section td-section--news') do
       h2(class: 'td-floating-title') { t('transdimension.home.news_header') }
-      render Transdimension::Components::NewsCard.new(article: latest_article) if latest_article
+      NewsCard(article: latest_article) if latest_article
       p(class: 'td-button-floating td-button-floating--news') do
         link_to t('transdimension.home.news_button'), news_index_path,
                 class: 'with-no-sass td-button td-button--dark'
@@ -91,7 +93,7 @@ class Transdimension::Views::Home < Views::Base
     @events ||= EventsQuery
                 .new(site: site)
                 .call(period: 'future', tag_id: current_region&.id, limit: MAX_EVENTS)
-                .values.flatten.first(MAX_EVENTS)
+                .values.flatten
   end
 
   def latest_article
