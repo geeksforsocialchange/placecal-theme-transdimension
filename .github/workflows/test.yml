@@ -55,6 +55,12 @@ jobs:
           ref: ${{ env.PLACECAL_REF }}
           path: PlaceCal
 
+      # Core's image processing needs libvips at boot, the same as core's own CI
+      - name: Install libvips
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libvips-dev
+
       - name: Set up Ruby (version from core's .ruby-version)
         uses: ruby/setup-ruby@v1
         with:
