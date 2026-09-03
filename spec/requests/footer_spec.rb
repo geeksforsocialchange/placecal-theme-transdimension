@@ -15,7 +15,6 @@ RSpec.describe 'Trans Dimension footer', type: :request do
 
   before do
     site.neighbourhoods << create(:riverside_ward)
-    create(:nav_page, site: site, slug: 'about', title: 'About')
     get 'http://transdimension.lvh.me/'
   end
 
