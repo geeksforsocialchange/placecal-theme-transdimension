@@ -11,7 +11,7 @@ describe 'transdimension:check task' do
       site_admin = create(:root_user)
 
       site = create(:site,
-                    slug: 'transdimension',
+                    slug: 'trans-dimension',
                     name: 'The Trans Dimension',
                     url: 'https://transdimension.uk',
                     theme: 'transdimension',
@@ -28,58 +28,58 @@ describe 'transdimension:check task' do
     end
 
     it 'is published' do
-      site = Site.find_by(slug: 'transdimension')
+      site = Site.find_by(slug: 'trans-dimension')
       expect(site.is_published).to be(true)
     end
 
     it 'has correct URL' do
-      site = Site.find_by(slug: 'transdimension')
+      site = Site.find_by(slug: 'trans-dimension')
       expect(site.url).to eq('https://transdimension.uk')
     end
 
     it 'has transdimension theme' do
-      site = Site.find_by(slug: 'transdimension')
+      site = Site.find_by(slug: 'trans-dimension')
       expect(site.theme).to eq('transdimension')
     end
 
     it 'has London and Manchester tags' do
-      site = Site.find_by(slug: 'transdimension')
+      site = Site.find_by(slug: 'trans-dimension')
       tags = site.tags.where(type: 'Partnership').pluck(:name)
       expect(tags.map(&:downcase)).to include('london', 'manchester')
     end
 
     it 'has contact email' do
-      site = Site.find_by(slug: 'transdimension')
+      site = Site.find_by(slug: 'trans-dimension')
       expect(site.contact_email).to be_present
       expect(site.contact_email).to match(URI::MailTo::EMAIL_REGEXP)
     end
 
     it 'has site admin' do
-      site = Site.find_by(slug: 'transdimension')
+      site = Site.find_by(slug: 'trans-dimension')
       expect(site.site_admin).to be_present
     end
 
     it 'can store logo' do
-      site = Site.find_by(slug: 'transdimension')
+      site = Site.find_by(slug: 'trans-dimension')
       # In tests with transactional fixtures, we verify the uploader is present
       # The rake task will check that files are actually uploaded
       expect(site.logo).to respond_to(:present?)
     end
 
     it 'can store hero image' do
-      site = Site.find_by(slug: 'transdimension')
+      site = Site.find_by(slug: 'trans-dimension')
       # In tests with transactional fixtures, we verify the uploader is present
       # The rake task will check that files are actually uploaded
       expect(site.hero_image).to respond_to(:present?)
     end
 
     it 'has no neighbourhoods' do
-      site = Site.find_by(slug: 'transdimension')
+      site = Site.find_by(slug: 'trans-dimension')
       expect(site.neighbourhoods).to be_empty
     end
 
     it 'has about and privacy pages' do
-      site = Site.find_by(slug: 'transdimension')
+      site = Site.find_by(slug: 'trans-dimension')
       about_page = site.pages.find_by(slug: 'about')
       privacy_page = site.pages.find_by(slug: 'privacy')
       expect(about_page).to be_present
@@ -89,11 +89,11 @@ describe 'transdimension:check task' do
 
   describe 'with the wrong theme' do
     before do
-      create(:site, slug: 'transdimension', theme: 'pink')
+      create(:site, slug: 'trans-dimension', theme: 'pink')
     end
 
     it 'has wrong theme' do
-      site = Site.find_by(slug: 'transdimension')
+      site = Site.find_by(slug: 'trans-dimension')
       expect(site.theme).not_to eq('transdimension')
     end
   end
@@ -113,7 +113,7 @@ describe 'transdimension:check task' do
       neighbourhood = create(:riverside_ward)
 
       site = create(:site,
-                    slug: 'transdimension',
+                    slug: 'trans-dimension',
                     name: 'The Trans Dimension',
                     url: 'https://transdimension.uk',
                     theme: 'transdimension',
@@ -131,7 +131,7 @@ describe 'transdimension:check task' do
     end
 
     it 'has neighbourhoods' do
-      site = Site.find_by(slug: 'transdimension')
+      site = Site.find_by(slug: 'trans-dimension')
       expect(site.neighbourhoods).not_to be_empty
     end
   end

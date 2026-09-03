@@ -4,9 +4,6 @@
 en:
   theme_overrides:
     transdimension:
-      navigation:
-        site:
-          join: "Join us"
       region_filter:
         all: "Everywhere"
       # Listing page titles and intro panels (the hero standfirst slot, #3368

@@ -1,6 +1,6 @@
-# Creating the Trans Dimension Site Record
+# The Trans Dimension Site Record
 
-This guide walks a root admin through creating the Site record for The Trans Dimension at admin.placecal.org.
+This guide walks a root admin through configuring the Site record for The Trans Dimension at admin.placecal.org. Production already has the site: slug `trans-dimension` (title The Trans Dimension, url https://transdimension.uk, published, 71 partners at the time of writing). Reuse it; do not create a second one. Production also has an unlisted `trans-dimension-manchester` site (37 partners) whose Manchester partnership tag should move to the main site so that every Trans Dimension partner links to the one site from the directory.
 
 ## Prerequisites
 
@@ -12,9 +12,9 @@ You need root access to the PlaceCal admin interface. Log in as a root user.
 
 Go to admin.placecal.org and click Sites in the main navigation.
 
-### 2. Create a new site
+### 2. Open the existing site
 
-Click "New Site" to create a new record.
+Open `trans-dimension` (The Trans Dimension). Only create a new record on an environment that has no such site, such as a fresh staging database, and give it the same slug `trans-dimension`.
 
 ### 3. Basic Information tab
 
@@ -50,11 +50,11 @@ Hero Image Alt Text: Provide descriptive alt text for the hero image for accessi
 
 ### 5. Neighbourhoods tab
 
-Leave this tab empty. The Trans Dimension site carries no neighbourhoods. This means partners are scoped by tags alone rather than by geographic location. If neighbourhoods are added later, the neighbourhood dropdown will appear in the public site navigation.
+Set a single neighbourhood: the United Kingdom country node. With one neighbourhood the public neighbourhood dropdown stays hidden, the partnership tags do the real scoping (London and Manchester partners both sit under the UK), and the site behaves like any other tagged site. Do not add London or Manchester as neighbourhoods: that would hide partners outside those exact areas, and the region filter already separates the two cities.
 
 ### 6. Partnerships tab
 
-Add partnership tags that define the site's coverage regions. Select both tags from the dropdown.
+Add both partnership tags. The Manchester tag currently lives on the separate `trans-dimension-manchester` site; add it here, then unpublish `trans-dimension-manchester` (Settings tab, untick published) so the directory stops offering it.
 
 London (case-insensitive name match; check admin UI for exact id).
 
@@ -88,9 +88,7 @@ The task will print PASS or FAIL lines for each requirement. All checks should p
 
 When deploying to staging, follow the same steps but use this URL instead.
 
-URL: https://transdimension.<staging host>
-
-Replace <staging host> with the actual staging hostname when deploying.
+URL: https://trans-dimension.placecal-staging.org (the staging proxy already serves `*.placecal-staging.org`).
 
 ## Next steps
 
@@ -99,7 +97,7 @@ After the site is created and verified.
 Run the page seed task to create the About and Privacy policy pages.
 
 ```bash
-bin/rails transdimension:seed_pages[transdimension]
+bin/rails transdimension:seed_pages[trans-dimension]
 ```
 
 This task is documented in WP 2.6.

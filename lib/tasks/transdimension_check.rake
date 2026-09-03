@@ -4,7 +4,7 @@
 namespace :transdimension do
   desc 'Verify the Trans Dimension Site record is configured correctly'
   task check: :environment do
-    site_slug = ENV.fetch('TD_SITE_SLUG', 'transdimension')
+    site_slug = ENV.fetch('TD_SITE_SLUG', 'trans-dimension')
     site = Site.find_by(slug: site_slug)
 
     failures = []
