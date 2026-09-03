@@ -194,7 +194,7 @@ main:not(:has(.td-home)) > div:has(> .hero) {
 }
 
 /* About.elm: the About page has its own header artwork (girl with afro,
-   galaxy). Core marks the page with .page--<slug> (WP 1.17). */
+   galaxy). The theme's own page views mark the page with .page--<slug>. */
 body main:has(.page--about) {
 	--td-band-header: url("illustrations/320px/about_1_header.png");
 }
