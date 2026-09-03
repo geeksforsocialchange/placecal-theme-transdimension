@@ -16,8 +16,10 @@ app/assets/builds/transdimension/  Built CSS, committed, served by Propshaft
 config/locales/en.yml              Theme strings, namespaced under transdimension.*
 config/locales/overrides.en.yml    Overrides of core strings, appended after core's locales
 content/                           Static page content
-goldens/                           Reference screenshots of the current live site
+doc/visual-diff/                   Region-by-region comparison against the live site
 ```
+
+The reference screenshots of the live site live in `goldens/`, which is gitignored: they are large PNGs of a site we do not own, and they are a working artifact rather than a deliverable. Recapture them locally with `bash goldens/capture.sh` (the script is kept alongside them, so it is local too). The durable record of the comparison is the tables in `doc/visual-diff/`, which are committed.
 
 There are deliberately no models, migrations, controllers or routes. Every visible string goes through `t()`.
 
@@ -31,11 +33,19 @@ Add the engine to the PlaceCal installation's `Gemfile`, pinned to a tag, in the
 group :extensions do
   gem 'placecal-theme-transdimension',
       github: 'geeksforsocialchange/placecal-theme-transdimension',
-      tag: 'v0.1.0'
+      tag: 'v0.3.5'
 end
 ```
 
 The CSS is committed prebuilt, so core's Docker build needs no extra Node step.
+
+### Minimum core
+
+The host has to be a PlaceCal with the extension theme registry, that is core with #3368 merged. Specifically, `PlaceCal::Extensions.register_theme` must exist and the theme it yields must support every setting this engine uses:
+
+`stylesheet`, `homepage_view`, `head`, `footer`, `event_filter_style`, `nav_cta`, `nav_join`, `map_style`
+
+The engine checks this while it registers, and raises `Transdimension::UnsupportedHost` naming the missing capability rather than failing with a `NoMethodError` from inside an initializer. `Transdimension::Engine::REQUIRED_THEME_SETTINGS` is the list it checks.
 
 ## Development
 
@@ -53,6 +63,10 @@ BUNDLE_GEMFILE=/path/to/PlaceCal/Gemfile bundle exec rubocop
 ```
 
 Both are what `.github/workflows/test.yml` runs.
+
+### Releasing
+
+Installations pin this engine by tag, so a release is a version bump followed by a tag. Bump `lib/transdimension/version.rb` and `package.json` together (a spec fails if they disagree, or if the latest tag is ahead of `VERSION`), merge, then tag the merge commit `v<version>`. CI fails a tag push whose tag name does not match `VERSION`.
 
 ### Tailwind
 
@@ -77,6 +91,20 @@ bundle exec rake transdimension:seed_pages[site-slug]
 ```
 
 The task creates or updates two pages: `about` (shown in site navigation, position 10) and `privacy` (not in navigation, position 20). The About body concatenates multiple content files with section headings in the order TD's frontend renders them. The task is idempotent; running it twice on the same site produces no duplicates and updates only if content changed.
+
+It prints one line per page, so a run says what it did:
+
+```
+created about
+unchanged privacy
+skipped about: edited in admin, run with FORCE=1 to overwrite
+```
+
+Two rules protect work done in the admin. A page whose stored title or body no longer matches the seed is assumed to have been hand edited and is skipped; rerun with `FORCE=1` to overwrite it. And `is_published` is only ever set when the page is created, so unpublishing a page in the admin sticks.
+
+```sh
+FORCE=1 bundle exec rake transdimension:seed_pages[site-slug]
+```
 
 ## Site record setup
 
