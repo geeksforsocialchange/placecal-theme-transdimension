@@ -1,0 +1,308 @@
+/* The Trans Dimension footer (WP 2.9), styling
+   Transdimension::Components::Footer. Ported from src/Theme/PageFooter.elm.
+
+   WP 2.2 painted core's own footer blocks into something footer-shaped; the
+   theme footer slot (#3368 D1) means the markup is now ours, so those hacks are
+   gone and these rules stand on their own class names.
+
+   TD's breakpoints (Global.elm) are 600 / 900 / 1200 / 1500, written out here
+   rather than borrowed from Tailwind.
+--------------------------------------------------------------------------- */
+
+.td-footer {
+	background-color: var(--color-background);
+	color: var(--color-foreground);
+	display: flex;
+	flex-direction: column;
+	margin-top: 2rem;
+	font-size: 1rem;
+	line-height: 1.4;
+}
+
+/* ---------------------------------------------------------------------------
+   Top band: wordmark and links, PageFooter.elm footerTopSectionStyle
+--------------------------------------------------------------------------- */
+
+.td-footer__top {
+	background-color: var(--color-primary);
+}
+
+.td-footer__wordmark {
+	padding: 1rem;
+	text-align: center;
+}
+
+.td-footer__wordmark img {
+	display: block;
+	width: 100%;
+	max-width: 225px;
+	margin: 1rem auto;
+}
+
+.td-footer__nav {
+	padding: 1rem 1rem 3rem;
+	margin-bottom: 1rem;
+}
+
+.td-footer__nav li {
+	text-align: center;
+	font-weight: 600;
+	margin: 0.5rem;
+	font-size: 1.1rem;
+}
+
+/* Core's a:not(.with-no-sass) rule paints every link white with a pink
+   underline; on the pink band that is invisible, so match its specificity. */
+.td-footer__nav a,
+.td-footer__nav a:not(.with-no-sass) {
+	color: var(--color-background);
+	text-decoration: none;
+	transition: color 300ms;
+}
+
+@media only screen and (hover: hover) and (pointer: fine) {
+	.td-footer__nav a:not(.with-no-sass):hover {
+		color: var(--color-foreground);
+	}
+}
+
+@media only screen and (min-width: 600px) {
+	.td-footer__top {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		box-sizing: border-box;
+		padding: 1rem 1rem 2rem;
+	}
+
+	.td-footer__wordmark img {
+		margin: 0;
+	}
+
+	.td-footer__nav {
+		padding: 1rem;
+		margin-bottom: 0;
+		max-width: 55%;
+	}
+
+	.td-footer__nav ul {
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: flex-end;
+	}
+
+	.td-footer__nav li {
+		margin: 0 0.5rem;
+	}
+}
+
+@media only screen and (min-width: 1500px) {
+	.td-footer__top {
+		padding: 1rem 20rem 2rem;
+	}
+}
+
+/* ---------------------------------------------------------------------------
+   Middle band: social links and "created by"
+   PageFooter.elm footerMiddleSectionStyle is a three-column grid; its third
+   column was the newsletter sign-up, dropped by the coordinator, so the two
+   remaining columns are centred instead of pinned to the grid.
+--------------------------------------------------------------------------- */
+
+.td-footer__middle {
+	background-color: var(--color-background);
+	padding: 1rem 0;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+}
+
+.td-footer__social,
+.td-footer__created-by {
+	color: var(--color-primary);
+	padding: 1rem;
+	box-sizing: border-box;
+	text-align: center;
+}
+
+/* PageFooter.elm subheadStyle: Global.elm smallInlineTitleStyle in white */
+.td-footer__subhead {
+	color: var(--color-foreground);
+	display: block;
+	font-size: 1.2rem;
+	font-weight: 700;
+	letter-spacing: 1.9px;
+	margin: 0.5rem 0 1rem;
+	text-align: center;
+	text-transform: uppercase;
+}
+
+@media only screen and (min-width: 600px) {
+	.td-footer__subhead {
+		margin: 1rem auto;
+	}
+}
+
+.td-footer__social-list {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	margin: 2rem 0;
+}
+
+.td-footer__social-list li {
+	margin: 0 1rem;
+}
+
+.td-footer__social-list img {
+	display: block;
+	width: 40px;
+	height: 40px;
+}
+
+.td-footer__logo-list {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	margin: 2rem 0;
+}
+
+.td-footer__logo-list li {
+	display: flex;
+	flex-direction: column;
+	text-align: center;
+}
+
+/* PageFooter.elm logoListItemStyle: a white "+" between the two logos */
+.td-footer__logo-list li::after {
+	color: var(--color-foreground);
+	content: "+";
+	display: block;
+	font-size: 2rem;
+	margin: 1rem 1.5rem;
+	text-align: center;
+}
+
+.td-footer__logo-list li:last-child::after {
+	display: none;
+}
+
+.td-footer__logo-list img {
+	display: block;
+	height: 48px;
+	width: auto;
+}
+
+.td-footer__logo-list a {
+	display: block;
+}
+
+@media only screen and (min-width: 600px) {
+	.td-footer__middle {
+		flex-direction: row;
+		flex-wrap: wrap;
+		align-items: flex-start;
+		padding: 1rem;
+	}
+
+	.td-footer__logo-list {
+		flex-direction: row;
+		align-items: center;
+	}
+
+	.td-footer__logo-list li {
+		flex-direction: row;
+		align-items: center;
+	}
+
+	.td-footer__logo-list li::after {
+		margin: 0 1.5rem;
+	}
+}
+
+@media only screen and (min-width: 900px) {
+	.td-footer__middle {
+		padding: 1rem 3rem;
+		gap: 3rem;
+	}
+}
+
+@media only screen and (min-width: 1500px) {
+	.td-footer__middle {
+		padding: 1rem 12rem;
+	}
+}
+
+/* ---------------------------------------------------------------------------
+   Bottom band: legal text, credits, copyright and the PlaceCal lockup
+   PageFooter.elm footerBottomSectionStyle, pinkBlockStyle, infoParagraphStyle
+--------------------------------------------------------------------------- */
+
+.td-footer__legal {
+	background-color: var(--color-primary);
+	color: var(--color-background);
+}
+
+.td-footer__block {
+	color: var(--color-background);
+	padding: 1rem;
+	box-sizing: border-box;
+}
+
+.td-footer__info {
+	font-size: var(--text-detail);
+	line-height: 1.13;
+	margin: 1rem 2rem;
+	text-align: center;
+}
+
+.td-footer__info--title {
+	font-weight: 700;
+}
+
+/* viewPageFooterInfo drops the margins on the charity/company/office lines so
+   they read as one block under the title. */
+.td-footer__info--tight {
+	margin-block: 0;
+}
+
+.td-footer__legal a,
+.td-footer__legal a:not(.with-no-sass) {
+	color: var(--color-background);
+	text-decoration-color: var(--color-background);
+	transition: color 300ms;
+}
+
+@media only screen and (hover: hover) and (pointer: fine) {
+	.td-footer__legal a:not(.with-no-sass):hover {
+		color: var(--color-tertiary);
+	}
+}
+
+/* PageFooter.elm poweredByPlaceCalStyle */
+.td-footer__powered-by {
+	display: block;
+	width: 192px;
+	max-width: 100%;
+	margin: 3rem auto 1rem;
+}
+
+.td-footer__powered-by img {
+	display: block;
+	width: 100%;
+}
+
+/* Not in PageFooter.elm: a way back to admin for site administrators, kept
+   deliberately quiet at the very end of the band. */
+.td-footer__login {
+	font-size: var(--text-2xs);
+	margin: 1rem 0 0;
+	text-align: center;
+}
+
+.td-footer__login a,
+.td-footer__login a:not(.with-no-sass) {
+	text-decoration-line: underline;
+}
