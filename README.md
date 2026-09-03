@@ -8,7 +8,7 @@ Extensions contain no models, no migrations and no business logic. See PlaceCal'
 
 ```
 lib/transdimension.rb              Module and Phlex namespaces
-lib/transdimension/engine.rb       Autoload dirs, theme registration, locale overrides
+lib/transdimension/engine.rb       Autoload dirs and theme registration
 app/views/transdimension/          Phlex views (Transdimension::Views)
 app/components/transdimension/     Phlex components (Transdimension::Components)
 app/tailwind/theme.css             Tailwind source
@@ -47,22 +47,41 @@ The host has to be a PlaceCal with the extension theme registry, that is core wi
 
 The engine checks this while it registers, and raises `Transdimension::UnsupportedHost` naming the missing capability rather than failing with a `NoMethodError` from inside an initializer. `Transdimension::Engine::REQUIRED_THEME_SETTINGS` is the list it checks.
 
+`menu_label` is set the same way but is not required: it is applied only when the host's `PlaceCal::Theme` responds to it, so an older core simply keeps its own mobile menu affordance.
+
 ## Development
 
-The specs boot the PlaceCal core application with this engine loaded, so they need a checkout of core and core's gem bundle. Check core out next to this repo (the default core path is `../PlaceCal`, override it with `PLACECAL_CORE_PATH`) and run the specs against core's `Gemfile`:
+The specs boot the PlaceCal core application with this engine loaded, so they need a checkout of core and core's gem bundle. Check core out next to this repo (the default core path is `../PlaceCal`, override it with `PLACECAL_CORE_PATH`).
+
+Core's own `Gemfile` pins this engine to a git tag, which would run the specs against the released gem rather than your working tree. So point Bundler at a Gemfile that swaps that pin for a `path:` entry. Create `Gemfile.td-dev` in the core checkout (do not commit it; add it to core's `.git/info/exclude`):
+
+```ruby
+# Local-only Gemfile: core with the TD extension from the sibling path checkout
+# instead of the pinned git tag.
+core = File.read(File.expand_path('Gemfile', __dir__))
+core = core.sub(/^group :extensions do.*?^end\n/m, '')
+instance_eval(core, File.expand_path('Gemfile', __dir__), 1)
+gem 'placecal-theme-transdimension', path: '../placecal-theme-transdimension'
+```
+
+Then run the specs against it:
 
 ```sh
 cd /path/to/placecal-theme-transdimension
-BUNDLE_GEMFILE=/path/to/PlaceCal/Gemfile RAILS_ENV=test bundle exec rspec
+PLACECAL_CORE_PATH=/path/to/PlaceCal \
+  BUNDLE_GEMFILE=/path/to/PlaceCal/Gemfile.td-dev \
+  RAILS_ENV=test bundle exec rspec
 ```
 
-This engine's own `Gemfile` exists for gem metadata and tooling; it cannot resolve the gems core needs to boot, which is why the invocation above points Bundler at core. RuboCop runs the same way:
+`spec/rails_helper.rb` aborts with an explanatory message if the booted engine is not this working tree, so a stale Gemfile fails loudly instead of quietly testing the installed tag.
+
+This engine's own `Gemfile` exists for gem metadata and tooling; it cannot resolve the gems core needs to boot, which is why the invocations above point Bundler at core. RuboCop runs the same way:
 
 ```sh
-BUNDLE_GEMFILE=/path/to/PlaceCal/Gemfile bundle exec rubocop
+BUNDLE_GEMFILE=/path/to/PlaceCal/Gemfile.td-dev bundle exec rubocop
 ```
 
-Both are what `.github/workflows/test.yml` runs.
+`.github/workflows/test.yml` runs the same two commands, against a Gemfile it builds the same way.
 
 ### Releasing
 
@@ -113,8 +132,10 @@ Creating the Trans Dimension Site record in PlaceCal requires root admin access.
 After creating the site, verify it is configured correctly by running the check task.
 
 ```sh
-bin/rails transdimension:check
+bundle exec rake transdimension:check[site-slug]
 ```
+
+The site slug is optional: without it the task falls back to `TD_SITE_SLUG`, and then to `trans-dimension`.
 
 The task prints PASS and FAIL lines for each required field, exits non-zero if any checks fail, and warns (but does not fail) when neighbourhoods are present.
 
@@ -124,4 +145,6 @@ The code in this repository is licensed under the [Hippocratic License 3.0](LICE
 
 The design assets in this repository (illustrations, logos, artwork and brand copy) are copyright [Gendered Intelligence](https://genderedintelligence.co.uk). They are included here so that the Trans Dimension site can be served by PlaceCal, and they may not be reused outside that context without Gendered Intelligence's permission.
 
-Illustrations by Harry Woodgate.
+No font files are in this repository. The theme's typeface is Covik Sans, loaded at runtime from [Adobe Fonts](https://fonts.adobe.com) (Typekit kit `qwi3qrw`, linked by `app/components/transdimension/head.rb`) and licensed through Adobe Fonts by the site owner. An installation serving a different site needs its own Adobe Fonts licence and kit.
+
+Illustrations by [Harry Woodgate](https://www.harrywoodgate.com/). Site design by [Squid](https://studiosquid.co.uk/).
