@@ -179,11 +179,7 @@ h2,
 h3,
 h4,
 h5,
-h6,
-h1.sans,
-.serif,
-h2.serif,
-.p--mega {
+h6 {
 	font-family: var(--font-sans);
 	color: inherit;
 }
@@ -256,7 +252,6 @@ a:not(.with-no-sass) {
 	font-weight: 600;
 }
 
-.btn--active,
 .btn:hover {
 	background-color: var(--color-tertiary);
 	color: var(--color-foreground);
@@ -306,6 +301,9 @@ select {
 .header__partner .header__menu {
 	order: 1;
 	flex-basis: 100%;
+	margin: 0;
+	padding: 0;
+	gap: 0.2rem;
 }
 
 /* The branding link inlines core's PlaceCal SVG (or a site logo upload), so the
@@ -328,12 +326,6 @@ select {
 .header__partner .header__toggle {
 	margin: 2rem 1rem;
 	color: var(--color-foreground);
-}
-
-.header__partner .header__menu {
-	margin: 0;
-	padding: 0;
-	gap: 0.2rem;
 }
 
 .header__partner .header__menu li {

@@ -251,7 +251,6 @@ main > .hero .hero__standfirst:has(+ .hero__standfirst-detail) {
    content sits in. Core has no single wrapper element, so the border goes on
    whichever container each route already provides; the per-route sections
    below name them. */
-.td-box,
 #events-browser:has(.paginator),
 #partner_previews {
 	background-color: var(--color-background);

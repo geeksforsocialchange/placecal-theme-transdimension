@@ -81,6 +81,7 @@
 	}
 
 	.td-footer__nav {
+		align-self: center;
 		padding: 1rem;
 		margin-bottom: 0;
 		max-width: 55%;
@@ -96,10 +97,6 @@
 
 	.td-footer__nav li {
 		margin: 0 0.55rem;
-	}
-
-	.td-footer__nav {
-		align-self: center;
 	}
 }
 

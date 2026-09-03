@@ -71,6 +71,12 @@ main:has(.td-home) {
 	background-repeat: no-repeat;
 	position: absolute;
 	z-index: -1;
+	/* The illustration bands are 100vw wide with the artwork centred; centring
+	   the pseudo-element on the viewport (sections are themselves centred)
+	   places the art exactly where Index.elm's full-bleed backgrounds sit,
+	   whatever the section's own margins are. */
+	left: 50%;
+	transform: translateX(-50%);
 }
 
 @media only screen and (min-width: 600px) {
@@ -913,14 +919,4 @@ main:has(.td-home) {
 	.td-news__image {
 		margin-top: 1rem;
 	}
-}
-
-/* The illustration bands are 100vw wide with the artwork centred; centring
-   the pseudo-element on the viewport (sections are themselves centred)
-   places the art exactly where Index.elm's full-bleed backgrounds sit,
-   whatever the section's own margins are. This replaced a set of hand-tuned
-   per-breakpoint negative margins, which have been removed. */
-.td-section::before {
-	left: 50%;
-	transform: translateX(-50%);
 }
