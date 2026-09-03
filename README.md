@@ -16,8 +16,10 @@ app/assets/builds/transdimension/  Built CSS, committed, served by Propshaft
 config/locales/en.yml              Theme strings, namespaced under transdimension.*
 config/locales/overrides.en.yml    Overrides of core strings, appended after core's locales
 content/                           Static page content
-goldens/                           Reference screenshots of the current live site
+doc/visual-diff/                   Region-by-region comparison against the live site
 ```
+
+The reference screenshots of the live site live in `goldens/`, which is gitignored: they are large PNGs of a site we do not own, and they are a working artifact rather than a deliverable. Recapture them locally with `bash goldens/capture.sh` (the script is kept alongside them, so it is local too). The durable record of the comparison is the tables in `doc/visual-diff/`, which are committed.
 
 There are deliberately no models, migrations, controllers or routes. Every visible string goes through `t()`.
 

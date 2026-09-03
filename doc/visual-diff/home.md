@@ -2,6 +2,8 @@
 
 Method: headless Chrome captures of http://transdimension.lvh.me:3031/ at 1250px (4000px tall) and at a true 390px (iframe harness), cut into 400px bands and stacked over `goldens/2026-09-02/home__wide.png` and `home__mobile.png`; geometry measured in px with ImageMagick column scans; computed styles checked with a temporary in-page script. Done by the coordinator on 2026-09-03.
 
+The goldens themselves are gitignored and live only in a local working copy (recapture with `bash goldens/capture.sh`); these tables are the record.
+
 Status: fixed = corrected in this pass; matches = no measurable difference; differs = remains, with a category (core slot, 4a deviation, data, capture, decision).
 
 | Region | Width(s) | Ours | Golden | Status | Category | Justification |
