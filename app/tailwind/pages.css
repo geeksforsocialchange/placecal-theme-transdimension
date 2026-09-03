@@ -21,10 +21,9 @@
    widen with the viewport, and the page wordmark centred above the title.
    Core's <main> is the same box, so it takes the same rules.
 
-   The illustration bands mainStyle paints (generic_header.png behind the title,
-   generic_footer.png under the content, the character cut-outs) are PNGs that
-   live in the Elm repo's public/images and are not in this engine, so they are
-   simply absent. They are art assets, not a core-markup problem.
+   The illustration bands mainStyle paints (generic_header.png behind the title
+   and generic_footer.png under the content) are in illustrations.css, which
+   also sets the title padding that holds the header band open.
 --------------------------------------------------------------------------- */
 
 main {
@@ -59,38 +58,10 @@ main {
 	}
 }
 
-/* PageTemplate.elm viewHeader puts the wordmark above every page title and
-   hides it below tablet portrait. Core has no element for it, so it goes on as
-   a decorative background; the strapline underneath is core's own hero kicker,
-   which happens to carry exactly TD's strapline copy.
-
-   The wordmark is the mobile-header artwork (pink and white), not the footer
-   one: the footer lockup paints "TRANS DIMENSION" in dark blue for its pink
-   band, which is invisible on the starfield. */
-main:not(:has(.td-home))::before {
-	content: "";
-	display: none;
-}
-
-@media only screen and (min-width: 600px) {
-	main:not(:has(.td-home))::before {
-		background-image: url("TDD_Logo_MobileHeader.svg");
-		background-position: center;
-		background-repeat: no-repeat;
-		background-size: contain;
-		display: block;
-		height: 105px;
-		margin: 2.5rem auto 1rem;
-		width: 268px;
-	}
-}
-
-@media only screen and (min-width: 900px) {
-	main:not(:has(.td-home))::before {
-		height: 120px;
-		width: 305px;
-	}
-}
+/* PageTemplate.elm viewHeader puts the wordmark above every page title. It is
+   drawn in illustrations.css, on the same pseudo-element as the header band it
+   sits inside; the page title's padding-top there is what holds the space open
+   under it. */
 
 /* PageTemplate.elm pageHeadingStyle. Core's Components::Hero is a coloured
    band with a kicker, a divider rule and the title; TD runs the starfield
@@ -112,17 +83,17 @@ main:not(:has(.td-home))::before {
 	display: none;
 }
 
-/* Global.elm smallTitleStyle. TD draws the strapline as part of the logo
-   lockup; core renders it as text, so it takes the small-title treatment and
-   sits where the lockup's strapline would be. */
+/* Global.elm screenReaderOnly. TD draws the strapline as part of the wordmark
+   artwork above, so core's text kicker would repeat it. It is moved off screen
+   rather than removed: it is the only copy of the strapline a screen reader can
+   reach, since the lockup is a background image. */
 .hero h4.allcaps {
-	color: var(--color-foreground);
-	font-size: 1rem;
-	font-weight: 700;
-	letter-spacing: 1.9px;
-	margin: 0;
-	text-align: center;
-	text-transform: uppercase;
+	height: 1px;
+	left: -10000px;
+	overflow: hidden;
+	position: absolute;
+	top: auto;
+	width: 1px;
 }
 
 .hero h1 {
@@ -279,6 +250,23 @@ main:not(:has(.td-home))::before {
    when the region is the current one. Core renders them as rounded Tailwind
    pills inside the breadcrumb, so the utilities are overridden here.
 --------------------------------------------------------------------------- */
+
+/* Both filter rows sit inside core's .paginator, whose legacy SCSS puts a 3rem
+   pill border on every list item it contains. TD draws the button on the link
+   itself, so the item goes back to being an undecorated box; without this the
+   pill shows through as a second, rounder outline behind each button. */
+.paginator .region-filter li,
+.paginator .day-strip li {
+	border-radius: 0;
+	border-width: 0;
+}
+
+.paginator .region-filter li.active,
+.paginator .region-filter li:has(a:hover),
+.paginator .day-strip li.active,
+.paginator .day-strip li:has(a:hover) {
+	background-color: transparent;
+}
 
 .region-filter {
 	margin: 0 auto 0.5rem;
@@ -579,13 +567,17 @@ h2.udl--fw {
 /* Events.elm eventDateStyle, eventDayStyle and eventMonthStyle. Core prints the
    whole date as one string ("2 Sep"), so the column is narrowed until the month
    wraps and ::first-line gives the day number its own size and colour. A real
-   day/month split is the core slot this approximates (doc/core-slots-needed.md). */
-.events .event__date {
+   day/month split is the core slot this approximates (doc/core-slots-needed.md).
+
+   The element carries both .event__detail and .event__date, and the paragraph
+   rule below paints every detail white, so the month keeps its pink by naming
+   both classes rather than by winning on order. */
+.events .event__detail.event__date {
 	align-self: start;
 	color: var(--color-primary);
 	display: block;
 	font-size: 1.2rem;
-	font-weight: 700;
+	font-weight: 900;
 	grid-column: 1;
 	grid-row: 1 / span 4;
 	letter-spacing: 1.9px;
@@ -594,16 +586,18 @@ h2.udl--fw {
 	text-transform: uppercase;
 }
 
-.events .event__date::first-line {
+/* eventDayStyle: white, one step off the type scale, line-height 1em, and no
+   weight of its own, so it drops back to the body 400 the month raises. */
+.events .event__detail.event__date::first-line {
 	color: var(--color-foreground);
 	font-size: 2.5rem;
 	font-weight: 400;
 	letter-spacing: normal;
-	line-height: 1.1;
+	line-height: 1;
 }
 
 @media only screen and (min-width: 600px) {
-	.events .event__date::first-line {
+	.events .event__detail.event__date::first-line {
 		font-size: 3.1222rem;
 	}
 }
@@ -658,7 +652,7 @@ h2.udl--fw {
 		color: var(--color-primary);
 	}
 
-	.events .event:hover .event__date {
+	.events .event:hover .event__detail.event__date {
 		color: var(--color-foreground);
 	}
 }
@@ -787,10 +781,8 @@ main > div:not([vocab]) > .hero h1 {
 	}
 }
 
-/* The kicker is the site strapline, which TD does not repeat inside the panel. */
-main > div:not([vocab]) > .hero h4.allcaps {
-	display: none;
-}
+/* The kicker is the site strapline, which TD does not repeat inside the panel;
+   the shared .hero h4.allcaps rule above already moves it off screen. */
 
 /* Event.elm: the date, times and organiser sit centred under the panel, the
    date in TD's small-title treatment and the times in pink beneath it. */
@@ -1360,10 +1352,6 @@ main > div[vocab] > .hero h1 {
 		font-size: 2.5rem;
 		line-height: 3.1rem;
 	}
-}
-
-main > div[vocab] > .hero h4.allcaps {
-	display: none;
 }
 
 .article__published,

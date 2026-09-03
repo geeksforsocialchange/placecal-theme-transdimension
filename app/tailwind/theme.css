@@ -426,3 +426,5 @@ select {
 @import "./pages.css";
 /* The theme's own footer component (WP 2.9). */
 @import "./footer.css";
+/* Decorative artwork on the inner pages (WP 2.10). */
+@import "./illustrations.css";

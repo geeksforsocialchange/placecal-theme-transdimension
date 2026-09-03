@@ -1,0 +1,192 @@
+/* Decorative illustrations for the Trans Dimension theme (#3368 D4, WP 2.10).
+
+   PageTemplate.elm scatters Harry Woodgate's artwork around every page that is
+   not the homepage: generic_header.png behind the page title (planets, a clock,
+   an hourglass, constellations, a book, a spiral galaxy) and generic_footer.png
+   under the content box (a rocket, a planet, a comet-like nebula). Both are
+   painted as 100vw background images on pseudo-elements at z-index -1, so
+   nothing here is in the tab order or read out.
+
+   The numbers are Elm's, not approximations:
+
+   - the header band is pageHeadingStyle's ::before plus pageHeadingGenericStyle,
+     which also owns the page title's padding-top, because TD's wordmark is
+     absolutely positioned and the title's padding is what holds the space open
+     under it;
+   - the wordmark is viewHeader's headerLogoStyle, 50px down from the top of the
+     page column and 268px wide (305px from tablet landscape up);
+   - the footer band is mainStyle's ::after.
+
+   Each PNG is exactly twice its background-size wide, so a band's height is
+   simply the image height at that size, and the size steps with the viewport:
+   420px of the 320px file, 900px of the 768px file, 1200px of the 1024px file,
+   1366px of the 1366px file and 1920px of the 1920px file.
+
+   The horizontal inset cancels <main>'s own margin so a band starts at the left
+   edge of the viewport at every width; from 1200px up, where main is a centred
+   1150px column, that is Elm's calc(-50vw - -575px).
+
+   Elm draws the wordmark and the band as two elements. Here they are two
+   background layers of one, because <main> has only ::before and ::after to
+   give and the footer band needs the second: the band is the box, and the
+   wordmark is laid on top of it at the offset Elm gives the logo. That also
+   keeps the artwork off the page's own elements, so it lands in the same place
+   on the listing pages (which have a title on the starfield), the show pages
+   (which do not) and the static markdown pages.
+
+   The bands are the same on every inner page. TD gives /about its own header
+   file (about_1_header.png, the generic band plus a character) and a set of
+   section illustrations, but nothing in core's markup says which static page is
+   being rendered, so /about takes the generic band with the rest. That missing
+   route hook is recorded in doc/core-slots-needed.md.
+*/
+
+/* The bands are exactly one viewport wide, so they never overflow on their own;
+   clip rather than scroll when a scrollbar narrows the content box. */
+body {
+	overflow-x: clip;
+}
+
+main:not(:has(.td-home)) {
+	/* The show pages hold their space open with a margin (see the last rule in
+	   this file). Without a formatting context of its own that margin collapses
+	   out through the top of <main> and carries the bands, which are positioned
+	   against <main>, down the page with it. */
+	display: flow-root;
+
+	--td-band-header: url("illustrations/320px/generic_header.png");
+	--td-band-header-size: 420px;
+	--td-band-header-height: 240px;
+	--td-band-header-top: -130px;
+	--td-band-footer: url("illustrations/320px/generic_footer.png");
+	--td-band-footer-size: 420px;
+	--td-band-footer-height: 230px;
+	--td-band-footer-bottom: -180px;
+	--td-band-inset: -0.75rem;
+
+	/* headerLogoStyle: hidden below tablet portrait, where the site header
+	   carries its own wordmark. */
+	--td-wordmark: none;
+	--td-wordmark-size: 0 0;
+
+	/* pageHeadingGenericStyle's padding-top, and the whole title block (that
+	   padding plus the title's own line and padding-bottom) for the pages that
+	   have no title on the starfield to hold the space open. */
+	--td-title-padding-top: 2rem;
+	--td-title-block: 80px;
+}
+
+@media only screen and (min-width: 600px) {
+	main:not(:has(.td-home)) {
+		--td-band-header: url("illustrations/768px/generic_header.png");
+		--td-band-header-size: 900px;
+		--td-band-header-height: 432px;
+		--td-band-header-top: -75px;
+		--td-band-footer: url("illustrations/768px/generic_footer.png");
+		--td-band-footer-size: 900px;
+		--td-band-footer-height: 200px;
+		--td-band-footer-bottom: -165px;
+		--td-band-inset: -2rem;
+		--td-wordmark: url("tdd_logo_with_strapline.svg");
+		--td-wordmark-size: 268px auto;
+		--td-title-padding-top: 250px;
+		--td-title-block: 306px;
+	}
+}
+
+@media only screen and (min-width: 900px) {
+	main:not(:has(.td-home)) {
+		--td-band-header: url("illustrations/1024px/generic_header.png");
+		--td-band-header-size: 1200px;
+		--td-band-header-height: 499px;
+		--td-band-header-top: -100px;
+		--td-band-footer: url("illustrations/1024px/generic_footer.png");
+		--td-band-footer-size: 1200px;
+		--td-band-footer-height: 280px;
+		--td-band-footer-bottom: -200px;
+		--td-band-inset: -1.5rem;
+		--td-wordmark-size: 305px auto;
+		--td-title-padding-top: 275px;
+		--td-title-block: 350px;
+	}
+}
+
+@media only screen and (min-width: 1200px) {
+	main:not(:has(.td-home)) {
+		--td-band-header: url("illustrations/1366px/generic_header.png");
+		--td-band-header-size: 1366px;
+		--td-band-header-height: 486px;
+		--td-band-footer: url("illustrations/1366px/generic_footer.png");
+		--td-band-footer-size: 1366px;
+		--td-band-footer-height: 200px;
+		--td-band-footer-bottom: -180px;
+		--td-band-inset: calc(-50vw - -575px);
+	}
+}
+
+@media only screen and (min-width: 1500px) {
+	main:not(:has(.td-home)) {
+		--td-band-header: url("illustrations/1920px/generic_header.png");
+		--td-band-header-size: 1920px;
+		--td-band-header-height: 846px;
+		--td-band-footer: url("illustrations/1920px/generic_footer.png");
+		--td-band-footer-size: 1920px;
+		--td-band-footer-height: 250px;
+		--td-band-footer-bottom: -220px;
+	}
+}
+
+/* Header band and wordmark. The band's own top is Elm's offset from the page
+   title, which starts at the top of the page column, so the wordmark's 50px
+   becomes that much further down inside the band. */
+main:not(:has(.td-home))::before {
+	background-image: var(--td-wordmark), var(--td-band-header);
+	background-position:
+		center calc(50px - var(--td-band-header-top)),
+		center top;
+	background-repeat: no-repeat;
+	background-size: var(--td-wordmark-size), var(--td-band-header-size);
+	content: "";
+	display: block;
+	height: var(--td-band-header-height);
+	margin: 0 var(--td-band-inset);
+	position: absolute;
+	top: var(--td-band-header-top);
+	width: 100vw;
+	z-index: -1;
+}
+
+/* Footer band, mainStyle's ::after. main already carries the bottom margin the
+   band hangs into. */
+main:not(:has(.td-home))::after {
+	background-image: var(--td-band-footer);
+	background-position: center top;
+	background-repeat: no-repeat;
+	background-size: var(--td-band-footer-size);
+	bottom: var(--td-band-footer-bottom);
+	content: "";
+	display: block;
+	height: var(--td-band-footer-height);
+	margin: 0 var(--td-band-inset);
+	position: absolute;
+	width: 100vw;
+	z-index: -1;
+}
+
+/* pageHeadingGenericStyle's padding-top on each of the three elements core uses
+   for a page title: the hero h1 on the listing pages, h1.h1 on the static
+   markdown pages and .hero-title on the directory pages. */
+main:not(:has(.td-home)) > .hero h1,
+main:not(:has(.td-home)) > section.bg-foreground .hero-title,
+main:not(:has(.td-home)) > .container-public > h1.h1 {
+	padding-top: var(--td-title-padding-top);
+}
+
+/* The show pages put the item name in a pink panel and the section name
+   ("Events", "Partners", "News") on the starfield above it. Core renders no
+   section name (doc/core-slots-needed.md), so there is no title to hold the
+   band open, so the block the panel opens takes the whole title block as a
+   margin instead. */
+main:not(:has(.td-home)) > div:has(> .hero) {
+	margin-top: var(--td-title-block);
+}
