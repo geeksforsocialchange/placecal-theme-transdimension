@@ -79,6 +79,14 @@ main {
 	padding-inline: 0;
 }
 
+/* The listing content box is exactly as wide as the intro panel above it
+   (PageTemplate.elm puts both inside one contentWrapperStyle), so the
+   container core wraps it in gives up its own gutter to <main>. */
+main > .container-public {
+	max-width: none;
+	padding-inline: 0;
+}
+
 .hero__divider {
 	display: none;
 }
@@ -153,7 +161,7 @@ main {
 	.hero__standfirst {
 		font-size: 2.5rem;
 		line-height: 3.1rem;
-		padding-block: 2.125rem;
+		padding-block: 2rem;
 		padding-inline: max(2rem, calc((100% - 838px) / 2));
 	}
 }
@@ -165,6 +173,27 @@ main {
 	border-bottom-left-radius: 0;
 	border-bottom-right-radius: 0;
 	padding-bottom: 0.5rem;
+}
+
+/* PageTemplate.elm view: the intro panel and the content box are both inside
+   one contentWrapperStyle border, so the pink rule runs up the side of the box
+   and behind the panel. Core renders them as siblings, so the panel carries the
+   top and sides of that border itself (pink on pink, so only the join shows)
+   and the box below drops its own top edge. */
+main > .hero .hero__standfirst,
+main > .hero .hero__standfirst-detail {
+	border-inline: 1px solid var(--color-primary);
+	border-radius: 0.3rem 0.3rem 0 0;
+	border-top: 1px solid var(--color-primary);
+}
+
+main > .hero .hero__standfirst-detail {
+	border-radius: 0;
+	border-top: 0;
+}
+
+main > .hero .hero__standfirst:has(+ .hero__standfirst-detail) {
+	border-bottom: 0;
 }
 
 .hero__standfirst-detail {
@@ -206,6 +235,19 @@ main {
 	border-radius: 0.3rem;
 	box-sizing: border-box;
 	display: block;
+}
+
+/* ...and the top of that border belongs to the intro panel, which sits flush
+   on it with no seam. */
+main > .hero:has(.hero__standfirst) + * #events-browser:has(.paginator),
+main > .hero:has(.hero__standfirst) + #partner_previews {
+	border-radius: 0 0 0.3rem 0.3rem;
+	border-top: 0;
+	/* flow-root, not block: without a top border there is nothing to stop the
+	   first child's top margin collapsing out of the box and opening a seam
+	   under the panel. */
+	display: flow-root;
+	margin-top: 0;
 }
 
 /* Global.elm contentContainerStyle: the inset the box's contents keep. The
@@ -1844,4 +1886,40 @@ textarea.join-control {
 .join-email-link:hover {
 	background: none;
 	color: var(--color-primary);
+}
+
+/* Detail pass (WP 2.12, coordinator): row-aligned two-column grids, bold
+   italic partner names, organiser prefix spacing. Core's `two-col` utility
+   lays the partner list out in CSS columns, which lets rows drift; the grid
+   below replaces it so both columns share row tops as in Partners.elm. */
+.partners.two-col {
+	column-count: auto;
+	columns: auto;
+	display: grid;
+	align-items: start;
+}
+
+.events {
+	align-items: start;
+}
+
+.partners .preview h3,
+.partners .preview h3 a {
+	font-weight: 700;
+}
+
+.partners .preview .preview__header {
+	display: flex;
+	align-items: flex-start;
+	justify-content: space-between;
+	gap: 0.75rem;
+}
+
+.event__organiser-prefix {
+	margin-right: 0.3em;
+}
+
+.partners.two-col > li {
+	margin-top: 0;
+	break-inside: auto;
 }

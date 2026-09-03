@@ -48,7 +48,7 @@
 	text-align: center;
 	font-weight: 600;
 	margin: 0.5rem;
-	font-size: 1.1rem;
+	font-size: 1.0625rem;
 }
 
 /* Core's a:not(.with-no-sass) rule paints every link white with a pink
@@ -92,7 +92,7 @@
 	}
 
 	.td-footer__nav li {
-		margin: 0 0.5rem;
+		margin: 0 0.85rem;
 	}
 }
 
@@ -305,4 +305,14 @@
 .td-footer__login a,
 .td-footer__login a:not(.with-no-sass) {
 	text-decoration-line: underline;
+}
+
+/* Detail pass (WP 2.12): PageFooter.elm keeps one line of space between the
+   charity block and the credits block. */
+.td-footer__legal .td-footer__block {
+	margin-block: 1rem;
+}
+
+.td-footer__legal .td-footer__block + .td-footer__block {
+	margin-top: 1.25rem;
 }

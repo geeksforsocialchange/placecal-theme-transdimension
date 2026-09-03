@@ -14,6 +14,18 @@ en:
           title: "Events"
           page_title: "Events"
           standfirst: "Upcoming events & activities for you."
+        # Events.elm prints the day zero-padded ("02") over an uppercase month,
+        # and prefixes the organiser with "by".
+        card:
+          date_format: "%d %b"
+          date_format_with_year: "%d %b %Y"
+          organiser_prefix: "by "
+        # Paginator.elm labels the day buttons "Fri 04 Sep" and calls the
+        # unfiltered listing "Future events".
+        filter:
+          day_strip:
+            date_format: "%a %d %b"
+            all_upcoming: "Future events"
       partners:
         index:
           title: "Partners"

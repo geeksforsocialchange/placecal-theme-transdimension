@@ -358,19 +358,20 @@ select {
 	letter-spacing: normal;
 	text-decoration: none;
 	display: block;
-	border-bottom: 0.2rem solid var(--color-primary);
+	border-bottom: 3px solid var(--color-primary);
 	transition:
 		border-color 300ms,
 		color 300ms;
 }
 
-/* Core draws the current-page marker with an ::after bar; TD underlines the
-   link itself. */
+/* Core draws the current-page marker with an ::after bar of its own width; TD
+   underlines the link itself, so the bar goes and the border does the work.
+   Core marks the current link with aria-current, not a class. */
 .header__partner .header__menu a::after {
 	display: none;
 }
 
-.header__partner .header__menu a.active {
+.header__partner .header__menu a[aria-current] {
 	border-bottom-color: var(--color-background);
 }
 
@@ -403,14 +404,25 @@ select {
 		justify-content: flex-start;
 		padding-left: 0.5rem;
 		margin: 0;
+		/* the whole gap between links is navigationListItemStyle's own
+		   padding2 (rem 1) (rem 0.75); core's flex gap would add to it */
+		gap: 0;
 	}
 
+	/* navigationListItemStyle: padding2 (rem 1) (rem 0.75). The vertical half
+	   is split between the li and the link so the current-page rule can sit
+	   clear of the text and still leave an even band below it. */
 	.header__partner .header__menu li {
-		padding: 1rem 0.75rem;
+		padding: 25px 12px 23px;
 		margin: 0;
 		align-self: center;
 		flex-grow: 0;
 		font-size: 1.1rem;
+	}
+
+	.header__partner .header__menu a {
+		line-height: 24px;
+		padding-bottom: 3px;
 	}
 }
 
