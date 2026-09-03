@@ -9,3 +9,24 @@ en:
           join: "Join us"
       region_filter:
         all: "Everywhere"
+      # Listing page titles and intro panels (the hero standfirst slot, #3368
+      # D1). Copy is TD's own, from transdimension.* below: the title sits on
+      # the starfield and the standfirst becomes the pink intro panel.
+      events:
+        index:
+          title: "Events"
+          page_title: "Events"
+          standfirst: "Upcoming events & activities for you."
+      partners:
+        index:
+          title: "Partners"
+          page_title: "Partners"
+          # The Elm page splits this across a large intro line and a smaller
+          # paragraph under it. Core's hero takes a single standfirst string,
+          # so both sentences ride in one paragraph here.
+          standfirst: "The Trans Dimension is a partnership of grassroots groups and charities with a track record of supporting the trans community. All of our partners are explicitly trans-friendly organisations. Some are led by trans people, and some led by friends and allies. They put on events, provide services and offer support for members of our community."
+      news:
+        index:
+          title: "News"
+          page_title: "News"
+          standfirst: "Updates & articles from our partners."

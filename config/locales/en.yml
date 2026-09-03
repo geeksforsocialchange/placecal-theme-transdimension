@@ -22,6 +22,12 @@ en:
       insta_link: "https://www.instagram.com/genderedintelligence/"
       twitter_link: "https://twitter.com/genderintell"
       facebook_link: "https://www.facebook.com/GenderedIntelligence"
+      # Alt text for the icon and logo links. The Elm site draws these as inline
+      # SVG with an aria-label; here they are <img> tags, so they need alt.
+      insta_alt: "The Trans Dimension on Instagram"
+      twitter_alt: "The Trans Dimension on Twitter"
+      facebook_alt: "The Trans Dimension on Facebook"
+      gfsc_alt: "Geeks for Social Change"
       byline: "Created by"
       info_title: "The Trans Dimension, c/o Gendered Intelligence"
       info_charity: "Gendered Intelligence is a Registered Charity in England and Wales No. 1182558."

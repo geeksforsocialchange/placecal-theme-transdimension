@@ -27,6 +27,7 @@ module Transdimension
         theme.stylesheet 'transdimension/theme'
         theme.homepage_view 'Transdimension::Views::Home'
         theme.head 'Transdimension::Components::Head'
+        theme.footer 'Transdimension::Components::Footer'
         theme.event_filter_style :day_strip
       end
     end
