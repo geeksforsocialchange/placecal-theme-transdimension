@@ -2213,3 +2213,10 @@ main > div[vocab] .article__content {
 	flex-shrink: 0;
 	white-space: nowrap;
 }
+
+/* Leaflet zoom controls: core colours the glyphs with the foreground token,
+   which TD sets to white, so they vanished on the white buttons. */
+.leaflet-bar a,
+.leaflet-control-zoom a {
+	color: var(--color-home-background);
+}

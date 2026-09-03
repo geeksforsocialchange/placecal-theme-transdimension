@@ -4,6 +4,10 @@
 en:
   theme_overrides:
     transdimension:
+      # Kim (2026-09-03): keep TD's nav wording for consistency with the design
+      navigation:
+        site:
+          join: "Join us"
       region_filter:
         all: "Everywhere"
       # Listing page titles and intro panels (the hero standfirst slot, #3368
