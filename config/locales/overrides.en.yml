@@ -18,10 +18,8 @@ en:
         index:
           title: "Partners"
           page_title: "Partners"
-          # The Elm page splits this across a large intro line and a smaller
-          # paragraph under it. Core's hero takes a single standfirst string,
-          # so both sentences ride in one paragraph here.
-          standfirst: "The Trans Dimension is a partnership of grassroots groups and charities with a track record of supporting the trans community. All of our partners are explicitly trans-friendly organisations. Some are led by trans people, and some led by friends and allies. They put on events, provide services and offer support for members of our community."
+          standfirst: "The Trans Dimension is a partnership of grassroots groups and charities with a track record of supporting the trans community."
+          standfirst_detail: "All of our partners are explicitly trans-friendly organisations. Some are led by trans people, and some led by friends and allies. They put on events, provide services and offer support for members of our community."
       news:
         index:
           title: "News"

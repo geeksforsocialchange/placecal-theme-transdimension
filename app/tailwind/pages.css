@@ -159,14 +159,39 @@ main {
 }
 
 /* Partners.elm sets its intro as one large line plus a smaller paragraph under
-   it. Core's hero carries a single standfirst string, so both sentences share
-   one paragraph (see config/locales/overrides.en.yml); at the large size that
-   fills most of a screen, so the partners panel steps the type back down to the
-   tablet-portrait size. A second, small standfirst slot in core would let this
-   rule go and the panel match the golden exactly. */
-.hero:has(+ turbo-frame#partner_previews) .hero__standfirst {
-	font-size: 1.9rem;
-	line-height: 2.3rem;
+   it. Core's hero renders the second paragraph as .hero__standfirst-detail; it
+   continues the same pink panel in body type. */
+.hero__standfirst:has(+ .hero__standfirst-detail) {
+	border-bottom-left-radius: 0;
+	border-bottom-right-radius: 0;
+	padding-bottom: 0.5rem;
+}
+
+.hero__standfirst-detail {
+	background-color: var(--color-primary);
+	border-radius: 0 0 0.3rem 0.3rem;
+	box-sizing: border-box;
+	color: var(--color-foreground-dark);
+	font-size: 1rem;
+	line-height: 1.5rem;
+	margin: 0;
+	padding: 0 1.25rem 1.5rem;
+	text-align: center;
+}
+
+@media only screen and (min-width: 600px) {
+	.hero__standfirst-detail {
+		padding: 0 3rem 2rem;
+	}
+}
+
+@media only screen and (min-width: 900px) {
+	.hero__standfirst-detail {
+		font-size: 1.15rem;
+		line-height: 1.7rem;
+		padding-inline: max(2rem, calc((100% - 838px) / 2));
+		padding-bottom: 2.125rem;
+	}
 }
 
 /* Global.elm contentWrapperStyle: the pink-bordered dark box every page's
