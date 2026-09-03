@@ -64,11 +64,18 @@ class Transdimension::Components::Footer < Components::Base
   # PageFooter.elm lists Events, Partners, News, About, Privacy, Join us. The
   # first four come from the site's derived navigation (D6) minus Home, so a
   # site with no news or no About page simply lists fewer; Privacy is core's
-  # own route and goes second to last, with Join us kept at the end.
+  # own route and goes second to last. The theme keeps Join out of the main
+  # nav (nav_join false), so the footer adds it here when the site takes
+  # enquiries.
   def nav_links
-    links = @navigation.reject { |_label, path| path_root?(path) }
-    join, rest = links.partition { |_label, path| path_join?(path) }
-    rest + [[t('navigation.site.privacy'), privacy_path]] + join
+    links = @navigation.reject { |_label, path| path_root?(path) || path_join?(path) }
+    links + [[t('navigation.site.privacy'), privacy_path]] + join_link
+  end
+
+  def join_link
+    return [] if @site&.contact_email.blank?
+
+    [[t('navigation.site.join'), get_in_touch_path]]
   end
 
   def path_root?(path)

@@ -1751,6 +1751,28 @@ main > .container-public > h1.h1 {
    fields to a row from tablet portrait up, and a centred pink submit button.
 --------------------------------------------------------------------------- */
 
+/* Partners.elm / Events.elm: the "ALL PARTNERS" style heading between the
+   intro panel and the list, from core's list heading slot. */
+.list-heading {
+	color: var(--color-foreground);
+	font-size: 1.6rem;
+	font-weight: 700;
+	letter-spacing: 0.05em;
+	line-height: 1.2;
+	margin: 0 0 1rem;
+	padding-top: 2rem;
+	text-align: center;
+	text-transform: uppercase;
+}
+
+@media only screen and (min-width: 900px) {
+	.list-heading {
+		font-size: 2.2rem;
+		margin-bottom: 1.5rem;
+		padding-top: 3rem;
+	}
+}
+
 /* Global.elm textBoxPinkStyle. Core's opening paragraph is the copy TD puts in
    the panel; TD's heading above it has no core equivalent. */
 main > .container-editorial > .join-note {
