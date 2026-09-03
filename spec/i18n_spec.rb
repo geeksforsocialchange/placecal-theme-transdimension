@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe 'Trans Dimension i18n' do # rubocop:disable Metrics/BlockLength
+describe 'Trans Dimension i18n' do
   let(:core_locale_path) do
     File.expand_path('../../PlaceCal/config/locales', __dir__)
   end
@@ -29,7 +29,7 @@ describe 'Trans Dimension i18n' do # rubocop:disable Metrics/BlockLength
     end
   end
 
-  describe 'transdimension keys' do # rubocop:disable Metrics/BlockLength
+  describe 'transdimension keys' do
     let(:en_locale) do
       YAML.load_file(
         File.expand_path('../config/locales/en.yml', __dir__)
@@ -59,46 +59,6 @@ describe 'Trans Dimension i18n' do # rubocop:disable Metrics/BlockLength
         key_path.split('.').each { |part| value = value[part] }
         expect(value).to be_present, "Key transdimension.#{key_path} is blank"
       end
-    end
-
-    # The file holds only what the theme itself renders: copy that replaces a
-    # core string lives in overrides.en.yml. Name the keys rather than counting
-    # them, so a key deleted out from under a view fails here.
-    it 'carries every key the footer component reads' do
-      footer_keys = %w[
-        social byline gfsc_alt info_title credit_title copyright powered_by
-        insta_link twitter_link facebook_link insta_alt twitter_alt facebook_alt
-        info_charity info_company info_office
-        credit_1_text credit_1_name credit_1_link
-        credit_2_text credit_2_name credit_2_link
-        credit_3_text credit_3_name credit_3_link
-      ]
-      expect(en_locale['transdimension']['footer'].keys).to match_array(footer_keys)
-    end
-
-    it 'carries every key the homepage view and its cards read' do
-      home_keys = %w[
-        meta_title meta_description logo_alt intro_title intro_message
-        intro_button events_header events_button events_empty event_by
-        news_header news_button news_read_more
-      ]
-      expect(en_locale['transdimension']['home'].keys).to match_array(home_keys)
-    end
-
-    it 'carries the keys the page views and the theme registration read' do
-      expect(en_locale['transdimension']['about'].keys)
-        .to match_array(%w[title accessibility makers gi gfsc placecal])
-      expect(en_locale['transdimension']['privacy'].keys).to match_array(%w[title subtitle])
-      expect(en_locale['transdimension']['nav'].keys).to match_array(%w[about])
-      expect(en_locale['transdimension']['site'].keys).to match_array(%w[title description])
-      expect(en_locale['transdimension']['header'].keys).to match_array(%w[donate donate_url])
-      expect(en_locale['transdimension']['external'].keys)
-        .to match_array(%w[gfsc_home gendered_intelligence_home gendered_intelligence_name])
-    end
-
-    it 'holds no keys beyond those groups' do
-      expect(en_locale['transdimension'].keys)
-        .to match_array(%w[site external nav header footer home about privacy])
     end
   end
 
@@ -130,10 +90,10 @@ describe 'Trans Dimension i18n' do # rubocop:disable Metrics/BlockLength
 
     it 'applies the overrides only for sites on this theme' do
       helper = Class.new { include PlaceCal::ThemeTranslation }.new
-      Current.site = build(:site, theme: 'transdimension')
+      Current.theme = PlaceCal::Theme.for(build(:site, theme: 'transdimension'))
       expect(helper.t('navigation.site.join')).to eq('Join us')
       expect(helper.t('region_filter.all')).to eq('Everywhere')
-      Current.site = build(:site, theme: 'pink')
+      Current.theme = PlaceCal::Theme.for(build(:site, theme: 'pink'))
       expect(helper.t('region_filter.all')).to eq('All')
     ensure
       Current.reset

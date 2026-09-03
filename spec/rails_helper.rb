@@ -49,6 +49,13 @@ rescue ActiveRecord::PendingMigrationError => e
   abort e.to_s.strip
 end
 
+# Core leaves config.action_view.raise_on_missing_translations commented out in
+# its test environment, so a key deleted out from under a view would render as a
+# humanised placeholder and every example would still pass. Raise instead: the
+# render specs then catch a missing key at the point of use, including the keys
+# built at runtime (footer.<name>_link, credit_<n>_text).
+I18n.exception_handler = ->(exception, *_args) { raise exception }
+
 RSpec.configure do |config|
   config.fixture_paths = [PLACECAL_CORE.join('spec/fixtures')]
   config.use_transactional_fixtures = true
@@ -58,7 +65,6 @@ RSpec.configure do |config|
   config.include FactoryBot::Syntax::Methods
   # Core's helper for rendering a Phlex view or component on its own.
   config.include PhlexTestHelper, type: :component
-  config.include PhlexTestHelper, type: :phlex
   config.include Devise::Test::IntegrationHelpers, type: :request
 
   # Core freezes time in its own suite; match it so shared factories behave.

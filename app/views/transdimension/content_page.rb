@@ -17,20 +17,14 @@ class Transdimension::Views::ContentPage < Views::Base
   CONTENT_DIR = Transdimension::Engine.root.join('content')
 
   class << self
-    # Rendered HTML per markdown file, keyed on the file's mtime so a content
-    # edit in development is picked up without re-parsing every request in
-    # production. Read and written only through ContentPage, so the two page
-    # views share one cache.
+    # Rendered HTML per markdown file, keyed on the file and its mtime so a
+    # content edit in development is picked up without re-parsing every request
+    # in production. A superseded entry is left behind rather than evicted,
+    # which is bounded by the edits in one dev session. Read and written only
+    # through ContentPage, so the two page views share one cache.
     def markdown_html(relative_path)
       path = CONTENT_DIR.join(relative_path)
-      mtime = File.mtime(path)
-      cache = (@markdown_cache ||= {})
-      cached = cache[relative_path]
-      return cached[:html] if cached && cached[:mtime] == mtime
-
-      html = render_markdown(File.read(path))
-      cache[relative_path] = { mtime: mtime, html: html }
-      html
+      (@markdown_cache ||= {})[[relative_path, File.mtime(path)]] ||= render_markdown(path.read)
     end
 
     private

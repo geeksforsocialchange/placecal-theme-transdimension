@@ -124,36 +124,10 @@ namespace :transdimension do
 
     Rails.application.routes.default_url_options = original_url_options
 
-    puts "\n"
-    puts ''
-    puts 'RESULTS:'
-    puts '=' * 120
-
-    # Group by verdict
+    # Group by verdict for the report's summary table. The report file is the
+    # output that matters; the console just names it.
     by_verdict = results.group_by { |r| r[:verdict] }
     counts = ->(key) { by_verdict[key]&.length || 0 }
-
-    puts ''
-    puts 'Summary:'
-    puts "  OK: #{counts.call('OK')}"
-    puts "  NO DEV DATA: #{counts.call('NO DEV DATA')}"
-    puts "  MISSING: #{counts.call('MISSING')}"
-    puts "  NO ROUTE: #{counts.call('NO ROUTE')}"
-    puts "  CHECK FAILED: #{counts.call('CHECK FAILED')}"
-
-    puts ''
-    puts 'Issues found:'
-    (by_verdict['MISSING'] || []).each do |r|
-      puts "  MISSING: #{r[:path]} (route: #{r[:route]}, TD: #{r[:td_status]}, PC: #{r[:pc_status]}, DEV: #{r[:dev_status]})"
-    end
-
-    (by_verdict['NO ROUTE'] || []).each do |r|
-      puts "  NO ROUTE: #{r[:path]}"
-    end
-
-    (by_verdict['CHECK FAILED'] || []).each do |r|
-      puts "  CHECK FAILED: #{r[:path]}"
-    end
 
     # Write markdown table
     output_dir = ENV.fetch('AUDIT_OUTPUT_DIR', 'doc/audits')

@@ -14,99 +14,92 @@ namespace :transdimension do
     site_slug = args[:site_slug].presence || ENV.fetch('TD_SITE_SLUG', 'trans-dimension')
     site = Site.find_by(slug: site_slug)
 
-    failures = []
-    warnings = []
-
-    # Check: site exists and is published
     if site.nil?
-      failures << "FAIL: Site with slug '#{site_slug}' not found"
-    else
-      if site.is_published
-        puts 'PASS: Site exists and is published'
-      else
-        failures << 'FAIL: Site is not published'
-      end
-
-      # Check: URL present and starts with https://
-      if site.url.present? && site.url.start_with?('https://')
-        puts "PASS: URL is present and uses HTTPS (#{site.url})"
-      else
-        failures << 'FAIL: URL is missing or does not start with https://'
-      end
-
-      # Check: theme is transdimension
-      if site.theme == 'transdimension'
-        puts 'PASS: Theme is set to transdimension'
-      else
-        failures << "FAIL: Theme is '#{site.theme}', expected 'transdimension'"
-      end
-
-      # Check: Partnership tags include London and Manchester
-      tag_names = site.tags.where(type: 'Partnership').pluck(:name, :id)
-      london_tag = tag_names.find { |name, _id| name.casecmp('london').zero? }
-      manchester_tag = tag_names.find { |name, _id| name.casecmp('manchester').zero? }
-
-      if london_tag && manchester_tag
-        _, london_id = london_tag
-        _, manchester_id = manchester_tag
-        puts "PASS: Partnership tags include London (id: #{london_id}) and Manchester (id: #{manchester_id})"
-      else
-        missing = []
-        missing << 'London' unless london_tag
-        missing << 'Manchester' unless manchester_tag
-        failures << "FAIL: Missing partnership tags: #{missing.join(', ')}"
-      end
-
-      # Check: contact_email present and valid
-      if site.contact_email.present?
-        if site.contact_email.match?(URI::MailTo::EMAIL_REGEXP)
-          puts "PASS: Contact email is present and valid (#{site.contact_email})"
-        else
-          failures << "FAIL: Contact email format is invalid (#{site.contact_email})"
-        end
-      else
-        failures << 'FAIL: Contact email is not set'
-      end
-
-      # Check: site admin present
-      if site.site_admin.present?
-        puts "PASS: Site admin is set (#{site.site_admin.display_name})"
-      else
-        failures << 'FAIL: Site admin is not set'
-      end
-
-      # Check: logo present
-      if site.logo.present? && site.logo.file.present?
-        puts 'PASS: Logo is present'
-      else
-        failures << 'FAIL: Logo is not present'
-      end
-
-      # Check: hero image present
-      if site.hero_image.present? && site.hero_image.file.present?
-        puts 'PASS: Hero image is present'
-      else
-        failures << 'FAIL: Hero image is not present'
-      end
-
-      # Check: neighbourhoods empty (warn if any are present)
-      if site.neighbourhoods.any?
-        neighbourhood_names = site.neighbourhoods.pluck(:name).join(', ')
-        warnings << "WARN: Site has neighbourhoods (expected none): #{neighbourhood_names}"
-      else
-        puts 'PASS: No neighbourhoods configured (as expected)'
-      end
-
-    end
-
-    # Print warnings
-    warnings.each { |warning| puts warning }
-
-    # Print failures and exit with error code if any exist
-    if failures.any?
-      failures.each { |failure| puts failure }
+      puts "FAIL: Site with slug '#{site_slug}' not found"
       exit(1)
     end
+
+    # Each check returns one line, prefixed PASS, WARN or FAIL. Anything that
+    # comes back FAIL exits the task non-zero; a WARN is for the operator to
+    # look at without blocking the deploy.
+    checks = [
+      -> { site.is_published ? 'PASS: Site exists and is published' : 'FAIL: Site is not published' },
+      lambda {
+        if site.url.present? && site.url.start_with?('https://')
+          "PASS: URL is present and uses HTTPS (#{site.url})"
+        else
+          'FAIL: URL is missing or does not start with https://'
+        end
+      },
+      lambda {
+        if site.theme == 'transdimension'
+          'PASS: Theme is set to transdimension'
+        else
+          "FAIL: Theme is '#{site.theme}', expected 'transdimension'"
+        end
+      },
+      lambda {
+        tags = site.tags.where(type: 'Partnership').pluck(:name, :id)
+        found = %w[London Manchester].to_h do |wanted|
+          [wanted, tags.find { |name, _id| name.casecmp(wanted).zero? }]
+        end
+        missing = found.select { |_wanted, tag| tag.nil? }.keys
+
+        if missing.any?
+          "FAIL: Missing partnership tags: #{missing.join(', ')}"
+        else
+          'PASS: Partnership tags include ' \
+            "London (id: #{found['London'].last}) and Manchester (id: #{found['Manchester'].last})"
+        end
+      },
+      lambda {
+        if site.contact_email.blank?
+          'FAIL: Contact email is not set'
+        elsif site.contact_email.match?(URI::MailTo::EMAIL_REGEXP)
+          "PASS: Contact email is present and valid (#{site.contact_email})"
+        else
+          "FAIL: Contact email format is invalid (#{site.contact_email})"
+        end
+      },
+      lambda {
+        if site.site_admin.present?
+          "PASS: Site admin is set (#{site.site_admin.display_name})"
+        else
+          'FAIL: Site admin is not set'
+        end
+      },
+      lambda {
+        site.logo.present? && site.logo.file.present? ? 'PASS: Logo is present' : 'FAIL: Logo is not present'
+      },
+      lambda {
+        if site.hero_image.present? && site.hero_image.file.present?
+          'PASS: Hero image is present'
+        else
+          'FAIL: Hero image is not present'
+        end
+      },
+      # doc/site-record.md asks for exactly one neighbourhood, the United
+      # Kingdom country node: the partnership tags do the real scoping, and a
+      # narrower neighbourhood would hide partners outside it.
+      lambda {
+        hoods = site.neighbourhoods.to_a
+
+        if hoods.one? && hoods.first.unit == 'country'
+          "PASS: One country neighbourhood (#{hoods.first.name})"
+        elsif hoods.empty?
+          'WARN: No neighbourhood set (expected the United Kingdom country node)'
+        else
+          "WARN: Expected one country neighbourhood, found: #{hoods.map(&:name).join(', ')}"
+        end
+      }
+    ]
+
+    results = checks.map(&:call)
+    %w[PASS WARN FAIL].each do |prefix|
+      results.grep(/\A#{prefix}/).each { |line| puts line }
+    end
+
+    exit(1) if results.any? { |line| line.start_with?('FAIL') }
   end
 end
 # rubocop:enable Metrics/BlockLength

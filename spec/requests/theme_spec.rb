@@ -14,14 +14,13 @@ RSpec.describe 'Trans Dimension theme', type: :request do
     expect(theme.event_filter_style).to eq(:day_strip)
   end
 
-  it 'points the nav CTA at the Donate URL from the locale file' do
+  it 'points the nav CTA at the Donate URL' do
     theme = PlaceCal::Extensions.fetch_theme('transdimension')
 
     expect(theme.nav_cta).to eq(
       label_key: 'transdimension.header.donate',
-      url: I18n.t('transdimension.header.donate_url')
+      url: 'https://donorbox.org/the-trans-dimension'
     )
-    expect(theme.nav_cta[:url]).to eq('https://donorbox.org/the-trans-dimension')
   end
 
   it 'keeps the Join link out of the nav (the footer carries it)' do

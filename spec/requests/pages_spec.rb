@@ -77,6 +77,26 @@ RSpec.describe 'Trans Dimension theme pages', type: :request do
         .to eq(I18n.t('transdimension.privacy.subtitle'))
       expect(response.body).to include('This page explains how we collect information')
     end
+
+    it 'names the analytics and font services the site actually uses' do
+      text = response.parsed_body.at_css('.markdown-content').text
+
+      expect(text).to include('Matomo', 'stats.gfsc.community', 'Adobe Typekit')
+      expect(text).not_to include('Plausible')
+    end
+  end
+
+  describe 'markdown caching' do
+    it 'parses a content file once and reuses the render' do
+      # Prime the memo with one request, then watch: a second request for the
+      # same page must not go back to Kramdown.
+      get 'http://td-test.lvh.me/privacy'
+      allow(Kramdown::Document).to receive(:new).and_call_original
+
+      get 'http://td-test.lvh.me/privacy'
+
+      expect(Kramdown::Document).not_to have_received(:new)
+    end
   end
 
   describe 'the derived site navigation' do

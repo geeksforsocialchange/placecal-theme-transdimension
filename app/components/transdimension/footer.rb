@@ -18,13 +18,16 @@ class Transdimension::Components::Footer < Components::Base
   prop :site, ::Site
   prop :navigation, Array, default: -> { [] }
 
-  SOCIAL_LINKS = [
-    %w[insta footer_insta.svg],
-    %w[twitter footer_twitter.svg],
-    %w[facebook footer_facebook.svg]
+  SOCIAL_LINKS = %w[insta twitter facebook].freeze
+
+  # Logo, link and alt text for each maker in the "Created by" band.
+  CREATED_BY = [
+    ['footer_gfsc.svg', 'transdimension.external.gfsc_home', 'transdimension.footer.gfsc_alt'],
+    ['GI_pink.svg', 'transdimension.external.gendered_intelligence_home',
+     'transdimension.external.gendered_intelligence_name']
   ].freeze
 
-  CREDITS = [1, 2, 3].freeze
+  CREDIT_COUNT = 3
 
   def view_template
     footer(class: 'td-footer') do
@@ -90,10 +93,10 @@ class Transdimension::Components::Footer < Components::Base
     div(class: 'td-footer__social') do
       p(class: 'td-footer__subhead') { t('transdimension.footer.social') }
       ul(class: 'td-footer__social-list') do
-        SOCIAL_LINKS.each do |name, file|
+        SOCIAL_LINKS.each do |name|
           li do
             a(href: t("transdimension.footer.#{name}_link"), target: '_blank', rel: 'noopener') do
-              image_tag("transdimension/#{file}", alt: t("transdimension.footer.#{name}_alt"))
+              image_tag("transdimension/footer_#{name}.svg", alt: t("transdimension.footer.#{name}_alt"))
             end
           end
         end
@@ -105,14 +108,11 @@ class Transdimension::Components::Footer < Components::Base
     div(class: 'td-footer__created-by') do
       p(class: 'td-footer__subhead') { t('transdimension.footer.byline') }
       ul(class: 'td-footer__logo-list') do
-        li do
-          a(href: t('transdimension.external.gfsc_home'), target: '_blank', rel: 'noopener') do
-            image_tag('transdimension/footer_gfsc.svg', alt: t('transdimension.footer.gfsc_alt'))
-          end
-        end
-        li do
-          a(href: t('transdimension.external.gendered_intelligence_home'), target: '_blank', rel: 'noopener') do
-            image_tag('transdimension/GI_pink.svg', alt: t('transdimension.external.gendered_intelligence_name'))
+        CREATED_BY.each do |file, link_key, alt_key|
+          li do
+            a(href: t(link_key), target: '_blank', rel: 'noopener') do
+              image_tag("transdimension/#{file}", alt: t(alt_key))
+            end
           end
         end
       end
@@ -140,8 +140,8 @@ class Transdimension::Components::Footer < Components::Base
 
   # "Illustrations by Harry Woodgate, design by Squid, website by GFSC."
   def render_credit_list
-    CREDITS.each_with_index do |index, position|
-      plain ', ' if position.positive?
+    1.upto(CREDIT_COUNT) do |index|
+      plain ', ' if index > 1
       plain t("transdimension.footer.credit_#{index}_text")
       plain ' '
       a(href: t("transdimension.footer.credit_#{index}_link"), target: '_blank', rel: 'noopener') do
