@@ -150,3 +150,35 @@ generic slot that would give it to every theme rather than to this one.
   style one route without a forked view.
 - **Consequence today**: `/about` takes the same generic header band as the rest
   of the inner pages, and none of the About page's own section artwork is drawn.
+
+## Laptop pass (WP 3.8)
+
+Found while measuring the theme against transdimension.uk at 1440 and 1728.
+
+### News card byline: one line, no full stop
+
+- **Core**: `app/views/news/index.rb`, `render_article_card`.
+- **Element**: `p.articles__partners` renders `article_partner_links(article)`
+  followed by a bare `plain '.'` text node, and `p.articles__published` is a
+  separate element inside a different wrapper (`.articles__aside`).
+- **TD**: News.elm prints one meta line, "Geeks for Social Change • 14th January
+  2025", with no full stop.
+- **What the theme can do**: the card grid now places the two paragraphs in
+  their own pair of columns so they sit on one line, and adds the bullet with a
+  `::before`. It cannot remove the full stop: a bare text node is not
+  selectable.
+- **Smallest core change**: drop `plain '.'` from `render_article_card` in
+  `app/views/news/index.rb` (the trailing stop is a core style choice, not data),
+  or move it into a locale key so a theme can blank it.
+
+### News card excerpt length
+
+- **Core**: `app/helpers/articles_helper.rb`, `article_summary_text`, the
+  `length: 200` argument to `truncate`.
+- **TD**: the live summaries run to about 130 characters, which is exactly three
+  lines in the card; 200 characters is four lines and makes the card 30px taller
+  than the design.
+- **What the theme can do**: clamp `.articles__body p` to three lines, which
+  fixes the height but cuts mid-word instead of at a word boundary.
+- **Smallest core change**: make the truncation length a constant on the helper
+  (or read it from a locale key) so a theme can ask for 130.
