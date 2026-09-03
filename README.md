@@ -39,6 +39,14 @@ end
 
 The CSS is committed prebuilt, so core's Docker build needs no extra Node step.
 
+### Minimum core
+
+The host has to be a PlaceCal with the extension theme registry, that is core with #3368 merged. Specifically, `PlaceCal::Extensions.register_theme` must exist and the theme it yields must support every setting this engine uses:
+
+`stylesheet`, `homepage_view`, `head`, `footer`, `event_filter_style`, `nav_cta`, `nav_join`, `map_style`
+
+The engine checks this while it registers, and raises `Transdimension::UnsupportedHost` naming the missing capability rather than failing with a `NoMethodError` from inside an initializer. `Transdimension::Engine::REQUIRED_THEME_SETTINGS` is the list it checks.
+
 ## Development
 
 The specs boot the PlaceCal core application with this engine loaded, so they need a checkout of core and core's gem bundle. Check core out next to this repo (the default core path is `../PlaceCal`, override it with `PLACECAL_CORE_PATH`) and run the specs against core's `Gemfile`:
