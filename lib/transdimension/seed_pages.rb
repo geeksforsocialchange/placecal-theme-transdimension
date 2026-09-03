@@ -3,11 +3,10 @@
 module Transdimension
   # Seeds Trans Dimension static content into PlaceCal Pages.
   class SeedPages
-    # Section headings; overridable via locale keys.
-    DEFAULT_SECTION_HEADINGS = {
-      accessibility: 'Our Accessibility Process', makers: 'Meet the Makers', placecal: 'Built using PlaceCal',
-      gi: 'Gendered Intelligence', gfsc: 'Geeks for Social Change'
-    }.freeze
+    # Section headings, read from transdimension.about.<key>. The seeded body is
+    # markdown, so the headings are copy like any other and belong in the locale
+    # file rather than here.
+    SECTION_KEYS = %i[accessibility makers placecal gi gfsc].freeze
 
     def initialize(site_slug)
       @site = Site.find_by(slug: site_slug)
@@ -27,7 +26,7 @@ module Transdimension
       about_body = build_about_body
       upsert_page(
         slug: 'about',
-        title: 'About',
+        title: I18n.t('transdimension.about.title'),
         body: about_body,
         position: 10,
         show_in_nav: true
@@ -65,7 +64,7 @@ module Transdimension
     end
 
     def fetch_section_headings
-      DEFAULT_SECTION_HEADINGS.keys.index_with { |key| section_heading(key) }
+      SECTION_KEYS.index_with { |key| section_heading(key) }
     end
 
     def seed_privacy_page
@@ -74,7 +73,7 @@ module Transdimension
 
       upsert_page(
         slug: 'privacy',
-        title: 'Privacy Policy',
+        title: I18n.t('transdimension.privacy.title'),
         body: "#{I18n.t('transdimension.privacy.subtitle')}\n\n#{privacy_content}",
         position: 20,
         show_in_nav: false
@@ -128,7 +127,7 @@ module Transdimension
     end
 
     def section_heading(key)
-      I18n.t("transdimension.about.#{key}", default: DEFAULT_SECTION_HEADINGS[key])
+      I18n.t("transdimension.about.#{key}")
     end
   end
 end

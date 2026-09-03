@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'yaml'
+
 module Transdimension
   # Raised when the host PlaceCal is too old to serve this theme.
   class UnsupportedHost < StandardError; end
@@ -50,6 +52,16 @@ module Transdimension
             'PlaceCal (see "Minimum core" in the engine README).'
     end
 
+    # Theme settings that are really copy (the Donate URL) belong in the locale
+    # file, but the engine's locales are not on I18n.load_path yet while
+    # initializers run, and calling I18n.t here would resolve to nothing and
+    # initialise the backend early. Read the YAML directly instead; the specs
+    # assert the two sources agree.
+    def self.locale_value(key)
+      @locale ||= YAML.load_file(root.join('config/locales/en.yml')).fetch('en')
+      key.to_s.split('.').reduce(@locale) { |node, part| node.fetch(part) }
+    end
+
     def self.host_registry
       defined?(::PlaceCal::Extensions) ? ::PlaceCal::Extensions : nil
     end
@@ -68,11 +80,14 @@ module Transdimension
         theme.footer 'Transdimension::Components::Footer'
         theme.event_filter_style :day_strip
         # PageHeader.elm: the Donate button (PHT Donorbox) at the end of the nav
-        theme.nav_cta 'transdimension.header.donate', 'https://donorbox.org/the-trans-dimension'
+        theme.nav_cta 'transdimension.header.donate', Engine.locale_value('transdimension.header.donate_url')
         # PageHeader.elm has no Join link; PageFooter.elm carries it instead
         theme.nav_join false
         # Pink-tinted OpenFreeMap style shipped with the engine
         theme.map_style 'transdimension'
+        # PageHeader.elm labels the mobile toggle "Menu" rather than drawing a
+        # hamburger. Guarded: cores without the setting simply keep their own.
+        theme.menu_label true if theme.respond_to?(:menu_label)
       end
     end
   end

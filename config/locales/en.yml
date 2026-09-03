@@ -1,21 +1,21 @@
+# Strings the theme owns outright, namespaced under transdimension.*: its own
+# footer, its own homepage and the copy the seed task writes into Pages.
+#
+# Copy that replaces a core string for this theme lives in overrides.en.yml
+# instead (theme_overrides.transdimension.*), so nothing here duplicates a core
+# key. Every key below is read by app/ or lib/; spec/i18n_spec.rb names them.
 en:
   transdimension:
     # Site-level and global strings
     site:
       title: The Trans Dimension
-      strapline: "Space and spaces for us"
       description: "The Trans Dimension is an online community hub connecting trans communities in London and Manchester. We collate news, events and services by and for trans people."
-      logo_src: "%{canonical_url}images/logos/tdd_logo_with_strapline_on_darkBlue.png"
     external:
       gfsc_home: "https://gfsc.studio/"
       gendered_intelligence_home: "https://genderedintelligence.co.uk/"
       gendered_intelligence_name: "Gendered Intelligence"
-      google_map_search: "https://www.google.com/maps/search/?api=1&query=%{address}"
-      see_on_google_map: "See on Google map"
-      map_image_alt: "A map showing the location of %{location}"
     # Header
     header:
-      mobile_menu_button: "Menu"
       donate: "Donate"
       donate_url: "https://donorbox.org/the-trans-dimension"
     # Footer
@@ -47,14 +47,10 @@ en:
       credit_3_link: "https://gfsc.studio/"
       copyright: "© %{year} Gendered Intelligence. All rights reserved."
       powered_by: "Powered by PlaceCal"
-    # Region selector
-    region:
-      everywhere: "Everywhere"
     # Home/Index page
     home:
       # Copy is the Elm site's, verbatim from src/Copy/Text.elm. The apostrophes
       # and the "&" in the logo alt text are theirs.
-      title: The Trans Dimension
       meta_title: Home
       meta_description: An online community hub which will connect trans communities across the UK by collating news, events and services by and for trans people in one easy-to-reach place. A collaboration between Gendered Intelligence and Geeks for Social Change.
       logo_alt: The Trans Dimension, Space and spaces for us
@@ -68,77 +64,16 @@ en:
       news_header: Latest news
       news_button: View all news
       news_read_more: Read the rest
-    # About page
+    # About page. The section headings are written into the seeded page body by
+    # Transdimension::SeedPages, in the order About.elm renders them.
     about:
       title: "About"
-      meta_description: "The Trans Dimension is an online community hub connecting trans communities in London and Manchester. We collate news, events and services by and for trans people."
-    # Events page
-    events:
-      title: "Events"
-      meta_description: "Events and activities by and for trans communities across the UK."
-      summary: "Upcoming events & activities for you."
-      subheading: "Upcoming events"
-      empty_all: "There are no upcoming events. Check back for updates!"
-      empty: "There are no upcoming events on this date."
-      previous_empty_all: "There have been no events in the recent past."
-      filter_today: "Today"
-      filter_tomorrow: "Tomorrow"
-      next_event: "Go to next event"
-    # Event detail page
-    event:
-      title_with_prefix: "Event - %{name}"
-      title: "%{name}"
-      meta_description: "%{description}"
-      back_to_partner: "All events by %{partner}"
-      back_to_all: "All events"
-      visit_publisher: "Visit %{publisher}'s site"
-    # Partners page
-    partners:
-      title: "Partners"
-      meta_description: "Trans Dimension partners form an online community for connecting trans people across the UK by publishing service information, events and news on PlaceCal."
-      intro_summary: "The Trans Dimension is a partnership of grassroots groups and charities with a track record of supporting the trans community."
-      intro_description: "All of our partners are explicitly trans-friendly organisations. Some are led by trans people, and some led by friends and allies. They put on events, provide services and offer support for members of our community."
-      list_heading: "All partners"
-      list_empty: "There are currently no Trans Dimension partners"
-      map_alt: "A map showing the locations of all partners with listed addresses"
-    # Partner detail page
-    partner:
-      title: "%{name}"
-      meta_description: "%{name} - %{summary}"
-      contacts_heading: "Get in touch"
-      contacts_empty: "No contact details provided"
-      address_heading: "Address"
-      address_empty: "No address provided"
-      description_empty: "Please ask %{partner} for more information"
-      upcoming_events: "Upcoming events by %{partner}"
-      previous_events: "Previous events by %{partner}"
-      events_empty: "%{partner} does not have any upcoming events. Check back for updates!"
-      back_to_all: "Go to all partners"
-    # Join Us page
-    join:
-      title: "Join us"
-      meta_description: "Want to be listed on The Trans Dimension? Get in touch and learn how you can create space and spaces for us."
-      subtitle: "Want to be listed on The Trans Dimension?"
-      description: "Get in touch and learn how you can create space and spaces for us."
-    # News listing page
-    news:
-      title: "News"
-      meta_description: "Updates & articles from our partners."
-      empty: "There is no recent news"
-      read_more: "Read the rest"
-    # News detail page
-    news_item:
-      title_with_prefix: "News - %{title}"
-      title: "%{title}"
-      meta_description: "%{title} - by %{author}"
-      return_button: "Go back to news"
-    # Privacy page
+      accessibility: "Our Accessibility Process"
+      makers: "Meet the Makers"
+      gi: "Gendered Intelligence"
+      gfsc: "Geeks for Social Change"
+      placecal: "Built using PlaceCal"
+    # Privacy page, also seeded by Transdimension::SeedPages
     privacy:
       title: "Privacy Policy"
       subtitle: "The Trans Dimension is committed to protecting your privacy online."
-      meta_description: "Privacy information for The Trans Dimension website."
-    # 404 error page
-    error:
-      title: "Error 404"
-      message: "This page could not be found."
-      button: "Back to home"

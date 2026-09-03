@@ -21,6 +21,18 @@ require PLACECAL_CORE.join('config/environment').to_s
 
 abort('The Rails environment is running in production mode!') if Rails.env.production?
 
+# Core's Gemfile pins this engine to a git tag. If the run picks up that copy
+# instead of the working tree (wrong BUNDLE_GEMFILE, or a Gemfile.td-dev whose
+# path entry is stale), every example passes against code nobody is editing.
+working_tree = Pathname(__dir__).parent.expand_path
+if Transdimension::Engine.root.expand_path != working_tree
+  abort(
+    "Specs are running against the installed engine at #{Transdimension::Engine.root}, " \
+    "not this working tree at #{working_tree}. Point BUNDLE_GEMFILE at a Gemfile whose " \
+    'placecal-theme-transdimension entry uses `path:` (see README "Development").'
+  )
+end
+
 require 'rspec/rails'
 require 'capybara/rspec'
 require 'pundit/rspec'

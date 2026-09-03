@@ -90,7 +90,7 @@ class Transdimension::Views::Home < Views::Base
   def events
     @events ||= EventsQuery
                 .new(site: site)
-                .call(period: 'future', tag_id: current_region&.id)
+                .call(period: 'future', tag_id: current_region&.id, limit: MAX_EVENTS)
                 .values.flatten.first(MAX_EVENTS)
   end
 

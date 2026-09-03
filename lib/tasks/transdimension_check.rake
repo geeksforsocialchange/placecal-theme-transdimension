@@ -2,9 +2,11 @@
 
 # rubocop:disable Metrics/BlockLength
 namespace :transdimension do
+  # Takes the site slug the same way transdimension:seed_pages does. TD_SITE_SLUG
+  # stays as a fallback for callers that cannot pass a rake argument.
   desc 'Verify the Trans Dimension Site record is configured correctly'
-  task check: :environment do
-    site_slug = ENV.fetch('TD_SITE_SLUG', 'trans-dimension')
+  task :check, [:site_slug] => :environment do |_t, args|
+    site_slug = args[:site_slug].presence || ENV.fetch('TD_SITE_SLUG', 'trans-dimension')
     site = Site.find_by(slug: site_slug)
 
     failures = []
