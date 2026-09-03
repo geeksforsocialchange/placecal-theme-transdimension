@@ -645,3 +645,6 @@ select {
 		padding-inline: 2rem;
 	}
 }
+
+/* Per-route page templates (WP 2.4). */
+@import "./pages.css";
