@@ -58,7 +58,6 @@ RSpec.configure do |config|
   config.include FactoryBot::Syntax::Methods
   # Core's helper for rendering a Phlex view or component on its own.
   config.include PhlexTestHelper, type: :component
-  config.include PhlexTestHelper, type: :phlex
   config.include Devise::Test::IntegrationHelpers, type: :request
 
   # Core freezes time in its own suite; match it so shared factories behave.
