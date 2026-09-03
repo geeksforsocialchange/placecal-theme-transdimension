@@ -1,9 +1,11 @@
-# Core string overrides for Trans Dimension sites. This file is appended to
-# I18n.load_path after core's locale files (see lib/transdimension/engine.rb),
-# so these values win. Only keys where TD's copy differs from core belong here.
+# Core string overrides for sites on the transdimension theme only. Core's
+# PlaceCal::ThemeTranslation looks up theme_overrides.<theme>.<key> before
+# <key> for the current site's theme, so nothing here leaks to other sites.
 en:
-  navigation:
-    site:
-      join: "Join us"
-  region_filter:
-    all: "Everywhere"
+  theme_overrides:
+    transdimension:
+      navigation:
+        site:
+          join: "Join us"
+      region_filter:
+        all: "Everywhere"

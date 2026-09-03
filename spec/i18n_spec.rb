@@ -85,17 +85,24 @@ describe 'Trans Dimension i18n' do # rubocop:disable Metrics/BlockLength
       flat = lambda do |hash, prefix = ''|
         hash.flat_map { |k, v| v.is_a?(Hash) ? flat.call(v, "#{prefix}#{k}.") : ["#{prefix}#{k}"] }
       end
-      flat.call(overrides_locale).each do |key|
-        next if key.start_with?('transdimension.') # Engine namespace, not an override
+      flat.call(overrides_locale).each do |scoped_key|
+        expect(scoped_key).to start_with('theme_overrides.transdimension.')
+        key = scoped_key.delete_prefix('theme_overrides.transdimension.')
 
         expect(check_key_exists?(core_locale, key)).to be_truthy,
                                                        "Override key '#{key}' does not exist in core i18n"
       end
     end
 
-    it 'applies the overrides through the booted app' do
-      expect(I18n.t('navigation.site.join')).to eq('Join us')
-      expect(I18n.t('region_filter.all')).to eq('Everywhere')
+    it 'applies the overrides only for sites on this theme' do
+      helper = Class.new { include PlaceCal::ThemeTranslation }.new
+      Current.site = build(:site, theme: 'transdimension')
+      expect(helper.t('navigation.site.join')).to eq('Join us')
+      expect(helper.t('region_filter.all')).to eq('Everywhere')
+      Current.site = build(:site, theme: 'pink')
+      expect(helper.t('region_filter.all')).to eq('All')
+    ensure
+      Current.reset
     end
 
     def deep_merge!(target, source)

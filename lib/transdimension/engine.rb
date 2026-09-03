@@ -30,12 +30,5 @@ module Transdimension
         theme.event_filter_style :day_strip
       end
     end
-
-    # Core string overrides (WP 2.5). Appended after core's own locale files
-    # so this file wins. Empty for now.
-    config.after_initialize do
-      I18n.load_path << Transdimension::Engine.root.join('config/locales/overrides.en.yml').to_s
-      I18n.reload!
-    end
   end
 end
