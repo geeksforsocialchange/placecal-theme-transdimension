@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require 'yaml'
-
 module Transdimension
   # Raised when the host PlaceCal is too old to serve this theme.
   class UnsupportedHost < StandardError; end
@@ -55,6 +53,11 @@ module Transdimension
     # Favicons, touch icon, Safari mask icon, manifest colours and share card,
     # copied from the live transdimension.uk (#3368 WP 3.10). Every setting is
     # guarded so a core without the icon DSL still boots on its own favicon.
+    # PageHeader.elm: the Donate button at the end of the nav goes to the
+    # Partnership's Donorbox page. A URL is not a UI string, so it is a constant
+    # here rather than a locale key; only the button label is translated.
+    DONATE_URL = 'https://donorbox.org/the-trans-dimension'
+
     ICONS = {
       favicon_32: 'transdimension/favicons/favicon-32x32.png',
       favicon_16: 'transdimension/favicons/favicon-16x16.png',
@@ -92,16 +95,6 @@ module Transdimension
       theme.page 'privacy', 'Transdimension::Views::Privacy'
     end
 
-    # Theme settings that are really copy (the Donate URL) belong in the locale
-    # file, but the engine's locales are not on I18n.load_path yet while
-    # initializers run, and calling I18n.t here would resolve to nothing and
-    # initialise the backend early. Read the YAML directly instead; the specs
-    # assert the two sources agree.
-    def self.locale_value(key)
-      @locale ||= YAML.load_file(root.join('config/locales/en.yml')).fetch('en')
-      key.to_s.split('.').reduce(@locale) { |node, part| node.fetch(part) }
-    end
-
     def self.host_registry
       defined?(::PlaceCal::Extensions) ? ::PlaceCal::Extensions : nil
     end
@@ -120,7 +113,7 @@ module Transdimension
         theme.footer 'Transdimension::Components::Footer'
         theme.event_filter_style :day_strip
         # PageHeader.elm: the Donate button (PHT Donorbox) at the end of the nav
-        theme.nav_cta 'transdimension.header.donate', Engine.locale_value('transdimension.header.donate_url')
+        theme.nav_cta 'transdimension.header.donate', DONATE_URL
         # PageHeader.elm has no Join link; PageFooter.elm carries it instead
         theme.nav_join false
         # Pink-tinted OpenFreeMap style shipped with the engine

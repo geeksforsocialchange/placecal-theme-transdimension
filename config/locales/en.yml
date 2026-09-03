@@ -21,7 +21,6 @@ en:
     # Header
     header:
       donate: "Donate"
-      donate_url: "https://donorbox.org/the-trans-dimension"
     # Footer
     footer:
       social: "Follow us out there"

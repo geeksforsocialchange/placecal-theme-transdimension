@@ -10,7 +10,7 @@ Status: fixed = corrected in this pass; matches = no measurable difference; diff
 |---|---|---|---|---|---|---|
 | Nav bar height and link row | 1250 | 78px, links at y 30 to 44 | 78px, links at y 30 to 44 | matches | | |
 | Nav current-page rule on Home | 1250 | dark rule under Home | no rule on the homepage | fixed | | PageHeader.elm draws no rule on Home; added `a[aria-current][href="/"]` override |
-| Nav Donate button | all | white Donate button, right | white Donate button, right | matches | | reinstated as the theme's `nav_cta`, pointing at `transdimension.header.donate_url` |
+| Nav Donate button | all | white Donate button, right | white Donate button, right | matches | | reinstated as the theme's `nav_cta`, pointing at `Engine::DONATE_URL` |
 | Nav items | all | Home, Events, Partners, News, About | Home, Events, Partners, News, About | matches | | derived (D6); the Join/"Get in touch" link is kept out of the nav by `nav_join false` and rendered in the footer instead, as PageFooter.elm does |
 | Hero illustration position | 1250 | flag x 105, offset +45px | flag x 60 | fixed | | illustration band pseudo-elements now centred on the viewport (`left: 50%; translateX(-50%)`) instead of hand-tuned negative margins |
 | Hero wordmark and strapline | 1250 | x 470 to 830, y 270 to 400 | same | matches | | |

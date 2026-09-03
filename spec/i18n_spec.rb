@@ -91,7 +91,7 @@ describe 'Trans Dimension i18n' do # rubocop:disable Metrics/BlockLength
       expect(en_locale['transdimension']['privacy'].keys).to match_array(%w[title subtitle])
       expect(en_locale['transdimension']['nav'].keys).to match_array(%w[about])
       expect(en_locale['transdimension']['site'].keys).to match_array(%w[title description])
-      expect(en_locale['transdimension']['header'].keys).to match_array(%w[donate donate_url])
+      expect(en_locale['transdimension']['header'].keys).to match_array(%w[donate])
       expect(en_locale['transdimension']['external'].keys)
         .to match_array(%w[gfsc_home gendered_intelligence_home gendered_intelligence_name])
     end
