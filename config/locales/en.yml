@@ -44,15 +44,22 @@ en:
       everywhere: "Everywhere"
     # Home/Index page
     home:
-      title: "The Trans Dimension"
-      meta_description: "An online community hub which will connect trans communities across the UK by collating news, events and services by and for trans people in one easy-to-reach place. A collaboration between Gendered Intelligence and Geeks for Social Change."
-      intro_title: "Trusted, accessible, trans-friendly spaces. Always expanding."
-      intro_message: "The Trans Dimension is an online community hub connecting trans communities in London and Manchester. We collate news, events and services by and for trans people."
-      intro_button: "See what's on"
-      featured_header: "Upcoming Events"
-      featured_button: "View all events"
-      news_header: "Latest news"
-      news_button: "View all news"
+      # Copy is the Elm site's, verbatim from src/Copy/Text.elm. The apostrophes
+      # and the "&" in the logo alt text are theirs.
+      title: The Trans Dimension
+      meta_title: Home
+      meta_description: An online community hub which will connect trans communities across the UK by collating news, events and services by and for trans people in one easy-to-reach place. A collaboration between Gendered Intelligence and Geeks for Social Change.
+      logo_alt: The Trans Dimension, Space and spaces for us
+      intro_title: Trusted, accessible, trans-friendly spaces. Always expanding.
+      intro_message: The Trans Dimension is an online community hub connecting trans communities in London and Manchester. We collate news, events and services by and for trans people.
+      intro_button: See what's on
+      events_header: Upcoming Events
+      events_button: View all events
+      events_empty: There are no upcoming events. Check back for updates!
+      event_by: by %{name}
+      news_header: Latest news
+      news_button: View all news
+      news_read_more: Read the rest
     # About page
     about:
       title: "About"
