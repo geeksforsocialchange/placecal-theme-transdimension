@@ -87,13 +87,14 @@
 @media only screen and (min-width: 1200px) {
 	.td-section {
 		padding: 3rem 1rem 3rem 1rem;
-		margin-left: 7rem;
-		margin-right: 7rem;
+		/* Index.elm: the panel spans about 870px at 1250 (x 190 to 1060) */
+		margin-left: 4rem;
+		margin-right: 4rem;
 	}
 
 	.td-section::before {
 		background-size: 1366px;
-		margin: 0 -14rem;
+		margin: 0 -11rem;
 	}
 }
 
