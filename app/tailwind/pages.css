@@ -798,23 +798,23 @@ main > [data-controller="leaflet"] {
    dark ground (News.elm), so the [vocab] wrapper they use is excluded. */
 main > div:not([vocab]) > .hero {
 	background-color: var(--color-primary);
-	border-radius: 0.3rem;
+	/* Event.elm and Partner.elm: the panel is the full width of the content
+	   box, flush with its border (the box radius shows at the top corners). */
+	border-radius: 0.3rem 0.3rem 0 0;
 	box-sizing: border-box;
 	color: var(--color-foreground-dark);
-	margin: 0.75rem;
+	margin: -1px -1px 0;
 	padding: 1rem 0.75rem;
 }
 
 @media only screen and (min-width: 600px) {
 	main > div:not([vocab]) > .hero {
-		margin: 0 2rem;
 		padding-inline: 1.5rem;
 	}
 }
 
 @media only screen and (min-width: 1500px) {
 	main > div:not([vocab]) > .hero {
-		margin: 1.5rem;
 		padding-bottom: 2rem;
 	}
 }
@@ -1922,4 +1922,288 @@ textarea.join-control {
 .partners.two-col > li {
 	margin-top: 0;
 	break-inside: auto;
+}
+
+/* Visual diff pass (coordinator, 2026-09-03), events index and event page.
+   Paginator.elm at desktop: seven day buttons on one row, about 130px wide,
+   36px tall, 14px apart, and the past/future buttons on their own row. */
+@media only screen and (min-width: 900px) {
+	.day-strip {
+		max-width: none;
+	}
+
+	.day-strip li {
+		margin: 0.25rem 7px;
+	}
+
+	.day-strip__link {
+		font-size: 1.05rem;
+		padding: 0.25rem 0.5rem 0.35rem;
+		width: 130px;
+	}
+
+	.day-strip li:last-child {
+		flex-basis: 100%;
+		display: flex;
+		justify-content: center;
+		margin-top: 0.5rem;
+	}
+}
+
+/* Event.elm contact and address blocks: body-size type, no icons. */
+.event__fullinfo .contact_details,
+.event__fullinfo .place_info__address,
+.event__fullinfo .contact_details a,
+.event__fullinfo .place_info__address a {
+	font-size: 1.125rem;
+	line-height: 1.6;
+}
+
+.event__fullinfo .contact_details svg,
+.event__fullinfo .contact_details .icon {
+	display: none;
+}
+
+.event__fullinfo h3 {
+	font-size: 1.05rem;
+}
+
+/* Event.elm, Partner.elm, NewsItem.elm: the section name sits on the
+   starfield above the title panel, in the page-title type. */
+main > div:not([vocab]) > .hero,
+main > div[vocab] > .hero {
+	position: relative;
+}
+
+main > div:not([vocab]) > .hero .hero__section,
+main > div[vocab] > .hero .hero__section {
+	color: var(--color-foreground);
+	font-size: 3rem;
+	font-style: italic;
+	font-weight: 500;
+	left: 0;
+	line-height: 1.2;
+	margin: 0;
+	position: absolute;
+	right: 0;
+	text-align: center;
+	top: -4.6rem;
+}
+
+/* Room above the content box for the floating section name. */
+main > div:not([vocab]):has(.hero__section),
+main > div[vocab]:has(.hero__section) {
+	margin-top: 4.8rem;
+}
+
+/* Event.elm: the page date is large bold caps with the time in pink under it. */
+.event--full .event__date {
+	font-size: 1.85rem;
+	font-weight: 700;
+	letter-spacing: 0.02em;
+	text-transform: uppercase;
+}
+
+.event--full .event__time {
+	font-size: 1.3rem;
+}
+
+@media only screen and (min-width: 900px) {
+	main > div:not([vocab]) > .hero h1 {
+		font-size: 2.4rem;
+		line-height: 3rem;
+	}
+}
+
+/* Event.elm lists each contact line on its own row, no icons. */
+.event__fullinfo .contact_details a {
+	display: block;
+	margin: 0.2rem 0;
+}
+
+.event__fullinfo .contact_details {
+	display: block;
+}
+
+/* Partners.elm intro panel at desktop: taller top padding, a clear gap
+   before the smaller paragraph, and body-size type for it. */
+@media only screen and (min-width: 900px) {
+	.hero__standfirst:has(+ .hero__standfirst-detail) {
+		padding-top: 3.25rem;
+	}
+
+	.hero__standfirst-detail {
+		font-size: 1.125rem;
+		line-height: 1.75rem;
+		padding-top: 2rem;
+		padding-bottom: 2.75rem;
+	}
+}
+
+/* Partners.elm: the list runs 3rem inside the box edge at desktop. */
+@media only screen and (min-width: 900px) {
+	#partner_previews > * {
+		margin-inline: 1rem;
+		padding-inline: 2rem;
+	}
+}
+
+/* Partner.elm contact block: one line per contact, no icons. */
+.g--partner .contact_details {
+	display: block;
+	font-size: 1.125rem;
+	line-height: 1.6;
+	text-align: center;
+}
+
+.g--partner .contact_details svg {
+	display: none;
+}
+
+.g--partner .contact_details a {
+	display: block;
+	margin: 0.2rem 0;
+}
+
+/* News.elm card: underlined pink title link; the "Read the rest" button is
+   centred and straddles the card's bottom border. */
+.articles .articles__title a {
+	text-decoration: underline;
+	text-decoration-color: var(--color-primary);
+	text-underline-offset: 0.2em;
+}
+
+.articles .articles__article-card {
+	margin-bottom: 3.5rem;
+	padding-bottom: 2.5rem;
+	position: relative;
+}
+
+.articles .articles__article-card .btn--mt {
+	bottom: -1.5rem;
+	left: 50%;
+	margin: 0;
+	position: absolute;
+	transform: translateX(-50%);
+	width: max-content;
+}
+
+/* About.elm: the site description opens the page in the pink intro panel
+   (seeded as the first paragraph); the rest is the markdown treatment. */
+.page--about .markdown-content > p:first-child {
+	background-color: var(--color-primary);
+	border-radius: 0.3rem;
+	color: var(--color-foreground-dark);
+	font-size: 1.9rem;
+	font-style: italic;
+	font-weight: 500;
+	line-height: 2.4rem;
+	margin: 0 0 2rem;
+	padding: 2rem 2.5rem;
+	text-align: center;
+}
+
+/* About.elm: the intro panel spans the content box, flush with its border. */
+.page--about .markdown-content > p:first-child {
+	margin: -1rem -0.75rem 2rem;
+	max-width: none;
+}
+
+@media only screen and (min-width: 600px) {
+	.page--about .markdown-content > p:first-child {
+		margin: -1rem -1.5rem 2rem;
+		padding-inline: 4rem;
+	}
+}
+
+@media only screen and (min-width: 900px) {
+	.page--about .markdown-content > p:first-child {
+		font-size: 2.5rem;
+		line-height: 3.1rem;
+		padding-block: 2.125rem;
+		padding-inline: max(2rem, calc((100% - 838px) / 2));
+	}
+}
+
+/* TextHeavyPage.elm bodyStyle: the long-form body reads at 1.2rem. */
+@media only screen and (min-width: 900px) {
+	.markdown-content > p:not(:first-child),
+	.markdown-content > ul,
+	.markdown-content > ol {
+		font-size: 1.5rem;
+		line-height: 1.6;
+	}
+
+	.markdown-content {
+		padding-top: 2.5rem;
+	}
+}
+
+/* JoinUs.elm: the intro panel spans the content width, flush above the
+   form box. */
+main > .container-editorial .join-note,
+.join-note {
+	margin-inline: 0;
+	max-width: none;
+}
+
+/* JoinUs.elm: the intro panel and the form box run the full content width
+   and sit flush against each other. */
+main > .container-editorial:has(> .join-note) {
+	max-width: none;
+	padding-inline: 0;
+}
+
+main > .container-editorial > .join-note {
+	border-bottom-left-radius: 0;
+	border-bottom-right-radius: 0;
+	margin-bottom: 0;
+}
+
+main > .container-editorial > .join-note + .join-card,
+main > .container-editorial > .join-note + * {
+	border-top-left-radius: 0;
+	border-top-right-radius: 0;
+	margin-top: 0;
+}
+
+/* JoinUs.elm: form labels are 1.1rem allcaps. */
+@media only screen and (min-width: 900px) {
+	.join-card label {
+		font-size: 1.1rem;
+		letter-spacing: 0.05em;
+	}
+}
+
+/* NewsItem.elm: the article box spans the content width; the byline is the
+   partner and the date on one line, no author line. */
+@media only screen and (min-width: 600px) {
+	main > div[vocab] {
+		margin-inline: 0;
+	}
+}
+
+main > div[vocab] .article__author {
+	display: none;
+}
+
+main > div[vocab] .article__partners {
+	display: inline;
+}
+
+/* NewsItem.elm: single centred column (core lays the date out in a side
+   column); the image and body sit in the 636px measure. */
+main > div[vocab] .g {
+	display: block;
+}
+
+main > div[vocab] .gi {
+	margin-inline: auto;
+	max-width: 636px;
+	text-align: center;
+	width: auto;
+}
+
+main > div[vocab] .article__content {
+	text-align: left;
 }

@@ -3,14 +3,10 @@
 module Transdimension
   # Seeds Trans Dimension static content into PlaceCal Pages.
   class SeedPages
-    # Default section headings for About page sections. These can be overridden
-    # by locale keys in config/locales/overrides.en.yml (WP 2.5).
+    # Section headings; overridable via locale keys.
     DEFAULT_SECTION_HEADINGS = {
-      accessibility: 'Our Accessibility Process',
-      makers: 'Meet the Makers',
-      placecal: 'Built using PlaceCal',
-      gi: 'Gendered Intelligence',
-      gfsc: 'Geeks for Social Change'
+      accessibility: 'Our Accessibility Process', makers: 'Meet the Makers', placecal: 'Built using PlaceCal',
+      gi: 'Gendered Intelligence', gfsc: 'Geeks for Social Change'
     }.freeze
 
     def initialize(site_slug)
@@ -39,17 +35,23 @@ module Transdimension
     end
 
     def build_about_body
-      engine_root = Transdimension::Engine.root
-      contents = read_about_contents(engine_root)
+      contents = read_about_contents(Transdimension::Engine.root)
       headings = fetch_section_headings
 
       [
+        about_intro,
         contents[:main],
         "\n\n## #{headings[:accessibility]}\n\n#{contents[:accessibility]}",
         "\n\n## #{headings[:makers]}\n\n### #{headings[:gi]}\n\n#{contents[:gi]}",
         "### #{headings[:gfsc]}\n\n#{contents[:gfsc]}",
         "\n\n## #{headings[:placecal]}\n\n#{contents[:placecal]}"
       ].join
+    end
+
+    # About.elm opens with the site description in the pink intro panel
+    # (the theme styles the page's first paragraph).
+    def about_intro
+      "#{I18n.t('transdimension.site.description')}\n\n"
     end
 
     def read_about_contents(engine_root)
@@ -78,8 +80,8 @@ module Transdimension
 
       upsert_page(
         slug: 'privacy',
-        title: 'Privacy',
-        body: privacy_content,
+        title: 'Privacy Policy',
+        body: "#{I18n.t('transdimension.privacy.subtitle')}\n\n#{privacy_content}",
         position: 20,
         show_in_nav: false
       )

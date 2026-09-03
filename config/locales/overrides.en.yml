@@ -16,6 +16,13 @@ en:
           standfirst: "Upcoming events & activities for you."
         # Events.elm prints the day zero-padded ("02") over an uppercase month,
         # and prefixes the organiser with "by".
+        # Event.elm: section name above the title panel; the page date reads
+        # "2nd September 2026" (%o is core's ordinal day token).
+        show:
+          section: "Events"
+        page:
+          date_format: "%o %B %Y"
+          date_format_with_year: "%o %B %Y"
         card:
           date_format: "%d %b"
           date_format_with_year: "%d %b %Y"
@@ -27,13 +34,24 @@ en:
             date_format: "%a %d %b"
             all_upcoming: "Future events"
       partners:
+        show:
+          section: "Partners"
         index:
           title: "Partners"
           page_title: "Partners"
           standfirst: "The Trans Dimension is a partnership of grassroots groups and charities with a track record of supporting the trans community."
           standfirst_detail: "All of our partners are explicitly trans-friendly organisations. Some are led by trans people, and some led by friends and allies. They put on events, provide services and offer support for members of our community."
       news:
+        show:
+          section: "News"
         index:
+          # News.elm card: "Read the rest" button, day-month-year byline
+          read_more: "Read the rest"
+          date_format: "%-d %B %Y"
           title: "News"
           page_title: "News"
           standfirst: "Updates & articles from our partners."
+      # JoinUs.elm: the intro panel copy (the form fields are PlaceCal's, D8)
+      sites:
+        join:
+          intro: "Want to be listed on The Trans Dimension? Get in touch and learn how you can create space and spaces for us."

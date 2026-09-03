@@ -190,3 +190,34 @@ main:not(:has(.td-home)) > .container-public > h1.h1 {
 main:not(:has(.td-home)) > div:has(> .hero) {
 	margin-top: var(--td-title-block);
 }
+
+/* About.elm: the About page has its own header artwork (girl with afro,
+   galaxy). Core marks the page with .page--<slug> (WP 1.17). */
+body main:has(.page--about) {
+	--td-band-header: url("illustrations/320px/about_1_header.png");
+}
+
+@media only screen and (min-width: 600px) {
+	body main:has(.page--about) {
+		--td-band-header: url("illustrations/768px/about_1_header.png");
+	}
+}
+
+@media only screen and (min-width: 900px) {
+	body main:has(.page--about) {
+		--td-band-header: url("illustrations/1024px/about_1_header.png");
+	}
+}
+
+@media only screen and (min-width: 1200px) {
+	body main:has(.page--about) {
+		--td-band-header: url("illustrations/1366px/about_1_header.png");
+		--td-band-header-height: 700px;
+	}
+}
+
+@media only screen and (min-width: 1500px) {
+	body main:has(.page--about) {
+		--td-band-header: url("illustrations/1920px/about_1_header.png");
+	}
+}
