@@ -59,16 +59,10 @@ describe 'transdimension:check rake task', type: :task do
     site.tags << [create(:partnership, name: 'London'), create(:partnership, name: 'Manchester')]
   end
 
-  def add_pages(site)
-    create(:page, site: site, slug: 'about', is_published: true)
-    create(:page, site: site, slug: 'privacy', is_published: true)
-  end
-
   describe 'with a fully configured Trans Dimension site' do
     before do
       site = create_td_site
       add_partnership_tags(site)
-      add_pages(site)
       stub_site_lookup(site)
     end
 
@@ -89,9 +83,7 @@ describe 'transdimension:check rake task', type: :task do
         'PASS: Site admin is set',
         'PASS: Logo is present',
         'PASS: Hero image is present',
-        'PASS: No neighbourhoods configured (as expected)',
-        'PASS: About page exists and is published',
-        'PASS: Privacy page exists and is published'
+        'PASS: No neighbourhoods configured (as expected)'
       )
     end
 
@@ -112,7 +104,6 @@ describe 'transdimension:check rake task', type: :task do
     before do
       site = create_td_site(theme: 'pink')
       add_partnership_tags(site)
-      add_pages(site)
       stub_site_lookup(site)
     end
 
@@ -137,7 +128,6 @@ describe 'transdimension:check rake task', type: :task do
     before do
       site = create_td_site
       add_partnership_tags(site)
-      add_pages(site)
       site.neighbourhoods << create(:riverside_ward)
       stub_site_lookup(site)
     end
@@ -155,7 +145,6 @@ describe 'transdimension:check rake task', type: :task do
     it 'takes the slug from the rake argument' do
       site = create_td_site(slug: 'another-td')
       add_partnership_tags(site)
-      add_pages(site)
       stub_site_lookup(site, slug: 'another-td')
 
       _output, status = run_check('another-td')
@@ -166,7 +155,6 @@ describe 'transdimension:check rake task', type: :task do
     it 'falls back to TD_SITE_SLUG when no argument is given' do
       site = create_td_site(slug: 'env-td')
       add_partnership_tags(site)
-      add_pages(site)
       stub_site_lookup(site, slug: 'env-td')
 
       ENV['TD_SITE_SLUG'] = 'env-td'
@@ -182,24 +170,6 @@ describe 'transdimension:check rake task', type: :task do
 
       expect(output).to include("FAIL: Site with slug 'no-such-site' not found")
       expect(status).to eq(1)
-    end
-  end
-
-  describe 'with the seeded pages missing' do
-    before do
-      site = create_td_site
-      add_partnership_tags(site)
-      stub_site_lookup(site)
-    end
-
-    it 'warns and points at the seed task, without failing' do
-      output, status = run_check
-
-      expect(output).to include(
-        'WARN: About page is missing or not published (run transdimension:seed_pages[trans-dimension])',
-        'WARN: Privacy page is missing or not published (run transdimension:seed_pages[trans-dimension])'
-      )
-      expect(status).to eq(0)
     end
   end
 end
