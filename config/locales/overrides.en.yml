@@ -13,6 +13,12 @@ en:
       # Listing page titles and intro panels (the hero standfirst slot, #3368
       # D1). Copy is TD's own, from transdimension.* below: the title sits on
       # the starfield and the standfirst becomes the pink intro panel.
+      # Paginator.elm labels the day buttons "Fri 04 Sep" and calls the
+      # unfiltered listing "Future events" (core keys: filters.day_strip.*).
+      filters:
+        day_strip:
+          date_format: "%a %d %b"
+          all_upcoming: "Future events"
       events:
         index:
           title: "Events"
@@ -33,12 +39,6 @@ en:
           date_format: "%d %b"
           date_format_with_year: "%d %b %Y"
           organiser_prefix: "by "
-        # Paginator.elm labels the day buttons "Fri 04 Sep" and calls the
-        # unfiltered listing "Future events".
-        filter:
-          day_strip:
-            date_format: "%a %d %b"
-            all_upcoming: "Future events"
       partners:
         show:
           section: "Partners"
