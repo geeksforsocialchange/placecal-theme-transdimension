@@ -14,13 +14,27 @@ RSpec.describe 'Trans Dimension theme', type: :request do
     expect(theme.event_filter_style).to eq(:day_strip)
   end
 
+  it 'points the nav CTA at the Donate URL from the locale file' do
+    theme = PlaceCal::Extensions.fetch_theme('transdimension')
+
+    expect(theme.nav_cta).to eq(
+      label_key: 'transdimension.header.donate',
+      url: I18n.t('transdimension.header.donate_url')
+    )
+    expect(theme.nav_cta[:url]).to eq('https://donorbox.org/the-trans-dimension')
+  end
+
+  it 'keeps the Join link out of the nav (the footer carries it)' do
+    expect(PlaceCal::Extensions.fetch_theme('transdimension').nav_join?).to be(false)
+  end
+
   it 'autoloads the engine Phlex namespaces' do
     expect(Transdimension::Views::Home.superclass).to eq(Views::Base)
     expect(Transdimension::Components::Head.superclass).to eq(Components::Base)
   end
 
   it 'loads the engine locale file' do
-    expect(I18n.t('transdimension.home.title')).to eq('The Trans Dimension')
+    expect(I18n.t('transdimension.site.title')).to eq('The Trans Dimension')
   end
 
   context 'with a site on the theme' do
