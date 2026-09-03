@@ -64,14 +64,16 @@ module Transdimension
       apple_touch_icon: 'transdimension/favicons/apple-touch-icon.png',
       mask_icon: 'transdimension/favicons/safari-pinned-tab.svg',
       icon_192: 'transdimension/favicons/android-chrome-192x192.png',
-      icon_512: 'transdimension/favicons/android-chrome-512x512.png'
+      icon_512: 'transdimension/favicons/android-chrome-512x512.png',
+      # site.webmanifest on the live site: the Safari pinned-tab mask colour.
+      # Core takes it in the icons hash rather than as a setting of its own.
+      mask_icon_color: '#FF7AA7'
     }.freeze
 
     def self.register_branding(theme)
-      theme.icons(**ICONS) if theme.respond_to?(:icons)
-      # site.webmanifest on the live site: mask #FF7AA7, theme #ff7aa7,
-      # splash background the dark blue the brand sits on.
-      theme.mask_icon_color '#FF7AA7' if theme.respond_to?(:mask_icon_color)
+      theme.icons(**ICONS)
+      # site.webmanifest on the live site: theme #ff7aa7, splash background the
+      # dark blue the brand sits on.
       theme.theme_color '#ff7aa7' if theme.respond_to?(:theme_color)
       theme.background_color '#040f39' if theme.respond_to?(:background_color)
       # Share card: the live site's logo artwork (556x320) centred on TD dark
