@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    placecal-theme-transdimension (0.1.0)
+    placecal-theme-transdimension (0.3.6)
       rails (>= 8.0)
 
 GEM
@@ -349,7 +349,7 @@ CHECKSUMS
   nokogiri (1.19.4-arm64-darwin)
   parallel (2.1.0)
   parser (3.3.12.0)
-  placecal-theme-transdimension (0.1.0)
+  placecal-theme-transdimension (0.3.6)
   pp (0.6.4)
   prettyprint (0.2.0)
   prism (1.9.0)

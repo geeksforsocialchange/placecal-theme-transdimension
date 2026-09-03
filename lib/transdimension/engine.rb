@@ -88,6 +88,27 @@ module Transdimension
         # PageHeader.elm labels the mobile toggle "Menu" rather than drawing a
         # hamburger. Guarded: cores without the setting simply keep their own.
         theme.menu_label true if theme.respond_to?(:menu_label)
+
+        # Favicons, touch icon, Safari mask icon and manifest icons, copied
+        # from the live transdimension.uk (#3368 WP 3.10). Guarded so a core
+        # without the icon DSL still boots on its own favicon.
+        if theme.respond_to?(:icons)
+          theme.icons favicon_32: 'transdimension/favicons/favicon-32x32.png',
+                      favicon_16: 'transdimension/favicons/favicon-16x16.png',
+                      apple_touch_icon: 'transdimension/favicons/apple-touch-icon.png',
+                      mask_icon: 'transdimension/favicons/safari-pinned-tab.svg',
+                      icon_192: 'transdimension/favicons/android-chrome-192x192.png',
+                      icon_512: 'transdimension/favicons/android-chrome-512x512.png'
+        end
+        # site.webmanifest on the live site: mask #FF7AA7, theme #ff7aa7,
+        # splash background the dark blue the brand sits on.
+        theme.mask_icon_color '#FF7AA7' if theme.respond_to?(:mask_icon_color)
+        theme.theme_color '#ff7aa7' if theme.respond_to?(:theme_color)
+        theme.background_color '#040f39' if theme.respond_to?(:background_color)
+        # Share card: the live site's logo artwork (556x320) centred on TD dark
+        # blue at 1200x630, the size Facebook and Twitter want for a large card.
+        # The live site links the bare 556x320 file while claiming 1200x675.
+        theme.og_image 'transdimension/og-share.png', width: 1200, height: 630 if theme.respond_to?(:og_image)
       end
     end
   end
