@@ -6,8 +6,8 @@
 # Three stacked sections, each a positioned box with an illustration painted
 # behind it by a ::before (and, for the news section, an ::after) in
 # app/tailwind/home.css. The engine owns the whole page: the homepage is the one
-# page that IS an extension view by design, so the event and news cards are the
-# theme's own components rather than core's.
+# page that IS an extension view by design. The news card is the theme's own;
+# the events are core's Components::Event, the same card the listing page draws.
 #
 # Data comes from core's query objects. The controller passes only the site, so
 # the region choice is read off the controller's own helper methods, the same
@@ -68,10 +68,14 @@ class Transdimension::Views::Home < Views::Base
     RegionFilter(tags: region_tags, selected: current_region)
   end
 
+  # Index.elm reuses viewEvent from Events.elm, so the cards are core's
+  # Components::Event under the `.events` rules the listing page uses. Core's
+  # EventList groups by day and prints a heading per day, which the homepage
+  # has no room for, so the grid and its items are emitted here.
   def render_event_list
     if events.any?
-      ul(class: 'td-events__list') do
-        events.each { |event| EventCard(event: event) }
+      ul(class: 'events') do
+        events.each { |event| li { Event(event: event) } }
       end
     else
       p(class: 'td-events__empty') { t('transdimension.home.events_empty') }

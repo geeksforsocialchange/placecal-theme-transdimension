@@ -694,6 +694,14 @@ h2.udl--fw {
 	.events .event__detail.event__date::first-line {
 		font-size: 3.1222rem;
 	}
+
+	/* eventDayStyle also pulls the numeral up over the top of the card, on the
+	   listing and on the homepage alike. A ::first-line takes no margin, so the
+	   block carries the offset and the month rides up with it, which is where
+	   the live site puts both. */
+	.events .event__detail.event__date {
+		margin-top: -0.75rem;
+	}
 }
 
 /* Events.elm eventTitleStyle */

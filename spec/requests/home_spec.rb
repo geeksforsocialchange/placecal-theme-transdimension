@@ -38,6 +38,13 @@ RSpec.describe 'Trans Dimension homepage', type: :request do
     expect(response.body).to include('Greater Manchester Trans Organisers Fund')
   end
 
+  it "draws the events with core's card, the one the listing page uses" do
+    get 'http://transdimension.lvh.me/'
+
+    expect(response.body).to include('event event--list')
+    expect(response.body).not_to include('td-event__title')
+  end
+
   it 'offers the region filter with both partnership tags' do
     get 'http://transdimension.lvh.me/'
 

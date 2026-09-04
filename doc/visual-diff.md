@@ -27,7 +27,10 @@ wraps differently), **capture** (an artefact of how the screenshot was taken).
 
 | What | Ours | Golden | Category | Reason |
 |---|---|---|---|---|
-| Event card time | start time only | start to end | data | dev fixture events have no `dtend`; core renders a range when it is set |
+| Event card link | the title only | the whole card | decision | the homepage draws core's `Components::Event`, the card the listing page draws, and core puts the link on the title |
+| Event card venue line | the place, or the street | postcode | decision | same card as the listing page, which prints the partner at the location or the first address line; the postcode option is the core slot recorded under Events |
+| Event card time on the hour | "11pm" | "11:00pm" | decision | core's `fmt_time` drops a zero minute, as on the listing page |
+| Event card organiser name | truncated at 25 characters | full | decision | core truncates the organiser link, as on the listing page |
 | "View all events" button y | 2400 | 2430 | data | box height follows card count and title wrapping; 30px |
 | News excerpt | markdown syntax visible ("##", "**") | plain text | core slot | core's `Article` summary does not strip markdown; PlaceCal's own news index shows the same |
 | Footer dark band | 218px, two centred columns | 224px, three columns | decision | the "Register for updates" form was dropped; the two remaining columns are centred |

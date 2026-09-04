@@ -63,7 +63,6 @@ en:
       events_header: Upcoming Events
       events_button: View all events
       events_empty: There are no upcoming events. Check back for updates!
-      event_by: by %{name}
       news_header: Latest news
       news_button: View all news
       news_read_more: Read the rest
