@@ -2279,6 +2279,45 @@ main > div[vocab]:has(.hero__section) {
 	}
 }
 
+/* About.elm bodyStyle: /about is the one static page whose body runs in two
+   columns, in an 848px measure and at a smaller size than the single-column
+   pages use. The rules below select the block rather than .markdown-content
+   itself, so the intro panel and the headings between the blocks keep the
+   treatment they share with /privacy. */
+.page--about .about-body {
+	margin-block: 2rem;
+}
+
+.page--about .about-body > :first-child {
+	margin-block-start: 0;
+}
+
+.page--about .about-body p,
+.page--about .about-body li {
+	margin-block: 1em;
+	margin-inline: 0;
+	max-width: none;
+}
+
+@media only screen and (min-width: 600px) {
+	.page--about .about-body {
+		column-gap: 2rem;
+		columns: 2;
+		margin-block: 3rem;
+		max-width: 848px;
+	}
+}
+
+/* The body steps up to the reading size at the laptop breakpoint, as the rest
+   of the static-page type does; on a phone it stays at the inherited size. */
+@media only screen and (min-width: 900px) {
+	.page--about .about-body p,
+	.page--about .about-body li {
+		font-size: 1.2rem;
+		line-height: 1.8rem;
+	}
+}
+
 /* TextHeavyPage.elm bodyStyle: the long-form body reads at 1.2rem. */
 @media only screen and (min-width: 900px) {
 	.markdown-content > p:not(:first-child),

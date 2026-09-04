@@ -79,8 +79,7 @@ wraps differently), **capture** (an artefact of how the screenshot was taken).
 
 | What | Ours | Golden | Category | Reason |
 |---|---|---|---|---|
-| About body copy font | 24 / 38.4 | 19.2 / 28.8 | open | flagged by the laptop pass, not yet chased |
-| About body layout | one 636 column, centred | two 408px columns in an 848 measure | open | flagged by the laptop pass, not yet chased |
+| About section headings | 636px measure, centred | 1116px, the box's full width | decision | the headings keep the measure and the sizes every static page uses; only the body copy moved to the wider two-column measure |
 | About header art | generic band | About artwork, character bottom left | core slot | the `.page--about` band override is wired; the About header image still needs its own placement |
 | Get in touch page title | "Get in touch" | "Join us" | decision | the get in touch page is used for now; the partner join form is #3456 |
 | Get in touch form fields, placeholders, optional tags, boxed checkboxes | PlaceCal's | TD's | 4a deviation | "Join Us form: PlaceCal's Join fields" |
