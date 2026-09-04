@@ -40,8 +40,8 @@ namespace :transdimension do
       },
       lambda {
         tags = site.tags.where(type: 'Partnership').pluck(:name, :id)
-        found = %w[London Manchester].to_h do |wanted|
-          [wanted, tags.find { |name, _id| name.casecmp(wanted).zero? }]
+        found = %w[London Manchester].index_with do |wanted|
+          tags.find { |name, _id| name.casecmp(wanted).zero? }
         end
         missing = found.select { |_wanted, tag| tag.nil? }.keys
 

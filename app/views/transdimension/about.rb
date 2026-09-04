@@ -24,22 +24,30 @@ class Transdimension::Views::About < Transdimension::Views::ContentPage
 
   def page_body
     p { t('transdimension.site.description') }
-    markdown('about/main.md')
+    body_columns('about/main.md')
 
     h2 { t('transdimension.about.accessibility') }
-    markdown('about/accessibility.md')
+    body_columns('about/accessibility.md')
 
     render_makers
 
     h2 { t('transdimension.about.placecal') }
-    markdown('about/placecal.md')
+    body_columns('about/placecal.md')
   end
 
   def render_makers
     h2 { t('transdimension.about.makers') }
     h3 { t('transdimension.about.gi') }
-    markdown('about/makers/gi.md')
+    body_columns('about/makers/gi.md')
     h3 { t('transdimension.about.gfsc') }
-    markdown('about/makers/gfsc.md')
+    body_columns('about/makers/gfsc.md')
+  end
+
+  # About.elm sets the body copy in two columns inside a measure wider than
+  # TextHeavyPage's, so each markdown block needs an element of its own to flow
+  # in. The headings stay direct children of the markdown column, at the
+  # measure and the sizes every static page uses.
+  def body_columns(relative_path)
+    div(class: 'about-body') { markdown(relative_path) }
   end
 end

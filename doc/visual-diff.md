@@ -27,7 +27,10 @@ wraps differently), **capture** (an artefact of how the screenshot was taken).
 
 | What | Ours | Golden | Category | Reason |
 |---|---|---|---|---|
-| Event card time | start time only | start to end | data | dev fixture events have no `dtend`; core renders a range when it is set |
+| Event card link | the title only | the whole card | decision | the homepage draws core's `Components::Event`, the card the listing page draws, and core puts the link on the title |
+| Event card venue line | the place, or the street | postcode | decision | same card as the listing page, which prints the partner at the location or the first address line; the postcode option is the core slot recorded under Events |
+| Event card time on the hour | "11pm" | "11:00pm" | decision | core's `fmt_time` drops a zero minute, as on the listing page |
+| Event card organiser name | truncated at 25 characters | full | decision | core truncates the organiser link, as on the listing page |
 | "View all events" button y | 2400 | 2430 | data | box height follows card count and title wrapping; 30px |
 | News excerpt | markdown syntax visible ("##", "**") | plain text | core slot | core's `Article` summary does not strip markdown; PlaceCal's own news index shows the same |
 | Footer dark band | 218px, two centred columns | 224px, three columns | decision | the "Register for updates" form was dropped; the two remaining columns are centred |
@@ -76,8 +79,7 @@ wraps differently), **capture** (an artefact of how the screenshot was taken).
 
 | What | Ours | Golden | Category | Reason |
 |---|---|---|---|---|
-| About body copy font | 24 / 38.4 | 19.2 / 28.8 | open | flagged by the laptop pass, not yet chased |
-| About body layout | one 636 column, centred | two 408px columns in an 848 measure | open | flagged by the laptop pass, not yet chased |
+| About section headings | 636px measure, centred | 1116px, the box's full width | decision | the headings keep the measure and the sizes every static page uses; only the body copy moved to the wider two-column measure |
 | About header art | generic band | About artwork, character bottom left | core slot | the `.page--about` band override is wired; the About header image still needs its own placement |
 | Get in touch page title | "Get in touch" | "Join us" | decision | the get in touch page is used for now; the partner join form is #3456 |
 | Get in touch form fields, placeholders, optional tags, boxed checkboxes | PlaceCal's | TD's | 4a deviation | "Join Us form: PlaceCal's Join fields" |
