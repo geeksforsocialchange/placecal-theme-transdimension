@@ -2315,13 +2315,16 @@ main > div[vocab]:has(.hero__section) {
 	}
 }
 
-/* TextHeavyPage.elm bodyStyle: the long-form body reads at 1.2rem. */
+/* TextHeavyPage.elm bodyStyle: the long-form body reads at 1.2rem. Measured on
+   the live /privacy at 1250: body paragraphs and list items 19.2px over 28.8px,
+   with the list itself left at the inherited 1rem. The rule used to say 1.5rem
+   against that comment, and outranked the 1200px rule below on specificity. */
 @media only screen and (min-width: 900px) {
 	.markdown-content > p:not(:first-child),
-	.markdown-content > ul,
-	.markdown-content > ol {
-		font-size: 1.5rem;
-		line-height: 1.6;
+	.markdown-content > ul > li,
+	.markdown-content > ol > li {
+		font-size: 1.2rem;
+		line-height: 1.5;
 	}
 
 	.markdown-content {

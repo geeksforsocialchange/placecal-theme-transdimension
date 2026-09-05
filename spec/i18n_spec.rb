@@ -51,6 +51,24 @@ describe 'Trans Dimension i18n' do
       expect(en_locale).to have_key('transdimension')
     end
 
+    # The header of en.yml claims every key is read by app/ or lib/. Enforce it,
+    # so a key orphaned by a future view edit fails here rather than sitting in
+    # the file reading as live copy. Six of them are only ever reached through an
+    # interpolated t() call, so each call site becomes a pattern, not a literal.
+    it 'every key is read by app/ or lib/' do
+      source = Pathname(__dir__).parent.glob('{app,lib}/**/*.rb').map(&:read).join("\n")
+      patterns = source.scan(/transdimension\.[a-z0-9_.]*(?:\#\{[^}]*\}[a-z0-9_.]*)*/).uniq.map do |ref|
+        literals = ref.split(/\#\{[^}]*\}/, -1).map { |part| Regexp.escape(part) }
+        /\A#{literals.join('[a-z0-9_]+')}\z/
+      end
+
+      flatten_keys(en_locale['transdimension']).each do |key|
+        full_key = "transdimension.#{key}"
+        expect(patterns).to be_any { |pattern| pattern.match?(full_key) },
+                            "Key #{full_key} is in en.yml but nothing in app/ or lib/ reads it"
+      end
+    end
+
     it 'contains no nil or blank values' do
       td_locale = en_locale['transdimension']
       flat_keys = flatten_keys(td_locale)

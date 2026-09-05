@@ -18,8 +18,9 @@ Gem::Specification.new do |spec|
 
   spec.required_ruby_version = '>= 3.2'
 
+  # `**/*` matches directories too, and `gem build` warns on every one of them.
   spec.files = Dir.chdir(File.expand_path(__dir__)) do
-    Dir['{app,config,content,lib}/**/*', 'LICENSE', 'README.md']
+    Dir['{app,config,content,lib}/**/*', 'LICENSE', 'README.md'].select { |f| File.file?(f) }
   end
 
   # Core is the host application, never a dependency of the theme.
