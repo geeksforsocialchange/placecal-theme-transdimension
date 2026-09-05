@@ -8,23 +8,19 @@ require 'rails_helper'
 # landmark structure are this engine's to get right even where the elements come
 # from core.
 RSpec.describe 'Trans Dimension accessibility', type: :system do
-  # heading-order is the one rule skipped, and only because every node that
-  # trips it is core's markup, unreachable from a theme:
+  # heading-order is the one rule skipped, and only on the article page, where
+  # the single remaining offender is core's markup and unreachable from a theme:
+  # app/views/news/show.rb renders the byline as
+  # <h3 class="article__author"> directly under the article h1, so the sequence
+  # goes h1 to h3 with no h2 between. Core is turning that h3 into a paragraph
+  # in a parallel work package; drop this skip once that lands.
   #
-  #   * Navigation renders <h2 class="sr-only"> with the site name
-  #     (app/components/navigation.rb) and Hero then renders the site tagline as
-  #     <h4 class="allcaps"> (app/components/hero.rb), so every page with a hero
-  #     subtitle skips h3 before it reaches its own h1.
-  #   * partners/show.rb has <h3 class="udl udl--fw allcaps h4">Get in touch</h3>
-  #     and events/show.rb <h3 class="h4 udl">Contact information</h3>, both
-  #     under an h1 with no h2 between.
-  #
-  # These are for core to fix. Nothing else is skipped: a violation in the
-  # theme's own markup or CSS has to fail here.
+  # Every other page is checked with nothing skipped, so a heading a view or
+  # component in this engine emits out of order has to fail here.
   CORE_OWNED_RULES = [:'heading-order'].freeze
 
   def expect_axe_clean
-    expect(page).to be_axe_clean.skipping(*CORE_OWNED_RULES)
+    expect(page).to be_axe_clean
   end
 
   let(:london) { create(:partnership, name: 'London') }
@@ -92,6 +88,6 @@ RSpec.describe 'Trans Dimension accessibility', type: :system do
   it 'has no accessibility violations on an article' do
     visit_themed("/news/#{article.to_param}")
 
-    expect_axe_clean
+    expect(page).to be_axe_clean.skipping(*CORE_OWNED_RULES)
   end
 end
