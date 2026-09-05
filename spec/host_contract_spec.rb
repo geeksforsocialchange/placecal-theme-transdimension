@@ -23,7 +23,10 @@ RSpec.describe 'host contract' do
     it 'sets the views, nav and listing behaviour' do
       expect(theme.stylesheet).to eq('transdimension/theme')
       expect(theme.homepage_view).to eq('Transdimension::Views::Home')
-      expect(theme.head).to eq('Transdimension::Components::Head')
+      expect(theme.font_stylesheet).to eq(
+        url: Transdimension::Engine::TYPEKIT_CSS,
+        preconnect: Transdimension::Engine::TYPEKIT_PRECONNECT
+      )
       expect(theme.footer).to eq('Transdimension::Components::Footer')
       expect(theme.event_filter_style).to eq(:day_strip)
       expect(theme.map_style).to eq('transdimension')

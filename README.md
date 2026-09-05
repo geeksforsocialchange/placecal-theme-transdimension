@@ -44,7 +44,7 @@ The CSS is committed prebuilt, so core's Docker build needs no extra Node step.
 
 The host has to be a PlaceCal with the extension theme registry, that is core with #3368 merged. Specifically, `PlaceCal::Extensions.register_theme` must exist and the theme it yields must support every setting this engine uses:
 
-`stylesheet`, `homepage_view`, `head`, `footer`, `event_filter_style`, `nav_cta`, `nav_join`, `map_style`, `menu_label`, `icons`, `theme_color`, `background_color`, `og_image`, `page`
+`stylesheet`, `homepage_view`, `font_stylesheet`, `footer`, `event_filter_style`, `nav_cta`, `nav_join`, `map_style`, `menu_label`, `icons`, `theme_color`, `background_color`, `og_image`, `page`
 
 The engine declares that list as `required_settings` and core's `PlaceCal::Extension` checks it while the theme registers, raising `PlaceCal::Extension::UnsupportedHost` naming the missing capability rather than failing with a `NoMethodError` from inside an initializer. Core pins this engine by tag in its own Gemfile and the two ship together, so every setting is required and none is applied conditionally.
 
@@ -145,6 +145,6 @@ The design assets in this repository (illustrations, logos, artwork and brand co
 
 The favicons in `app/assets/images/transdimension/favicons/` and the share image `app/assets/images/transdimension/og-share.png` are Gendered Intelligence's too, taken from the live [transdimension.uk](https://transdimension.uk) so that a PlaceCal-served site keeps the same browser tab icon, home screen icon and link preview. The live site's `favicon.ico` is not among them: core's icon slots (`PlaceCal::Theme::ICON_PATH_KEYS`) are the PNG and SVG ones, and an engine asset is only ever served at a fingerprinted path, never at `/favicon.ico`, so the file could not be reached.
 
-No font files are in this repository. The theme's typeface is Covik Sans, loaded at runtime from [Adobe Fonts](https://fonts.adobe.com) (Typekit kit `qwi3qrw`, linked by `app/components/transdimension/head.rb`) and licensed through Adobe Fonts by the site owner. An installation serving a different site needs its own Adobe Fonts licence and kit.
+No font files are in this repository. The theme's typeface is Covik Sans, loaded at runtime from [Adobe Fonts](https://fonts.adobe.com) (Typekit kit `qwi3qrw`, registered as the theme's `font_stylesheet` in `lib/transdimension/engine.rb`) and licensed through Adobe Fonts by the site owner. An installation serving a different site needs its own Adobe Fonts licence and kit.
 
 Illustrations by [Harry Woodgate](https://www.harrywoodgate.com/). Site design by [Squid](https://studiosquid.co.uk/).

@@ -17,7 +17,7 @@ module Transdimension
     # its own Gemfile and the two ship together, so there is no host with some
     # of these and not the rest.
     required_settings %i[
-      stylesheet homepage_view head footer event_filter_style nav_cta nav_join map_style
+      stylesheet homepage_view font_stylesheet footer event_filter_style nav_cta nav_join map_style
       menu_label icons theme_color background_color og_image page
     ]
 
@@ -25,6 +25,18 @@ module Transdimension
     # Partnership's Donorbox page. A URL is not a UI string, so it is a constant
     # here rather than a locale key; only the button label is translated.
     DONATE_URL = 'https://donorbox.org/the-trans-dimension'
+
+    # Covik Sans comes from Adobe Typekit (D16: the licence is held), kit
+    # qwi3qrw. Core's font_stylesheet slot renders exactly the tags the Elm
+    # site's elm-pages.config.mjs headTagsTemplate emitted: the two
+    # preconnects, the preload and the stylesheet link.
+    #
+    # One deviation, and it predates this slot. Elm loads the stylesheet with
+    # media="print" and an onload handler that swaps it to "all", with a
+    # <noscript> copy as the fallback, so the font never blocks the first
+    # paint. Same font, one render-blocking request, no inline JavaScript.
+    TYPEKIT_CSS = 'https://use.typekit.net/qwi3qrw.css'
+    TYPEKIT_PRECONNECT = %w[https://use.typekit.net https://p.typekit.net].freeze
 
     # Favicons, touch icon, Safari mask icon and share card, copied from the
     # live transdimension.uk (#3368 WP 3.10).
@@ -50,7 +62,7 @@ module Transdimension
     def self.register_layout(theme)
       theme.stylesheet 'transdimension/theme'
       theme.homepage_view 'Transdimension::Views::Home'
-      theme.head 'Transdimension::Components::Head'
+      theme.font_stylesheet TYPEKIT_CSS, preconnect: TYPEKIT_PRECONNECT
       theme.footer 'Transdimension::Components::Footer'
       theme.event_filter_style :day_strip
       # PageHeader.elm: the Donate button (PHT Donorbox) at the end of the nav
