@@ -10,7 +10,7 @@ Gem::Specification.new do |spec|
   spec.homepage    = 'https://github.com/geeksforsocialchange/placecal-theme-transdimension'
   spec.summary     = 'The Trans Dimension theme for PlaceCal'
   spec.description = 'A PlaceCal extension engine providing the Trans Dimension theme: views, components, copy and prebuilt CSS. Contains no models, migrations or business logic.'
-  spec.license     = 'Hippocratic-3.0'
+  spec.license     = 'AGPL-3.0'
 
   spec.metadata['homepage_uri'] = spec.homepage
   spec.metadata['source_code_uri'] = spec.homepage

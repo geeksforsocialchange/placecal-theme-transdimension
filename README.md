@@ -139,7 +139,7 @@ The task prints PASS, WARN and FAIL lines for each required field and exits non-
 
 ## Copyright and licence
 
-The code in this repository is licensed under the [Hippocratic License 3.0](LICENSE).
+The code in this repository is copyright Geeks for Social Change and licensed under the [GNU Affero General Public License v3.0](LICENSE), the same licence as PlaceCal itself, since the engine runs inside it.
 
 The design assets in this repository (illustrations, logos, artwork and brand copy) are copyright [Gendered Intelligence](https://genderedintelligence.co.uk). They are included here so that the Trans Dimension site can be served by PlaceCal, and they may not be reused outside that context without Gendered Intelligence's permission.
 
