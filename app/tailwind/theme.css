@@ -29,10 +29,12 @@
 /* The About and Privacy wrapper is core's now (Views::ThemeContentPage), and
    the globs above scan only this engine, so the utilities that markup uses
    have to be named here or they leave the build when the file leaves the
-   engine. Core's own build happens to emit four of the five; leading-relaxed
-   is not in core's public build at all, because core's theme defines no
-   --leading-relaxed for it to generate from. */
-@source inline("block py-8 text-base leading-relaxed max-w-(--width-prose-lg)");
+   engine. Core's public build is linked alongside this one and emits all but
+   leading-relaxed, for which core's theme defines no --leading-relaxed.
+   Nothing else couples this hand-maintained list to a file in another repo, so
+   spec/requests/pages_styling_spec.rb renders both pages and fails if a class
+   that wrapper emits has no rule in either build. */
+@source inline("py-8 text-base leading-relaxed max-w-(--width-prose-lg)");
 
 :root {
 	/* Root size. The Elm site never sets one, so it renders at the browser

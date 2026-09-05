@@ -4,36 +4,19 @@ require 'rails_helper'
 
 # WP 2.1 (#3368): the engine skeleton registers the transdimension theme and
 # core renders it, with no core changes.
+#
+# The settings the theme registers are read back one by one in
+# spec/host_contract_spec.rb and the locale files in spec/i18n_spec.rb, so what
+# is left here is registration, autoloading and the built stylesheet actually
+# shipping and resolving.
 RSpec.describe 'Trans Dimension theme', type: :request do
   it 'registers the theme' do
     expect(PlaceCal::Extensions.theme_names).to include('transdimension')
   end
 
-  it 'uses the day strip event filter (D22)' do
-    theme = PlaceCal::Extensions.fetch_theme('transdimension')
-    expect(theme.event_filter_style).to eq(:day_strip)
-  end
-
-  it 'points the nav CTA at the Donate URL' do
-    theme = PlaceCal::Extensions.fetch_theme('transdimension')
-
-    expect(theme.nav_cta).to eq(
-      label_key: 'transdimension.header.donate',
-      url: 'https://donorbox.org/the-trans-dimension'
-    )
-  end
-
-  it 'keeps the Join link out of the nav (the footer carries it)' do
-    expect(PlaceCal::Extensions.fetch_theme('transdimension').nav_join?).to be(false)
-  end
-
   it 'autoloads the engine Phlex namespaces' do
     expect(Transdimension::Views::Home.superclass).to eq(Views::Base)
     expect(Transdimension::Components::Footer.superclass).to eq(Components::Base)
-  end
-
-  it 'loads the engine locale file' do
-    expect(I18n.t('transdimension.site.title')).to eq('The Trans Dimension')
   end
 
   context 'with a site on the theme' do
