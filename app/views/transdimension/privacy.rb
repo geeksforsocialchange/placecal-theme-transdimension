@@ -2,19 +2,20 @@
 
 # The Privacy Policy page (#3368 WP 3.12). Registered at the `privacy` slug,
 # the one core route a theme page may replace.
-class Transdimension::Views::Privacy < Transdimension::Views::ContentPage
+#
+# One markdown file under a standfirst, which is not a heading, so the page
+# prepends it and lets core render the declared block.
+class Transdimension::Views::Privacy < Views::ThemeContentPage
+  content_root Transdimension::Engine.root.join('content')
+  slug         'privacy'
+  title        'transdimension.privacy.title'
+
+  markdown 'privacy.md'
+
   private
-
-  def slug
-    'privacy'
-  end
-
-  def page_title
-    t('transdimension.privacy.title')
-  end
 
   def page_body
     p { t('transdimension.privacy.subtitle') }
-    markdown('privacy.md')
+    super
   end
 end

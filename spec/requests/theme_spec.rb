@@ -29,7 +29,7 @@ RSpec.describe 'Trans Dimension theme', type: :request do
 
   it 'autoloads the engine Phlex namespaces' do
     expect(Transdimension::Views::Home.superclass).to eq(Views::Base)
-    expect(Transdimension::Components::Head.superclass).to eq(Components::Base)
+    expect(Transdimension::Components::Footer.superclass).to eq(Components::Base)
   end
 
   it 'loads the engine locale file' do

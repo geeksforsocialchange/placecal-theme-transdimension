@@ -14,5 +14,9 @@ module Transdimension
   end
 end
 
+# Two lines, so an installation whose core predates the shared engine
+# infrastructure fails by name rather than with a NameError from a class body.
+abort('placecal-theme-transdimension needs a PlaceCal with PlaceCal::Extension; see "Minimum core" in README.md.') unless defined?(PlaceCal::Extension)
+
 require_relative 'transdimension/version'
 require_relative 'transdimension/engine'

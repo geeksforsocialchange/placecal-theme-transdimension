@@ -1,62 +1,42 @@
 # frozen_string_literal: true
 
 module Transdimension
-  # Raised when the host PlaceCal is too old to serve this theme.
-  class UnsupportedHost < StandardError; end
-
   class Engine < ::Rails::Engine
     # Not isolate_namespace: an extension plugs into the host app's routes,
     # helpers and layout rather than living behind a mount point.
-
-    # Rails does not autoload app/views, and it autoloads app/components under
-    # the top-level namespace, so the engine pushes its own directories with
-    # explicit namespaces. Core does the same for Views and Components in
-    # config/initializers/phlex.rb.
-    initializer 'transdimension.phlex_namespaces', before: :set_autoload_paths do
-      Rails.autoloaders.main.push_dir(
-        root.join('app/views/transdimension'),
-        namespace: Transdimension::Views
-      )
-      Rails.autoloaders.main.push_dir(
-        root.join('app/components/transdimension'),
-        namespace: Transdimension::Components
-      )
-    end
+    #
+    # PlaceCal::Extension is core's shared engine infrastructure: it pushes the
+    # Phlex namespaces for the app/views/transdimension and
+    # app/components/transdimension directories this engine ships, runs the
+    # host and theme guards, and registers the theme declared below. See core's
+    # doc/extensions.md.
+    include PlaceCal::Extension
 
     # Every theme DSL setting this engine uses. The host has to provide all of
     # them; see "Minimum core" in the README. Core pins this engine by tag in
     # its own Gemfile and the two ship together, so there is no host with some
     # of these and not the rest.
-    REQUIRED_THEME_SETTINGS = %i[
-      stylesheet homepage_view head footer event_filter_style nav_cta nav_join map_style
+    required_settings %i[
+      stylesheet homepage_view font_stylesheet footer event_filter_style nav_cta nav_join map_style
       menu_label icons theme_color background_color og_image page
-    ].freeze
-
-    # An older core has no extension registry, or a registry whose Theme is
-    # missing settings added later. Either way the failure would otherwise be a
-    # bare NoMethodError raised from inside an initializer, which says nothing
-    # about what the installation needs. Name the missing capability instead.
-    def self.verify_host!(registry = host_registry)
-      return if registry.respond_to?(:register_theme)
-
-      raise UnsupportedHost,
-            'PlaceCal::Extensions.register_theme is not available: this theme needs a PlaceCal ' \
-            'with the extension theme registry (see "Minimum core" in the engine README).'
-    end
-
-    def self.verify_theme!(theme)
-      missing = REQUIRED_THEME_SETTINGS.reject { |setting| theme.respond_to?(setting) }
-      return if missing.empty?
-
-      raise UnsupportedHost,
-            "PlaceCal::Theme does not support #{missing.join(', ')}: this theme needs a newer " \
-            'PlaceCal (see "Minimum core" in the engine README).'
-    end
+    ]
 
     # PageHeader.elm: the Donate button at the end of the nav goes to the
     # Partnership's Donorbox page. A URL is not a UI string, so it is a constant
     # here rather than a locale key; only the button label is translated.
     DONATE_URL = 'https://donorbox.org/the-trans-dimension'
+
+    # Covik Sans comes from Adobe Typekit (D16: the licence is held), kit
+    # qwi3qrw. Core's font_stylesheet slot renders exactly the tags the Elm
+    # site's elm-pages.config.mjs headTagsTemplate emitted: the two
+    # preconnects, the preload and the stylesheet link.
+    #
+    # One deviation, and it predates this slot. Elm loads the stylesheet with
+    # media="print" and an onload handler that swaps it to "all", with a
+    # <noscript> copy as the fallback, so the font never blocks the first
+    # paint. Same font, one render-blocking request, no inline JavaScript.
+    TYPEKIT_CSS = 'https://use.typekit.net/qwi3qrw.css'
+    TYPEKIT_PRECONNECT = %w[https://use.typekit.net https://p.typekit.net].freeze
 
     # Favicons, touch icon, Safari mask icon and share card, copied from the
     # live transdimension.uk (#3368 WP 3.10).
@@ -71,6 +51,30 @@ module Transdimension
       # Core takes it in the icons hash rather than as a setting of its own.
       mask_icon_color: '#FF7AA7'
     }.freeze
+
+    theme :transdimension do |theme|
+      register_layout(theme)
+      register_branding(theme)
+      register_pages(theme)
+    end
+
+    # The views, nav and listing behaviour core reads for a site on this theme.
+    def self.register_layout(theme)
+      theme.stylesheet 'transdimension/theme'
+      theme.homepage_view 'Transdimension::Views::Home'
+      theme.font_stylesheet TYPEKIT_CSS, preconnect: TYPEKIT_PRECONNECT
+      theme.footer 'Transdimension::Components::Footer'
+      theme.event_filter_style :day_strip
+      # PageHeader.elm: the Donate button (PHT Donorbox) at the end of the nav
+      theme.nav_cta 'transdimension.header.donate', DONATE_URL
+      # PageHeader.elm has no Join link; PageFooter.elm carries it instead
+      theme.nav_join false
+      # Pink-tinted OpenFreeMap style shipped with the engine
+      theme.map_style 'transdimension'
+      # PageHeader.elm labels the mobile toggle "Menu" rather than drawing a
+      # hamburger.
+      theme.menu_label true
+    end
 
     def self.register_branding(theme)
       theme.icons(**ICONS)
@@ -92,49 +96,6 @@ module Transdimension
     def self.register_pages(theme)
       theme.page 'about', 'Transdimension::Views::About', nav_label_key: 'transdimension.nav.about'
       theme.page 'privacy', 'Transdimension::Views::Privacy'
-    end
-
-    def self.host_registry
-      defined?(::PlaceCal::Extensions) ? ::PlaceCal::Extensions : nil
-    end
-
-    # Everything this engine says to a PlaceCal::Theme, in one callable place so
-    # spec/host_contract_spec.rb can run it against a throwaway real Theme. A
-    # changed signature in core then fails there rather than from inside an
-    # initializer on the next boot.
-    def self.configure_theme(theme)
-      verify_theme!(theme)
-      register_layout(theme)
-      register_branding(theme)
-      register_pages(theme)
-    end
-
-    # The views, nav and listing behaviour core reads for a site on this theme.
-    def self.register_layout(theme)
-      theme.stylesheet 'transdimension/theme'
-      theme.homepage_view 'Transdimension::Views::Home'
-      theme.head 'Transdimension::Components::Head'
-      theme.footer 'Transdimension::Components::Footer'
-      theme.event_filter_style :day_strip
-      # PageHeader.elm: the Donate button (PHT Donorbox) at the end of the nav
-      theme.nav_cta 'transdimension.header.donate', DONATE_URL
-      # PageHeader.elm has no Join link; PageFooter.elm carries it instead
-      theme.nav_join false
-      # Pink-tinted OpenFreeMap style shipped with the engine
-      theme.map_style 'transdimension'
-      # PageHeader.elm labels the mobile toggle "Menu" rather than drawing a
-      # hamburger.
-      theme.menu_label true
-    end
-
-    # Theme registration (#3368 D1). Runs before core's config/initializers,
-    # which is why core requires the registry from config/application.rb.
-    initializer 'transdimension.register_theme' do
-      Engine.verify_host!
-
-      PlaceCal::Extensions.register_theme(:transdimension) do |theme|
-        Engine.configure_theme(theme)
-      end
     end
   end
 end

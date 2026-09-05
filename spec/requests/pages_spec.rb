@@ -1,12 +1,13 @@
 # frozen_string_literal: true
 
 require 'rails_helper'
-require 'tmpdir'
 
 # The theme's own static pages (#3368 WP 3.12). About and Privacy are views in
 # this engine registered with `theme.page`, not rows in the host database, so
 # what a request checks is that core serves the registered slug and that the
-# markup app/tailwind/pages.css selects on is still there.
+# markup app/tailwind/pages.css selects on is still there. The markdown
+# pipeline itself, its cache and its missing-file rescue are core's
+# (Views::ThemeContentPage) and are covered by core's own specs.
 RSpec.describe 'Trans Dimension theme pages', type: :request do
   let(:site) { create(:site, slug: 'td-test', theme: 'transdimension', url: 'https://td-test.lvh.me') }
 
@@ -84,38 +85,6 @@ RSpec.describe 'Trans Dimension theme pages', type: :request do
 
       expect(text).to include('Matomo', 'stats.gfsc.community', 'Adobe Typekit')
       expect(text).not_to include('Plausible')
-    end
-  end
-
-  describe 'a missing content file' do
-    it 'renders the page without that block rather than 500ing' do
-      # Stand the content directory up in a tmpdir with one file renamed away,
-      # which is what a rename between releases looks like at runtime.
-      Dir.mktmpdir do |dir|
-        content = Pathname(dir).join('content')
-        FileUtils.cp_r(Transdimension::Engine.root.join('content').to_s, content.to_s)
-        content.join('about/makers/gi.md').rename(content.join('about/makers/gi.md.moved').to_s)
-        stub_const('Transdimension::Views::ContentPage::CONTENT_DIR', content)
-
-        get 'http://td-test.lvh.me/about'
-
-        expect(response).to have_http_status(:ok)
-        expect(response.body).to include('PlaceCal is a package of software and training')
-        expect(response.body).not_to include('Gendered Intelligence is a registered charity')
-      end
-    end
-  end
-
-  describe 'markdown caching' do
-    it 'parses a content file once and reuses the render' do
-      # Prime the memo with one request, then watch: a second request for the
-      # same page must not go back to Kramdown.
-      get 'http://td-test.lvh.me/privacy'
-      allow(Kramdown::Document).to receive(:new).and_call_original
-
-      get 'http://td-test.lvh.me/privacy'
-
-      expect(Kramdown::Document).not_to have_received(:new)
     end
   end
 
