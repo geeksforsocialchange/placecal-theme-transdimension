@@ -96,7 +96,7 @@ main > .container-public {
    artwork above, so core's text kicker would repeat it. It is moved off screen
    rather than removed: it is the only copy of the strapline a screen reader can
    reach, since the lockup is a background image. */
-.hero h4.allcaps {
+.hero p.allcaps {
 	height: 1px;
 	left: -10000px;
 	overflow: hidden;
@@ -892,7 +892,7 @@ main > div:not([vocab]) > .hero h1 {
 }
 
 /* The kicker is the site strapline, which TD does not repeat inside the panel;
-   the shared .hero h4.allcaps rule above already moves it off screen. */
+   the shared .hero p.allcaps rule above already moves it off screen. */
 
 /* WP 2.14. The details row is PlaceCal's own again: one left-aligned run of
    icon-and-text pairs under the title panel, with the icons in TD pink. TD's
@@ -1032,9 +1032,9 @@ main > div:not([vocab]) > .hero h1 {
    for "Contact information", "Event address", "Get in touch" and so on. Core
    marks all of them with .udl, whose 3px underline TD does not draw. */
 .event__fullinfo .udl,
-.event__fullinfo h3,
+.event__fullinfo h2,
 .g--partner .udl,
-.g--partner h3 {
+.g--partner h2 {
 	border-bottom: 0;
 	color: var(--color-primary);
 	display: block;
