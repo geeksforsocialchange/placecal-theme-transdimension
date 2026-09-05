@@ -26,6 +26,14 @@
 @source "../views/**/*.rb";
 @source "../components/**/*.rb";
 
+/* The About and Privacy wrapper is core's now (Views::ThemeContentPage), and
+   the globs above scan only this engine, so the utilities that markup uses
+   have to be named here or they leave the build when the file leaves the
+   engine. Core's own build happens to emit four of the five; leading-relaxed
+   is not in core's public build at all, because core's theme defines no
+   --leading-relaxed for it to generate from. */
+@source inline("block py-8 text-base leading-relaxed max-w-(--width-prose-lg)");
+
 :root {
 	/* Root size. The Elm site never sets one, so it renders at the browser
 	   default 16px; core raises it to 18px. Every rem in this file is a TD rem,
@@ -34,8 +42,9 @@
 	--root-line-height: 1.5;
 
 	/* Fonts. Global.elm: fontFamilies [ "covik-sans", sansSerif ]. Covik Sans is
-	   served from Typekit kit qwi3qrw, loaded in Transdimension::Components::Head
-	   (D16). TD has no second face, so the serif slot takes Covik too. */
+	   served from Typekit kit qwi3qrw, registered as the theme's font_stylesheet
+	   in lib/transdimension/engine.rb (D16). TD has no second face, so the
+	   serif slot takes Covik too. */
 	--font-sans: "covik-sans", sans-serif;
 	--font-serif: "covik-sans", sans-serif;
 	/* Global.elm weights: body 400, intro text 500, buttons and nav 600, bold 700 */
