@@ -70,4 +70,20 @@ RSpec.configure do |config|
   # Core freezes time in its own suite; match it so shared factories behave.
   config.before { Timecop.freeze(Time.zone.local(2022, 11, 8)) }
   config.after { Timecop.return }
+
+  # System specs, the same way core drives its own (spec/rails_helper.rb there).
+  # Core's spec/support already gives us Capybara, Selenium and the axe-rspec
+  # matcher; what does not come with the support files is the per-example
+  # configuration, because that lives in core's RSpec.configure block.
+  #
+  # A system spec runs the browser in another thread, so an open transaction
+  # would hide the fixtures from it. Delete instead.
+  config.before(:each, type: :system) do
+    self.use_transactional_tests = false
+    DatabaseCleaner.strategy = :deletion
+    DatabaseCleaner.start
+    driven_by :selenium, using: :headless_chrome, screen_size: [1400, 1400]
+  end
+
+  config.after(:each, type: :system) { DatabaseCleaner.clean }
 end

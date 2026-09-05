@@ -20,7 +20,9 @@ From this repo root, run:
 
 `bash goldens/capture.sh`
 
-By default, images are saved to goldens/<YYYY-MM-DD>. To use a different output directory:
+The script is macOS-only: it runs Chrome from /Applications/Google Chrome.app and uses BSD `stat -f%z`. Both need changing to run it on Linux.
+
+By default, images are saved to goldens/<YYYY-MM-DD>. The argument is a parent directory, not the output directory: the script appends `goldens/<YYYY-MM-DD>` to it, so this writes to /path/to/output/goldens/<YYYY-MM-DD>:
 
 `bash goldens/capture.sh /path/to/output`
 

@@ -35,7 +35,7 @@ Add the engine to the PlaceCal installation's `Gemfile`, pinned to a tag, in the
 group :extensions do
   gem 'placecal-theme-transdimension',
       github: 'geeksforsocialchange/placecal-theme-transdimension',
-      tag: 'v0.3.10'
+      tag: 'v0.3.11'
 end
 ```
 
@@ -48,6 +48,8 @@ The host has to be a PlaceCal with the extension theme registry, that is core wi
 `stylesheet`, `homepage_view`, `head`, `footer`, `event_filter_style`, `nav_cta`, `nav_join`, `map_style`, `menu_label`, `icons`, `theme_color`, `background_color`, `og_image`, `page`
 
 The engine checks this while it registers, and raises `Transdimension::UnsupportedHost` naming the missing capability rather than failing with a `NoMethodError` from inside an initializer. `Transdimension::Engine::REQUIRED_THEME_SETTINGS` is the list it checks. Core pins this engine by tag in its own Gemfile and the two ship together, so every setting is required and none is applied conditionally.
+
+The check is `respond_to?` and nothing more, so it catches a setting that is absent, not one whose signature changed. A setting gaining a required keyword, or validating a value it used to accept, still raises `ArgumentError` at boot. That drift is covered by `spec/host_contract_spec.rb`, which runs `Transdimension::Engine.configure_theme` against a real `PlaceCal::Theme` and reads every setting back, so a signature change in core fails the suite instead of the next deploy.
 
 ## Development
 
@@ -77,6 +79,8 @@ BUNDLE_GEMFILE=/path/to/PlaceCal/Gemfile.td-dev bundle exec rubocop
 ```
 
 `.github/workflows/test.yml` runs the same two commands, against a Gemfile it builds the same way.
+
+`spec/system/accessibility_spec.rb` runs axe-core over every page of a themed site, so it needs headless Chrome. It comes from core's bundle (`axe-core-rspec`, `selenium-webdriver`) and core's `spec/support`, which this engine's `spec/rails_helper.rb` already loads; CI installs Chrome with `browser-actions/setup-chrome`. Locally it runs with the rest of the suite as long as Chrome is installed. One rule is skipped, `heading-order`, and only because every node that trips it is core's markup; the spec names them.
 
 ### Releasing
 
@@ -135,11 +139,11 @@ The task prints PASS, WARN and FAIL lines for each required field and exits non-
 
 ## Copyright and licence
 
-The code in this repository is licensed under the [Hippocratic License 3.0](LICENSE).
+The code in this repository is copyright Geeks for Social Change and licensed under the [GNU Affero General Public License v3.0](LICENSE), the same licence as PlaceCal itself, since the engine runs inside it.
 
 The design assets in this repository (illustrations, logos, artwork and brand copy) are copyright [Gendered Intelligence](https://genderedintelligence.co.uk). They are included here so that the Trans Dimension site can be served by PlaceCal, and they may not be reused outside that context without Gendered Intelligence's permission.
 
-The favicons in `app/assets/images/transdimension/favicons/` and the share image `app/assets/images/transdimension/og-share.png` are Gendered Intelligence's too, taken from the live [transdimension.uk](https://transdimension.uk) so that a PlaceCal-served site keeps the same browser tab icon, home screen icon and link preview.
+The favicons in `app/assets/images/transdimension/favicons/` and the share image `app/assets/images/transdimension/og-share.png` are Gendered Intelligence's too, taken from the live [transdimension.uk](https://transdimension.uk) so that a PlaceCal-served site keeps the same browser tab icon, home screen icon and link preview. The live site's `favicon.ico` is not among them: core's icon slots (`PlaceCal::Theme::ICON_PATH_KEYS`) are the PNG and SVG ones, and an engine asset is only ever served at a fingerprinted path, never at `/favicon.ico`, so the file could not be reached.
 
 No font files are in this repository. The theme's typeface is Covik Sans, loaded at runtime from [Adobe Fonts](https://fonts.adobe.com) (Typekit kit `qwi3qrw`, linked by `app/components/transdimension/head.rb`) and licensed through Adobe Fonts by the site owner. An installation serving a different site needs its own Adobe Fonts licence and kit.
 

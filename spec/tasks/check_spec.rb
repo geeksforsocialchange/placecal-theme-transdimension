@@ -2,6 +2,7 @@
 
 require 'rails_helper'
 require 'rake'
+require 'tmpdir'
 
 describe 'transdimension:check rake task', type: :task do
   before { Rails.application.load_tasks if Rake::Task.tasks.empty? }
@@ -34,21 +35,40 @@ describe 'transdimension:check rake task', type: :task do
     captured.string
   end
 
-  # The task loads the Site itself, so the uploader stubs have to be on the
-  # record it gets back. Those two checks therefore assert the task's own
-  # reporting rather than any real uploader behaviour.
+  # The task looks the Site up itself, so nothing here stubs Site.find_by: the
+  # slug-selection examples have to exercise the query the task really runs.
+  # The logo and hero image are real uploads for the same reason.
   def configured_site(slug: 'trans-dimension', **overrides)
     site = create_site(slug, overrides)
     site.tags << [create(:partnership, name: 'London'), create(:partnership, name: 'Manchester')]
     site.neighbourhoods << create(:normal_island_country)
-    stub_uploaders(site)
-    allow(Site).to receive(:find_by).with(slug: slug).and_return(site)
+    attach_images(site)
     site
   end
 
-  def stub_uploaders(site)
-    allow(site.logo).to receive_messages(present?: true, file: double(present?: true))
-    allow(site.hero_image).to receive_messages(present?: true, file: double(present?: true))
+  # CarrierWave writes under the host app's public/ and the hero uploader resizes
+  # into four versions. Neither belongs in a theme spec run, so the uploads go to
+  # a tmpdir and processing is off, which also means the run needs no
+  # ImageMagick. What the task checks is only that a file is attached.
+  around do |example|
+    Dir.mktmpdir do |dir|
+      original_root = CarrierWave::Uploader::Base.root
+      CarrierWave::Uploader::Base.root = dir
+      CarrierWave::Uploader::Base.enable_processing = false
+      begin
+        example.run
+      ensure
+        CarrierWave::Uploader::Base.enable_processing = true
+        CarrierWave::Uploader::Base.root = original_root
+      end
+    end
+  end
+
+  def attach_images(site)
+    fixture = PLACECAL_CORE.join('spec/fixtures/files/test-image.png')
+    File.open(fixture) { |f| site.logo = f }
+    File.open(fixture) { |f| site.hero_image = f }
+    site.save!
   end
 
   def create_site(slug, overrides)

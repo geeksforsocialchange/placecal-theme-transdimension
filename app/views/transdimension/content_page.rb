@@ -16,15 +16,28 @@ class Transdimension::Views::ContentPage < Views::Base
 
   CONTENT_DIR = Transdimension::Engine.root.join('content')
 
+  # Initialised here rather than with `||=` at the first call, so two threads
+  # racing the first request cannot each build a Hash and lose one's writes.
+  @markdown_cache = {}
+
   class << self
-    # Rendered HTML per markdown file, keyed on the file and its mtime so a
-    # content edit in development is picked up without re-parsing every request
-    # in production. A superseded entry is left behind rather than evicted,
-    # which is bounded by the edits in one dev session. Read and written only
-    # through ContentPage, so the two page views share one cache.
+    # Rendered HTML per markdown file. In development the key carries the file's
+    # mtime, so a content edit is picked up without a restart; elsewhere the
+    # answer never changes, so the key is the path alone and no request pays for
+    # a stat. A superseded entry is left behind rather than evicted, which is
+    # bounded by the edits in one dev session. Read and written only through
+    # ContentPage, so the two page views share one cache.
+    #
+    # A content file can go missing between releases (renamed, or added and not
+    # committed). One absent block must not take the whole page down with a 500,
+    # so log it and render nothing for that block.
     def markdown_html(relative_path)
       path = CONTENT_DIR.join(relative_path)
-      (@markdown_cache ||= {})[[relative_path, File.mtime(path)]] ||= render_markdown(path.read)
+      key = Rails.env.local? ? [relative_path, File.mtime(path)] : relative_path
+      @markdown_cache[key] ||= render_markdown(path.read)
+    rescue Errno::ENOENT
+      Rails.logger.warn("Transdimension: content file missing, skipping block: #{relative_path}")
+      ''
     end
 
     private

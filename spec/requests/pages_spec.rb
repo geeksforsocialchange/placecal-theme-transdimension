@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'rails_helper'
+require 'tmpdir'
 
 # The theme's own static pages (#3368 WP 3.12). About and Privacy are views in
 # this engine registered with `theme.page`, not rows in the host database, so
@@ -83,6 +84,25 @@ RSpec.describe 'Trans Dimension theme pages', type: :request do
 
       expect(text).to include('Matomo', 'stats.gfsc.community', 'Adobe Typekit')
       expect(text).not_to include('Plausible')
+    end
+  end
+
+  describe 'a missing content file' do
+    it 'renders the page without that block rather than 500ing' do
+      # Stand the content directory up in a tmpdir with one file renamed away,
+      # which is what a rename between releases looks like at runtime.
+      Dir.mktmpdir do |dir|
+        content = Pathname(dir).join('content')
+        FileUtils.cp_r(Transdimension::Engine.root.join('content').to_s, content.to_s)
+        content.join('about/makers/gi.md').rename(content.join('about/makers/gi.md.moved').to_s)
+        stub_const('Transdimension::Views::ContentPage::CONTENT_DIR', content)
+
+        get 'http://td-test.lvh.me/about'
+
+        expect(response).to have_http_status(:ok)
+        expect(response.body).to include('PlaceCal is a package of software and training')
+        expect(response.body).not_to include('Gendered Intelligence is a registered charity')
+      end
     end
   end
 

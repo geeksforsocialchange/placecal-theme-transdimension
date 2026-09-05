@@ -52,7 +52,7 @@ wraps differently), **capture** (an artefact of how the screenshot was taken).
 | Day strip width | 1084 | 1022 | content | ours runs the full inner width of the box; the button rows land in the same place |
 | Region filter button height | 39 | 41 | content | 2px, under the threshold |
 | Event card height | 160 | 182 | content | our seeded events carry one detail line fewer |
-| "All events" heading | hidden | absent | decision | Events.elm has no heading here, and core's sat outside the content box; the `events.index.list_heading` override still reaches the DOM for screen readers. A visible heading would have to be inside the box, which is a core markup question |
+| "All events" heading | absent | absent | decision | Events.elm has no heading here, and core's sat outside the content box. The theme ships no `events.index.list_heading` override and core's default is blank, so nothing is rendered. Hiding it with CSS instead only put a `display:none` node in the DOM, which is out of the accessibility tree too, so it reached nobody. A visible heading would have to be inside the box, which is a core markup question |
 
 ## Partners
 

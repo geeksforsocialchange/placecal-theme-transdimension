@@ -307,8 +307,11 @@ select {
 }
 
 /* The branding link inlines core's PlaceCal SVG (or a site logo upload), so the
-   TD wordmark goes on as a background and the inlined mark is hidden. */
-.header__branding--transdimension {
+   TD wordmark goes on as a background and the inlined mark is hidden.
+   Keyed on core's theme class, not on `header__branding--<slug>`: the slug is
+   an admin-editable field (production's is `trans-dimension`, the dev site's is
+   `transdimension`), so a theme must not hang its markup on it. */
+.header__branding--theme-transdimension {
 	background-image: url("TDD_Logo_MobileHeader.svg");
 	background-repeat: no-repeat;
 	background-position: left center;
@@ -318,8 +321,8 @@ select {
 	height: 3.9rem;
 }
 
-.header__branding--transdimension > svg,
-.header__branding--transdimension > img {
+.header__branding--theme-transdimension > svg,
+.header__branding--theme-transdimension > img {
 	display: none;
 }
 
@@ -374,7 +377,7 @@ select {
 
 @media only screen and (min-width: 600px) {
 	/* PageHeader.elm titleBarStyle and menuButtonStyle: display none */
-	.header__branding--transdimension,
+	.header__branding--theme-transdimension,
 	.header__partner .header__toggle {
 		display: none;
 	}

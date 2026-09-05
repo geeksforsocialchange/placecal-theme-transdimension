@@ -48,6 +48,25 @@ jobs:
         with:
           path: theme
 
+      # First real step: it depends on nothing but this checkout, and a mistagged
+      # release should fail in seconds rather than after a core checkout, a
+      # bundle install and a core asset build. A PlaceCal installation pins this
+      # engine by tag, so a tag that disagrees with VERSION would ship a build
+      # claiming a version it is not. No-op on branch pushes and pull requests.
+      - name: Fail if a pushed tag disagrees with VERSION
+        working-directory: theme
+        run: |
+          if [ "$GITHUB_REF_TYPE" != "tag" ]; then
+            echo "Not a tag push, nothing to check."
+            exit 0
+          fi
+          version=$(ruby -e 'require "./lib/transdimension/version"; print Transdimension::VERSION')
+          if [ "$GITHUB_REF_NAME" != "v$version" ]; then
+            echo "Tag $GITHUB_REF_NAME does not match VERSION $version (expected v$version)."
+            exit 1
+          fi
+          echo "Tag $GITHUB_REF_NAME matches VERSION $version."
+
       - name: Checkout PlaceCal core
         uses: actions/checkout@v4
         with:
@@ -67,6 +86,14 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y libvips-dev
+
+      # spec/system/accessibility_spec.rb drives headless Chrome through
+      # Selenium, the same way core's system suite does.
+      - name: Install Chrome for the system specs
+        uses: browser-actions/setup-chrome@48ad923757ca74d66703209fe939badbdf80f2f4 # latest
+        id: setup-chrome
+        with:
+          chrome-version: stable
 
       - name: Read core's Ruby version
         id: ruby
@@ -98,23 +125,6 @@ jobs:
           bin/yarn run build:all
           bin/rails dartsass:build
 
-      # A PlaceCal installation pins this engine by tag, so a tag that disagrees
-      # with VERSION would ship a build claiming a version it is not. No-op on
-      # branch pushes and pull requests.
-      - name: Fail if a pushed tag disagrees with VERSION
-        working-directory: theme
-        run: |
-          if [ "$GITHUB_REF_TYPE" != "tag" ]; then
-            echo "Not a tag push, nothing to check."
-            exit 0
-          fi
-          version=$(ruby -e 'require "./lib/transdimension/version"; print Transdimension::VERSION')
-          if [ "$GITHUB_REF_NAME" != "v$version" ]; then
-            echo "Tag $GITHUB_REF_NAME does not match VERSION $version (expected v$version)."
-            exit 1
-          fi
-          echo "Tag $GITHUB_REF_NAME matches VERSION $version."
-
       - name: Set up Node
         uses: actions/setup-node@v4
         with:
@@ -141,3 +151,5 @@ jobs:
       - name: RSpec
         working-directory: theme
         run: bundle exec rspec
+        env:
+          BROWSER_PATH: ${{ steps.setup-chrome.outputs.chrome-path }}

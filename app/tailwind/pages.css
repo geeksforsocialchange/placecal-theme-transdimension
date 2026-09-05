@@ -96,7 +96,7 @@ main > .container-public {
    artwork above, so core's text kicker would repeat it. It is moved off screen
    rather than removed: it is the only copy of the strapline a screen reader can
    reach, since the lockup is a background image. */
-.hero h4.allcaps {
+.hero p.allcaps {
 	height: 1px;
 	left: -10000px;
 	overflow: hidden;
@@ -892,7 +892,7 @@ main > div:not([vocab]) > .hero h1 {
 }
 
 /* The kicker is the site strapline, which TD does not repeat inside the panel;
-   the shared .hero h4.allcaps rule above already moves it off screen. */
+   the shared .hero p.allcaps rule above already moves it off screen. */
 
 /* WP 2.14. The details row is PlaceCal's own again: one left-aligned run of
    icon-and-text pairs under the title panel, with the icons in TD pink. TD's
@@ -1032,9 +1032,9 @@ main > div:not([vocab]) > .hero h1 {
    for "Contact information", "Event address", "Get in touch" and so on. Core
    marks all of them with .udl, whose 3px underline TD does not draw. */
 .event__fullinfo .udl,
-.event__fullinfo h3,
+.event__fullinfo h2,
 .g--partner .udl,
-.g--partner h3 {
+.g--partner h2 {
 	border-bottom: 0;
 	color: var(--color-primary);
 	display: block;
@@ -1843,15 +1843,12 @@ main > .container-public > h1.h1 {
 
 /* Partners.elm has an "ALL PARTNERS" heading at the top of the list, inside
    the content box, in Global.elm's smallInlineTitleStyle. Events.elm has no
-   equivalent: the filters follow the intro panel directly, and core's heading
-   there would break the join between the panel and the box. */
-.list-heading {
-	display: none;
-}
-
+   equivalent, and the theme ships no events.index.list_heading override, so
+   core renders nothing there: the filters follow the intro panel directly.
+   Style the partners heading positively rather than hiding the class
+   everywhere, so no future heading arrives invisible. */
 #partner_previews .list-heading {
 	color: var(--color-foreground);
-	display: block;
 	font-size: 1.2rem;
 	font-weight: 700;
 	letter-spacing: 0.05em;
@@ -2318,13 +2315,16 @@ main > div[vocab]:has(.hero__section) {
 	}
 }
 
-/* TextHeavyPage.elm bodyStyle: the long-form body reads at 1.2rem. */
+/* TextHeavyPage.elm bodyStyle: the long-form body reads at 1.2rem. Measured on
+   the live /privacy at 1250: body paragraphs and list items 19.2px over 28.8px,
+   with the list itself left at the inherited 1rem. The rule used to say 1.5rem
+   against that comment, and outranked the 1200px rule below on specificity. */
 @media only screen and (min-width: 900px) {
 	.markdown-content > p:not(:first-child),
-	.markdown-content > ul,
-	.markdown-content > ol {
-		font-size: 1.5rem;
-		line-height: 1.6;
+	.markdown-content > ul > li,
+	.markdown-content > ol > li {
+		font-size: 1.2rem;
+		line-height: 1.5;
 	}
 
 	.markdown-content {

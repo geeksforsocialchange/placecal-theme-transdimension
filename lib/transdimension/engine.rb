@@ -98,31 +98,42 @@ module Transdimension
       defined?(::PlaceCal::Extensions) ? ::PlaceCal::Extensions : nil
     end
 
+    # Everything this engine says to a PlaceCal::Theme, in one callable place so
+    # spec/host_contract_spec.rb can run it against a throwaway real Theme. A
+    # changed signature in core then fails there rather than from inside an
+    # initializer on the next boot.
+    def self.configure_theme(theme)
+      verify_theme!(theme)
+      register_layout(theme)
+      register_branding(theme)
+      register_pages(theme)
+    end
+
+    # The views, nav and listing behaviour core reads for a site on this theme.
+    def self.register_layout(theme)
+      theme.stylesheet 'transdimension/theme'
+      theme.homepage_view 'Transdimension::Views::Home'
+      theme.head 'Transdimension::Components::Head'
+      theme.footer 'Transdimension::Components::Footer'
+      theme.event_filter_style :day_strip
+      # PageHeader.elm: the Donate button (PHT Donorbox) at the end of the nav
+      theme.nav_cta 'transdimension.header.donate', DONATE_URL
+      # PageHeader.elm has no Join link; PageFooter.elm carries it instead
+      theme.nav_join false
+      # Pink-tinted OpenFreeMap style shipped with the engine
+      theme.map_style 'transdimension'
+      # PageHeader.elm labels the mobile toggle "Menu" rather than drawing a
+      # hamburger.
+      theme.menu_label true
+    end
+
     # Theme registration (#3368 D1). Runs before core's config/initializers,
     # which is why core requires the registry from config/application.rb.
     initializer 'transdimension.register_theme' do
       Engine.verify_host!
 
       PlaceCal::Extensions.register_theme(:transdimension) do |theme|
-        Engine.verify_theme!(theme)
-
-        theme.stylesheet 'transdimension/theme'
-        theme.homepage_view 'Transdimension::Views::Home'
-        theme.head 'Transdimension::Components::Head'
-        theme.footer 'Transdimension::Components::Footer'
-        theme.event_filter_style :day_strip
-        # PageHeader.elm: the Donate button (PHT Donorbox) at the end of the nav
-        theme.nav_cta 'transdimension.header.donate', DONATE_URL
-        # PageHeader.elm has no Join link; PageFooter.elm carries it instead
-        theme.nav_join false
-        # Pink-tinted OpenFreeMap style shipped with the engine
-        theme.map_style 'transdimension'
-        # PageHeader.elm labels the mobile toggle "Menu" rather than drawing a
-        # hamburger.
-        theme.menu_label true
-
-        Engine.register_branding(theme)
-        Engine.register_pages(theme)
+        Engine.configure_theme(theme)
       end
     end
   end

@@ -7,8 +7,10 @@
 class Transdimension::Components::NewsCard < Components::Base
   register_value_helper :article_summary_text
 
-  # No reader: `article` is also the Phlex element method.
-  prop :article, _Interface(:title, :published_at)
+  # No reader: `article` is also the Phlex element method. The interface names
+  # everything the card actually asks of the record, `to_param` included: it
+  # hands the object to news_path.
+  prop :article, _Interface(:title, :published_at, :partners, :article_image, :to_param)
 
   def view_template
     article(class: 'td-news') do
