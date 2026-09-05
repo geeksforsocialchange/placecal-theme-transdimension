@@ -13,7 +13,7 @@ generic slot that would give it to every theme rather than to this one.
 ### 1. Day and month as separate elements on an event date
 
 - **Core**: `app/components/event.rb`, `.event__detail.event__date`.
-- **Element**: one text node, "3 Sep".
+- **Element**: an inline calendar icon followed by one text node, " 3 Sep".
 - **TD**: `src/Theme/Page/Events.elm` `eventDayStyle` / `eventMonthStyle` set the
   day number at 3.1rem in white over the month in 1.2rem pink allcaps.
 - **Slot**: wrap the two parts, e.g.
@@ -39,7 +39,7 @@ generic slot that would give it to every theme rather than to this one.
 
 ### 3. Alt text for a themed header wordmark
 
-- **Core**: `app/components/header.rb`, `.header__branding`.
+- **Core**: `app/components/navigation.rb`, `render_branding`, `.header__branding`.
 - **Element**: core inlines the PlaceCal SVG or the site's uploaded logo.
 - **TD**: the wordmark is the site's identity and needs its own alt text.
 - **Slot**: an alt/`aria-label` on the branding link that a site or theme can
@@ -78,22 +78,6 @@ generic slot that would give it to every theme rather than to this one.
 
 Found while measuring the theme against transdimension.uk at 1440 and 1728.
 
-### News card byline: one line, no full stop
-
-- **Core**: `app/views/news/index.rb`, `render_article_card`.
-- **Element**: `p.articles__partners` renders `article_partner_links(article)`
-  followed by a bare `plain '.'` text node, and `p.articles__published` is a
-  separate element inside a different wrapper (`.articles__aside`).
-- **TD**: News.elm prints one meta line, "Geeks for Social Change • 14th January
-  2025", with no full stop.
-- **What the theme can do**: the card grid now places the two paragraphs in
-  their own pair of columns so they sit on one line, and adds the bullet with a
-  `::before`. It cannot remove the full stop: a bare text node is not
-  selectable.
-- **Smallest core change**: drop `plain '.'` from `render_article_card` in
-  `app/views/news/index.rb` (the trailing stop is a core style choice, not data),
-  or move it into a locale key so a theme can blank it.
-
 ### News card excerpt length
 
 - **Core**: `app/helpers/articles_helper.rb`, `article_summary_text`, the
@@ -105,3 +89,21 @@ Found while measuring the theme against transdimension.uk at 1440 and 1728.
   fixes the height but cuts mid-word instead of at a word boundary.
 - **Smallest core change**: make the truncation length a constant on the helper
   (or read it from a locale key) so a theme can ask for 130.
+
+## Head (WP 3.17)
+
+### 5. Skip core's font preloads when the theme sets `font_stylesheet`
+
+- **Core**: `app/views/layouts/application.rb`, the four unconditional
+  `preload_font` calls for `rawline-500`, `rawline-700`, `rawline-800` and
+  `Trocchi-Regular`.
+- **Element**: four `<link rel="preload" as="font">` tags in every page head.
+- **TD**: `theme.css` sets both `--font-sans` and `--font-serif` to
+  `covik-sans`, loaded from the Typekit stylesheet core renders a few lines
+  later from the theme's `font_stylesheet` setting. Neither rawline nor Trocchi
+  renders anywhere on the site.
+- **Slot**: skip the built-in preloads when a theme has set `font_stylesheet`,
+  which is the point at which core knows the default faces have been replaced.
+- **Consequence today**: every Trans Dimension page issues four high priority
+  woff2 requests for faces nothing draws, competing with the Typekit request
+  the theme does need. A theme cannot suppress them.

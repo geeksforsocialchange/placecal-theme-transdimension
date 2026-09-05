@@ -1,0 +1,26 @@
+placecal-theme-transdimension
+Copyright (C) 2026 Geeks for Social Change
+
+The code in this repository is licensed under the GNU Affero General Public
+License v3.0, the text of which is in the LICENSE file.
+
+The AGPL covers the code only. The design assets packaged alongside it are
+copyright Gendered Intelligence (https://genderedintelligence.co.uk) and are
+not licensed under the AGPL:
+
+  * the Trans Dimension illustrations, logos and artwork in
+    app/assets/images/transdimension/
+  * the favicons in app/assets/images/transdimension/favicons/
+  * the share image app/assets/images/transdimension/og-share.png
+  * the Trans Dimension brand copy in config/locales/ and content/
+
+They are included so that the Trans Dimension site can be served by PlaceCal,
+and may not be reused outside that context without Gendered Intelligence's
+permission.
+
+Illustrations by Harry Woodgate (https://www.harrywoodgate.com/).
+Site design by Squid (https://studiosquid.co.uk/).
+
+No font files are in this repository. The theme's typeface is Covik Sans,
+loaded at runtime from Adobe Fonts and licensed through Adobe Fonts by the
+site owner.

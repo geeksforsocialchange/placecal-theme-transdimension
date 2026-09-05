@@ -4,9 +4,9 @@
 # Copy that replaces a core string for this theme lives in overrides.en.yml
 # instead (theme_overrides.transdimension.*), so nothing here duplicates a core
 # key. Every key below is read by app/ or lib/, which spec/i18n_spec.rb
-# enforces: the six reached only through an interpolated t() call
-# (footer.<name>_link, footer.<name>_alt, footer.credit_<n>_*) are matched as
-# patterns, so an orphaned key fails the suite.
+# enforces: the eighteen reached through six interpolated t() calls
+# (footer.<name>_link, footer.<name>_alt, footer.info_*, footer.credit_<n>_*)
+# are matched as patterns, so an orphaned key fails the suite.
 en:
   transdimension:
     # Site-level and global strings

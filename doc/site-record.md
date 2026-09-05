@@ -26,7 +26,7 @@ Site Admin: Choose a user from the dropdown to be the site admin. They can later
 
 Place Name: Leave blank (optional field for displaying alternative names on maps).
 
-Contact Email: This email receives "get in touch" enquiries from the site's Join form. Leave as placeholder "<GI contact address>" for now. Contact Gendered Intelligence to supply the final email address.
+Contact Email: This email receives "get in touch" enquiries from the site's Join form. Contact Gendered Intelligence to supply the address. A placeholder such as "<GI contact address>" will do to get the record saved, but it fails the contact email check in step 9, which requires a valid address, and the footer hides the Join link until a real one is set. Come back and fill this in once GI supply it.
 
 Tagline: Leave blank or enter a short description of the site (optional).
 
@@ -82,7 +82,7 @@ Run the check task to verify the Site record is configured correctly.
 bin/rails transdimension:check
 ```
 
-The task will print PASS or FAIL lines for each requirement. All checks should pass. If any checks fail, review the site record and correct the issues.
+The task will print PASS or FAIL lines for each requirement. Everything should pass except the contact email check, which fails while that field holds a placeholder rather than an address GI have supplied. If anything else fails, review the site record and correct the issues.
 
 ## Staging deployment
 

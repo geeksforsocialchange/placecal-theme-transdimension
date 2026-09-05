@@ -68,7 +68,7 @@ wraps differently), **capture** (an artefact of how the screenshot was taken).
 
 | What | Ours | Golden | Category | Reason |
 |---|---|---|---|---|
-| Card byline | partner line then date line | "Partner • 14th January 2025" on one line | core slot | core renders the partners and the date as separate elements, and prints a bare full stop a theme cannot select |
+| Card byline | partner line then date line | "Partner • 14th January 2025" on one line | core slot | core renders the partners and the date as separate elements in different wrappers |
 | Byline on the article page | two lines | one line | core slot | same slot as the card byline |
 | Card excerpt | three clamped lines | three lines (about 130 characters) | core slot | core's `ArticlesHelper#article_summary_text` truncates at 200, so the clamped text ends mid-sentence rather than at a word boundary |
 | "Read the rest" x | 638 | 654 | decision | on the live site the button's wrapper overflows the card and lands 16px right of centre; ours is centred, because reproducing the artefact would look like a mistake |
