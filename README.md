@@ -2,13 +2,14 @@
 
 The Trans Dimension theme for [PlaceCal](https://github.com/geeksforsocialchange/PlaceCal), packaged as a PlaceCal extension (a Rails engine). It provides the theme, homepage, static page content, copy, fonts and illustrations for [transdimension.uk](https://transdimension.uk), which is served by PlaceCal.
 
-Extensions contain no models, no migrations and no business logic. See PlaceCal's [doc/extensions.md](https://github.com/geeksforsocialchange/PlaceCal/blob/main/doc/extensions.md) for the extension contract, the engine scaffold and the workflows this README links to.
+Extensions contain no models, no migrations and no business logic. See PlaceCal's [doc/extensions.md](https://github.com/geeksforsocialchange/PlaceCal/blob/main/doc/extensions.md) for the extension contract, the engine scaffold and the workflows this README links to. Those core documents, and the extension scaffold they describe, land with PlaceCal #3436, so the links below are dead until it merges.
 
 ## Layout
 
 ```
 lib/transdimension.rb              Module and Phlex namespaces
 lib/transdimension/engine.rb       Theme registration, through PlaceCal::Extension
+lib/tasks/                         Rake tasks: transdimension:check, transdimension:url_audit
 app/views/transdimension/          Phlex views (Transdimension::Views)
 app/components/transdimension/     Phlex components (Transdimension::Components)
 app/tailwind/theme.css             Tailwind source
@@ -16,6 +17,8 @@ app/assets/builds/transdimension/  Built CSS, committed, served by Propshaft
 config/locales/en.yml              Theme strings, namespaced under transdimension.*
 config/locales/overrides.en.yml    Overrides of core strings, appended after core's locales
 content/                           Static page content, rendered by the views above
+doc/core-slots-needed.md           Core slots the theme needs, and what it does without them
+doc/site-record.md                 Setting up the Site record the theme expects
 doc/visual-diff.md                 Open deviations from the live site, with reasons
 doc/audits/                        Legacy URL audit: path list, task output tables
 ```
