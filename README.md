@@ -80,6 +80,8 @@ BUNDLE_GEMFILE=/path/to/PlaceCal/Gemfile.td-dev bundle exec rubocop
 
 `.github/workflows/test.yml` runs the same two commands, against a Gemfile it builds the same way.
 
+`spec/system/accessibility_spec.rb` runs axe-core over every page of a themed site, so it needs headless Chrome. It comes from core's bundle (`axe-core-rspec`, `selenium-webdriver`) and core's `spec/support`, which this engine's `spec/rails_helper.rb` already loads; CI installs Chrome with `browser-actions/setup-chrome`. Locally it runs with the rest of the suite as long as Chrome is installed. One rule is skipped, `heading-order`, and only because every node that trips it is core's markup; the spec names them.
+
 ### Releasing
 
 Installations pin this engine by tag, so a release is a version bump followed by a tag. Bump `lib/transdimension/version.rb` and `package.json` together (a spec fails if they disagree, or if the latest tag is ahead of `VERSION`), merge, then tag the merge commit `v<version>`. CI fails a tag push whose tag name does not match `VERSION`.

@@ -26,6 +26,9 @@ en:
       donate: "Donate"
     # Footer
     footer:
+      # Accessible name for the footer nav landmark, so it is distinguishable
+      # from the header's (axe landmark-unique).
+      nav_label: "Footer"
       social: "Follow us out there"
       insta_link: "https://www.instagram.com/genderedintelligence/"
       twitter_link: "https://twitter.com/genderintell"

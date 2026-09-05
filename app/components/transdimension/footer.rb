@@ -54,8 +54,10 @@ class Transdimension::Components::Footer < Components::Base
     end
   end
 
+  # Two unnamed navs on a page fail axe's landmark-unique, and core's header nav
+  # carries no name. Naming this one distinguishes both.
   def render_nav
-    nav(class: 'td-footer__nav', role: 'navigation') do
+    nav(class: 'td-footer__nav', 'aria-label': t('transdimension.footer.nav_label')) do
       ul do
         nav_links.each do |label, path|
           li { link_to(label, path) }
