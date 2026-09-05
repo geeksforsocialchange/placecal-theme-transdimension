@@ -1,57 +1,25 @@
 # frozen_string_literal: true
 
 module Transdimension
-  # Raised when the host PlaceCal is too old to serve this theme.
-  class UnsupportedHost < StandardError; end
-
   class Engine < ::Rails::Engine
     # Not isolate_namespace: an extension plugs into the host app's routes,
     # helpers and layout rather than living behind a mount point.
-
-    # Rails does not autoload app/views, and it autoloads app/components under
-    # the top-level namespace, so the engine pushes its own directories with
-    # explicit namespaces. Core does the same for Views and Components in
-    # config/initializers/phlex.rb.
-    initializer 'transdimension.phlex_namespaces', before: :set_autoload_paths do
-      Rails.autoloaders.main.push_dir(
-        root.join('app/views/transdimension'),
-        namespace: Transdimension::Views
-      )
-      Rails.autoloaders.main.push_dir(
-        root.join('app/components/transdimension'),
-        namespace: Transdimension::Components
-      )
-    end
+    #
+    # PlaceCal::Extension is core's shared engine infrastructure: it pushes the
+    # Phlex namespaces for the app/views/transdimension and
+    # app/components/transdimension directories this engine ships, runs the
+    # host and theme guards, and registers the theme declared below. See core's
+    # doc/extensions.md.
+    include PlaceCal::Extension
 
     # Every theme DSL setting this engine uses. The host has to provide all of
     # them; see "Minimum core" in the README. Core pins this engine by tag in
     # its own Gemfile and the two ship together, so there is no host with some
     # of these and not the rest.
-    REQUIRED_THEME_SETTINGS = %i[
+    required_settings %i[
       stylesheet homepage_view head footer event_filter_style nav_cta nav_join map_style
       menu_label icons theme_color background_color og_image page
-    ].freeze
-
-    # An older core has no extension registry, or a registry whose Theme is
-    # missing settings added later. Either way the failure would otherwise be a
-    # bare NoMethodError raised from inside an initializer, which says nothing
-    # about what the installation needs. Name the missing capability instead.
-    def self.verify_host!(registry = host_registry)
-      return if registry.respond_to?(:register_theme)
-
-      raise UnsupportedHost,
-            'PlaceCal::Extensions.register_theme is not available: this theme needs a PlaceCal ' \
-            'with the extension theme registry (see "Minimum core" in the engine README).'
-    end
-
-    def self.verify_theme!(theme)
-      missing = REQUIRED_THEME_SETTINGS.reject { |setting| theme.respond_to?(setting) }
-      return if missing.empty?
-
-      raise UnsupportedHost,
-            "PlaceCal::Theme does not support #{missing.join(', ')}: this theme needs a newer " \
-            'PlaceCal (see "Minimum core" in the engine README).'
-    end
+    ]
 
     # PageHeader.elm: the Donate button at the end of the nav goes to the
     # Partnership's Donorbox page. A URL is not a UI string, so it is a constant
@@ -72,38 +40,7 @@ module Transdimension
       mask_icon_color: '#FF7AA7'
     }.freeze
 
-    def self.register_branding(theme)
-      theme.icons(**ICONS)
-      # site.webmanifest on the live site: theme #ff7aa7, splash background the
-      # dark blue the brand sits on.
-      theme.theme_color '#ff7aa7'
-      theme.background_color '#040f39'
-      # Share card: the live site's logo artwork (556x320) centred on TD dark
-      # blue at 1200x630, the size Facebook and Twitter want for a large card.
-      # The live site links the bare 556x320 file while claiming 1200x675.
-      theme.og_image 'transdimension/og-share.png', width: 1200, height: 630
-    end
-
-    # The theme's own static pages (#3368 WP 3.12). Content lives in this
-    # engine's content/ directory and is rendered by the theme's own views, so
-    # nothing has to be seeded into the host database. About carries a nav
-    # label; Privacy does not, because PageFooter.elm puts the Privacy link in
-    # the footer and the header has never shown it.
-    def self.register_pages(theme)
-      theme.page 'about', 'Transdimension::Views::About', nav_label_key: 'transdimension.nav.about'
-      theme.page 'privacy', 'Transdimension::Views::Privacy'
-    end
-
-    def self.host_registry
-      defined?(::PlaceCal::Extensions) ? ::PlaceCal::Extensions : nil
-    end
-
-    # Everything this engine says to a PlaceCal::Theme, in one callable place so
-    # spec/host_contract_spec.rb can run it against a throwaway real Theme. A
-    # changed signature in core then fails there rather than from inside an
-    # initializer on the next boot.
-    def self.configure_theme(theme)
-      verify_theme!(theme)
+    theme :transdimension do |theme|
       register_layout(theme)
       register_branding(theme)
       register_pages(theme)
@@ -127,14 +64,26 @@ module Transdimension
       theme.menu_label true
     end
 
-    # Theme registration (#3368 D1). Runs before core's config/initializers,
-    # which is why core requires the registry from config/application.rb.
-    initializer 'transdimension.register_theme' do
-      Engine.verify_host!
+    def self.register_branding(theme)
+      theme.icons(**ICONS)
+      # site.webmanifest on the live site: theme #ff7aa7, splash background the
+      # dark blue the brand sits on.
+      theme.theme_color '#ff7aa7'
+      theme.background_color '#040f39'
+      # Share card: the live site's logo artwork (556x320) centred on TD dark
+      # blue at 1200x630, the size Facebook and Twitter want for a large card.
+      # The live site links the bare 556x320 file while claiming 1200x675.
+      theme.og_image 'transdimension/og-share.png', width: 1200, height: 630
+    end
 
-      PlaceCal::Extensions.register_theme(:transdimension) do |theme|
-        Engine.configure_theme(theme)
-      end
+    # The theme's own static pages (#3368 WP 3.12). Content lives in this
+    # engine's content/ directory and is rendered by the theme's own views, so
+    # nothing has to be seeded into the host database. About carries a nav
+    # label; Privacy does not, because PageFooter.elm puts the Privacy link in
+    # the footer and the header has never shown it.
+    def self.register_pages(theme)
+      theme.page 'about', 'Transdimension::Views::About', nav_label_key: 'transdimension.nav.about'
+      theme.page 'privacy', 'Transdimension::Views::Privacy'
     end
   end
 end

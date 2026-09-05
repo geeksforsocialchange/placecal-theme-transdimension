@@ -8,7 +8,7 @@ Extensions contain no models, no migrations and no business logic. See PlaceCal'
 
 ```
 lib/transdimension.rb              Module and Phlex namespaces
-lib/transdimension/engine.rb       Autoload dirs and theme registration
+lib/transdimension/engine.rb       Theme registration, through PlaceCal::Extension
 app/views/transdimension/          Phlex views (Transdimension::Views)
 app/components/transdimension/     Phlex components (Transdimension::Components)
 app/tailwind/theme.css             Tailwind source
@@ -47,7 +47,7 @@ The host has to be a PlaceCal with the extension theme registry, that is core wi
 
 `stylesheet`, `homepage_view`, `head`, `footer`, `event_filter_style`, `nav_cta`, `nav_join`, `map_style`, `menu_label`, `icons`, `theme_color`, `background_color`, `og_image`, `page`
 
-The engine checks this while it registers, and raises `Transdimension::UnsupportedHost` naming the missing capability rather than failing with a `NoMethodError` from inside an initializer. `Transdimension::Engine::REQUIRED_THEME_SETTINGS` is the list it checks. Core pins this engine by tag in its own Gemfile and the two ship together, so every setting is required and none is applied conditionally.
+The engine declares that list as `required_settings` and core's `PlaceCal::Extension` checks it while the theme registers, raising `PlaceCal::Extension::UnsupportedHost` naming the missing capability rather than failing with a `NoMethodError` from inside an initializer. Core pins this engine by tag in its own Gemfile and the two ship together, so every setting is required and none is applied conditionally.
 
 The check is `respond_to?` and nothing more, so it catches a setting that is absent, not one whose signature changed. A setting gaining a required keyword, or validating a value it used to accept, still raises `ArgumentError` at boot. That drift is covered by `spec/host_contract_spec.rb`, which runs `Transdimension::Engine.configure_theme` against a real `PlaceCal::Theme` and reads every setting back, so a signature change in core fails the suite instead of the next deploy.
 
