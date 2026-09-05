@@ -3,12 +3,12 @@
 require 'rails_helper'
 
 describe 'Trans Dimension i18n' do
-  let(:core_locale_path) do
-    File.expand_path('../../PlaceCal/config/locales', __dir__)
-  end
-
+  # PLACECAL_CORE is resolved from PLACECAL_CORE_PATH in rails_helper. Hardcoding
+  # ../../PlaceCal here made the override check silently vacuous for anyone whose
+  # core checkout is not named exactly that: every key would fail as "does not
+  # exist in core" against an empty hash.
   let(:core_locale_files) do
-    Dir.glob(File.join(core_locale_path, '*.yml')).sort
+    PLACECAL_CORE.glob('config/locales/*.yml').sort_by(&:to_s).map(&:to_s)
   end
 
   describe 'YAML validity' do

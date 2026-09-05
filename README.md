@@ -49,6 +49,8 @@ The host has to be a PlaceCal with the extension theme registry, that is core wi
 
 The engine checks this while it registers, and raises `Transdimension::UnsupportedHost` naming the missing capability rather than failing with a `NoMethodError` from inside an initializer. `Transdimension::Engine::REQUIRED_THEME_SETTINGS` is the list it checks. Core pins this engine by tag in its own Gemfile and the two ship together, so every setting is required and none is applied conditionally.
 
+The check is `respond_to?` and nothing more, so it catches a setting that is absent, not one whose signature changed. A setting gaining a required keyword, or validating a value it used to accept, still raises `ArgumentError` at boot. That drift is covered by `spec/host_contract_spec.rb`, which runs `Transdimension::Engine.configure_theme` against a real `PlaceCal::Theme` and reads every setting back, so a signature change in core fails the suite instead of the next deploy.
+
 ## Development
 
 The specs boot the PlaceCal core application with this engine loaded, so they need a checkout of core and core's gem bundle. Check core out next to this repo (the default core path is `../PlaceCal`, override it with `PLACECAL_CORE_PATH`).
