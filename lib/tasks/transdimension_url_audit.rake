@@ -15,11 +15,16 @@ namespace :transdimension do
   #   DEV_BASE_URL    default http://transdimension.lvh.me:3030 (set to '' to skip)
   #   AUDIT_ROUTE_HOST default transdimension.lvh.me, the host route
   #                    recognition runs against
-  #   AUDIT_URLS_FILE  default doc/audits/transdimension-url-audit-urls.txt
-  #   AUDIT_OUTPUT_DIR default doc/audits
+  #   AUDIT_URLS_FILE  default <engine>/doc/audits/transdimension-url-audit-urls.txt
+  #   AUDIT_OUTPUT_DIR default <engine>/doc/audits
+  #
+  # Both file defaults resolve against this engine's root rather than the host
+  # app's cwd. The task can only run from a core checkout, but the path list and
+  # the dated report tables belong to this engine.
   task 'url_audit', [:urls_file] => :environment do |_t, args|
-    urls_file = args[:urls_file] ||
-                ENV.fetch('AUDIT_URLS_FILE', 'doc/audits/transdimension-url-audit-urls.txt')
+    audit_dir = Transdimension::Engine.root.join('doc/audits')
+    default_urls_file = audit_dir.join('transdimension-url-audit-urls.txt').to_s
+    urls_file = args[:urls_file] || ENV.fetch('AUDIT_URLS_FILE', default_urls_file)
 
     unless File.exist?(urls_file)
       puts "ERROR: URLs file not found: #{urls_file}"
@@ -75,54 +80,58 @@ namespace :transdimension do
     puts "  DEV: #{dev_base || '(skipped)'}"
     puts ''
 
-    paths.each_with_index do |path, idx|
-      print "\r[#{idx + 1}/#{paths.length}] #{path}".ljust(80)
+    begin
+      paths.each_with_index do |path, idx|
+        print "\r[#{idx + 1}/#{paths.length}] #{path}".ljust(80)
 
-      # Check PlaceCal route
-      begin
-        route_match = Rails.application.routes.recognize_path(path, method: :get)
-        route_result = "#{route_match[:controller]}##{route_match[:action]}"
-      rescue ActionController::RoutingError
-        route_result = 'NO ROUTE'
+        # Check PlaceCal route
+        begin
+          route_match = Rails.application.routes.recognize_path(path, method: :get)
+          route_result = "#{route_match[:controller]}##{route_match[:action]}"
+        rescue ActionController::RoutingError
+          route_result = 'NO ROUTE'
+        end
+
+        td_status = head_status.call(td_base, path)
+        pc_status = head_status.call(pc_base, path)
+        dev_status = dev_base ? head_status.call(dev_base, path) : nil
+
+        # The dev server runs this branch, so it decides the verdict when it is
+        # available. A path that 404s in dev but works in production is missing
+        # local seed data, not a missing route.
+        subject_status = dev_status || pc_status
+
+        verdict = if route_result == 'NO ROUTE'
+                    'NO ROUTE'
+                  elsif subject_status == 'ERROR'
+                    'CHECK FAILED'
+                  elsif reachable.include?(subject_status)
+                    'OK'
+                  elsif subject_status == 404 && dev_status == 404 && reachable.include?(pc_status)
+                    'NO DEV DATA'
+                  elsif subject_status == 404
+                    'MISSING'
+                  else
+                    "UNKNOWN (#{subject_status})"
+                  end
+
+        results << {
+          path: path,
+          td_status: td_status,
+          route: route_result,
+          pc_status: pc_status,
+          dev_status: dev_status,
+          verdict: verdict
+        }
+
+        # Rate limit
+        sleep 0.3 if idx < paths.length - 1
       end
-
-      td_status = head_status.call(td_base, path)
-      pc_status = head_status.call(pc_base, path)
-      dev_status = dev_base ? head_status.call(dev_base, path) : nil
-
-      # The dev server runs this branch, so it decides the verdict when it is
-      # available. A path that 404s in dev but works in production is missing
-      # local seed data, not a missing route.
-      subject_status = dev_status || pc_status
-
-      verdict = if route_result == 'NO ROUTE'
-                  'NO ROUTE'
-                elsif subject_status == 'ERROR'
-                  'CHECK FAILED'
-                elsif reachable.include?(subject_status)
-                  'OK'
-                elsif subject_status == 404 && dev_status == 404 && reachable.include?(pc_status)
-                  'NO DEV DATA'
-                elsif subject_status == 404
-                  'MISSING'
-                else
-                  "UNKNOWN (#{subject_status})"
-                end
-
-      results << {
-        path: path,
-        td_status: td_status,
-        route: route_result,
-        pc_status: pc_status,
-        dev_status: dev_status,
-        verdict: verdict
-      }
-
-      # Rate limit
-      sleep 0.3 if idx < paths.length - 1
+    ensure
+      # An interrupt mid-run must not leave the host app's global route options
+      # mutated for whatever the process does next.
+      Rails.application.routes.default_url_options = original_url_options
     end
-
-    Rails.application.routes.default_url_options = original_url_options
 
     # Group by verdict for the report's summary table. The report file is the
     # output that matters; the console just names it.
@@ -130,7 +139,7 @@ namespace :transdimension do
     counts = ->(key) { by_verdict[key]&.length || 0 }
 
     # Write markdown table
-    output_dir = ENV.fetch('AUDIT_OUTPUT_DIR', 'doc/audits')
+    output_dir = ENV.fetch('AUDIT_OUTPUT_DIR', audit_dir.to_s)
     FileUtils.mkdir_p(output_dir)
     output_file = File.join(output_dir, "transdimension-url-audit-#{Time.zone.today}.md")
 
