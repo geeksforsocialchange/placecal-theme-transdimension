@@ -18,7 +18,6 @@ config/locales/overrides.en.yml    Overrides of core strings, appended after cor
 content/                           Static page content, rendered by the views above
 doc/visual-diff.md                 Open deviations from the live site, with reasons
 doc/audits/                        Legacy URL audit: path list, task output tables
-bin/td-dev-gemfile                 Writes core's Gemfile.td-dev for dev and CI
 ```
 
 The reference screenshots of the live site live in `goldens/`, which is gitignored: they are large PNGs of a site we do not own, and they are a working artifact rather than a deliverable. Recapture them locally with `bash goldens/capture.sh` (the script is kept alongside them, so it is local too). The durable record of the comparison is `doc/visual-diff.md`, which is committed.
@@ -55,10 +54,11 @@ The check is `respond_to?` and nothing more, so it catches a setting that is abs
 
 The specs boot the PlaceCal core application with this engine loaded, so they need a checkout of core and core's gem bundle. Check core out next to this repo (the default core path is `../PlaceCal`, override it with `PLACECAL_CORE_PATH`).
 
-Core's own `Gemfile` pins this engine to a git tag, which would run the specs against the released gem rather than your working tree. So point Bundler at a Gemfile that swaps that pin for a `path:` entry. `bin/td-dev-gemfile` writes it into the core checkout (do not commit it there; add it to core's `.git/info/exclude`). CI runs the same script.
+Core's own `Gemfile` pins this engine to a git tag, which would run the specs against the released gem rather than your working tree. So point Bundler at a Gemfile that swaps that pin for a `path:` entry. Core's `bin/extension-dev-gemfile` writes one, leaving every other extension at the tag core pins; the generated file is local to the core checkout and gitignored there. CI runs the same script.
 
 ```sh
-bin/td-dev-gemfile /path/to/PlaceCal
+cd /path/to/PlaceCal
+bin/extension-dev-gemfile placecal-theme-transdimension=../placecal-theme-transdimension
 ```
 
 Then run the specs against it:
@@ -66,21 +66,21 @@ Then run the specs against it:
 ```sh
 cd /path/to/placecal-theme-transdimension
 PLACECAL_CORE_PATH=/path/to/PlaceCal \
-  BUNDLE_GEMFILE=/path/to/PlaceCal/Gemfile.td-dev \
+  BUNDLE_GEMFILE=/path/to/PlaceCal/Gemfile.extensions-dev \
   RAILS_ENV=test bundle exec rspec
 ```
 
-`spec/rails_helper.rb` aborts with an explanatory message if the booted engine is not this working tree, so a stale Gemfile fails loudly instead of quietly testing the installed tag.
+Core's `spec/extension_helper.rb` aborts with an explanatory message if the booted engine is not this working tree, so a stale Gemfile fails loudly instead of quietly testing the installed tag.
 
 This engine's own `Gemfile` exists for gem metadata and tooling; it cannot resolve the gems core needs to boot, which is why the invocations above point Bundler at core. RuboCop runs the same way:
 
 ```sh
-BUNDLE_GEMFILE=/path/to/PlaceCal/Gemfile.td-dev bundle exec rubocop
+BUNDLE_GEMFILE=/path/to/PlaceCal/Gemfile.extensions-dev bundle exec rubocop
 ```
 
-`.github/workflows/test.yml` runs the same two commands, against a Gemfile it builds the same way.
+`.github/workflows/test.yml` calls core's reusable `extension-test.yml`, which runs the same two commands against a Gemfile it builds the same way.
 
-`spec/system/accessibility_spec.rb` runs axe-core over every page of a themed site, so it needs headless Chrome. It comes from core's bundle (`axe-core-rspec`, `selenium-webdriver`) and core's `spec/support`, which this engine's `spec/rails_helper.rb` already loads; CI installs Chrome with `browser-actions/setup-chrome`. Locally it runs with the rest of the suite as long as Chrome is installed. One rule is skipped, `heading-order`, and only because every node that trips it is core's markup; the spec names them.
+`spec/system/accessibility_spec.rb` runs axe-core over every page of a themed site, so it needs headless Chrome. It comes from core's bundle (`axe-core-rspec`, `selenium-webdriver`) and core's `spec/support`, which `boot!(system_specs: true)` already loads; CI installs Chrome because the workflow passes `chrome: true`. Locally it runs with the rest of the suite as long as Chrome is installed. One rule is skipped, `heading-order`, and only because every node that trips it is core's markup; the spec names them.
 
 ### Releasing
 
