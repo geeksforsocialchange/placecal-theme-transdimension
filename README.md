@@ -2,7 +2,7 @@
 
 The Trans Dimension theme for [PlaceCal](https://github.com/geeksforsocialchange/PlaceCal), packaged as a PlaceCal extension (a Rails engine). It provides the theme, homepage, static page content, copy, fonts and illustrations for [transdimension.uk](https://transdimension.uk), which is served by PlaceCal.
 
-Extensions contain no models, no migrations and no business logic. See PlaceCal's `doc/extensions.md` for the extension contract.
+Extensions contain no models, no migrations and no business logic. See PlaceCal's [doc/extensions.md](https://github.com/geeksforsocialchange/PlaceCal/blob/main/doc/extensions.md) for the extension contract, the engine scaffold and the workflows this README links to.
 
 ## Layout
 
@@ -26,23 +26,13 @@ There are deliberately no models, migrations, controllers or routes. Every visib
 
 ## Installation
 
-Add the engine to the PlaceCal installation's `Gemfile`, pinned to a tag, in the single removable extensions block described in core's `doc/extensions.md`:
-
-```ruby
-# Installation-specific extensions for placecal.org. Not part of core: a
-# self-hosted PlaceCal can delete this block.
-group :extensions do
-  gem 'placecal-theme-transdimension',
-      github: 'geeksforsocialchange/placecal-theme-transdimension',
-      tag: 'v0.3.11'
-end
-```
+The engine goes in the PlaceCal installation's `Gemfile`, pinned to a tag, in the single removable extensions block: [Installation and Gemfile](https://github.com/geeksforsocialchange/PlaceCal/blob/main/doc/extensions.md#installation-and-gemfile) in core's `doc/extensions.md` has the block and the reason it is one. The version to pin is the latest tag of this repo; the copy of the block that used to live here named a version behind the one core actually pinned, which is why the block lives in one place now.
 
 The CSS is committed prebuilt, so core's Docker build needs no extra Node step.
 
 ### Minimum core
 
-The host has to be a PlaceCal with the extension theme registry, that is core with #3368 merged. Specifically, `PlaceCal::Extensions.register_theme` must exist and the theme it yields must support every setting this engine uses:
+The host has to be a PlaceCal with the extension scaffold, that is core with #3368 merged. Specifically `PlaceCal::Extension` must exist, since `lib/transdimension/engine.rb` includes it and core's `config/application.rb` is what requires it; on an older core the two-line guard in `lib/transdimension.rb` aborts naming this gem rather than raising a `NameError` from the middle of a class body. The theme `PlaceCal::Extensions.register_theme` yields then has to support every setting this engine uses:
 
 `stylesheet`, `homepage_view`, `font_stylesheet`, `footer`, `event_filter_style`, `nav_cta`, `nav_join`, `map_style`, `menu_label`, `icons`, `theme_color`, `background_color`, `og_image`, `page`
 
@@ -52,39 +42,33 @@ The check is `respond_to?` and nothing more, so it catches a setting that is abs
 
 ## Development
 
-The specs boot the PlaceCal core application with this engine loaded, so they need a checkout of core and core's gem bundle. Check core out next to this repo (the default core path is `../PlaceCal`, override it with `PLACECAL_CORE_PATH`).
-
-Core's own `Gemfile` pins this engine to a git tag, which would run the specs against the released gem rather than your working tree. So point Bundler at a Gemfile that swaps that pin for a `path:` entry. Core's `bin/extension-dev-gemfile` writes one, leaving every other extension at the tag core pins; the generated file is local to the core checkout and gitignored there. CI runs the same script.
+The specs boot the PlaceCal core application with this engine loaded, so they need a checkout of core and core's gem bundle. Check core out next to this repo (the default core path is `../PlaceCal`, override it with `PLACECAL_CORE_PATH`). Core owns the whole workflow, and [Running an extension's suite](https://github.com/geeksforsocialchange/PlaceCal/blob/main/doc/extensions.md#running-an-extensions-suite) is the instructions: generate a dev Gemfile with core's `bin/extension-dev-gemfile`, then point `BUNDLE_GEMFILE` at it. For this engine that is:
 
 ```sh
 cd /path/to/PlaceCal
 bin/extension-dev-gemfile placecal-theme-transdimension=../placecal-theme-transdimension
-```
 
-Then run the specs against it:
-
-```sh
 cd /path/to/placecal-theme-transdimension
 PLACECAL_CORE_PATH=/path/to/PlaceCal \
   BUNDLE_GEMFILE=/path/to/PlaceCal/Gemfile.extensions-dev \
   RAILS_ENV=test bundle exec rspec
 ```
 
-Core's `spec/extension_helper.rb` aborts with an explanatory message if the booted engine is not this working tree, so a stale Gemfile fails loudly instead of quietly testing the installed tag.
-
-This engine's own `Gemfile` exists for gem metadata and tooling; it cannot resolve the gems core needs to boot, which is why the invocations above point Bundler at core. RuboCop runs the same way:
+This engine's own `Gemfile` exists for gem metadata and tooling; it cannot resolve the gems core needs to boot, which is why the invocations point Bundler at core. RuboCop runs the same way, and inherits its whole configuration from core:
 
 ```sh
 BUNDLE_GEMFILE=/path/to/PlaceCal/Gemfile.extensions-dev bundle exec rubocop
 ```
 
-`.github/workflows/test.yml` calls core's reusable `extension-test.yml`, which runs the same two commands against a Gemfile it builds the same way.
+`.github/workflows/test.yml` calls core's reusable `extension-test.yml`, which runs the same two commands against a Gemfile it builds the same way. See [Continuous integration](https://github.com/geeksforsocialchange/PlaceCal/blob/main/doc/extensions.md#continuous-integration).
 
 `spec/system/accessibility_spec.rb` runs axe-core over every page of a themed site, so it needs headless Chrome. It comes from core's bundle (`axe-core-rspec`, `selenium-webdriver`) and core's `spec/support`, which `boot!(system_specs: true)` already loads; CI installs Chrome because the workflow passes `chrome: true`. Locally it runs with the rest of the suite as long as Chrome is installed. One rule is skipped, `heading-order`, and only because every node that trips it is core's markup; the spec names them.
 
 ### Releasing
 
-Installations pin this engine by tag, so a release is a version bump followed by a tag. Bump `lib/transdimension/version.rb` and `package.json` together (a spec fails if they disagree, or if the latest tag is ahead of `VERSION`), merge, then tag the merge commit `v<version>`. CI fails a tag push whose tag name does not match `VERSION`.
+The steps are the same for every extension and core keeps them: [Releasing an extension](https://github.com/geeksforsocialchange/PlaceCal/blob/main/doc/extensions.md#releasing-an-extension). In short, bump `lib/transdimension/version.rb` and `package.json` together, merge, tag the merge commit `v<version>`, then pin the new tag in core with `rake "placecal:extension:bump[placecal-theme-transdimension,<version>]"`.
+
+Two checks back that up here: `spec/version_spec.rb` fails if `VERSION` and `package.json` disagree or if the latest tag is ahead of `VERSION`, and CI fails a tag push whose tag name does not match `VERSION`.
 
 ### Tailwind
 
@@ -98,7 +82,7 @@ yarn css-check  # fail if the committed CSS is stale
 
 ### Static pages
 
-This engine bundles Trans Dimension's static page content (About, Privacy) as markdown in `content/`, and renders it itself: `Transdimension::Views::About` and `Transdimension::Views::Privacy` compose the markdown files with the section headings from `config/locales/en.yml`. Nothing is seeded into the host database and there is no page admin to keep in sync.
+This engine bundles Trans Dimension's static page content (About, Privacy) as markdown in `content/`: `Transdimension::Views::About` and `Transdimension::Views::Privacy` subclass core's `Views::ThemeContentPage` and compose the markdown files with the section headings from `config/locales/en.yml`. Nothing is seeded into the host database and there is no page admin to keep in sync.
 
 The engine registers the two pages while it registers the theme:
 
@@ -109,7 +93,7 @@ theme.page 'privacy', 'Transdimension::Views::Privacy'
 
 Core serves each at `/<slug>` on sites using the theme, lists the ones with a `nav_label_key` in the derived navigation, and includes both in the site sitemap. About carries a nav label; Privacy does not, because the footer carries that link. `privacy` is the one core route a theme page may replace.
 
-Editing the copy means editing the markdown in `content/` and shipping a release. Rendered HTML is memoised per file on the view class and keyed on the file's mtime, so a content edit shows up in development without a restart and production parses each file once.
+Editing the copy means editing the markdown in `content/` and shipping a release. Core memoises the rendered HTML per file, keyed on the file's mtime in development, so a content edit shows up without a restart and production parses each file once.
 
 ## URL audit
 
