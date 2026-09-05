@@ -1843,15 +1843,12 @@ main > .container-public > h1.h1 {
 
 /* Partners.elm has an "ALL PARTNERS" heading at the top of the list, inside
    the content box, in Global.elm's smallInlineTitleStyle. Events.elm has no
-   equivalent: the filters follow the intro panel directly, and core's heading
-   there would break the join between the panel and the box. */
-.list-heading {
-	display: none;
-}
-
+   equivalent, and the theme ships no events.index.list_heading override, so
+   core renders nothing there: the filters follow the intro panel directly.
+   Style the partners heading positively rather than hiding the class
+   everywhere, so no future heading arrives invisible. */
 #partner_previews .list-heading {
 	color: var(--color-foreground);
-	display: block;
 	font-size: 1.2rem;
 	font-weight: 700;
 	letter-spacing: 0.05em;

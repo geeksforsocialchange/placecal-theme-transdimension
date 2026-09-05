@@ -24,8 +24,9 @@ en:
           title: "Events"
           page_title: "Events"
           standfirst: "Upcoming events & activities for you."
-          # Events.elm: heading between the intro panel and the list
-          list_heading: "All events"
+          # No list_heading: Events.elm has no heading between the intro panel
+          # and the filters, and core ships the key blank, so overriding it
+          # would put a heading in the page that the theme then has to hide.
         # Events.elm prints the day zero-padded ("02") over an uppercase month,
         # and prefixes the organiser with "by".
         # Event.elm: section name above the title panel; the page date reads
