@@ -8,17 +8,9 @@ require 'rails_helper'
 # landmark structure are this engine's to get right even where the elements come
 # from core.
 RSpec.describe 'Trans Dimension accessibility', type: :system do
-  # heading-order is the one rule skipped, and only on the article page, where
-  # the single remaining offender is core's markup and unreachable from a theme:
-  # app/views/news/show.rb renders the byline as
-  # <h3 class="article__author"> directly under the article h1, so the sequence
-  # goes h1 to h3 with no h2 between. Core is turning that h3 into a paragraph
-  # in a parallel work package; drop this skip once that lands.
-  #
-  # Every other page is checked with nothing skipped, so a heading a view or
-  # component in this engine emits out of order has to fail here.
-  CORE_OWNED_RULES = [:'heading-order'].freeze
-
+  # Nothing is skipped: core's article byline and footer headings, the last
+  # two heading-order offenders, are fixed, so a heading a view or component in
+  # this engine emits out of order has to fail here.
   def expect_axe_clean
     expect(page).to be_axe_clean
   end
@@ -88,6 +80,6 @@ RSpec.describe 'Trans Dimension accessibility', type: :system do
   it 'has no accessibility violations on an article' do
     visit_themed("/news/#{article.to_param}")
 
-    expect(page).to be_axe_clean.skipping(*CORE_OWNED_RULES)
+    expect_axe_clean
   end
 end
