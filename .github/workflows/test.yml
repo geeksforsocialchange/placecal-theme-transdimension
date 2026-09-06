@@ -5,9 +5,7 @@ name: Test
 # "Continuous integration" in PlaceCal's doc/extensions.md.
 #
 # A reusable workflow is resolved at the ref the caller names, so the `uses:`
-# ref and `placecal_ref` have to name the same thing. Both are the core branch
-# carrying the extension scaffold; switch both to `main` once PlaceCal #3436 is
-# merged.
+# ref and `placecal_ref` have to name the same thing.
 
 on:
   push:
@@ -17,9 +15,9 @@ on:
 
 jobs:
   test:
-    uses: geeksforsocialchange/PlaceCal/.github/workflows/extension-test.yml@feature/td-extension
+    uses: geeksforsocialchange/PlaceCal/.github/workflows/extension-test.yml@main
     with:
       engine: placecal-theme-transdimension
       module_dir: transdimension
       chrome: true
-      placecal_ref: feature/td-extension
+      placecal_ref: main
