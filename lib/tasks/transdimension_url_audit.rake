@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# rubocop:disable Metrics/BlockLength
+# rubocop:disable-next Metrics/BlockLength
 namespace :transdimension do
   desc 'Audit Trans Dimension URLs for compatibility with PlaceCal'
   # Checks every legacy Trans Dimension path three ways: the live TD site, the
@@ -179,4 +179,3 @@ namespace :transdimension do
     puts "Audit report written to: #{output_file}"
   end
 end
-# rubocop:enable Metrics/BlockLength

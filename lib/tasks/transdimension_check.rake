@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# rubocop:disable Metrics/BlockLength
+# rubocop:disable-next Metrics/BlockLength
 namespace :transdimension do
   # Takes the site slug as a rake argument. TD_SITE_SLUG stays as a fallback
   # for callers that cannot pass one.
@@ -102,4 +102,3 @@ namespace :transdimension do
     exit(1) if results.any? { |line| line.start_with?('FAIL') }
   end
 end
-# rubocop:enable Metrics/BlockLength
