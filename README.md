@@ -65,7 +65,7 @@ BUNDLE_GEMFILE=/path/to/PlaceCal/Gemfile.extensions-dev bundle exec rubocop
 
 `.github/workflows/test.yml` calls core's reusable `extension-test.yml`, which runs the same two commands against a Gemfile it builds the same way. See [Continuous integration](https://github.com/geeksforsocialchange/PlaceCal/blob/main/doc/extensions.md#continuous-integration).
 
-`spec/system/accessibility_spec.rb` runs axe-core over every page of a themed site, so it needs headless Chrome. It comes from core's bundle (`axe-core-rspec`, `selenium-webdriver`) and core's `spec/support`, which `boot!(system_specs: true)` already loads; CI installs Chrome because the workflow passes `chrome: true`. Locally it runs with the rest of the suite as long as Chrome is installed. One rule is skipped, `heading-order`, and only because every node that trips it is core's markup; the spec names them.
+`spec/system/accessibility_spec.rb` runs axe-core over every page of a themed site, so it needs headless Chrome. It comes from core's bundle (`axe-core-rspec`, `selenium-webdriver`) and core's `spec/support`, which `boot!(system_specs: true)` already loads; CI installs Chrome because the workflow passes `chrome: true`. Locally it runs with the rest of the suite as long as Chrome is installed. No rule is skipped.
 
 ### Releasing
 
