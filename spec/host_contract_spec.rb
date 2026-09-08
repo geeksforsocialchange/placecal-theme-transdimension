@@ -28,9 +28,11 @@ RSpec.describe 'host contract' do
         preconnect: Transdimension::Engine::TYPEKIT_PRECONNECT
       )
       expect(theme.footer).to eq('Transdimension::Components::Footer')
-      expect(theme.event_filter_style).to eq(:day_strip)
+      expect(theme.event_filter_style).to eq(:day_strip_with_date_picker)
+      expect(theme.events_default_period).to eq('future')
       expect(theme.map_style).to eq('transdimension')
       expect(theme.nav_join?).to be(false)
+      expect(theme.nav_region_filter?).to be(true)
       expect(theme.menu_label?).to be(true)
       expect(theme.nav_cta)
         .to eq(label_key: 'transdimension.header.donate', url: Transdimension::Engine::DONATE_URL)

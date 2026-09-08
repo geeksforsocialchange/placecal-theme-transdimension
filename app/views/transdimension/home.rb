@@ -50,15 +50,18 @@ class Transdimension::Views::Home < Views::Base
     end
   end
 
-  # The filter, the list and the button sit in one Turbo Frame, so picking a
-  # region swaps just that box in place (and advances the URL) instead of a
+  # The list and the button sit in one Turbo Frame so a region change
+  # elsewhere on the site (the nav's own segmented control, #3368 WP 3.20)
+  # still advances the URL and swaps just this box in place, instead of a
   # Drive visit that repaints the whole illustrated page from the top. Core's
-  # events and partners pages do the same with their own frames.
+  # events and partners pages do the same with their own frames. The filter
+  # itself no longer renders here: Components::Navigation carries it now
+  # (theme.nav_region_filter), so the homepage does not repeat it above the
+  # list the way /events and /partners still do.
   def render_events
     section(class: 'td-section td-section--events') do
       h2(class: 'td-floating-title') { t('transdimension.home.events_header') }
       turbo_frame_tag 'home-events', data: { turbo_action: 'advance' } do
-        render_region_filter
         div(class: 'td-events') { render_event_list }
         p(class: 'td-button-floating') do
           link_to t('transdimension.home.events_button'), events_path(**region_param),
@@ -66,13 +69,6 @@ class Transdimension::Views::Home < Views::Base
         end
       end
     end
-  end
-
-  # Only sites with more than one Partnership tag offer the filter (#3368 D7).
-  def render_region_filter
-    return if region_tags.size < 2
-
-    RegionFilter(tags: region_tags, selected: current_region)
   end
 
   # Index.elm reuses viewEvent from Events.elm, so the cards are core's
@@ -115,10 +111,6 @@ class Transdimension::Views::Home < Views::Base
     return @latest_article if defined?(@latest_article)
 
     @latest_article = Article.for_site(site).published.by_publish_date.first
-  end
-
-  def region_tags
-    @region_tags ||= view_context.region_tags
   end
 
   def current_region

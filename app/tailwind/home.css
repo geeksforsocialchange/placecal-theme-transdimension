@@ -638,74 +638,6 @@ main:has(.td-home) {
 }
 
 /* ---------------------------------------------------------------------------
-   Region selector
-   Core's Components::RegionFilter renders the markup (rounded pills painted
-   with utility classes); TD wants fixed-width rectangular buttons, so the
-   utilities are overridden here rather than the component forked.
-   RegionSelector.elm sizes its row from the number of buttons; this uses flex
-   wrapping instead, which centres the same way for any number of regions.
---------------------------------------------------------------------------- */
-
-/* Only the homepage deltas live here: everything else this row needs is the
-   shared `.region-filter` block in pages.css, which applies on the homepage
-   too. */
-
-.td-home .region-filter {
-	/* Core's .region-filter is max-width: fit-content, which left-aligns it
-	   inside the box; TD centres the region buttons and lets them bleed into
-	   the section's own padding. */
-	margin: 0 -0.5rem;
-	max-width: none;
-}
-
-.td-home .region-filter ul {
-	width: 100%;
-	margin: 0 auto 0.5rem auto;
-	padding: 0;
-	list-style: none;
-}
-
-.td-home .region-filter li {
-	list-style: none;
-}
-
-.td-home .region-filter a {
-	transition:
-		background-color 300ms,
-		border-color 300ms,
-		color 300ms;
-}
-
-.td-home .region-filter a[aria-current="page"] {
-	border-color: var(--color-foreground);
-}
-
-.td-home .region-filter a:active,
-.td-home .region-filter a:focus {
-	background-color: var(--color-foreground);
-	color: var(--color-background);
-	border-color: var(--color-foreground);
-}
-
-@media only screen and (hover: hover) and (pointer: fine) {
-	.td-home .region-filter a:hover {
-		background-color: var(--color-home-background-3);
-	}
-}
-
-@media only screen and (min-width: 900px) {
-	.td-home .region-filter {
-		margin: 2rem -1rem;
-	}
-}
-
-@media only screen and (min-width: 1200px) {
-	.td-home .region-filter {
-		margin: 2rem -1rem 3rem -1rem;
-	}
-}
-
-/* ---------------------------------------------------------------------------
    Event list, Theme/Page/Events.elm
 --------------------------------------------------------------------------- */
 
@@ -723,19 +655,19 @@ main:has(.td-home) {
 }
 
 /* Index.elm reuses viewEvent from Events.elm, so the homepage cards are core's
-   Components::Event under the same `.events` rules /events uses, in pages.css.
-   Only the list's own spacing belongs to the homepage: the section gives the
-   grid a wider gutter than the content box does, and the cards keep a bottom
-   margin because no paginator follows the last row.
+   Components::Event under the same `.events` rules /events uses, in pages.css:
+   48px between rows, none above the first (events.css .events .event). Only
+   the list's own spacing belongs to the homepage: the section gives the grid
+   a wider gutter than the content box does, and the grid itself keeps a
+   bottom margin because no paginator follows the last row.
    Final design (Home.jsx's td-grid2): the four cards sit two-up from 900px,
-   28px column gap, no row gap (the cards carry their own bottom margin
-   instead). */
+   28px column gap, 48px row gap. */
 .td-events .events {
 	display: grid;
 	grid-template-columns: minmax(0, 1fr);
 	column-gap: 1.75rem;
 	row-gap: 0;
-	margin: 0;
+	margin: 0 0 1.25rem;
 }
 
 /* Index.elm's card is the title, the times, the place and the organiser. The
@@ -744,12 +676,8 @@ main:has(.td-home) {
 	display: none;
 }
 
-.td-events .events .event {
-	margin-bottom: 1.25rem;
-}
-
 @media only screen and (min-width: 600px) {
-	.td-events .events .event {
+	.td-events .events {
 		margin-bottom: 1.5rem;
 	}
 }
@@ -757,13 +685,13 @@ main:has(.td-home) {
 @media only screen and (min-width: 900px) {
 	.td-events .events {
 		grid-template-columns: repeat(2, minmax(0, 1fr));
-		margin: 1rem 0;
+		margin-top: 1rem;
 	}
 }
 
 @media only screen and (min-width: 1200px) {
 	.td-events .events {
-		margin: 2rem 0;
+		margin-top: 2rem;
 	}
 }
 

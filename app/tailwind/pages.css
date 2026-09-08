@@ -98,6 +98,44 @@ main > .container-public {
 	display: none;
 }
 
+/* Components::Hero `back:` prop (#3368 WP 3.20): the kicker link above the
+   panel on the event and partner pages, and above the dark box on the
+   article page, replacing the floating section name the route partials
+   (event-show.css, partner-show.css, article.css) hide. Shared here since
+   all three pages carry it; the default paints it dark blue for the pink
+   panel context, the override below repaints it for the article's dark box. */
+.hero__back {
+	color: var(--color-foreground-dark);
+	display: block;
+	font-size: 0.8rem;
+	font-weight: 700;
+	letter-spacing: 1.9px;
+	margin: 0 0 12px;
+	text-align: center;
+	text-decoration: none;
+	text-transform: uppercase;
+}
+
+.hero__back::before {
+	color: var(--color-foreground-dark);
+	content: "\2190";
+	margin-right: 0.45em;
+}
+
+/* Article show: the box is dark blue, not a pink panel, so the kicker takes
+   white text and gets a pink arrow the design shows before the label
+   (Components::Hero renders only the link text, so the glyph is a ::before).
+   `main > div[vocab]` is the article wrapper article.css draws the dark box
+   on. */
+main > div[vocab] .hero__back {
+	color: var(--color-foreground);
+}
+
+main > div[vocab] .hero__back::before {
+	color: var(--color-primary);
+	content: "\2190 ";
+}
+
 /* Global.elm screenReaderOnly. TD draws the strapline as part of the wordmark
    artwork above, so core's text kicker would repeat it. It is moved off screen
    rather than removed: it is the only copy of the strapline a screen reader can
@@ -349,6 +387,15 @@ main > .hero:has(.hero__standfirst) + #partner_previews {
    pills inside the breadcrumb, so the utilities are overridden here.
 --------------------------------------------------------------------------- */
 
+/* The nav now carries the region control (theme.css, #3368 WP 3.20), so the
+   box's own copy above the /events and /partners listings is redundant.
+   Scoped to the two content boxes it appears in, not `.header__region`'s copy
+   in the nav (theme.css). */
+#events-browser:has(.paginator) .region-filter,
+#partner_previews .region-filter {
+	display: none;
+}
+
 /* Both filter rows sit inside core's .paginator, whose legacy SCSS puts a 3rem
    pill border on every list item it contains. TD draws the button on the link
    itself, so the item goes back to being an undecorated box; without this the
@@ -568,6 +615,56 @@ main > .hero:has(.hero__standfirst) + #partner_previews {
 	}
 
 	.td-btn--white:hover {
+		background-color: var(--color-tertiary);
+		border-color: var(--color-foreground);
+		color: var(--color-foreground);
+	}
+}
+
+/* ---------------------------------------------------------------------------
+   Page actions (Final designs: the centred button row below a box)
+   Components::PageActions renders `nav.page-actions > ul.reset > li > a.
+   page-actions__link` on the event, partner and article pages. Shared here
+   since all three reach it; each link gets the `.td-btn`/`.td-btn--dark`
+   geometry above without needing that class in core's markup.
+--------------------------------------------------------------------------- */
+
+.page-actions {
+	margin-top: 40px;
+}
+
+.page-actions ul {
+	align-items: center;
+	display: flex;
+	flex-wrap: wrap;
+	gap: 28px;
+	justify-content: center;
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+.page-actions__link {
+	background-color: var(--color-background);
+	border: 2px solid var(--color-primary);
+	border-radius: 0.3rem;
+	box-sizing: border-box;
+	color: var(--color-foreground);
+	display: inline-block;
+	font-size: 1rem;
+	font-weight: 600;
+	line-height: 1.5;
+	padding: 0.375rem 1.25rem 0.5rem;
+	text-align: center;
+	text-decoration: none;
+	transition:
+		background-color 300ms,
+		border-color 300ms,
+		color 300ms;
+}
+
+@media only screen and (hover: hover) and (pointer: fine) {
+	.page-actions__link:hover {
 		background-color: var(--color-tertiary);
 		border-color: var(--color-foreground);
 		color: var(--color-foreground);

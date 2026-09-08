@@ -59,6 +59,16 @@ main > [data-controller="leaflet"] {
 	overflow: hidden;
 }
 
+/* Components::PageActions (#3368): "Partner's events" / "Add to calendar" /
+   "Go back" below the full-bleed map (or, for an online event with no map,
+   straight after the two info columns). Styled by pages.css; only the
+   per-page top offset lives here. Scoped through `main` (both this page and
+   the partner show page below share the same .hero/.event--full ancestry, so
+   a bare nav.page-actions selector would leak across routes). */
+main:has(> .event--full) > nav.page-actions {
+	margin-top: 2.5rem;
+}
+
 /* Components::Meta: the iCal, CSV, listing-problem and permalink links core
    puts under every listing. TD has no counterpart, so the problem line takes
    the small centred treatment rather than sitting in the corner of the page;
@@ -368,9 +378,18 @@ main > div.event--full:has(.hero__section) {
    FloatingTitle rather than a left-aligned block. */
 .event__fullinfo .small,
 .event__fullinfo .contact_details,
-.event__fullinfo .place_info__address {
+.event__fullinfo .place_info__address,
+.event__fullinfo .place_info__directions {
 	font-size: 1rem;
 	text-align: center;
+}
+
+/* Components::Address: the Google Maps directions link under the event
+   address (base `a` rule in theme.css already paints it as a plain white
+   link with a pink underline, so only its own top offset is needed here). */
+.event__fullinfo .place_info__directions {
+	display: block;
+	margin-top: 0.375rem;
 }
 
 /* Event.elm: two columns, 700px wide, 28px gap, centred: Contact information

@@ -55,18 +55,20 @@
 }
 
 /* ---------------------------------------------------------------------------
-   Filter row (Final.jsx FilterRow): "LOCATION [select]  TYPE [select] …
-   [search]". Core renders the neighbourhood/category filters as
-   Components::Filter, a toggle button plus a Stimulus-driven dropdown of
-   radio options, not a native <select> (see doc/core-slots-needed.md below).
-   Each is restyled here to read as a select: dark fill, 2px pink border,
-   pink 600 text, pink chevron, 0.3rem radius. The toggle's own text is the
-   only label core gives the control (it doubles as the idle "Location" /
-   "Type" caption and, once chosen, the selected item's name), so it also
-   carries the allcaps-label treatment the design puts beside the select.
+   Filter row (Final.jsx FilterRow / Select.jsx / SearchInput.jsx): "LOCATION
+   [Show all v]  TYPE [Show all v] … [search]". Core renders the
+   neighbourhood/category filters as Components::Filter: a toggle button
+   whose children are the triangle svg, `span.filters__toggle-label` (the
+   idle "Location"/"Type" caption from overrides.en.yml) and
+   `span.filters__toggle-value` ("Show all", or the selected item once
+   chosen). The label reads as plain allcaps text beside the control
+   (Select.jsx's outer <span>); the value reads as the select itself (dark
+   fill, 2px pink border, pink 600 text, 0.3rem radius) with core's chevron
+   repositioned on top of it, pink.
 --------------------------------------------------------------------------- */
 #partner_previews form.filters__form > .breadcrumb__element--last {
 	align-items: center;
+	flex-wrap: wrap;
 	gap: 1rem 2rem;
 	justify-content: flex-start;
 	padding: 0.5rem 0 1rem;
@@ -86,17 +88,52 @@
 
 /* Core renders the category filter before the neighbourhood filter;
    overrides.en.yml relabels them Type / Location, and the design wants
-   Location first. */
+   Location first. Selected by the toggle's own action, not sibling
+   position: the neighbourhood filter drops out of the row entirely when its
+   facet has one option (e.g. once a search has narrowed the list to a
+   single area), which would otherwise shift a position-based nth-of-type
+   selector onto the search field next to it. */
 #partner_previews .breadcrumb__filters.filters {
 	position: relative;
 }
 
-#partner_previews .breadcrumb__filters.filters:nth-of-type(1) {
+#partner_previews .breadcrumb__filters.filters:has(button[data-action*="toggleCategory"]) {
 	order: 2;
 }
 
-#partner_previews .breadcrumb__filters.filters:nth-of-type(2) {
+#partner_previews .breadcrumb__filters.filters:has(button[data-action*="toggleNeighbourhood"]) {
 	order: 1;
+}
+
+/* SearchInput.jsx: mauve fill, no border, white 600 text, pink placeholder,
+   220px wide, pushed to the row's right edge regardless of where core places
+   it in the DOM (it renders after the reset link, when one is showing). */
+#partner_previews .breadcrumb__filters:has(> input.filters__search) {
+	margin-left: auto;
+	order: 3;
+}
+
+#partner_previews input.filters__search {
+	background-color: var(--td-mauve);
+	border: 0;
+	border-radius: 0.3rem;
+	color: var(--color-foreground);
+	font-family: inherit;
+	font-size: 1rem;
+	font-weight: 600;
+	line-height: 1.5;
+	padding: 0.35rem 0.75rem 0.45rem;
+	width: 220px;
+}
+
+#partner_previews input.filters__search::placeholder {
+	color: var(--color-primary);
+	opacity: 1;
+}
+
+#partner_previews input.filters__search:focus-visible {
+	outline: 2px solid var(--color-foreground);
+	outline-offset: 2px;
 }
 
 #partner_previews .filters__toggle {
@@ -104,41 +141,64 @@
 	justify-content: flex-start;
 }
 
-/* Select.jsx's toggle text is pink 600; core's Filter toggle carries both the
-   idle "Type"/"Location" caption and, once chosen, the selected item's name in
-   the same string (see the block comment above), so the allcaps treatment the
-   design puts on the label lands on the value too once a filter is active. */
+/* The toggle button itself carries no box: the label reads as plain text and
+   the value is the only element styled as a select (below). */
 #partner_previews .filters__toggle button {
 	align-items: center;
+	background: none;
+	border: 0;
+	color: inherit;
+	cursor: pointer;
+	display: inline-flex;
+	font-family: inherit;
+	gap: 0.5rem;
+	line-height: 1.5;
+	padding: 0;
+	position: relative;
+}
+
+/* Select.jsx's outer label: allcaps 0.78rem 700, letter-spacing 1.9px,
+   white, reading beside the select, not inside it. */
+#partner_previews .filters__toggle-label {
+	color: var(--color-foreground);
+	font-size: 0.78rem;
+	font-weight: 700;
+	letter-spacing: 1.9px;
+	text-transform: uppercase;
+}
+
+/* Select.jsx's <select>: dark fill, 2px pink border, pink 600 text, 0.3rem
+   radius, right padding reserved for the chevron below. */
+#partner_previews .filters__toggle-value {
 	background-color: var(--color-background);
 	border: 2px solid var(--color-primary);
 	border-radius: 0.3rem;
 	color: var(--color-primary);
-	cursor: pointer;
-	display: inline-flex;
-	flex-direction: row-reverse;
-	font-family: inherit;
+	display: inline-block;
 	font-size: 1rem;
 	font-weight: 600;
-	gap: 0.5rem;
-	justify-content: flex-end;
-	letter-spacing: normal;
-	line-height: 1.5;
-	padding: 0.3rem 0.75rem 0.4rem;
-	text-transform: uppercase;
+	padding: 0.3rem 2.2rem 0.4rem 0.75rem;
 	transition:
 		border-color 300ms linear,
 		background-color 300ms linear;
 }
 
+/* Core's triangle_down svg is the button's first child, drawn before the
+   label; repositioned here as the value box's chevron. The button has no
+   other trailing content once the svg is taken out of flow, so its right
+   edge lines up with the value box's right edge. */
 #partner_previews .filters__toggle button svg {
-	flex: none;
-	height: 0.6rem;
-	width: 0.7rem;
+	color: var(--color-primary);
+	height: 0.5rem;
+	position: absolute;
+	right: 0.75rem;
+	top: 50%;
+	transform: translateY(-50%);
+	width: 0.75rem;
 }
 
 @media only screen and (hover: hover) and (pointer: fine) {
-	#partner_previews .filters__toggle button:hover {
+	#partner_previews .filters__toggle button:hover .filters__toggle-value {
 		border-color: var(--color-foreground);
 	}
 }
@@ -180,24 +240,10 @@
 	display: inline-flex;
 }
 
-/* Components::Filter reuses the "filters__link" class for two different
-   things: the real "Clear filters" reset <a> (styled as a link, underlined),
-   and the plain <span> carrying the toggle button's own text (the
-   LOCATION/TYPE caption, styled by the button rule above already). Scoping
-   to the anchor keeps the underline off the toggle. */
 #partner_previews a.filters__link {
 	color: var(--color-primary);
 	font-weight: 600;
 	text-decoration: underline;
-}
-
-/* Core's base .filters__link also carries its own border-bottom (a 2px rule
-   under the idle caption, see app/assets/builds/application.css); the
-   select-styled toggle draws no rule under its label. events.css already
-   drops this for the events filter toggle (#paginator); partners' toggle
-   needs the same override. */
-#partner_previews .filters__toggle .filters__link {
-	border-bottom: 0;
 }
 
 /* ---------------------------------------------------------------------------
@@ -233,6 +279,16 @@
 
 .partners .preview:first-child {
 	margin-top: 0;
+}
+
+/* At 900px+ the list is two columns (below), so the first *row* is items 1
+   and 2: without this, only item 1 loses its top margin and item 2 (the
+   first row's right-hand card) still carries it, which inflates that shared
+   grid row and leaves a bigger-than-44px gap before row two. */
+@media only screen and (min-width: 900px) {
+	.partners .preview:nth-child(2) {
+		margin-top: 0;
+	}
 }
 
 /* Partners.elm partnerTopRowStyle / PartnerPreview.jsx row div. Core lays the

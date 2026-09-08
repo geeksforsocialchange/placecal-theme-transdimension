@@ -246,14 +246,16 @@
 	}
 }
 
-/* "Older news" / "View more news" / "Recent news": core renders only the
-   older link (.articles__pagination, news.index.older); the other two buttons
-   are a core slot (no view/more or recent-news link exists to style). Styled
-   as a dark button matching the design's button row. */
+/* "Recent news" / "Older news": core renders both (.articles__pagination,
+   news.index.newer / news.index.older); render_newer_link only appears once
+   you've paged past the first page, render_older_link only while a next page
+   exists, and core prints newer before older, matching NewsF's button order.
+   Styled as .td-btn--dark (pages.css "Shared button contract"): dark fill,
+   2px pink border, white text, 0.3rem radius, 600 weight, 1rem gap. */
 .articles__pagination {
 	display: flex;
 	flex-wrap: wrap;
-	gap: 28px;
+	gap: 1rem;
 	justify-content: center;
 	margin-top: 40px;
 	text-align: center;
@@ -261,13 +263,14 @@
 
 .articles__pagination a {
 	background-color: var(--color-background);
-	border: 0.2rem solid var(--color-primary);
+	border: 2px solid var(--color-primary);
 	border-radius: 0.3rem;
 	box-sizing: border-box;
 	color: var(--color-foreground);
 	display: inline-block;
-	font-size: 1.2rem;
+	font-size: 1rem;
 	font-weight: 600;
+	line-height: 1.5;
 	padding: 0.375rem 1.25rem 0.5rem;
 	text-decoration: none;
 	transition:
