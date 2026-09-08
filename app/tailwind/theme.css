@@ -439,8 +439,16 @@ select {
 }
 
 @import "./home.css";
-/* Per-route page templates (WP 2.4). */
+/* Per-route page templates (WP 2.4), split into a shared shell plus one
+   partial per route (WP 3.19) so routes can be edited in parallel. */
 @import "./pages.css";
+@import "./events.css";
+@import "./event-show.css";
+@import "./partners.css";
+@import "./partner-show.css";
+@import "./news.css";
+@import "./article.css";
+@import "./static-pages.css";
 /* The theme's own footer component (WP 2.9). */
 @import "./footer.css";
 /* Decorative artwork on the inner pages (WP 2.10). */

@@ -1,0 +1,276 @@
+/* /news — Views::News::Index
+   News.elm newsItemStyle: pink-bordered dark cards, image left, italic title,
+   meta line and summary, pink "read the rest" button. Split out of pages.css
+   (WP 3.19). */
+
+/* ---------------------------------------------------------------------------
+   /news — Views::News::Index
+   News.elm newsItemStyle: each article is its own pink-bordered dark card with
+   the image on the left, the title italic, a bold meta line and the summary,
+   and a pink "read the rest" button. There is no outer content box.
+--------------------------------------------------------------------------- */
+
+.articles__article-card {
+	background-color: var(--color-background);
+	border: 1px solid var(--color-primary);
+	border-radius: 0.2rem;
+	box-sizing: border-box;
+	display: block;
+	margin: 2rem 0 3rem;
+	padding: 1.25rem 1.25rem 3rem;
+	position: relative;
+}
+
+@media only screen and (min-width: 600px) {
+	.articles__article-card {
+		padding: 3rem;
+	}
+}
+
+@media only screen and (min-width: 900px) {
+	.articles__article-card {
+		margin: 3rem;
+		padding: 2rem;
+	}
+}
+
+@media only screen and (min-width: 1200px) {
+	.articles__article-card {
+		margin: 4rem auto 5rem;
+		max-width: 920px;
+	}
+}
+
+/* News.elm newsItemArticleStyle: the image is a column of its own on the left
+   with the title, meta line, summary and button stacked beside it. Core nests
+   those in .articles__aside / .articles__main / .articles__content, so the
+   wrappers go display:contents and the card places every part itself. */
+.articles__aside,
+.articles__main,
+.articles__content {
+	display: contents;
+}
+
+.articles__article-card {
+	column-gap: 2rem;
+	display: grid;
+	grid-template-columns: minmax(0, 1fr);
+}
+
+.articles__image {
+	grid-row: 1;
+}
+
+.articles__title {
+	grid-row: 2;
+}
+
+.articles__partners {
+	grid-row: 3;
+}
+
+.articles__published {
+	grid-row: 4;
+}
+
+.articles__body {
+	grid-row: 5;
+}
+
+.articles__main > p:last-child {
+	grid-row: 6;
+	margin-bottom: 0;
+}
+
+/* News.elm newsItemMetaStyle puts the partner and the date on one line. Core
+   renders them as two elements in two different wrappers, so they cannot share
+   a flex parent; the card grid gives the byline row its own pair of columns
+   instead and every other part spans both. */
+@media only screen and (min-width: 600px) {
+	.articles__article-card {
+		grid-template-columns: 294px max-content minmax(0, 1fr);
+	}
+
+	.articles__image {
+		grid-column: 1;
+		grid-row: 1 / span 6;
+	}
+
+	.articles__title,
+	.articles__body,
+	.articles__main > p:last-child {
+		grid-column: 2 / -1;
+	}
+
+	.articles__partners {
+		grid-column: 2;
+		grid-row: 3;
+	}
+
+	.articles__published {
+		grid-column: 3;
+		grid-row: 3;
+		justify-self: start;
+	}
+
+	/* the bullet between them */
+	.articles__published::before {
+		content: "\2022";
+		padding-inline: 0.4em;
+	}
+}
+
+@media only screen and (min-width: 900px) {
+	.articles__article-card {
+		grid-template-columns: 303px max-content minmax(0, 1fr);
+	}
+}
+
+.articles__published {
+	font-size: 1rem;
+	font-weight: 600;
+	line-height: 1.5;
+	margin: 1rem 0 0;
+	text-align: center;
+}
+
+@media only screen and (min-width: 600px) {
+	.articles__published {
+		text-align: left;
+	}
+}
+
+/* News.elm newsItemTitleStyle */
+.articles__title {
+	font-size: 1.85rem;
+	font-style: italic;
+	font-weight: 400;
+	line-height: 1.3em;
+	margin: 0;
+	text-align: center;
+}
+
+@media only screen and (min-width: 600px) {
+	.articles__title {
+		text-align: left;
+	}
+}
+
+.articles__partners {
+	font-size: 1rem;
+	font-weight: 600;
+	line-height: 1.5;
+	margin: 1rem 0 0;
+	text-align: center;
+}
+
+@media only screen and (min-width: 600px) {
+	.articles__partners {
+		text-align: left;
+	}
+}
+
+/* News.elm newsItemImageStyle: 303x202 with an even 1rem above and below, and
+   no border (core tags the image .border). */
+.articles__image img {
+	aspect-ratio: 303 / 202;
+	border: 0;
+	display: block;
+	border-radius: 0.3rem;
+	margin: 1rem 0;
+	object-fit: cover;
+	width: 100%;
+}
+
+/* core's grid helper puts a gutter margin on every .gi; the card places its
+   own columns, so the gutter only narrows the text. */
+.articles__article-card .gi {
+	margin: 0;
+}
+
+/* News.elm newsItemSummaryStyle. TD's summary runs to about 130 characters,
+   which is three lines in the card; core truncates at 200, so the clamp keeps
+   the card the same height until core takes the shorter excerpt. */
+.articles__body p {
+	margin: 1rem 0 0;
+	text-align: center;
+}
+
+@media only screen and (min-width: 600px) {
+	.articles__body p {
+		-webkit-box-orient: vertical;
+		display: -webkit-box;
+		font-size: 1.2rem;
+		-webkit-line-clamp: 3;
+		line-clamp: 3;
+		overflow: hidden;
+		text-align: left;
+	}
+}
+
+/* Global.elm pinkButtonOnDarkBackgroundStyle */
+.articles__article-card .btn,
+.articles__article-card .btn--alt {
+	background-color: var(--color-primary);
+	border: 0.2rem solid var(--color-primary);
+	border-radius: 0.3rem;
+	color: var(--color-background);
+	display: block;
+	font-size: 1.2rem;
+	font-weight: 600;
+	margin: 0 auto;
+	max-width: max-content;
+	padding: 0.375rem 1.25rem 0.5rem;
+	text-align: center;
+	text-decoration: none;
+}
+
+@media only screen and (min-width: 600px) {
+	.articles__article-card .btn,
+	.articles__article-card .btn--alt {
+		margin: 0;
+	}
+}
+
+@media only screen and (hover: hover) and (pointer: fine) {
+	.articles__article-card .btn:hover {
+		background-color: var(--color-primary-light);
+		border-color: var(--color-primary-light);
+		color: var(--color-background);
+	}
+}
+
+.articles__pagination {
+	text-align: center;
+}
+
+/* News.elm card: underlined pink title link; the "Read the rest" button is
+   centred and straddles the card's bottom border. */
+.articles .articles__title a {
+	text-decoration: underline;
+	text-decoration-color: var(--color-primary);
+	text-underline-offset: 0.2em;
+}
+
+.articles .articles__article-card {
+	margin-bottom: 5rem;
+	padding-bottom: 2rem;
+	position: relative;
+}
+
+.articles .articles__article-card .btn--mt {
+	bottom: -1rem;
+	left: 50%;
+	margin: 0;
+	position: absolute;
+	transform: translateX(-50%);
+	width: max-content;
+}
+
+/* The card's column gap belongs between the image and the text, not inside
+   the byline, whose two halves are in adjacent columns. */
+@media only screen and (min-width: 600px) {
+	.articles .articles__published {
+		margin-left: -2rem;
+	}
+}

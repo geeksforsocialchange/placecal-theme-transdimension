@@ -1,0 +1,364 @@
+/* /events — Views::Events::Index
+   Day strip, filters and the two-column event card grid. Split out of
+   pages.css (WP 3.19) so the events route can be edited without touching
+   other routes' rules. */
+
+/* ---------------------------------------------------------------------------
+   /events — Views::Events::Index
+   The content box is core's #events-browser turbo frame, which holds the
+   filters, the day strip and the listing.
+--------------------------------------------------------------------------- */
+
+/* Core renders two day rows: Components::Timeline (the paginator arrows and
+   day buttons) and the newer day-strip filter. TD has one. The strip is the one
+   kept: it carries the same days plus "All upcoming", it is the row the 4a
+   table calls the paginator, and it is the control that keeps the sort and
+   repeating parameters. What goes with the Timeline is its back/forward arrows,
+   which TD does have; the strip scrolls horizontally instead. */
+.paginator__buttons {
+	display: none;
+}
+
+/* Paginator.elm paginationButtonListItemButtonStyle: pink border and pink label
+   on dark blue, filling pink with dark blue text for the selected day. Same
+   geometry as the region selector, one step down in the colour hierarchy. */
+.day-strip {
+	margin: 0.5rem auto 1rem;
+	max-width: fit-content;
+}
+
+.day-strip ul {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0;
+	justify-content: center;
+}
+
+.day-strip li {
+	list-style-type: none;
+	margin: 0.25rem 4px;
+}
+
+.day-strip__link {
+	background-color: var(--color-background);
+	border: 2px solid var(--color-primary);
+	border-radius: 0.3rem;
+	color: var(--color-primary);
+	display: block;
+	font-size: 0.875rem;
+	font-weight: 600;
+	padding: 0.2rem 0.2rem 0.3rem;
+	text-align: center;
+	text-decoration: none;
+	width: 100px;
+}
+
+.day-strip__link[aria-current="date"] {
+	background-color: var(--color-primary);
+	color: var(--color-background);
+}
+
+@media only screen and (hover: hover) and (pointer: fine) {
+	.day-strip__link:hover {
+		background-color: var(--color-tertiary);
+		border-color: var(--color-foreground);
+		color: var(--color-foreground);
+	}
+}
+
+@media only screen and (min-width: 600px) {
+	.day-strip li {
+		margin: 0.25rem 0.375rem;
+	}
+
+	.day-strip__link {
+		font-size: 1rem;
+		width: 110px;
+	}
+}
+
+@media only screen and (min-width: 900px) {
+	.day-strip li {
+		margin: 0.25rem 0.5rem;
+	}
+
+	.day-strip__link {
+		font-size: 1.2rem;
+		width: 140px;
+	}
+}
+
+/* Core's "Filter and sort" dropdown and the partner category filters have no
+   TD counterpart (4a keeps PlaceCal's filters), so they take the plain link
+   treatment rather than a bespoke one. */
+.filters {
+	text-align: center;
+}
+
+.filters__form {
+	margin: 0 auto;
+}
+
+.filters__link {
+	color: var(--color-primary);
+	font-weight: 600;
+}
+
+.filters__toggle {
+	display: flex;
+	justify-content: center;
+}
+
+.filters__toggle button {
+	background: none;
+	border: 0;
+	color: var(--color-primary);
+	cursor: pointer;
+}
+
+.filters__dropdown {
+	background-color: var(--color-background);
+	border: 1px solid var(--color-primary);
+	border-radius: 0.3rem;
+	text-align: left;
+}
+
+.filters__label,
+.filters__option label {
+	color: var(--color-foreground);
+}
+
+/* Components::EventList prints a day heading above each list. TD's own listing
+   has none (Events.elm renders one flat list), and every card already carries
+   its date, so the heading is taken out of the picture visually while staying
+   in the accessibility tree as the group label core intends it to be. */
+h2.udl--fw {
+	border: 0;
+	clip-path: inset(50%);
+	height: 1px;
+	margin: 0;
+	overflow: hidden;
+	padding: 0;
+	position: absolute;
+	white-space: nowrap;
+	width: 1px;
+}
+
+/* Events.elm eventsListStyle: one column, two from tablet landscape up.
+   minmax(0, 1fr) rather than 1fr: a card's own min-content width (a long
+   unbroken address or organiser name) would otherwise widen the track and push
+   the list out past the content box on narrow screens. */
+.events {
+	align-items: start;
+	display: grid;
+	gap: 0 2rem;
+	grid-template-columns: minmax(0, 1fr);
+	margin: 1rem 0;
+	padding: 0;
+}
+
+@media only screen and (min-width: 900px) {
+	.events {
+		grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+	}
+}
+
+.events > li {
+	display: block;
+	width: 100%;
+}
+
+/* Events.elm viewEvent: a two-column card, the date stack on the left and the
+   title, times, postcode and organiser stacked on the right. Core nests the
+   date inside .event__details alongside the other details, so .event__details
+   goes display:contents and each detail is placed on the card's own grid. */
+.events .event {
+	column-gap: 1rem;
+	display: grid;
+	grid-auto-rows: min-content;
+	grid-template-columns: 3.6rem minmax(0, 1fr);
+	margin: 1.25rem 0.25rem 0;
+}
+
+@media only screen and (min-width: 600px) {
+	.events .event {
+		/* Events.elm: the date column is 76px and the title starts right on
+		   its edge, with no gutter between the two. */
+		column-gap: 0;
+		grid-template-columns: 4.75rem minmax(0, 1fr);
+		margin: 1.5rem 0 0;
+	}
+}
+
+.events .event__details {
+	border-width: 0;
+	display: contents;
+	font-size: inherit;
+	padding: 0;
+}
+
+.events .event__detail {
+	grid-column: 2;
+	margin: 0;
+	min-width: 0;
+	overflow-wrap: anywhere;
+}
+
+.events .event__detail svg {
+	display: none;
+}
+
+.events .event__header {
+	display: block;
+	grid-column: 2;
+	grid-row: 1;
+	min-width: 0;
+	overflow-wrap: anywhere;
+}
+
+.events .event__time {
+	grid-row: 2;
+}
+
+.events .event__location {
+	grid-row: 3;
+}
+
+.events .event__organiser {
+	grid-row: 4;
+}
+
+/* Events.elm eventDateStyle, eventDayStyle and eventMonthStyle. Core prints the
+   whole date as one string ("2 Sep"), so the column is narrowed until the month
+   wraps and ::first-line gives the day number its own size and colour. A real
+   day/month split is the core slot this approximates (doc/core-slots-needed.md).
+
+   The element carries both .event__detail and .event__date, and the paragraph
+   rule below paints every detail white, so the month keeps its pink by naming
+   both classes rather than by winning on order. */
+.events .event__detail.event__date {
+	align-self: start;
+	color: var(--color-primary);
+	display: block;
+	font-size: 1.2rem;
+	font-weight: 900;
+	grid-column: 1;
+	grid-row: 1 / span 4;
+	letter-spacing: 1.9px;
+	line-height: 1.25;
+	text-align: center;
+	text-transform: uppercase;
+}
+
+/* eventDayStyle: white, one step off the type scale, line-height 1em, and no
+   weight of its own, so it drops back to the body 400 the month raises. */
+.events .event__detail.event__date::first-line {
+	color: var(--color-foreground);
+	font-size: 2.5rem;
+	font-weight: 400;
+	letter-spacing: normal;
+	line-height: 1;
+}
+
+@media only screen and (min-width: 600px) {
+	.events .event__detail.event__date::first-line {
+		font-size: 3.1222rem;
+	}
+
+	/* eventDayStyle also pulls the numeral up over the top of the card, on the
+	   listing and on the homepage alike. A ::first-line takes no margin, so the
+	   block carries the offset and the month rides up with it, which is where
+	   the live site puts both. */
+	.events .event__detail.event__date {
+		margin-top: -0.75rem;
+	}
+}
+
+/* Events.elm eventTitleStyle */
+.events .event__header h3 {
+	display: block;
+	margin: 0 0 0.5rem;
+}
+
+.events .event__header h3 a {
+	border-bottom: 2px solid var(--color-primary);
+	color: var(--color-foreground);
+	display: block;
+	font-size: 1.2rem;
+	font-style: italic;
+	font-weight: 500;
+	line-height: 1.25rem;
+	padding-bottom: 0.5rem;
+	text-decoration: none;
+	transition:
+		color 500ms linear,
+		border 500ms linear;
+}
+
+@media only screen and (min-width: 600px) {
+	.events .event__header h3 a {
+		font-size: 1.5rem;
+		line-height: 1.877rem;
+	}
+}
+
+/* Events.elm eventParagraphStyle */
+.events .event__detail,
+.events .event__detail a {
+	color: var(--color-foreground);
+	font-size: 0.8777rem;
+	text-decoration: none;
+}
+
+@media only screen and (min-width: 600px) {
+	.events .event__detail,
+	.events .event__detail a {
+		font-size: 1.2rem;
+		line-height: 1.75rem;
+	}
+}
+
+@media only screen and (hover: hover) and (pointer: fine) {
+	.events .event:hover .event__header h3 a {
+		border-bottom-color: var(--color-foreground);
+		color: var(--color-primary);
+	}
+
+	.events .event:hover .event__detail.event__date {
+		color: var(--color-foreground);
+	}
+}
+
+/* Detail pass (WP 2.12, coordinator): organiser prefix spacing on the list
+   card. */
+.event__organiser-prefix {
+	margin-right: 0.3em;
+}
+
+/* Visual diff pass (coordinator, 2026-09-03), events index and event page.
+   Paginator.elm at desktop: seven day buttons on one row, about 130px wide,
+   36px tall, 14px apart, and the past/future buttons on their own row. */
+@media only screen and (min-width: 900px) {
+	.day-strip {
+		max-width: none;
+	}
+
+	.day-strip li {
+		margin: 0.25rem 7px;
+	}
+
+	/* Paginator.elm: day buttons are 40px tall in 18px type at desktop. */
+	.day-strip__link {
+		font-size: 1.125rem;
+		padding: 0.3rem 0.5rem 0.4rem;
+		width: 130px;
+	}
+
+	.day-strip li:last-child {
+		flex-basis: 100%;
+		display: flex;
+		justify-content: center;
+		margin-top: 0.5rem;
+	}
+}
+

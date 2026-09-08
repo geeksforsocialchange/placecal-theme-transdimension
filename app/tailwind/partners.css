@@ -1,0 +1,179 @@
+/* /partners — Views::Partners::Index
+   Partners.elm: two-column card grid, italic name with the area badge over a
+   pink rule, summary underneath. Split out of pages.css (WP 3.19). */
+
+/* ---------------------------------------------------------------------------
+   /partners — Views::Partners::Index
+   Partners.elm: two columns from tablet landscape up, each entry an italic
+   name with the area badge on its right over a pink rule, and the summary
+   underneath.
+--------------------------------------------------------------------------- */
+
+/* Partners.elm partnersListTitleStyle sits above the list; core renders it as
+   `.list-heading`, filled from overrides.en.yml. */
+.partners {
+	display: grid;
+	gap: 0 2rem;
+	grid-template-columns: minmax(0, 1fr);
+	margin: 1rem 0;
+	padding: 0;
+}
+
+@media only screen and (min-width: 900px) {
+	.partners {
+		grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+	}
+}
+
+.partners .preview,
+.partners .preview__header,
+.partners .preview__details {
+	min-width: 0;
+	overflow-wrap: anywhere;
+}
+
+.partners .preview {
+	margin: 1rem 0;
+}
+
+@media only screen and (min-width: 600px) {
+	.partners .preview {
+		margin: 1.5rem 0;
+	}
+}
+
+/* Partners.elm partnerTopRowStyle. Core lays the header out as a grid; TD
+   wants the badge pushed to the right of a name that may wrap, so it is a flex
+   row here. */
+.partners .preview__header {
+	align-items: flex-start;
+	border-bottom: 2px solid var(--color-primary);
+	border-width: 0 0 2px;
+	display: flex;
+	gap: 0.75rem;
+	justify-content: space-between;
+	padding: 0.5rem 0;
+	transition: border 500ms linear;
+}
+
+@media only screen and (min-width: 900px) {
+	.partners .preview__header {
+		padding: 0.75rem 0;
+	}
+}
+
+/* Partners.elm partnerNameStyle */
+.partners .preview h3 {
+	font-size: 1.2rem;
+	font-style: italic;
+	padding: 0;
+}
+
+@media only screen and (min-width: 600px) {
+	.partners .preview h3 {
+		font-size: 1.5rem;
+	}
+}
+
+.partners .preview h3 a {
+	color: var(--color-foreground);
+	text-decoration: none;
+	transition: color 500ms linear;
+}
+
+/* Partners.elm partnerAreaTagSpan: dark purple ground, pink label. Core paints
+   the badge pink, which reads as a second brand accent next to the rules. */
+.preview__neighbourhood span,
+.neighbourhood span {
+	background-color: #432955;
+	border-radius: 0.3rem;
+	color: var(--color-primary);
+	display: inline-block;
+	font-size: 0.877777rem;
+	font-weight: 600;
+	letter-spacing: normal;
+	margin-left: 0.5rem;
+	padding: 0.25rem 0.5rem;
+	text-transform: none;
+}
+
+/* Partners.elm partnerBottomRowStyle and partnerDescriptionStyle */
+.partners .preview__details {
+	padding: 0.5rem 0;
+}
+
+@media only screen and (min-width: 900px) {
+	.partners .preview__details {
+		padding: 0.75rem 0;
+	}
+}
+
+.partners .preview__details p {
+	font-size: 0.8777rem;
+	margin: 0 1rem 0 0;
+}
+
+@media only screen and (min-width: 600px) {
+	.partners .preview__details p {
+		font-size: 1.2rem;
+	}
+}
+
+@media only screen and (hover: hover) and (pointer: fine) {
+	.partners .preview:hover h3 a {
+		color: var(--color-primary);
+	}
+
+	.partners .preview:hover .preview__header {
+		border-bottom-color: var(--color-foreground);
+	}
+}
+
+/* Partners.elm partnersListTitleStyle: the "ALL PARTNERS" heading above the
+   list. */
+#partner_previews .list-heading {
+	color: var(--color-foreground);
+	font-size: 1.2rem;
+	font-weight: 700;
+	letter-spacing: 0.05em;
+	line-height: 1.5;
+	margin: 2rem 0 0;
+	padding-top: 0;
+	text-align: left;
+	text-transform: uppercase;
+}
+
+/* Detail pass (WP 2.12, coordinator): row-aligned two-column grid and bold
+   italic partner names. Core's `two-col` utility lays the list out in CSS
+   columns, which lets rows drift; the grid below replaces it so both
+   columns share row tops as in Partners.elm. */
+.partners.two-col {
+	column-count: auto;
+	columns: auto;
+	display: grid;
+	align-items: start;
+}
+
+.partners .preview h3,
+.partners .preview h3 a {
+	font-weight: 700;
+}
+
+.partners.two-col > li {
+	margin-top: 0;
+	break-inside: auto;
+}
+
+/* Partners.elm: the list runs 3rem inside the box edge at desktop. */
+@media only screen and (min-width: 900px) {
+	#partner_previews > * {
+		margin-inline: 1rem;
+		padding-inline: 2rem;
+	}
+}
+
+/* Partners.elm: the badge never wraps; the name wraps instead. */
+.partners .preview .preview__neighbourhood {
+	flex-shrink: 0;
+	white-space: nowrap;
+}

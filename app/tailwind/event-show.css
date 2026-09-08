@@ -1,0 +1,360 @@
+/* /events/:id — Views::Events::Show
+   Event.elm: name panel, date/time/organiser row, the two info columns and
+   the full-bleed map. Split out of pages.css (WP 3.19). */
+
+/* ---------------------------------------------------------------------------
+   /events/:id — Views::Events::Show
+   Event.elm: the event name sits in a pink panel at the top of the content
+   box, with the date, times, organiser and the two info columns below it.
+   Core splits the page across .event--full and .event__fullinfo, so the box is
+   drawn as two halves that meet with no gap.
+--------------------------------------------------------------------------- */
+
+.event--full {
+	background-color: var(--color-background);
+	border: 1px solid var(--color-primary);
+	border-bottom: 0;
+	border-radius: 0.3rem 0.3rem 0 0;
+	margin-bottom: 0;
+}
+
+.event__fullinfo {
+	background-color: var(--color-background);
+	border: 1px solid var(--color-primary);
+	border-bottom: 0;
+	border-radius: 0;
+	border-top: 0;
+	box-sizing: border-box;
+	margin-bottom: 0;
+	margin-top: 0;
+	max-width: none;
+	padding-bottom: 2rem;
+
+	/* Also stops the first paragraph's top margin collapsing out through the
+	   borderless top of the block and opening a seam in the box. */
+	padding-top: 1rem;
+}
+
+/* Event.elm ends the content box with a full-bleed map. Core renders it as a
+   bare sibling of the info block, so it takes the bottom of the box. The
+   background is the map's own pink ground showing through until the tiles
+   arrive. */
+main > [data-controller="leaflet"] {
+	/* WP 2.14: the ground the map style paints (map-styles/transdimension.json
+	   background), so the block does not change colour when the tiles land. */
+	background-color: var(--color-primary);
+	border: 1px solid var(--color-primary);
+	border-radius: 0 0 0.3rem 0.3rem;
+	border-top: 0;
+	box-sizing: border-box;
+	/* Core's .map--multiple draws a two-tone decorative stripe above the map
+	   (a 10px border plus a box-shadow of the same height). TD's map meets the
+	   foot of the content box directly, so both go. */
+	box-shadow: none;
+	overflow: hidden;
+}
+
+/* Components::Meta: the iCal, CSV, listing-problem and permalink links core
+   puts under every listing. TD has no counterpart, so they take the small
+   centred treatment rather than sitting in the corners of the page. */
+.meta > .container-public {
+	align-items: center;
+	display: flex;
+	flex-direction: column;
+	gap: 0.35rem;
+	justify-content: center;
+	text-align: center;
+}
+
+.meta {
+	margin-top: 2rem;
+}
+
+.meta,
+.meta a {
+	color: var(--color-foreground);
+	font-size: 0.8777rem;
+}
+
+/* Global.elm textBoxPinkStyle: the show pages' title panel. Core's hero is a
+   direct child of <main> on index pages and nested one level deeper on the
+   show pages, which is what separates the two treatments. News items keep the
+   dark ground (News.elm), so the [vocab] wrapper they use is excluded. */
+main > div:not([vocab]) > .hero {
+	background-color: var(--color-primary);
+	/* Event.elm and Partner.elm: the panel is the full width of the content
+	   box, flush with its border (the box radius shows at the top corners). */
+	border-radius: 0.3rem 0.3rem 0 0;
+	box-sizing: border-box;
+	color: var(--color-foreground-dark);
+	margin: -1px -1px 0;
+	padding: 1rem 0.75rem;
+}
+
+@media only screen and (min-width: 600px) {
+	main > div:not([vocab]) > .hero {
+		padding-inline: 1.5rem;
+	}
+}
+
+@media only screen and (min-width: 1500px) {
+	main > div:not([vocab]) > .hero {
+		padding-bottom: 2rem;
+	}
+}
+
+/* Global.elm introTextLargeStyle: the panel's copy is the intro type, not the
+   page-title type. */
+main > div:not([vocab]) > .hero h1 {
+	color: var(--color-foreground-dark);
+	font-size: 1.6rem;
+	font-style: italic;
+	font-weight: 500;
+	line-height: 2rem;
+	margin: 1rem 0.5rem;
+	padding: 0;
+}
+
+@media only screen and (min-width: 600px) {
+	main > div:not([vocab]) > .hero h1 {
+		font-size: 1.9rem;
+		line-height: 2.1rem;
+		margin: 1rem 1.5rem;
+	}
+}
+
+@media only screen and (min-width: 900px) {
+	main > div:not([vocab]) > .hero h1 {
+		font-size: 2.5rem;
+		line-height: 3.1rem;
+		/* Global.elm introTextLargeStyle: rem 1 above and below, in an 838px
+		   measure (re-measured WP 3.8). */
+		margin: 1rem auto;
+		max-width: 838px;
+	}
+}
+
+/* The kicker is the site strapline, which TD does not repeat inside the panel;
+   the shared .hero p.allcaps rule above already moves it off screen. */
+
+/* WP 2.14. The details row is PlaceCal's own again: one left-aligned run of
+   icon-and-text pairs under the title panel, with the icons in TD pink. TD's
+   own contribution is the type — the date big and bold in caps, the time in
+   pink under it — which is why the first row is date and time on their own. */
+/* The bottom margin core gives the details block would collapse out through
+   the borderless foot of .event--full and open a seam between the two halves
+   of the box, so it goes. */
+.event--full .event__details {
+	align-items: baseline;
+	border-color: var(--color-primary);
+	border-style: solid;
+	border-width: 0 0 1px;
+	column-gap: 1.75rem;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: flex-start;
+	margin-bottom: 0;
+	padding: 1.5rem 0 1.25rem;
+	row-gap: 0.4rem;
+	text-align: left;
+}
+
+/* A zero-height flex item ordered between the date/time pair and everything
+   else breaks the row after the time, whichever details the event happens to
+   have. Core emits them in source order time, duration, date, ...; the order
+   values below put the date first. */
+.event--full .event__details::after {
+	content: "";
+	flex-basis: 100%;
+	height: 0;
+	order: -1;
+}
+
+.event--full .event__detail {
+	color: var(--color-foreground);
+	flex: none;
+	justify-content: flex-start;
+	margin: 0;
+	max-width: 100%;
+	text-align: left;
+}
+
+.event--full .event__detail svg {
+	color: var(--color-primary);
+	display: block;
+	flex: none;
+}
+
+.event--full .event__date {
+	font-size: 1.85rem;
+	font-weight: 700;
+	letter-spacing: 0.02em;
+	order: -3;
+	text-transform: uppercase;
+}
+
+.event--full .event__time {
+	color: var(--color-primary);
+	font-size: 1.3rem;
+	font-weight: 700;
+	letter-spacing: 1.9px;
+	order: -2;
+	text-transform: uppercase;
+}
+
+/* The date's icon carries the big type's line box, so it needs the room. */
+.event--full .event__date svg {
+	height: 2rem;
+	width: 2rem;
+}
+
+/* At phone width the full date ("3rd September 2026") wraps at 1.85rem and
+   the row loses its shape, so the date steps down to fit one line. */
+@media only screen and (max-width: 599px) {
+	.event--full .event__date {
+		font-size: 1.4rem;
+	}
+
+	.event--full .event__date svg {
+		height: 1.6rem;
+		width: 1.6rem;
+	}
+
+	.event--full .event__time {
+		font-size: 1.15rem;
+	}
+}
+
+.event--full > .p-name {
+	display: none;
+}
+
+/* WP 2.14: the details row, the body and the info columns share one left
+   edge, so the page reads as a single left-aligned column rather than core's
+   narrow measure floating inside TD's wider box. */
+.event--full > .container-public,
+.event__fullinfo {
+	box-sizing: border-box;
+	margin-inline: 0;
+	max-width: none;
+	padding-inline: 0.75rem;
+}
+
+@media only screen and (min-width: 600px) {
+	.event--full > .container-public,
+	.event__fullinfo {
+		padding-inline: 1.5rem;
+	}
+}
+
+@media only screen and (min-width: 900px) {
+	.event--full > .container-public,
+	.event__fullinfo {
+		padding-inline: 3rem;
+	}
+}
+
+/* Event.elm eventDescriptionStyle: the description is normalFirstParagraphStyle
+   in a 636px measure. */
+.event__fullinfo > p {
+	font-size: 1.2rem;
+	margin-inline: 0;
+	max-width: 636px;
+	text-align: left;
+}
+
+@media only screen and (min-width: 900px) {
+	.event__fullinfo > p:first-of-type {
+		font-size: 1.825rem;
+		line-height: 1.35em;
+		margin-block: 2rem;
+	}
+}
+
+.event__fullinfo .small,
+.event__fullinfo .contact_details,
+.event__fullinfo .place_info__address {
+	font-size: 1rem;
+	text-align: left;
+}
+
+/* WP 2.14: core's three info columns are kept as they are. At TD's box width
+   each column is about 340px, which takes a long organiser email on one line;
+   `overflow-wrap` below catches the ones that do not fit rather than letting
+   them push the column. */
+@media only screen and (min-width: 900px) {
+	.event__fullinfo .g.three-col {
+		column-gap: 2.5rem;
+		row-gap: 0;
+	}
+}
+
+/* A grid item's margin cannot collapse with the description above it, so the
+   kicker's own top margin would stack on the grid's and open a hole. */
+.event__fullinfo .g.three-col .gi > :first-child {
+	margin-top: 0;
+}
+
+.event__fullinfo .g.three-col {
+	margin-top: 2.5rem !important;
+}
+
+/* Event.elm, Partner.elm, NewsItem.elm: the section name sits on the
+   starfield above the title panel, in the page-title type. */
+main > div:not([vocab]) > .hero,
+main > div[vocab] > .hero {
+	position: relative;
+}
+
+main > div:not([vocab]) > .hero .hero__section,
+main > div[vocab] > .hero .hero__section {
+	color: var(--color-foreground);
+	font-size: 3rem;
+	font-style: italic;
+	font-weight: 500;
+	left: 0;
+	line-height: 1.2;
+	margin: 0;
+	position: absolute;
+	right: 0;
+	text-align: center;
+	top: -4.6rem;
+}
+
+/* Room above the content box for the floating section name. */
+main > div:not([vocab]):has(.hero__section),
+main > div[vocab]:has(.hero__section) {
+	margin-top: 4.8rem;
+}
+
+.event__fullinfo .contact_details,
+.g--partner .contact_details {
+	align-items: start;
+	column-gap: 0.6rem;
+	display: grid;
+	grid-template-columns: auto minmax(0, 1fr);
+	row-gap: 0.45rem;
+}
+
+.event__fullinfo .contact_details svg,
+.g--partner .contact_details svg {
+	color: var(--color-primary);
+	display: block;
+	/* Aligns the icon with the first line of a value that wraps (a long
+	   organiser email) rather than centring it on the whole block. */
+	margin-top: 0.28em;
+}
+
+.event__fullinfo .contact_details a,
+.g--partner .contact_details a {
+	display: inline;
+	margin: 0;
+	overflow-wrap: anywhere;
+}
+
+/* The address block sits under a kicker of its own and takes the same rhythm
+   as a contact row, so the two columns read as one pair. */
+.event__fullinfo .place_info__address,
+.g--partner .place_info__address {
+	line-height: 1.6;
+}

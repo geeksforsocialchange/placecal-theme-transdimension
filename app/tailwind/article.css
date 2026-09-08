@@ -1,0 +1,142 @@
+/* /news/:slug — Views::News::Show
+   NewsItem.elm: dark ground, pink centred title inside the content box, no
+   side date column. Split out of pages.css (WP 3.19). */
+
+/* ---------------------------------------------------------------------------
+   /news/:slug — Views::News::Show
+   NewsItem.elm keeps the dark ground: the title is pink and centred inside the
+   content box rather than sitting in a pink panel.
+--------------------------------------------------------------------------- */
+
+/* The article title is inside the content box on TD, so the box goes on the
+   wrapper that holds both the hero and the body rather than on the body alone. */
+main > div[vocab] {
+	background-color: var(--color-background);
+	border: 1px solid var(--color-primary);
+	border-radius: 0.3rem;
+	box-sizing: border-box;
+	margin: 0.75rem;
+	padding-bottom: 2rem;
+}
+
+@media only screen and (min-width: 600px) {
+	main > div[vocab] {
+		margin: 0 2rem;
+	}
+}
+
+@media only screen and (min-width: 1500px) {
+	main > div[vocab] {
+		margin: 1.5rem;
+	}
+}
+
+/* Core rules off the breadcrumb before the article; TD does not draw one. */
+main > div[vocab] > .container-public > hr {
+	display: none;
+}
+
+/* Core lays the date out in a fifth-width column beside the body. TD stacks the
+   meta lines under the title, centred. */
+.article {
+	display: block;
+}
+
+.article__aside,
+.article__main {
+	max-width: none;
+	width: 100%;
+}
+
+main > div[vocab] > .hero h1 {
+	color: var(--color-primary);
+	font-size: 1.6rem;
+	line-height: 2rem;
+	padding-top: 1rem;
+}
+
+@media only screen and (min-width: 900px) {
+	main > div[vocab] > .hero h1 {
+		font-size: 2.5rem;
+		line-height: 3.1rem;
+	}
+}
+
+.article__published,
+.article__author,
+.article__partners {
+	font-weight: 600;
+	margin: 0.25rem 0;
+	text-align: center;
+}
+
+.article__image img {
+	border-radius: 0.3rem;
+	margin: 1rem auto;
+	max-width: 100%;
+}
+
+.article__image-attribute {
+	font-size: 0.8777rem;
+	text-align: center;
+}
+
+/* TransMarkdown paragraphStyle: the first paragraph is the article's standfirst. */
+.article__content > p:first-child {
+	font-size: 1.2rem;
+	margin-block-end: 2em;
+}
+
+@media only screen and (min-width: 900px) {
+	.article__content > p:first-child {
+		font-size: 1.825rem;
+		line-height: 1.35em;
+	}
+}
+
+@media only screen and (min-width: 900px) {
+	.article__content,
+	.article__main {
+		margin: 0 auto;
+		max-width: 636px;
+	}
+}
+
+.article__back {
+	margin-top: 2rem;
+	text-align: center;
+}
+
+/* NewsItem.elm: the article box spans the content width; the byline is the
+   partner and the date on one line, no author line. Single centred column:
+   the image and body sit in the 636px measure. */
+@media only screen and (min-width: 600px) {
+	main > div[vocab] {
+		margin-inline: 0;
+	}
+}
+
+main > div[vocab] .article__author {
+	display: none;
+}
+
+main > div[vocab] .article__partners {
+	display: inline;
+}
+
+/* NewsItem.elm: single centred column (core lays the date out in a side
+   column); the image and body sit in the 636px measure. */
+main > div[vocab] .g {
+	display: block;
+}
+
+main > div[vocab] .gi {
+	margin-inline: auto;
+	max-width: 636px;
+	text-align: center;
+	width: auto;
+}
+
+main > div[vocab] .article__content {
+	text-align: left;
+}

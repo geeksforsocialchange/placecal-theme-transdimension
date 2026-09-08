@@ -1,0 +1,113 @@
+/* /partners/:slug — Views::Partners::Show
+   Partner.elm: name panel, description and contact columns, then the
+   partner's own event list. Split out of pages.css (WP 3.19). */
+
+/* Event.elm and Partner.elm draw a pink-toned map inside the box; the ground
+   colour is what shows while the tiles load. */
+.g--partner [data-controller="leaflet"] {
+	background-color: var(--color-primary);
+	overflow: hidden;
+}
+
+/* ---------------------------------------------------------------------------
+   /partners/:slug — Views::Partners::Show
+   Partner.elm: the name in the pink panel, the description and contact columns
+   below it, then the partner's own event list in TD's card layout (which the
+   /events rules above already cover, since core reuses Components::Event).
+   The panel treatment comes from the show-page rules in the /events/:id block.
+--------------------------------------------------------------------------- */
+
+main > div:not([vocab]):has(> .container-public .g--partner) {
+	background-color: var(--color-background);
+	border: 1px solid var(--color-primary);
+	border-radius: 0.3rem;
+	box-sizing: border-box;
+}
+
+.g--partner {
+	padding-bottom: 2rem;
+}
+
+.g--partner .p--big p {
+	font-size: 1.2rem;
+	max-width: 636px;
+	text-align: left;
+}
+
+@media only screen and (min-width: 900px) {
+	.g--partner .p--big p {
+		font-size: 1.825rem;
+		line-height: 1.35em;
+	}
+}
+
+.g--partner .contact_details,
+.g--partner .place_info__address {
+	font-size: 1rem;
+	text-align: left;
+}
+
+/* WP 2.14: core's two-column partner body — copy and contacts on the left,
+   image, map and opening times on the right — is the layout TD keeps; only
+   the gutter narrows so the right column has room for the map at TD's box
+   width. */
+@media only screen and (min-width: 900px) {
+	.g.g--partner {
+		column-gap: 2.5rem;
+		grid-template-areas: "main right";
+		grid-template-columns: minmax(0, 6fr) minmax(0, 5fr);
+	}
+}
+
+.g--partner .gi__image img {
+	display: block;
+	width: 100%;
+}
+
+.g--partner .opening_times {
+	max-width: 24rem;
+}
+
+/* Core gives the partner's own events their own copy of the events turbo frame,
+   one <ol> per day. Left alone that is a box inside the page's box and a run of
+   one-item grids; TD draws a single continuous two-column list. The frame
+   without a paginator is therefore the grid itself, and the per-day lists and
+   their items flatten into it. */
+#events-browser:not(:has(.paginator)) {
+	border: 0;
+	display: grid;
+	gap: 0 2rem;
+	grid-template-columns: minmax(0, 1fr);
+	margin: 0 0.75rem 1rem;
+}
+
+@media only screen and (min-width: 600px) {
+	#events-browser:not(:has(.paginator)) {
+		margin: 0 2rem 1rem;
+	}
+}
+
+@media only screen and (min-width: 900px) {
+	#events-browser:not(:has(.paginator)) {
+		grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+	}
+}
+
+#events-browser:not(:has(.paginator)) .events,
+#events-browser:not(:has(.paginator)) .events > li {
+	display: contents;
+}
+
+/* Partner.elm opening times: a two-column row per day, pink day labels. */
+.opening_times li {
+	border-bottom: 1px solid var(--color-primary);
+	display: flex;
+	justify-content: space-between;
+	padding: 0.4rem 0;
+}
+
+.opening_times--day {
+	color: var(--color-primary);
+	font-weight: 600;
+}
+
