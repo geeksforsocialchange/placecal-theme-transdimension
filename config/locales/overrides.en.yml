@@ -17,48 +17,85 @@ en:
       # unfiltered listing "Future events" (core keys: filters.day_strip.*).
       filters:
         day_strip:
-          date_format: "%a %d %b"
+          # Final design (screens/02-events-index-full.png): the day buttons
+          # read "Wed 9", not "Wed 09 Sep" (which truncated to "Wed 09 S..."
+          # at the button's equal-share width). Only the strip reads this key;
+          # Components::Timeline draws its own duplicate row from a format
+          # core keeps to itself, and the event page date uses events.page /
+          # events.card below.
+          date_format: "%a %-d"
           all_upcoming: "Future events"
+        # Partners index (README §4): Components::Filter's toggle button has
+        # no separate label/value slot, so this text is both the idle caption
+        # and, once chosen, the selected item's name (see partners.css).
+        category: "Type"
+        neighbourhood: "Location"
+        # Events index (README §2): FilterToggle.jsx's "FILTER EVENTS" toggle
+        # is core's "Filter and sort" button (events.css styles it centred,
+        # allcaps, with the pink +/-). There is no separate "Pick a date"
+        # toggle for a day-strip theme (doc/core-slots-needed.md).
+        filter_and_sort: "Filter events"
       events:
         index:
           title: "Events"
           page_title: "Events"
-          standfirst: "Upcoming events & activities for you."
+          # Final design (README §2): "Events & activities upcoming in your
+          # area." The region-aware variant ("...in London.") is a core slot
+          # (doc/core-slots-needed.md): core's standfirst key has no
+          # interpolation token for the selected region.
+          standfirst: "Events & activities upcoming in your area."
           # No list_heading: Events.elm has no heading between the intro panel
           # and the filters, and core ships the key blank, so overriding it
           # would put a heading in the page that the theme then has to hide.
+          # Final design (screens/02-events-index-full.png): the button under
+          # the box reads "Subscribe with iCal", not core's site-name form;
+          # core interpolates %{name}, so a value with no token is fine.
+          subscribe_ical: "Subscribe with iCal"
         # Events.elm prints the day zero-padded ("02") over an uppercase month,
         # and prefixes the organiser with "by".
-        # Event.elm: section name above the title panel; the page date reads
-        # "2nd September 2026" (%o is core's ordinal day token).
+        # Event.elm: section name above the title panel (final design hides it
+        # on the page itself, see event-show.css, but the string stays for
+        # any other surface that reads it). Final design's page date reads
+        # "07 SEP 2026": zero-padded day, short month, uppercased by CSS.
         show:
           section: "Events"
         page:
-          date_format: "%o %B %Y"
-          date_format_with_year: "%o %B %Y"
+          date_format: "%d %b %Y"
+          date_format_with_year: "%d %b %Y"
         card:
           date_format: "%d %b"
           date_format_with_year: "%d %b %Y"
-          organiser_prefix: "by "
+          organiser_prefix: "By "
       partners:
         show:
           section: "Partners"
         index:
           title: "Partners"
           page_title: "Partners"
-          standfirst: "The Trans Dimension is a partnership of grassroots groups and charities with a track record of supporting the trans community."
-          standfirst_detail: "All of our partners are explicitly trans-friendly organisations. Some are led by trans people, and some led by friends and allies. They put on events, provide services and offer support for members of our community."
+          # Final design (README §4): one line only, no standfirst_detail.
+          standfirst: "We are proud to partner with a number of charities and organisations with a long track record of supporting the trans community."
+          standfirst_detail: ""
           # Partners.elm: heading between the intro panel and the list
           list_heading: "All partners"
       news:
         show:
           section: "News"
+          # Final design (screens/07-article-show-full.png): the button under
+          # the box reads "Go back", not core's "Back to news".
+          back: "Go back"
+          # Ruby's strftime has no ordinal token, so the "14th January 2025"
+          # form in the design (reference/ui_kit/data.jsx.txt) is a core slot;
+          # this is the closest match without it.
+          date_format: "%-d %B %Y"
         index:
           # News.elm card: "Read the rest" button, day-month-year byline
           read_more: "Read the rest"
           date_format: "%-d %B %Y"
           title: "News"
           page_title: "News"
+          # Final design (screens/06-news-index-full.png): "Older news", not
+          # core's "Older news items".
+          older: "Older news"
           standfirst: "Updates & articles from our partners."
       # JoinUs.elm: the intro panel copy (the form fields are PlaceCal's, D8)
       sites:

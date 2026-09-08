@@ -88,7 +88,9 @@ main:not(:has(.td-home)) {
 		--td-band-footer-bottom: -165px;
 		--td-band-inset: -2rem;
 		--td-wordmark: url("tdd_logo_with_strapline.svg");
-		--td-wordmark-size: 268px auto;
+		/* Final designs (README "Grid & spacing"): the wordmark is 290px wide
+		   at every width it shows at, not tapered per breakpoint. */
+		--td-wordmark-size: 290px auto;
 		--td-title-padding-top: 250px;
 		--td-title-block: 306px;
 	}
@@ -105,11 +107,13 @@ main:not(:has(.td-home)) {
 		--td-band-footer-height: 280px;
 		--td-band-footer-bottom: -200px;
 		--td-band-inset: -1.5rem;
-		--td-wordmark-size: 305px auto;
+		--td-wordmark-size: 290px auto;
 		--td-title-padding-top: 275px;
-		/* the title block is the padding plus one 1.5 line of 3.1rem plus the
-		   rem 1 under it: 275 + 74.4 + 16 */
-		--td-title-block: 365px;
+		/* the title block is the padding plus one 1.5 line of the title's own
+		   2.5rem (not core's 3.1rem - the Final designs cap the listing title
+		   at 40px from here up, pages.css .hero h1) plus its 26px padding-
+		   bottom: 275 + 60 + 26 */
+		--td-title-block: 361px;
 	}
 }
 
@@ -122,7 +126,9 @@ main:not(:has(.td-home)) {
 		--td-band-footer-size: 1366px;
 		--td-band-footer-height: 200px;
 		--td-band-footer-bottom: -180px;
-		--td-band-inset: calc(-50vw - -575px);
+		/* main is 1186px wide from here up (pages.css); half of that cancels
+		   its own margin so the band still starts at the viewport edge. */
+		--td-band-inset: calc(-50vw - -593px);
 	}
 }
 
@@ -138,13 +144,14 @@ main:not(:has(.td-home)) {
 	}
 }
 
-/* Header band and wordmark. The band's own top is Elm's offset from the page
-   title, which starts at the top of the page column, so the wordmark's 50px
-   becomes that much further down inside the band. */
+/* Header band and wordmark. The band's own top is the page title's offset
+   from the top of the page column, so the wordmark's 56px (Final designs,
+   README "Grid & spacing": "Wordmark centred 56px from top") becomes that
+   much further down inside the band. */
 main:not(:has(.td-home))::before {
 	background-image: var(--td-wordmark), var(--td-band-header);
 	background-position:
-		center calc(50px - var(--td-band-header-top)),
+		center calc(56px - var(--td-band-header-top)),
 		center top;
 	background-repeat: no-repeat;
 	background-size: var(--td-wordmark-size), var(--td-band-header-size);

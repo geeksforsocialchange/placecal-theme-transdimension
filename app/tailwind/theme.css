@@ -100,6 +100,13 @@
 	--color-secondary-dark: #ff7aa7;
 	/* purple: hover state on white and pink buttons */
 	--color-tertiary: #814470;
+	/* Final designs (design_handoff_td_placecal_theme): mauve for badges and
+	   search fields, light blue for flash/info panels. Neither has a core
+	   token to override, so they are TD's own custom properties; route
+	   partials read them directly (e.g. the neighbourhood lozenge, the
+	   partners search field). */
+	--td-mauve: #7b4a6e;
+	--td-light-blue: #4fbdf5;
 	/* every rule and border in TD is pink (Global.elm hrStyle, contentWrapperStyle) */
 	--color-rules: #ff7aa7;
 	--color-rules-dark: #ff7aa7;
@@ -218,11 +225,13 @@ strong {
 	font-weight: 700;
 }
 
-/* Global.elm hrStyle */
+/* Global.elm hrStyle. The Final designs measure the rule at 1px
+   (design_handoff_td_placecal_theme README "Design tokens"), not the Elm
+   original's 0.5px. */
 hr {
 	border-color: var(--color-primary);
 	border-style: solid;
-	border-width: 0.5px;
+	border-width: 1px;
 	margin: 2rem 0;
 }
 
@@ -439,25 +448,47 @@ select {
 }
 
 @import "./home.css";
-/* Per-route page templates (WP 2.4). */
+/* Per-route page templates (WP 2.4), split into a shared shell plus one
+   partial per route (WP 3.19) so routes can be edited in parallel. */
 @import "./pages.css";
+@import "./events.css";
+@import "./event-show.css";
+@import "./partners.css";
+@import "./partner-show.css";
+@import "./news.css";
+@import "./article.css";
+@import "./static-pages.css";
 /* The theme's own footer component (WP 2.9). */
 @import "./footer.css";
 /* Decorative artwork on the inner pages (WP 2.10). */
 @import "./illustrations.css";
 
-/* PageHeader.elm: the Donate button is a white pill with dark text at the
-   end of the nav; the mobile toggle shows "Menu" next to a pink "+". */
+/* PageHeader.elm: the Donate button is a white pill-less button (2px border,
+   0.3rem radius, white fill, dark blue text) at the end of the nav, hovering
+   to dark blue fill / white text; the mobile toggle shows "Menu" next to a
+   pink "+". */
 .header__partner .header__cta-link,
 .header__partner .header__cta-link:not(.with-no-sass) {
 	background-color: #fff;
+	border: 2px solid #fff;
 	border-radius: 0.3rem;
-	border-bottom: 0;
 	color: var(--color-home-background);
 	font-weight: 700;
 	margin-left: auto;
 	padding: 0.375rem 1.25rem 0.5rem;
 	text-decoration: none;
+	transition:
+		background-color 300ms,
+		border-color 300ms,
+		color 300ms;
+}
+
+@media only screen and (hover: hover) and (pointer: fine) {
+	.header__partner .header__cta-link:not(.with-no-sass):hover {
+		background-color: var(--color-home-background);
+		border-color: var(--color-home-background);
+		color: #fff;
+	}
 }
 
 .header__partner .header__toggle-label {

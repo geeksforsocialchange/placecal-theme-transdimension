@@ -1,0 +1,246 @@
+/* /news/:slug: Views::News::Show
+   ArticleF: one dark box (48px 32px 56px inset) holding the kicker, the pink
+   title, the "Partner • date" byline, the image, and the prose. Split out of
+   pages.css (WP 3.19), redrawn for the Final designs
+   (screens/07-article-show-full.png).
+--------------------------------------------------------------------------- */
+
+/* The article title, byline, image and body are all inside one content box on
+   TD, so the box goes on the wrapper that holds both the hero and the body
+   rather than on the body alone. */
+main > div[vocab] {
+	background-color: var(--color-background);
+	border: 1px solid var(--color-primary);
+	border-radius: 0.3rem;
+	box-sizing: border-box;
+	margin: 0.75rem;
+	margin-bottom: 6.5rem;
+	padding: 2rem 1.25rem 2.5rem;
+	position: relative;
+}
+
+@media only screen and (min-width: 600px) {
+	main > div[vocab] {
+		margin-inline: 2rem;
+		padding: 3rem 2rem 3.5rem;
+	}
+}
+
+@media only screen and (min-width: 900px) {
+	main > div[vocab] {
+		margin-inline: 1.5rem;
+	}
+}
+
+@media only screen and (min-width: 1200px) {
+	main > div[vocab] {
+		margin-inline: auto;
+	}
+}
+
+@media only screen and (min-width: 1500px) {
+	main > div[vocab] {
+		margin-inline: 1.5rem;
+	}
+}
+
+/* Core rules off the breadcrumb before the article; TD does not draw one. */
+main > div[vocab] > .container-public > hr {
+	display: none;
+}
+
+/* ArticleF: "← All news" is a real link back to /news. Core only prints the
+   section name "News" as a <p> (.hero__section, news.show.section) with no
+   href and no arrow glyph, so it cannot become the kicker link, recorded as
+   a core slot. Hidden here rather than left to float as the page-title-sized
+   eyebrow the other show pages use (event-show.css), which the Final designs
+   no longer show above any of the pink/dark title panels. */
+main > div[vocab][typeof="Article"] > .hero .hero__section {
+	display: none;
+}
+
+/* ArticleF title: pink, 2.1rem italic 500, line-height 1.3, centred, 760px
+   measure. No kicker above it now, so the hero's own top padding goes too. */
+main > div[vocab] > .hero h1 {
+	color: var(--color-primary);
+	font-size: 1.6rem;
+	line-height: 1.3;
+	margin: 0 auto 0.5rem;
+	max-width: 760px;
+	padding: 0;
+}
+
+@media only screen and (min-width: 900px) {
+	main > div[vocab] > .hero h1 {
+		font-size: 2.1rem;
+	}
+}
+
+/* Core lays the date out in a fifth-width column beside the body (core's own
+   .g/.gi grid classes, base/grid.scss, flex it into two flex items); TD puts
+   the partner and the date on one line under the title, centred, and reads
+   the partner first even though core renders the date first (.article__aside
+   before .article__main). The selectors here are qualified past .g/.gi's own
+   specificity so they win regardless of stylesheet order. The wrappers go
+   display:contents so the grid below can place the two byline paragraphs
+   itself. */
+main > div[vocab] .article {
+	display: block;
+}
+
+main > div[vocab] .article__aside,
+main > div[vocab] .article__main {
+	max-width: none;
+	width: 100%;
+}
+
+.article__published,
+.article__author,
+.article__partners {
+	font-size: 0.8777rem;
+	font-weight: 700;
+	margin: 0.25rem 0;
+	text-align: center;
+}
+
+@media only screen and (min-width: 600px) {
+	main > div[vocab] .article {
+		column-gap: 0.35em;
+		display: grid;
+		/* .article__image/.article__content also span these two columns
+		   (1/-1) to reach full width; a spanning item wider than the columns
+		   it spans grows them to help fit it, which would push the date away
+		   from the partner name. justify-self on the two byline items below
+		   pins their text to the shared boundary regardless of how wide the
+		   grid ends up sizing either column, so the visible gap is only ever
+		   the column-gap plus the bullet's own 0.35em padding. */
+		grid-template-columns: max-content max-content;
+		justify-content: center;
+		row-gap: 0;
+	}
+
+	main > div[vocab] .article__aside,
+	main > div[vocab] .article__main {
+		display: contents;
+	}
+
+	.article__partners {
+		grid-column: 1;
+		grid-row: 1;
+		justify-self: end;
+		margin: 0.25rem 0 2rem;
+	}
+
+	.article__published {
+		grid-column: 2;
+		grid-row: 1;
+		justify-self: start;
+		margin: 0.25rem 0 2rem;
+	}
+
+	/* the bullet between them */
+	.article__published::before {
+		content: "\2022";
+		padding-inline: 0.35em;
+	}
+
+	.article__image {
+		grid-column: 1 / -1;
+	}
+
+	.article__content {
+		grid-column: 1 / -1;
+	}
+}
+
+/* NewsItem.elm: no author byline, just partner and date. */
+main > div[vocab] .article__author {
+	display: none;
+}
+
+/* ArticleF image: 636px wide, 16:9, cover, centred. The italic credit line
+   under it has no core data (no field on Article for it), a core slot. */
+.article__image img {
+	aspect-ratio: 16 / 9;
+	border-radius: 0.3rem;
+	display: block;
+	margin: 1rem auto;
+	max-width: 100%;
+	object-fit: cover;
+	width: 636px;
+}
+
+.article__image-attribute {
+	color: var(--color-primary-light);
+	font-size: 0.78rem;
+	font-style: italic;
+	text-align: center;
+}
+
+/* ArticleF: single centred column (core lays the date out in a side column);
+   the image and body sit in the page's own measure. */
+main > div[vocab] .gi {
+	margin-inline: auto;
+	max-width: 636px;
+	text-align: center;
+	width: auto;
+}
+
+/* ArticleF: first paragraph 1.4rem/1.4, the rest 16px prose in a 560px
+   measure (narrower than the 636px image above it). The pull quote after the
+   third paragraph has no core data (no field on Article for it), a core
+   slot. */
+main > div[vocab] .article__content {
+	margin-inline: auto;
+	max-width: 560px;
+	text-align: left;
+}
+
+.article__content > p:first-child {
+	font-size: 1.4rem;
+	line-height: 1.4;
+	margin-block-end: 2em;
+}
+
+.article__content p {
+	font-size: 1rem;
+}
+
+/* ArticleF: "Previous / Go back / Next" sit below the box, 40px above, 28px
+   gap, centred. Core renders only the back link (.article__back,
+   news.show.back); Previous/Next are a core slot (no adjacent-article links
+   exist to style). Pulled out of the box's own flow to sit below its border,
+   the way the design shows it, rather than as the last line inside the box. */
+.article__back {
+	bottom: -5.5rem;
+	left: 0;
+	margin: 0;
+	position: absolute;
+	right: 0;
+	text-align: center;
+}
+
+.article__back a {
+	background-color: var(--color-background);
+	border: 0.2rem solid var(--color-primary);
+	border-radius: 0.3rem;
+	box-sizing: border-box;
+	color: var(--color-foreground);
+	display: inline-block;
+	font-size: 1.2rem;
+	font-weight: 600;
+	padding: 0.375rem 1.25rem 0.5rem;
+	text-decoration: none;
+	transition:
+		background-color 300ms,
+		border-color 300ms,
+		color 300ms;
+}
+
+@media only screen and (hover: hover) and (pointer: fine) {
+	.article__back a:hover {
+		background-color: var(--color-tertiary);
+		border-color: var(--color-foreground);
+		color: var(--color-foreground);
+	}
+}

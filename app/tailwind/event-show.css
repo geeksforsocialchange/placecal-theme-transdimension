@@ -1,0 +1,452 @@
+/* /events/:id: Views::Events::Show
+   Event.elm: name panel, date/time/organiser stack, description, the two
+   info columns and the full-bleed map. Split out of pages.css (WP 3.19).
+   Final design (design_handoff_td_placecal_theme README §3, WP 3.20). */
+
+/* ---------------------------------------------------------------------------
+   /events/:id: Views::Events::Show
+   Event.elm: the event name sits in a pink panel at the top of the content
+   box, with the date, times, organiser, the description and the two info
+   columns below it. Core splits the page across .event--full and
+   .event__fullinfo, so the box is drawn as two halves that meet with no gap.
+--------------------------------------------------------------------------- */
+
+.event--full {
+	background-color: var(--color-background);
+	border: 1px solid var(--color-primary);
+	border-bottom: 0;
+	border-radius: 0.3rem 0.3rem 0 0;
+	margin-bottom: 0;
+}
+
+.event__fullinfo {
+	background-color: var(--color-background);
+	border: 1px solid var(--color-primary);
+	border-bottom: 0;
+	border-radius: 0;
+	border-top: 0;
+	box-sizing: border-box;
+	margin-bottom: 0;
+	margin-top: 0;
+	max-width: none;
+	padding-bottom: 2rem;
+
+	/* Event.elm: 34px (the Rule component's own margin) between the header
+	   stack's border-bottom and the description that follows it. */
+	padding-top: 2.125rem;
+}
+
+/* Event.elm ends the content box with a full-bleed map, 330px tall. Core
+   renders it as a bare sibling of the info block, so it takes the bottom of
+   the box. The background is the map's own pink ground showing through
+   until the tiles arrive. Core's Map component only offers 330px (compact)
+   or 500px; the local event page always renders the 500px variant, so the
+   height is retaken here instead (unlayered CSS beats the Tailwind utility
+   class regardless of source order). */
+main > [data-controller="leaflet"] {
+	/* WP 2.14: the ground the map style paints (map-styles/transdimension.json
+	   background), so the block does not change colour when the tiles land. */
+	background-color: var(--color-primary);
+	border: 1px solid var(--color-primary);
+	border-radius: 0 0 0.3rem 0.3rem;
+	border-top: 0;
+	box-sizing: border-box;
+	/* Core's .map--multiple draws a two-tone decorative stripe above the map
+	   (a 10px border plus a box-shadow of the same height). TD's map meets the
+	   foot of the content box directly, so both go. */
+	box-shadow: none;
+	min-height: 330px;
+	overflow: hidden;
+}
+
+/* Components::Meta: the iCal, CSV, listing-problem and permalink links core
+   puts under every listing. TD has no counterpart, so the problem line takes
+   the small centred treatment rather than sitting in the corner of the page;
+   the permalink is TD's own canonical link (in <head>) doubled up, so it is
+   dropped rather than styled. */
+.meta > .container-public {
+	align-items: center;
+	display: flex;
+	flex-direction: column;
+	gap: 0.35rem;
+	justify-content: center;
+	text-align: center;
+}
+
+.meta__permalink {
+	display: none;
+}
+
+.meta {
+	margin-top: 2rem;
+}
+
+.meta,
+.meta a {
+	color: var(--color-foreground);
+	font-size: 0.8777rem;
+}
+
+/* Global.elm textBoxPinkStyle: the show pages' title panel. Core's hero is a
+   direct child of <main> on index pages and nested one level deeper on the
+   show pages, which is what separates the two treatments. News items keep the
+   dark ground (News.elm), so the [vocab] wrapper they use is excluded.
+   Shared with the partner show page, whose wrapper is non-vocab too.
+   Event.elm/Partner.elm: 26px 64px 34px padding at the design's own width. */
+main > div:not([vocab]) > .hero {
+	background-color: var(--color-primary);
+	/* Event.elm and Partner.elm: the panel is the full width of the content
+	   box, flush with its border (the box radius shows at the top corners). */
+	border-radius: 0.3rem 0.3rem 0 0;
+	box-sizing: border-box;
+	color: var(--color-foreground-dark);
+	margin: -1px -1px 0;
+	padding: 1.25rem 1rem 1.5rem;
+}
+
+@media only screen and (min-width: 600px) {
+	main > div:not([vocab]) > .hero {
+		padding: 1.5rem 2.5rem 1.75rem;
+	}
+}
+
+@media only screen and (min-width: 900px) {
+	main > div:not([vocab]) > .hero {
+		padding: 1.625rem 4rem 2.125rem;
+	}
+}
+
+/* Global.elm introTextLargeStyle: the panel's copy is the event/partner name,
+   the page's only h1. 2.1rem italic 500, line-height 1.3, fixed at the
+   design's own size from 600px up (this panel does not grow again at 900/
+   1200/1500 the way the listing pages' intro panel does). */
+main > div:not([vocab]) > .hero h1 {
+	color: var(--color-foreground-dark);
+	font-size: 1.6rem;
+	font-style: italic;
+	font-weight: 500;
+	line-height: 1.3;
+	margin: 0 auto;
+	max-width: 838px;
+	padding: 0;
+}
+
+@media only screen and (min-width: 600px) {
+	main > div:not([vocab]) > .hero h1 {
+		font-size: 2.1rem;
+	}
+}
+
+/* Event.elm, Partner.elm, NewsItem.elm: the section name sits on the
+   starfield above the title panel, in the page-title type. Shared with the
+   partner show page (non-vocab wrapper) and, via the vocab variant, the
+   article show page. */
+main > div:not([vocab]) > .hero,
+main > div[vocab] > .hero {
+	position: relative;
+}
+
+main > div:not([vocab]) > .hero .hero__section,
+main > div[vocab] > .hero .hero__section {
+	color: var(--color-foreground);
+	font-size: 3rem;
+	font-style: italic;
+	font-weight: 500;
+	left: 0;
+	line-height: 1.2;
+	margin: 0;
+	position: absolute;
+	right: 0;
+	text-align: center;
+	top: -4.6rem;
+}
+
+/* Room above the content box for the floating section name. */
+main > div:not([vocab]):has(.hero__section),
+main > div[vocab]:has(.hero__section) {
+	margin-top: 4.8rem;
+}
+
+/* No starfield title on the event page (README §3): the pink panel now opens
+   with a "← All events" kicker instead, which core has no slot for (see
+   doc/core-slots-needed.md). Scoped to .event--full so the partner show page,
+   which shares the .hero rules above, keeps its own section name. */
+.event--full .hero__section {
+	display: none;
+}
+
+/* ...and the room the shared :has() rule below holds open for it goes too.
+   Matched on specificity (0,2,2), same as the rule it overrides, so it needs
+   the redundant `div` to tie and win on source order. */
+main > div.event--full:has(.hero__section) {
+	margin-top: 0;
+}
+
+/* Event.elm: the header stack under the title panel (date, then time ·
+   duration · repeats, then "By {organiser}"), centred, 10px gaps, no icons.
+   Core emits one flat run of icon-and-text .event__detail pairs in source
+   order time, duration, date, repeats/online, organiser, place; the rules
+   below use `order` to regroup them into three rows and hide the pairs the
+   design does not want here (place/online are covered by the address column
+   instead, online sharing a class with repeats, see core-slots-needed.md).
+   The bottom border is the Rule under the stack; the 34px gap after it is
+   .event__fullinfo's own padding-top. */
+.event--full .event__details {
+	align-items: center;
+	border-color: var(--color-primary);
+	border-style: solid;
+	border-width: 0 0 1px;
+	column-gap: 0.4em;
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	justify-content: center;
+	margin-bottom: 0;
+	padding: 1.875rem 0 1.75rem;
+	row-gap: 0.625rem;
+	text-align: center;
+}
+
+/* Two zero-height break points split the row into three: date alone, then
+   the time/duration/repeats trio, then the organiser line. */
+.event--full .event__details::before {
+	content: "";
+	flex-basis: 100%;
+	height: 0;
+	order: -3;
+}
+
+.event--full .event__details::after {
+	content: "";
+	flex-basis: 100%;
+	height: 0;
+	order: -1;
+}
+
+.event--full .event__detail {
+	color: var(--color-foreground);
+	flex: none;
+	justify-content: center;
+	margin: 0;
+	max-width: 100%;
+	text-align: center;
+}
+
+.event--full .event__detail svg {
+	display: none;
+}
+
+.event--full .event__date {
+	font-size: 1.75rem;
+	font-weight: 700;
+	letter-spacing: 0.04em;
+	line-height: 1.1;
+	order: -4;
+	text-transform: uppercase;
+}
+
+.event--full .event__time,
+.event--full .event__duration,
+.event--full .event__repeats {
+	color: var(--color-primary);
+	font-size: 0.9rem;
+	font-weight: 700;
+	letter-spacing: 1.9px;
+	line-height: 1.4;
+	order: -2;
+	text-transform: uppercase;
+}
+
+.event--full .event__duration::before,
+.event--full .event__repeats::before {
+	content: "\00a0\00b7\00a0";
+}
+
+.event--full .event__organiser {
+	font-size: 1rem;
+	font-weight: 400;
+	letter-spacing: normal;
+	line-height: 1.5;
+	order: 0;
+	text-transform: none;
+}
+
+/* organiser_prefix (events.card.organiser_prefix, shared with the event list)
+   is lower case ("by "); the design's stack reads "By {organiser}". */
+.event--full .event__organiser-prefix {
+	text-transform: capitalize;
+}
+
+/* Covered by the address column (online) or dropped as noise on this page
+   (place: the venue, when it differs from the organiser, has its own
+   column further down). */
+.event--full .event__location {
+	display: none;
+}
+
+/* At phone width the date steps down slightly to keep the row on one line. */
+@media only screen and (max-width: 599px) {
+	.event--full .event__date {
+		font-size: 1.4rem;
+	}
+}
+
+.event--full > .p-name {
+	display: none;
+}
+
+/* WP 2.14: the details row, the body and the info columns share one left
+   edge, so the page reads as a single left-aligned column rather than core's
+   narrow measure floating inside TD's wider box. Event.elm: 0 32px box
+   padding at the design's own width. */
+.event--full > .container-public,
+.event__fullinfo {
+	box-sizing: border-box;
+	margin-inline: 0;
+	max-width: none;
+	padding-inline: 0.75rem;
+}
+
+@media only screen and (min-width: 600px) {
+	.event--full > .container-public,
+	.event__fullinfo {
+		padding-inline: 1.5rem;
+	}
+}
+
+@media only screen and (min-width: 900px) {
+	.event--full > .container-public,
+	.event__fullinfo {
+		padding-inline: 2rem;
+	}
+}
+
+/* Event.elm eventDescriptionStyle: 20px/1.55 standfirst paragraph, then
+   16px/1.65 body, in a 636px measure, left aligned and centred in the box. */
+.event__fullinfo > p {
+	font-size: 1rem;
+	line-height: 1.65;
+	margin-inline: auto;
+	max-width: 636px;
+	text-align: left;
+}
+
+.event__fullinfo > p:first-of-type {
+	font-size: 1.25rem;
+	line-height: 1.55;
+}
+
+/* event_link/online_link ("Visit the webpage for this event", "Join this
+   meeting") render as plain .btn.btn-primary links straight after the
+   description; core gives them no distinguishing class from one another, and
+   no slot inside the address column the design puts the online button in
+   (see core-slots-needed.md). Given TD's small pink button treatment here so
+   an event that has one is not left in core's unstyled default. */
+.event__fullinfo > a.btn {
+	background-color: var(--color-primary);
+	border: 2px solid var(--color-primary);
+	border-radius: 0.3rem;
+	color: var(--color-foreground-dark);
+	display: inline-block;
+	font-size: 0.875rem;
+	font-weight: 600;
+	margin: 0.75rem auto 0;
+	padding: 0.2rem 0.9rem 0.3rem;
+}
+
+@media only screen and (hover: hover) and (pointer: fine) {
+	.event__fullinfo > a.btn:hover {
+		background-color: var(--color-primary-light);
+		border-color: var(--color-primary-light);
+		color: var(--color-foreground-dark);
+	}
+}
+
+/* Event.elm: the two columns' content is centred (Final.jsx.txt EventF wraps
+   the whole box in textAlign: center and never overrides it here, unlike the
+   partner page's left-aligned equivalent), so it reads as a stack under each
+   FloatingTitle rather than a left-aligned block. */
+.event__fullinfo .small,
+.event__fullinfo .contact_details,
+.event__fullinfo .place_info__address {
+	font-size: 1rem;
+	text-align: center;
+}
+
+/* Event.elm: two columns, 700px wide, 28px gap, centred: Contact information
+   and Event address. Core also always renders an "Event organiser" column
+   (redundant with the "By {organiser}" line in the header stack, so hidden)
+   and, when the event's venue differs from its organiser, a "Venue" column,
+   kept. Core gives every column the same `gi gi__1-3` class with nothing to
+   tell them apart, but organiser is always the 3rd of the four; see
+   core-slots-needed.md for a themeable class per column. Below 900px this
+   keeps core's own two-across flex layout rather than the exact 700px grid,
+   matching the general "2-col grids collapse under 900px" rule. */
+.event__fullinfo .g.three-col .gi:nth-child(3) {
+	display: none;
+}
+
+@media only screen and (min-width: 900px) {
+	.event__fullinfo .g.three-col {
+		column-gap: 1.75rem;
+		display: grid;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		margin-inline: auto;
+		max-width: 700px;
+		row-gap: 1.75rem;
+	}
+
+	.event__fullinfo .g.three-col .gi {
+		flex: none;
+		margin: 0;
+		width: auto;
+	}
+}
+
+/* A grid item's margin cannot collapse with the description above it, so the
+   kicker's own top margin would stack on the grid's and open a hole. */
+.event__fullinfo .g.three-col .gi > :first-child {
+	margin-top: 0;
+}
+
+/* Event.elm: the Rule between the description and the columns, 34px above
+   and below. */
+.event__fullinfo .g.three-col {
+	border-top: 1px solid var(--color-primary);
+	margin-top: 2.125rem !important;
+	padding-top: 2.125rem;
+}
+
+/* Global.elm smallInlineTitleStyle: "Contact information" / "Event address" /
+   "Venue" at the design's own 0.9rem, centred (pages.css's shared .udl/h2
+   rule sets 1rem and left aligns it for the partner page's own columns,
+   see the report for the shell change this would rather live in). */
+.event__fullinfo .udl {
+	font-size: 0.9rem;
+	text-align: center;
+}
+
+/* Components::ContactDetails (render_scss) prints one <p class="contact_
+   details"> holding an icon then a link, run on with no row wrapper, per
+   contact method. Final.jsx.txt EventF's column is plain stacked divs with
+   no icons at all; a block display on the icon-less links reproduces that
+   stack from core's flat markup without a wrapper element per row. */
+.event__fullinfo .contact_details {
+	display: block;
+}
+
+.event__fullinfo .contact_details svg {
+	display: none;
+}
+
+.event__fullinfo .contact_details a {
+	display: block;
+	margin: 0;
+	overflow-wrap: anywhere;
+}
+
+/* The address block sits under a kicker of its own and takes the same rhythm
+   as a contact row, so the two columns read as one pair. */
+.event__fullinfo .place_info__address {
+	line-height: 1.6;
+}
