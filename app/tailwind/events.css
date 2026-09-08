@@ -1,138 +1,69 @@
-/* /events — Views::Events::Index
-   Day strip, filters and the two-column event card grid. Split out of
-   pages.css (WP 3.19) so the events route can be edited without touching
-   other routes' rules. */
+/* /events: Views::Events::Index
+   Final design (design_handoff_td_placecal_theme, "2 Events index"): the
+   region selector, two centred allcaps filter toggles, a day strip flanked
+   by square arrow buttons, a two-column event card grid, and the iCal/CSV
+   button row below the box. Split out of pages.css (WP 3.19) so the events
+   route can be edited without touching other routes' rules.
 
-/* ---------------------------------------------------------------------------
-   /events — Views::Events::Index
-   The content box is core's #events-browser turbo frame, which holds the
-   filters, the day strip and the listing.
+   The content box is core's #events-browser turbo frame. Partner show
+   (app/tailwind/partner-show.css) reuses the same #events-browser id and
+   .paginator markup for its own event browser, so every selector below is
+   scoped through :has(.paginator__context) (the wrapper class only
+   Views::Events::Index's paginator renders (Components::Timeline on a
+   partner page uses .paginator__actions instead, see event_filter.rb /
+   partners/show.rb), to keep this file's rules off that page.
 --------------------------------------------------------------------------- */
 
-/* Core renders two day rows: Components::Timeline (the paginator arrows and
-   day buttons) and the newer day-strip filter. TD has one. The strip is the one
-   kept: it carries the same days plus "All upcoming", it is the row the 4a
-   table calls the paginator, and it is the control that keeps the sort and
-   repeating parameters. What goes with the Timeline is its back/forward arrows,
-   which TD does have; the strip scrolls horizontally instead. */
-.paginator__buttons {
-	display: none;
-}
+/* ---------------------------------------------------------------------------
+   Content box (Events.elm contentContainerStyle: 28px 32px 100px at desktop).
+   The box becomes the grid the event cards sit in directly: EventList prints
+   one <ol class="events"> per calendar day, and flattening each with
+   `display: contents` lets every <li> (across day boundaries) line up in
+   one continuous two-column flow, exactly as Events.elm draws it, instead of
+   restarting a grid (and a visual seam) at each day heading.
+--------------------------------------------------------------------------- */
 
-/* Paginator.elm paginationButtonListItemButtonStyle: pink border and pink label
-   on dark blue, filling pink with dark blue text for the selected day. Same
-   geometry as the region selector, one step down in the colour hierarchy. */
-.day-strip {
-	margin: 0.5rem auto 1rem;
-	max-width: fit-content;
-}
-
-.day-strip ul {
-	display: flex;
-	flex-wrap: wrap;
-	gap: 0;
-	justify-content: center;
-}
-
-.day-strip li {
-	list-style-type: none;
-	margin: 0.25rem 4px;
-}
-
-.day-strip__link {
-	background-color: var(--color-background);
-	border: 2px solid var(--color-primary);
-	border-radius: 0.3rem;
-	color: var(--color-primary);
-	display: block;
-	font-size: 0.875rem;
-	font-weight: 600;
-	padding: 0.2rem 0.2rem 0.3rem;
-	text-align: center;
-	text-decoration: none;
-	width: 100px;
-}
-
-.day-strip__link[aria-current="date"] {
-	background-color: var(--color-primary);
-	color: var(--color-background);
-}
-
-@media only screen and (hover: hover) and (pointer: fine) {
-	.day-strip__link:hover {
-		background-color: var(--color-tertiary);
-		border-color: var(--color-foreground);
-		color: var(--color-foreground);
-	}
+#events-browser:has(.paginator__context) {
+	box-sizing: border-box;
+	column-gap: 0;
+	display: grid;
+	grid-template-columns: minmax(0, 1fr);
+	padding: 1rem 1rem 2rem;
+	row-gap: 0;
 }
 
 @media only screen and (min-width: 600px) {
-	.day-strip li {
-		margin: 0.25rem 0.375rem;
-	}
-
-	.day-strip__link {
-		font-size: 1rem;
-		width: 110px;
+	#events-browser:has(.paginator__context) {
+		padding: 1.25rem 1.5rem 3rem;
 	}
 }
 
 @media only screen and (min-width: 900px) {
-	.day-strip li {
-		margin: 0.25rem 0.5rem;
-	}
-
-	.day-strip__link {
-		font-size: 1.2rem;
-		width: 140px;
+	#events-browser:has(.paginator__context) {
+		column-gap: 1.75rem;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		padding: 1.75rem 2rem 6.25rem;
 	}
 }
 
-/* Core's "Filter and sort" dropdown and the partner category filters have no
-   TD counterpart (4a keeps PlaceCal's filters), so they take the plain link
-   treatment rather than a bespoke one. */
-.filters {
-	text-align: center;
+/* .paginator (filters + day strip) and the day heading/empty-state paragraphs
+   are direct children of the frame alongside the day-group <ol>s; they take
+   the full row rather than being squeezed into one card column. */
+#events-browser:has(.paginator__context) > .paginator,
+#events-browser:has(.paginator__context) > hr,
+#events-browser:has(.paginator__context) > p {
+	grid-column: 1 / -1;
 }
 
-.filters__form {
-	margin: 0 auto;
+#events-browser:has(.paginator__context) > .events {
+	display: contents;
 }
 
-.filters__link {
-	color: var(--color-primary);
-	font-weight: 600;
-}
-
-.filters__toggle {
-	display: flex;
-	justify-content: center;
-}
-
-.filters__toggle button {
-	background: none;
-	border: 0;
-	color: var(--color-primary);
-	cursor: pointer;
-}
-
-.filters__dropdown {
-	background-color: var(--color-background);
-	border: 1px solid var(--color-primary);
-	border-radius: 0.3rem;
-	text-align: left;
-}
-
-.filters__label,
-.filters__option label {
-	color: var(--color-foreground);
-}
-
-/* Components::EventList prints a day heading above each list. TD's own listing
-   has none (Events.elm renders one flat list), and every card already carries
-   its date, so the heading is taken out of the picture visually while staying
-   in the accessibility tree as the group label core intends it to be. */
-h2.udl--fw {
+/* Components::EventList prints a day heading above each list. TD's own
+   listing has none (Events.elm renders one flat list) and every card already
+   carries its date, so the heading stays in the accessibility tree as the
+   group label core intends while being taken out of the picture visually. */
+#events-browser:has(.paginator__context) > h2.udl--fw {
 	border: 0;
 	clip-path: inset(50%);
 	height: 1px;
@@ -144,49 +75,456 @@ h2.udl--fw {
 	width: 1px;
 }
 
-/* Events.elm eventsListStyle: one column, two from tablet landscape up.
-   minmax(0, 1fr) rather than 1fr: a card's own min-content width (a long
-   unbroken address or organiser name) would otherwise widen the track and push
-   the list out past the content box on narrow screens. */
-.events {
-	align-items: start;
-	display: grid;
-	gap: 0 2rem;
-	grid-template-columns: minmax(0, 1fr);
-	margin: 1rem 0;
-	padding: 0;
+#events-browser:has(.paginator__context) hr {
+	border: 0;
+	border-top: 1px solid var(--color-primary);
+	margin: 0;
 }
 
-@media only screen and (min-width: 900px) {
-	.events {
-		grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+/* ---------------------------------------------------------------------------
+   Paginator row (Events.elm: FILTER EVENTS / PICK A DATE toggles, then the
+   day strip flanked by its arrows).
+
+   Core nests the day strip, the neighbourhood Filter and the "Filter and
+   sort" toggle three levels deep inside Components::Breadcrumb, and renders
+   the paginator arrows (Components::Timeline) as a separate list entirely.
+   `display: contents` on every wrapper between them and .paginator flattens
+   the whole thing into one flex row, so `order` alone can put the toggles on
+   their own centred line above the day strip and the two arrows either side
+   of it, regardless of the source order core renders them in.
+--------------------------------------------------------------------------- */
+
+.paginator__context,
+.paginator__context .breadcrumb,
+.paginator__context .breadcrumb__element--last,
+.paginator__context .breadcrumb__actions,
+.paginator__buttons {
+	display: contents;
+}
+
+#paginator:has(.paginator__context) {
+	align-items: center;
+	column-gap: 0.5rem;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	row-gap: 0;
+}
+
+/* Region selector (Everywhere / London / Manchester): its own full-width row
+   above the filter toggles. Core has no nav-bar region control on this build
+   (doc/core-slots-needed.md), so this in-box selector (already styled by
+   pages.css .region-filter) is the only functional one on the page.
+
+   Every selector below is a descendant (not child) combinator: display:
+   contents removes .paginator__context, .breadcrumb etc. from the box tree
+   for layout purposes, but the region filter, day strip, filters and arrows
+   are still several levels deep in the *DOM* tree those wrappers are part
+   of, so `>` off #paginator would never match them. */
+/* max-width: none overrides pages.css .region-filter { max-width: fit-content }
+   (core's legacy pill sizing): a flex item's used main size is clamped by its
+   max-width even when flex-basis is 100%, so without this the region row only
+   ever claimed its own content width and the "Filter events" toggle (order 2)
+   kept sharing that first line instead of wrapping onto its own centred row
+   below it, off to the row's remaining right-hand space. */
+#paginator:has(.paginator__context) .region-filter {
+	flex-basis: 100%;
+	max-width: none;
+	order: 1;
+}
+
+/* The two toggles share a line, centred, with the design's 28px gap between
+   them (Events.elm: FILTER EVENTS + / PICK A DATE +). Core has no second
+   "Pick a date" toggle for a day-strip theme (doc/core-slots-needed.md), so
+   only the neighbourhood Filter sits beside "Filter events" here. */
+#paginator:has(.paginator__context) .filters {
+	order: 2;
+}
+
+/* Empty flex spacer: forces the arrow/strip row onto its own line after the
+   toggles without generating any text (hard rule 1 allows a decorative glyph
+   only; this inserts none, it is a zero-content layout break, the standard
+   way to force a flex wrap between differently-ordered items). */
+#paginator:has(.paginator__context)::after {
+	content: "";
+	flex-basis: 100%;
+	order: 3;
+}
+
+#paginator:has(.paginator__context) .paginator__arrow--back {
+	order: 4;
+}
+
+#paginator:has(.paginator__context) .day-strip {
+	order: 5;
+}
+
+#paginator:has(.paginator__context) .paginator__arrow--forwards {
+	order: 6;
+}
+
+/* Components::Timeline also renders a row of day/week/month buttons
+   duplicating the day strip's own links (same dates, same destinations);
+   only its two arrows are part of this design, so the rest are hidden.
+   Equivalent navigation stays reachable through the day strip, which
+   carries the same labels and aria-current. */
+#paginator:has(.paginator__context) li[data-paginator-target="button"] {
+	display: none;
+}
+
+/* ---------------------------------------------------------------------------
+   Filter toggles ("FILTER EVENTS +" / neighbourhood Filter's own toggle).
+   FilterToggle.jsx: centred allcaps label, pink + that becomes − when open.
+--------------------------------------------------------------------------- */
+
+#paginator:has(.paginator__context) .filters {
+	text-align: center;
+}
+
+#paginator:has(.paginator__context) .filters__toggle {
+	display: flex;
+	justify-content: center;
+}
+
+#paginator:has(.paginator__context) .filters__toggle button {
+	align-items: center;
+	background: none;
+	border: 0;
+	color: var(--color-foreground);
+	cursor: pointer;
+	display: inline-flex;
+	font-family: inherit;
+	font-size: 0.9rem;
+	font-weight: 700;
+	gap: 0.5rem;
+	letter-spacing: 1.9px;
+	padding: 0.5rem 0;
+	text-transform: uppercase;
+}
+
+#paginator:has(.paginator__context) .filters__toggle button:focus-visible {
+	outline: 2px solid var(--color-foreground);
+	outline-offset: 2px;
+}
+
+/* The triangle icon core draws on every toggle is dropped for the pink +/−
+   FilterToggle.jsx carries instead; the visible label text is still the
+   button's accessible name, so the glyph below is decorative only. */
+#paginator:has(.paginator__context) .filters__toggle button svg {
+	display: none;
+}
+
+/* Core's legacy .filters__link carries its own border-bottom (a 2px underline
+   under the idle caption); FilterToggle.jsx draws no rule under the label. */
+#paginator:has(.paginator__context) .filters__toggle .filters__link {
+	border-bottom: 0;
+}
+
+#paginator:has(.paginator__context) .filters__toggle button::after {
+	color: var(--color-primary);
+	content: "+";
+	font-size: 1.6rem;
+	font-weight: 400;
+	line-height: 0.8;
+}
+
+/* Toggle and dropdown are adjacent siblings (event_filter.rb build_sort_toggle
+   / build_sort_dropdown, and Components::Filter#render_toggle /
+   #render_dropdown); the sibling combinator reads the dropdown's own
+   JS-driven --hidden class to flip the glyph, no extra state needed. */
+#paginator:has(.paginator__context)
+	.filters__toggle:has(+ .filters__dropdown:not(.filters__dropdown--hidden))
+	button::after {
+	content: "\2212";
+}
+
+/* ---------------------------------------------------------------------------
+   Filter dropdown (Select.jsx, arranged Events.elm's way: up to four controls
+   in a row with 28px gap). Core's radio groups have no <select> chrome or
+   group heading of their own (doc/core-slots-needed.md); each group gets the
+   dark-blue/pink-border box Select.jsx draws around a real select instead.
+--------------------------------------------------------------------------- */
+
+#paginator:has(.paginator__context) .filters__dropdown {
+	display: grid;
+	gap: 1.75rem;
+	grid-template-columns: minmax(0, 1fr);
+	margin: 0.5rem auto 0;
+	max-width: 32rem;
+	padding: 0.75rem 0;
+	text-align: left;
+}
+
+@media only screen and (min-width: 600px) {
+	#paginator:has(.paginator__context) .filters__dropdown {
+		grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr));
+		max-width: none;
 	}
 }
+
+/* Same specificity family as the display: grid rule above (id + :has() +
+   class vs. id + :has() + two classes), so this wins on the extra class
+   regardless of source order and the Stimulus toggle really hides the
+   dropdown instead of the pink grid box winning outright. */
+#paginator:has(.paginator__context) .filters__dropdown.filters__dropdown--hidden {
+	display: none;
+}
+
+#paginator:has(.paginator__context) .filters__dropdown hr {
+	display: none;
+}
+
+#paginator:has(.paginator__context) .filters__group {
+	background-color: var(--color-background);
+	border: 2px solid var(--color-primary);
+	border-radius: 0.3rem;
+	box-sizing: border-box;
+	padding: 0.5rem 0.75rem;
+}
+
+#paginator:has(.paginator__context) .filters__option {
+	align-items: center;
+	display: flex;
+	gap: 0.5rem;
+	padding: 0.2rem 0;
+}
+
+#paginator:has(.paginator__context) .filters__option input[type="radio"] {
+	accent-color: var(--color-primary);
+	flex: none;
+	margin: 0;
+}
+
+#paginator:has(.paginator__context) .filters__option label,
+#paginator:has(.paginator__context) .filters__label {
+	color: var(--color-foreground);
+	cursor: pointer;
+	font-size: 0.9rem;
+	font-weight: 600;
+}
+
+#paginator:has(.paginator__context) .filters__option:has(input:checked) label {
+	color: var(--color-primary);
+}
+
+#paginator:has(.paginator__context) .filter__reset {
+	font-size: 0.8rem;
+	margin-top: 0.5rem;
+	padding: 0.2rem 0.75rem 0.3rem;
+}
+
+/* ---------------------------------------------------------------------------
+   Day strip (DayStrip.jsx): Today, Tomorrow, five day names, one row, equal
+   widths. 14px above / 40px below; selected day fills pink, hover fills
+   purple with a white border.
+--------------------------------------------------------------------------- */
+
+/* flex-basis: 0, not auto: flex-wrap decides whether an item fits its line
+   using its hypothetical (basis) size before any shrinking, so an auto basis
+   sized to the strip's full unscrolled content (all seven-plus pills) only
+   "happened" to fit next to the two 36px arrows at wide viewports and wrapped
+   itself (and the forward arrow after it) onto their own lines around 900-
+   1150px. A zero basis always fits, then flex-grow fills the row and
+   overflow-x carries whatever still does not fit as a scroll. */
+#paginator:has(.paginator__context) .day-strip {
+	flex: 1 1 0;
+	margin: 0.875rem 0 2.5rem;
+	min-width: 0;
+	order: 5;
+	overflow-x: auto;
+}
+
+#paginator:has(.paginator__context) .day-strip ul {
+	display: flex;
+	flex-wrap: nowrap;
+	gap: 0.5rem;
+	justify-content: stretch;
+}
+
+#paginator:has(.paginator__context) .day-strip li {
+	flex: 1 1 0;
+	list-style-type: none;
+	margin: 0;
+	min-width: 3.5rem;
+}
+
+#paginator:has(.paginator__context) .day-strip__link {
+	background-color: var(--color-background);
+	border: 2px solid var(--color-primary);
+	border-radius: 0.3rem;
+	box-sizing: border-box;
+	color: var(--color-primary);
+	display: block;
+	font-size: 0.8rem;
+	font-weight: 600;
+	padding: 0.3rem 0.4rem 0.4rem;
+	text-align: center;
+	text-decoration: none;
+	transition:
+		color 300ms,
+		border-color 300ms,
+		background-color 300ms;
+	white-space: nowrap;
+	width: auto;
+}
+
+#paginator:has(.paginator__context) .day-strip__link[aria-current="date"] {
+	background-color: var(--color-primary);
+	border-color: var(--color-primary);
+	color: var(--color-foreground-dark);
+}
+
+/* The day strip's own "All upcoming" entry (D22, labelled "Future events" by
+   filters.day_strip.all_upcoming) has no place in the design's seven-day row;
+   it stays reachable as an eighth button. At equal eighth-shares of the row
+   its longer label ("Future events" vs. "Sun 13") clips before the box the
+   content box has actually run out of room, including at 1440, so this drops
+   it onto its own centred line below instead of shrinking every button to
+   fit it in (the same fallback the pre-refactor CSS used), at every width. */
+#paginator:has(.paginator__context) .day-strip ul {
+	flex-wrap: wrap;
+	justify-content: center;
+}
+
+#paginator:has(.paginator__context) .day-strip li:last-child {
+	flex: 0 1 auto;
+	flex-basis: 100%;
+	margin-top: 0.5rem;
+}
+
+/* The wrap above means the strip never needs to scroll from tablet landscape
+   up; core's overflow-x-auto would otherwise paint a scrollbar under the row
+   whenever the eight buttons run wider than the strip. */
+@media only screen and (min-width: 900px) {
+	#paginator:has(.paginator__context) .day-strip {
+		overflow-x: visible;
+	}
+}
+
+@media only screen and (hover: hover) and (pointer: fine) {
+	#paginator:has(.paginator__context) .day-strip__link:hover {
+		background-color: var(--color-tertiary);
+		border-color: var(--color-foreground);
+		color: var(--color-foreground);
+	}
+}
+
+#paginator:has(.paginator__context) .day-strip__link:focus-visible {
+	outline: 2px solid var(--color-foreground);
+	outline-offset: 2px;
+}
+
+@media only screen and (min-width: 600px) {
+	#paginator:has(.paginator__context) .day-strip__link {
+		font-size: 1rem;
+	}
+}
+
+/* ---------------------------------------------------------------------------
+   Paginator arrows (DayStrip.jsx Arrow): square pink buttons either side of
+   the strip, dark-blue glyph, light-pink hover.
+--------------------------------------------------------------------------- */
+
+/* Core's own default (application.css) makes .paginator__arrow position:
+   absolute with top: 0 and left/right: 0, meant to overlay a positioned
+   .paginator__buttons row. display: contents on that row (above) takes it out
+   of the containing-block chain entirely, so with no override here the
+   arrows fall back to the viewport as their containing block and pin
+   themselves to the top corners of the page instead of flanking the day
+   strip. Putting them back in normal flow lets the flex order below place
+   them correctly. */
+/* Core's legacy .paginator li rule paints every list item (arrows included)
+   with a 2px border and a 3rem pill radius; the arrow-specific core rule
+   zeroes the border but leaves that radius, so the square pink button below
+   rendered inside an oversized rounded (almost domed) li shell. Flattening
+   the li back to a plain box lets the 0.3rem square button underneath be the
+   whole of what's visible. */
+/* align-self: flex-start, not the #paginator row's own align-items: center:
+   below 1500px the day strip wraps onto two lines (its seven-day row, then
+   "Future events" on its own line under it, see the day-strip li:last-child
+   rule below), which makes the day-strip flex item taller than the 36px
+   arrows. Centring the arrows against that full two-line height puts them
+   level with the boundary between the rows instead of the seven-day row
+   they are meant to flank, so they need to pin to the top of the line
+   instead and let their own top margin (matching the day strip's) land them
+   next to the first row. */
+#paginator:has(.paginator__context) .paginator__arrow {
+	align-self: flex-start;
+	background-color: transparent;
+	border-radius: 0;
+	flex: none;
+	position: static;
+}
+
+#paginator:has(.paginator__context) .paginator__arrow a {
+	align-items: center;
+	background-color: var(--color-primary);
+	border: 2px solid var(--color-primary);
+	border-radius: 0.3rem;
+	box-sizing: border-box;
+	color: var(--color-foreground-dark);
+	display: flex;
+	height: 2.25rem;
+	justify-content: center;
+	margin: 0.875rem 0 2.5rem;
+	transition:
+		background-color 300ms,
+		border-color 300ms;
+	width: 2.25rem;
+}
+
+/* Core's own .paginator__arrow svg rule paints the glyph a literal cream
+   (#fffcf0) directly on the svg, which wins over color: currentColor picking
+   up the dark-blue .paginator__arrow a above (an explicit colour on the svg
+   itself beats one only inherited from its parent), so the dark-blue glyph
+   the design draws needs restating here too. */
+#paginator:has(.paginator__context) .paginator__arrow a svg {
+	color: var(--color-foreground-dark);
+	height: 0.9rem;
+	width: 0.9rem;
+}
+
+@media only screen and (hover: hover) and (pointer: fine) {
+	#paginator:has(.paginator__context) .paginator__arrow a:hover {
+		background-color: var(--color-primary-light);
+		border-color: var(--color-primary-light);
+	}
+}
+
+#paginator:has(.paginator__context) .paginator__arrow a:focus-visible {
+	outline: 2px solid var(--color-foreground);
+	outline-offset: 2px;
+}
+
+/* ---------------------------------------------------------------------------
+   Event card (EventCard.jsx / Events.elm viewEvent): date column 70px + 10px
+   gap, day 2.6rem/1 white, month 0.85rem 900 caps pink, italic title with a
+   2px pink underline, neighbourhood lozenge on the title row, detail lines on
+   a 28px line, 48px between rows.
+--------------------------------------------------------------------------- */
 
 .events > li {
 	display: block;
 	width: 100%;
 }
 
-/* Events.elm viewEvent: a two-column card, the date stack on the left and the
-   title, times, postcode and organiser stacked on the right. Core nests the
-   date inside .event__details alongside the other details, so .event__details
-   goes display:contents and each detail is placed on the card's own grid. */
 .events .event {
-	column-gap: 1rem;
+	column-gap: 0.625rem;
 	display: grid;
 	grid-auto-rows: min-content;
-	grid-template-columns: 3.6rem minmax(0, 1fr);
-	margin: 1.25rem 0.25rem 0;
+	grid-template-columns: 4.375rem minmax(0, 1fr);
+	margin-top: 3rem;
 }
 
-@media only screen and (min-width: 600px) {
-	.events .event {
-		/* Events.elm: the date column is 76px and the title starts right on
-		   its edge, with no gutter between the two. */
-		column-gap: 0;
-		grid-template-columns: 4.75rem minmax(0, 1fr);
-		margin: 1.5rem 0 0;
+/* First row of the grid carries no top gap: Events.elm's viewEvent list has
+   none above its first card, at one or two columns alike. */
+.events .event:first-child {
+	margin-top: 0;
+}
+
+@media only screen and (min-width: 900px) {
+	.events .event:nth-child(2) {
+		margin-top: 0;
 	}
 }
 
@@ -208,119 +546,145 @@ h2.udl--fw {
 	display: none;
 }
 
+/* event__header wraps the title (h3) and, when core renders one, the
+   neighbourhood lozenge (Components::Event#render_list_header). EventCard.jsx
+   draws both on one row, right-aligned against the shared underline. */
 .events .event__header {
-	display: block;
+	align-items: flex-end;
+	border-bottom: 2px solid var(--color-primary);
+	column-gap: 0.75rem;
+	display: flex;
 	grid-column: 2;
 	grid-row: 1;
+	justify-content: space-between;
+	min-width: 0;
+	padding-bottom: 0.5rem;
+	transition: border-color 500ms linear;
+}
+
+.events .event__header h3 {
+	margin: 0;
 	min-width: 0;
 	overflow-wrap: anywhere;
+}
+
+.events .event__header h3 a {
+	color: var(--color-foreground);
+	display: block;
+	font-size: 1.25rem;
+	font-style: italic;
+	font-weight: 500;
+	line-height: 1.3;
+	text-decoration: none;
+	transition: color 500ms linear;
+}
+
+/* Neighbourhood lozenge: mauve is not a design token yet (reference/tokens
+   only defines the pink/purple/blue palette), so the fill is a literal colour
+   per doc/core-slots-needed.md / the design handoff's #7b4a6e. */
+.events .event__neighbourhood {
+	background-color: #7b4a6e;
+	border-radius: 0.3rem;
+	color: var(--color-primary);
+	flex: none;
+	font-size: 0.72rem;
+	font-weight: 700;
+	line-height: 1.4;
+	margin-bottom: 0.2rem;
+	padding: 0.1rem 0.45rem;
+	white-space: nowrap;
+}
+
+.events .event__neighbourhood span {
+	display: block;
 }
 
 .events .event__time {
 	grid-row: 2;
 }
 
-.events .event__location {
+/* EventCard.jsx's one detail line is time and repeat comma-joined
+   ("11:00am to 1:00pm, weekly"); core prints the duration ("1 hour 30 mins")
+   as a third, separate paragraph with no such line to join into, and it
+   shared event__time's row here uncorrected, overlapping the two. Core
+   has no way to suppress just the duration string short of hiding the
+   element (doc/core-slots-needed.md), so it is hidden rather than given a
+   row the design has no line for. */
+.events .event__duration {
+	display: none;
+}
+
+/* .events .event__date is the big day/month badge in column 1 (grid-row:
+   1 / span 6, set with .event__detail.event__date below, which wins on
+   specificity over any row assigned here) not a column-2 detail line, so no
+   row is reserved for it in this stack.
+
+   Final design (screens/02-events-index-full.png, EventCard.jsx): time (plus
+   repeat, when core renders one), then location, then "By Organiser" -
+   swapped from core's own order (organiser before location). */
+.events .event__repeats {
 	grid-row: 3;
 }
 
-.events .event__organiser {
+.events .event__location {
 	grid-row: 4;
 }
 
-/* Events.elm eventDateStyle, eventDayStyle and eventMonthStyle. Core prints the
-   whole date as one string ("2 Sep"), so the column is narrowed until the month
-   wraps and ::first-line gives the day number its own size and colour. A real
-   day/month split is the core slot this approximates (doc/core-slots-needed.md).
+.events .event__organiser {
+	grid-row: 5;
+}
 
-   The element carries both .event__detail and .event__date, and the paragraph
-   rule below paints every detail white, so the month keeps its pink by naming
-   both classes rather than by winning on order. */
+/* Events.elm eventParagraphStyle: every detail line, 1rem on a 28px line. */
+.events .event__detail,
+.events .event__detail a {
+	color: var(--color-foreground);
+	font-size: 1rem;
+	line-height: 28px;
+	text-decoration: none;
+}
+
+.events .event__detail a:hover {
+	color: var(--color-primary-light);
+}
+
+/* Events.elm eventDateStyle / eventDayStyle / eventMonthStyle. Core prints the
+   whole date as one string ("08 Sep"), so the column is narrowed until the
+   month wraps onto its own line and ::first-line gives the day number its own
+   size and colour. A real day/month split is the core slot this approximates
+   (doc/core-slots-needed.md). */
 .events .event__detail.event__date {
 	align-self: start;
 	color: var(--color-primary);
 	display: block;
-	font-size: 1.2rem;
+	font-size: 0.85rem;
 	font-weight: 900;
 	grid-column: 1;
-	grid-row: 1 / span 4;
+	grid-row: 1 / span 6;
 	letter-spacing: 1.9px;
 	line-height: 1.25;
 	text-align: center;
 	text-transform: uppercase;
+	transition: color 500ms linear;
 }
 
-/* eventDayStyle: white, one step off the type scale, line-height 1em, and no
-   weight of its own, so it drops back to the body 400 the month raises. */
 .events .event__detail.event__date::first-line {
 	color: var(--color-foreground);
-	font-size: 2.5rem;
+	font-size: 2.6rem;
 	font-weight: 400;
 	letter-spacing: normal;
 	line-height: 1;
 }
 
-@media only screen and (min-width: 600px) {
-	.events .event__detail.event__date::first-line {
-		font-size: 3.1222rem;
-	}
-
-	/* eventDayStyle also pulls the numeral up over the top of the card, on the
-	   listing and on the homepage alike. A ::first-line takes no margin, so the
-	   block carries the offset and the month rides up with it, which is where
-	   the live site puts both. */
-	.events .event__detail.event__date {
-		margin-top: -0.75rem;
-	}
-}
-
-/* Events.elm eventTitleStyle */
-.events .event__header h3 {
-	display: block;
-	margin: 0 0 0.5rem;
-}
-
-.events .event__header h3 a {
-	border-bottom: 2px solid var(--color-primary);
-	color: var(--color-foreground);
-	display: block;
-	font-size: 1.2rem;
-	font-style: italic;
-	font-weight: 500;
-	line-height: 1.25rem;
-	padding-bottom: 0.5rem;
-	text-decoration: none;
-	transition:
-		color 500ms linear,
-		border 500ms linear;
-}
-
-@media only screen and (min-width: 600px) {
-	.events .event__header h3 a {
-		font-size: 1.5rem;
-		line-height: 1.877rem;
-	}
-}
-
-/* Events.elm eventParagraphStyle */
-.events .event__detail,
-.events .event__detail a {
-	color: var(--color-foreground);
-	font-size: 0.8777rem;
-	text-decoration: none;
-}
-
-@media only screen and (min-width: 600px) {
-	.events .event__detail,
-	.events .event__detail a {
-		font-size: 1.2rem;
-		line-height: 1.75rem;
-	}
+.event__organiser-prefix {
+	margin-right: 0.3em;
 }
 
 @media only screen and (hover: hover) and (pointer: fine) {
-	.events .event:hover .event__header h3 a {
+	.events .event:hover .event__header {
 		border-bottom-color: var(--color-foreground);
+	}
+
+	.events .event:hover .event__header h3 a {
 		color: var(--color-primary);
 	}
 
@@ -329,36 +693,83 @@ h2.udl--fw {
 	}
 }
 
-/* Detail pass (WP 2.12, coordinator): organiser prefix spacing on the list
-   card. */
-.event__organiser-prefix {
-	margin-right: 0.3em;
+/* ---------------------------------------------------------------------------
+   Empty state / truncated notice (Components::EventList#render_empty_state).
+   Events.elm has no equivalent copy for these states; plain body type reads
+   fine against the dark box without a bespoke treatment.
+--------------------------------------------------------------------------- */
+
+#events-browser:has(.paginator__context) > p {
+	color: var(--color-foreground);
+	font-size: 1rem;
+	margin: 0 0 1rem;
+	text-align: center;
 }
 
-/* Visual diff pass (coordinator, 2026-09-03), events index and event page.
-   Paginator.elm at desktop: seven day buttons on one row, about 130px wide,
-   36px tall, 14px apart, and the past/future buttons on their own row. */
-@media only screen and (min-width: 900px) {
-	.day-strip {
-		max-width: none;
-	}
+#events-browser:has(.paginator__context) > p a {
+	color: var(--color-primary);
+}
 
-	.day-strip li {
-		margin: 0.25rem 7px;
-	}
+/* ---------------------------------------------------------------------------
+   Button row below the box (Button.jsx "dark" / size sm): Subscribe with
+   iCal, and Download as CSV once core renders it here (doc/core-slots-needed.
+   md, Components::Meta only prints the iCal link and a Permalink on this
+   view today). The Permalink is a directory-only link with no place in this
+   design and is hidden.
+--------------------------------------------------------------------------- */
 
-	/* Paginator.elm: day buttons are 40px tall in 18px type at desktop. */
-	.day-strip__link {
-		font-size: 1.125rem;
-		padding: 0.3rem 0.5rem 0.4rem;
-		width: 130px;
-	}
+.container-public:has(#events-browser .paginator__context) + .meta {
+	background: none;
+	display: flex;
+	flex-wrap: wrap;
+	gap: 1.75rem;
+	justify-content: center;
+	margin: 2.5rem 0 0;
+	padding: 0;
+}
 
-	.day-strip li:last-child {
-		flex-basis: 100%;
-		display: flex;
-		justify-content: center;
-		margin-top: 0.5rem;
+.container-public:has(#events-browser .paginator__context) + .meta .container-public {
+	align-items: center;
+	display: flex;
+	flex-wrap: wrap;
+	gap: 1.75rem;
+	justify-content: center;
+	max-width: none;
+	padding: 0;
+}
+
+.container-public:has(#events-browser .paginator__context) + .meta a {
+	background-color: var(--color-background);
+	border: 2px solid var(--color-primary);
+	border-radius: 0.3rem;
+	box-sizing: border-box;
+	color: var(--color-foreground);
+	font-size: 0.875rem;
+	font-weight: 600;
+	padding: 0.2rem 0.9rem 0.3rem;
+	text-decoration: none;
+	transition:
+		background-color 300ms,
+		border-color 300ms,
+		color 300ms;
+}
+
+@media only screen and (hover: hover) and (pointer: fine) {
+	.container-public:has(#events-browser .paginator__context) + .meta a:hover {
+		background-color: var(--color-tertiary);
+		border-color: var(--color-foreground);
+		color: var(--color-foreground);
 	}
 }
 
+.container-public:has(#events-browser .paginator__context) + .meta a:focus-visible {
+	outline: 2px solid var(--color-foreground);
+	outline-offset: 2px;
+}
+
+/* Permalink is directory-only (links to placecal.org, not this site) and has
+   no place in the design; the iCal link beside it is the only real Meta
+   content this view carries. */
+.container-public:has(#events-browser .paginator__context) + .meta .meta__permalink {
+	display: none;
+}

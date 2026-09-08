@@ -1,8 +1,8 @@
-/* Static pages — Views::Sites::Pages::Show, Views::Directory::MarkdownPage and
+/* Static pages: Views::Sites::Pages::Show, Views::Directory::MarkdownPage and
    /get-in-touch (Views::Sites::Join). Split out of pages.css (WP 3.19). */
 
 /* ---------------------------------------------------------------------------
-   Static pages — Views::Sites::Pages::Show and Views::Directory::MarkdownPage
+   Static pages: Views::Sites::Pages::Show and Views::Directory::MarkdownPage
    TextHeavyPage.elm: an "invisible" (dark) intro panel with the page's opening
    line in pink intro type, then the body in a 636px measure inside the content
    box. Both core views use the same .markdown-content wrapper, so one set of
@@ -173,7 +173,7 @@ main > .container-public > h1.h1 {
 }
 
 /* ---------------------------------------------------------------------------
-   /get-in-touch — Views::Sites::Join
+   /get-in-touch: Views::Sites::Join
    JoinUs.elm: a pink panel of intro copy, then the form inside the content
    box with white allcaps labels over dark blue pink-bordered inputs, two
    fields to a row from tablet portrait up, and a centred pink submit button.

@@ -12,20 +12,26 @@ class Transdimension::Components::NewsCard < Components::Base
   # hands the object to news_path.
   prop :article, _Interface(:title, :published_at, :partners, :article_image, :to_param)
 
+  # The card is its own pink-bordered dark box (`.td-news`), so the "Read the
+  # rest" button can hang off ITS bottom edge, the same floating-button
+  # pattern the events and intro sections use, just scoped to the card rather
+  # than the whole section.
   def view_template
-    article(class: 'td-news') do
-      render_image
-      div(class: 'td-news__info') do
-        h3(class: 'td-news__title') do
-          link_to news_article.title, news_path(news_article), class: 'with-no-sass td-news__link'
+    div(class: 'td-news') do
+      article(class: 'td-news__body') do
+        render_image
+        div(class: 'td-news__info') do
+          h3(class: 'td-news__title') do
+            link_to news_article.title, news_path(news_article), class: 'with-no-sass td-news__link'
+          end
+          render_meta
+          p(class: 'td-news__summary') { article_summary_text(news_article) }
         end
-        render_meta
-        p(class: 'td-news__summary') { article_summary_text(news_article) }
       end
-    end
-    div(class: 'td-button-floating') do
-      link_to t('transdimension.home.news_read_more'), news_path(news_article),
-              class: 'with-no-sass td-button td-button--pink-on-light'
+      div(class: 'td-button-floating') do
+        link_to t('transdimension.home.news_read_more'), news_path(news_article),
+                class: 'with-no-sass td-button td-button--pink-on-light'
+      end
     end
   end
 

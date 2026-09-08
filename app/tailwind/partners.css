@@ -1,16 +1,209 @@
-/* /partners — Views::Partners::Index
-   Partners.elm: two-column card grid, italic name with the area badge over a
-   pink rule, summary underneath. Split out of pages.css (WP 3.19). */
+/* /partners: Views::Partners::Index
+   Final design (design/final-port): a select-styled filter row (Location,
+   Type), the "All partners" heading, a two-column PartnerPreview list, and a
+   full-bleed map closing the box. Split out of pages.css (WP 3.19), rewritten
+   for the Final handoff (README §4 "4 Partners index"). */
 
 /* ---------------------------------------------------------------------------
-   /partners — Views::Partners::Index
-   Partners.elm: two columns from tablet landscape up, each entry an italic
-   name with the area badge on its right over a pink rule, and the summary
-   underneath.
+   Layout order
+   Core's view (Views::Partners::Index) renders, in this order: the
+   `.list-heading` h2, Components::Breadcrumb (region pills + the category /
+   neighbourhood filter form), an `hr`, then `ul.partners`. The Final design
+   wants the filter row first, then "All partners" 40px above the list. There
+   is no core slot to reorder the view, so `.container-public` becomes a flex
+   column and `.list-heading` is pushed after the filters with `order`.
 --------------------------------------------------------------------------- */
+#partner_previews .container-public {
+	display: flex;
+	flex-direction: column;
+}
 
-/* Partners.elm partnersListTitleStyle sits above the list; core renders it as
-   `.list-heading`, filled from overrides.en.yml. */
+/* ContentBox inset="28px 32px 0" (Final.jsx PartnersF): fixed, not the
+   breakpoint-scaled inset pages.css gives every other content box, because
+   the map below closes the box flush with no bottom inset. */
+#partner_previews > * {
+	margin: 28px 32px 0;
+}
+
+#partner_previews .container-public > .breadcrumb {
+	order: 1;
+}
+
+/* Partners.elm partnersListTitleStyle: the "All partners" heading, 40px above
+   the list and 8px below it once reordered after the filters. */
+#partner_previews .list-heading {
+	color: var(--color-foreground);
+	font-size: 0.9rem;
+	font-weight: 700;
+	letter-spacing: 1.9px;
+	line-height: 1.5;
+	margin: 40px 0 8px;
+	order: 2;
+	padding-top: 0;
+	text-align: left;
+	text-transform: uppercase;
+}
+
+#partner_previews .container-public > ul.partners {
+	order: 3;
+}
+
+/* The design has no rule between the filters and the heading; the spacing
+   above does that job instead. */
+#partner_previews hr {
+	display: none;
+}
+
+/* ---------------------------------------------------------------------------
+   Filter row (Final.jsx FilterRow): "LOCATION [select]  TYPE [select] …
+   [search]". Core renders the neighbourhood/category filters as
+   Components::Filter, a toggle button plus a Stimulus-driven dropdown of
+   radio options, not a native <select> (see doc/core-slots-needed.md below).
+   Each is restyled here to read as a select: dark fill, 2px pink border,
+   pink 600 text, pink chevron, 0.3rem radius. The toggle's own text is the
+   only label core gives the control (it doubles as the idle "Location" /
+   "Type" caption and, once chosen, the selected item's name), so it also
+   carries the allcaps-label treatment the design puts beside the select.
+--------------------------------------------------------------------------- */
+#partner_previews form.filters__form > .breadcrumb__element--last {
+	align-items: center;
+	gap: 1rem 2rem;
+	justify-content: flex-start;
+	padding: 0.5rem 0 1rem;
+}
+
+/* "Filter by:" is redundant once each control carries its own Location/Type
+   label (below); hidden visually, kept for assistive tech. */
+#partner_previews form.filters__form > .breadcrumb__element--last > span:first-child {
+	clip-path: inset(50%);
+	height: 1px;
+	margin: -1px;
+	overflow: hidden;
+	position: absolute;
+	white-space: nowrap;
+	width: 1px;
+}
+
+/* Core renders the category filter before the neighbourhood filter;
+   overrides.en.yml relabels them Type / Location, and the design wants
+   Location first. */
+#partner_previews .breadcrumb__filters.filters {
+	position: relative;
+}
+
+#partner_previews .breadcrumb__filters.filters:nth-of-type(1) {
+	order: 2;
+}
+
+#partner_previews .breadcrumb__filters.filters:nth-of-type(2) {
+	order: 1;
+}
+
+#partner_previews .filters__toggle {
+	display: inline-flex;
+	justify-content: flex-start;
+}
+
+/* Select.jsx's toggle text is pink 600; core's Filter toggle carries both the
+   idle "Type"/"Location" caption and, once chosen, the selected item's name in
+   the same string (see the block comment above), so the allcaps treatment the
+   design puts on the label lands on the value too once a filter is active. */
+#partner_previews .filters__toggle button {
+	align-items: center;
+	background-color: var(--color-background);
+	border: 2px solid var(--color-primary);
+	border-radius: 0.3rem;
+	color: var(--color-primary);
+	cursor: pointer;
+	display: inline-flex;
+	flex-direction: row-reverse;
+	font-family: inherit;
+	font-size: 1rem;
+	font-weight: 600;
+	gap: 0.5rem;
+	justify-content: flex-end;
+	letter-spacing: normal;
+	line-height: 1.5;
+	padding: 0.3rem 0.75rem 0.4rem;
+	text-transform: uppercase;
+	transition:
+		border-color 300ms linear,
+		background-color 300ms linear;
+}
+
+#partner_previews .filters__toggle button svg {
+	flex: none;
+	height: 0.6rem;
+	width: 0.7rem;
+}
+
+@media only screen and (hover: hover) and (pointer: fine) {
+	#partner_previews .filters__toggle button:hover {
+		border-color: var(--color-foreground);
+	}
+}
+
+#partner_previews .filters__toggle button:focus-visible {
+	outline: 2px solid var(--color-foreground);
+	outline-offset: 2px;
+}
+
+/* Popover, not inline block: the closest a Stimulus toggle + list gets to a
+   native select's dropdown. Only the JS-driven `--hidden` class controls
+   visibility, so this is layout-only and does not touch behaviour. */
+#partner_previews .filters__dropdown {
+	background-color: var(--color-background);
+	border: 1px solid var(--color-primary);
+	border-radius: 0.3rem;
+	box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+	margin-top: 0.35rem;
+	min-width: 12rem;
+	padding: 0.5rem;
+	position: absolute;
+	text-align: left;
+	top: 100%;
+	z-index: 20;
+}
+
+#partner_previews .filters__option {
+	padding: 0.15rem 0;
+}
+
+#partner_previews .filters__label {
+	cursor: pointer;
+}
+
+/* The reset link renders as its own trailing element once a filter is
+   active; keep it inline with the two selects. */
+#partner_previews .breadcrumb__filters:not(.filters) {
+	align-items: center;
+	display: inline-flex;
+}
+
+/* Components::Filter reuses the "filters__link" class for two different
+   things: the real "Clear filters" reset <a> (styled as a link, underlined),
+   and the plain <span> carrying the toggle button's own text (the
+   LOCATION/TYPE caption, styled by the button rule above already). Scoping
+   to the anchor keeps the underline off the toggle. */
+#partner_previews a.filters__link {
+	color: var(--color-primary);
+	font-weight: 600;
+	text-decoration: underline;
+}
+
+/* Core's base .filters__link also carries its own border-bottom (a 2px rule
+   under the idle caption, see app/assets/builds/application.css); the
+   select-styled toggle draws no rule under its label. events.css already
+   drops this for the events filter toggle (#paginator); partners' toggle
+   needs the same override. */
+#partner_previews .filters__toggle .filters__link {
+	border-bottom: 0;
+}
+
+/* ---------------------------------------------------------------------------
+   Partner list (Final.jsx PartnerPreview): italic name, right-aligned
+   neighbourhood lozenge, pink rule, summary below.
+--------------------------------------------------------------------------- */
 .partners {
 	display: grid;
 	gap: 0 2rem;
@@ -32,19 +225,19 @@
 	overflow-wrap: anywhere;
 }
 
+/* PartnerPreview.jsx article margin: 44px between rows, none above the
+   first. */
 .partners .preview {
-	margin: 1rem 0;
+	margin: 44px 0 0;
 }
 
-@media only screen and (min-width: 600px) {
-	.partners .preview {
-		margin: 1.5rem 0;
-	}
+.partners .preview:first-child {
+	margin-top: 0;
 }
 
-/* Partners.elm partnerTopRowStyle. Core lays the header out as a grid; TD
-   wants the badge pushed to the right of a name that may wrap, so it is a flex
-   row here. */
+/* Partners.elm partnerTopRowStyle / PartnerPreview.jsx row div. Core lays the
+   header out as a grid; TD wants the badge pushed to the right of a name that
+   may wrap, so it is a flex row here. */
 .partners .preview__header {
 	align-items: flex-start;
 	border-bottom: 2px solid var(--color-primary);
@@ -52,71 +245,53 @@
 	display: flex;
 	gap: 0.75rem;
 	justify-content: space-between;
-	padding: 0.5rem 0;
-	transition: border 500ms linear;
+	padding: 0.75rem 0;
+	transition: border-color 300ms linear;
 }
 
-@media only screen and (min-width: 900px) {
-	.partners .preview__header {
-		padding: 0.75rem 0;
-	}
-}
-
-/* Partners.elm partnerNameStyle */
+/* PartnerPreview.jsx h3: 1.25rem italic 500. */
 .partners .preview h3 {
-	font-size: 1.2rem;
+	font-size: 1.25rem;
 	font-style: italic;
+	font-weight: 500;
+	line-height: 1.25;
+	margin: 0;
 	padding: 0;
-}
-
-@media only screen and (min-width: 600px) {
-	.partners .preview h3 {
-		font-size: 1.5rem;
-	}
 }
 
 .partners .preview h3 a {
 	color: var(--color-foreground);
 	text-decoration: none;
-	transition: color 500ms linear;
+	transition: color 300ms linear;
 }
 
-/* Partners.elm partnerAreaTagSpan: dark purple ground, pink label. Core paints
-   the badge pink, which reads as a second brand accent next to the rules. */
+/* Badge.jsx: dark purple ground is replaced by TD's mauve badge fill
+   (design tokens: mauve #7b4a6e, used for badges and the search field), pink
+   600 label, 0.3rem radius. */
 .preview__neighbourhood span,
 .neighbourhood span {
-	background-color: #432955;
+	background-color: #7b4a6e; /* mauve (design tokens: badges, search field) */
 	border-radius: 0.3rem;
 	color: var(--color-primary);
 	display: inline-block;
-	font-size: 0.877777rem;
-	font-weight: 600;
+	font-size: 0.78rem;
+	font-weight: 700;
 	letter-spacing: normal;
+	line-height: 1.4;
 	margin-left: 0.5rem;
-	padding: 0.25rem 0.5rem;
+	padding: 0.15rem 0.5rem;
 	text-transform: none;
 }
 
-/* Partners.elm partnerBottomRowStyle and partnerDescriptionStyle */
+/* Partners.elm partnerBottomRowStyle / PartnerPreview.jsx summary <p>. */
 .partners .preview__details {
-	padding: 0.5rem 0;
-}
-
-@media only screen and (min-width: 900px) {
-	.partners .preview__details {
-		padding: 0.75rem 0;
-	}
+	padding: 0.75rem 0;
 }
 
 .partners .preview__details p {
-	font-size: 0.8777rem;
+	font-size: 1rem;
+	line-height: 1.6;
 	margin: 0 1rem 0 0;
-}
-
-@media only screen and (min-width: 600px) {
-	.partners .preview__details p {
-		font-size: 1.2rem;
-	}
 }
 
 @media only screen and (hover: hover) and (pointer: fine) {
@@ -129,51 +304,43 @@
 	}
 }
 
-/* Partners.elm partnersListTitleStyle: the "ALL PARTNERS" heading above the
-   list. */
-#partner_previews .list-heading {
-	color: var(--color-foreground);
-	font-size: 1.2rem;
-	font-weight: 700;
-	letter-spacing: 0.05em;
-	line-height: 1.5;
-	margin: 2rem 0 0;
-	padding-top: 0;
-	text-align: left;
-	text-transform: uppercase;
-}
-
-/* Detail pass (WP 2.12, coordinator): row-aligned two-column grid and bold
-   italic partner names. Core's `two-col` utility lays the list out in CSS
-   columns, which lets rows drift; the grid below replaces it so both
-   columns share row tops as in Partners.elm. */
+/* Row-aligned two-column grid: core's `two-col` utility lays the list out in
+   CSS columns, which lets rows drift; the grid above replaces it so both
+   columns share row tops as in Partners.elm / PartnerPreview.jsx. */
 .partners.two-col {
+	align-items: start;
 	column-count: auto;
 	columns: auto;
 	display: grid;
-	align-items: start;
-}
-
-.partners .preview h3,
-.partners .preview h3 a {
-	font-weight: 700;
 }
 
 .partners.two-col > li {
-	margin-top: 0;
 	break-inside: auto;
+	margin-top: 0;
 }
 
-/* Partners.elm: the list runs 3rem inside the box edge at desktop. */
-@media only screen and (min-width: 900px) {
-	#partner_previews > * {
-		margin-inline: 1rem;
-		padding-inline: 2rem;
-	}
-}
-
-/* Partners.elm: the badge never wraps; the name wraps instead. */
+/* The badge never wraps; the name wraps instead. */
 .partners .preview .preview__neighbourhood {
 	flex-shrink: 0;
 	white-space: nowrap;
+}
+
+/* ---------------------------------------------------------------------------
+   Map: full-bleed, closes the box (Final.jsx: `.td-map` height 330, margin
+   '40px -32px 0', bottom radius only). #map is the turbo frame's other direct
+   child, alongside `.container-public`, so the shell's generic
+   `#partner_previews > *` inset (pages.css) is overridden here to go
+   edge-to-edge with 40px above and no bottom margin, closing the box.
+--------------------------------------------------------------------------- */
+#partner_previews > #map {
+	margin: 40px 0 0;
+	margin-inline: 0;
+	padding-inline: 0;
+}
+
+#partner_previews > #map > [data-controller="leaflet"] {
+	border-radius: 0 0 0.3rem 0.3rem;
+	height: 330px;
+	min-height: 330px;
+	overflow: hidden;
 }

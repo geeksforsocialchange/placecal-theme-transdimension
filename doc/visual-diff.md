@@ -87,3 +87,27 @@ wraps differently), **capture** (an artefact of how the screenshot was taken).
 | Event title panel height | 114 | 163 | content | the live event title runs to two lines and ours to one |
 | Footer middle band | two centred columns | three (social, credits, newsletter form) | decision | core's footer slot has no newsletter form (WP 2.9) |
 | Footer total height | 746 | 730 | decision | our bottom band carries an admin-login line the live site has no equivalent for (about 33px) |
+
+## Final designs pass (2026-09-08)
+
+Measured against the seven Final screens (`screens/*.png` in the design handoff), not the
+live Elm site. Every row below traces to a slot recorded in `doc/core-slots-needed.md`
+under "Final designs".
+
+| What | Ours | Design | Category | Reason |
+|---|---|---|---|---|
+| Region control | rendered in-page, inside the intro panel / event box | a segmented control in the nav bar | core slot | `Components::Navigation` has no slot next to the CTA for an unrelated control (core-slots-needed.md item 6) |
+| Events index date controls | day strip only | day strip plus a separate "Pick a date" toggle | core slot | `Components::EventFilter` renders the day strip or the date picker, never both (item 7) |
+| Events and partners filter controls | toggle button plus radio-group dropdown | select-styled controls, with no category filter for events either way | core slot | core has no `<select>` rendering mode and no events category facet (item 8), no toggle label/value split (item 12) |
+| Events index export links | iCal only | iCal and CSV | core slot | `Components::Meta` gets a CSV link only on the partner page today (item 9) |
+| Events index standfirst | fixed copy, no region name | names the selected region | core slot | `events.index.standfirst` takes no interpolation token (item 10) |
+| Partners index filter row | no search field | a mauve search field at the end of the row | core slot | `Components::PartnerFilter` has no search input (item 11) |
+| Event and partner show kickers | none; hidden hero section on events, breadcrumb trail on articles | "← All events" / "← All partners" / "← All news" above the title | core slot | `Components::Hero` has no back-link slot (item 13) |
+| Partner address | address lines only | address lines plus a Directions link | core slot | `Components::Address` renders no directions link (item 14) |
+| Partner contact links | uniform icon row | Visit website / Email / Call as distinctly styled buttons | core slot | `Components::ContactDetails` gives no per-link class (item 15) |
+| Partner events browser | no heading, combined filter dropdown, day-tab paging | "Upcoming partner events" heading with a count, a standalone "Show" select, and a "Show 4 more days" append button | core slot | no heading/count prop, no standalone repeating facet, no append-mode paging (items 16 to 18) |
+| News and article dates | no ordinal suffix | "14th January 2025" | core slot | `strftime` has no ordinal token and the theme's date_format override cannot add one (item 19) |
+| Article image | no credit line | italic credit line under the image | core slot | `Article` has no credit/caption field (item 20) |
+| Article body | no pull quote | a pull quote after the third paragraph | core slot | `Article` has no pull-quote field and the news view never calls `Components::PullQuote` (item 21) |
+| News card and article buttons | Older link (index) / Go back link (article) only | View more news, Recent news, and Previous / Next on the article | core slot | `Views::News::Index` and `Views::News::Show` render only the one pagination action each (items 22 to 23) |
+| Footer newsletter column | not built | a newsletter sign-up column | decision | owner decision, not a slot gap: kept out deliberately |

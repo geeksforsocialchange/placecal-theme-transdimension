@@ -1,50 +1,37 @@
-/* /news — Views::News::Index
-   News.elm newsItemStyle: pink-bordered dark cards, image left, italic title,
-   meta line and summary, pink "read the rest" button. Split out of pages.css
-   (WP 3.19). */
-
-/* ---------------------------------------------------------------------------
-   /news — Views::News::Index
-   News.elm newsItemStyle: each article is its own pink-bordered dark card with
-   the image on the left, the title italic, a bold meta line and the summary,
-   and a pink "read the rest" button. There is no outer content box.
+/* /news: Views::News::Index
+   NewsCard: pink-bordered dark cards, image left, italic title with a pink
+   underline, "Partner • date" byline, 3-line clamped summary, "Read the rest"
+   pink button straddling the card's bottom edge. Split out of pages.css
+   (WP 3.19), redrawn for the Final designs (screens/06-news-index-full.png).
 --------------------------------------------------------------------------- */
+
+/* The card column is narrower than the page: 800px, centred inside <main>,
+   which already carries the page gutter. */
+.articles {
+	margin-inline: auto;
+	max-width: 800px;
+}
 
 .articles__article-card {
 	background-color: var(--color-background);
 	border: 1px solid var(--color-primary);
-	border-radius: 0.2rem;
+	border-radius: 0.3rem;
 	box-sizing: border-box;
-	display: block;
-	margin: 2rem 0 3rem;
-	padding: 1.25rem 1.25rem 3rem;
+	margin: 44px 0 56px;
+	padding: 1.25rem 1.25rem 2.5rem;
 	position: relative;
 }
 
 @media only screen and (min-width: 600px) {
 	.articles__article-card {
-		padding: 3rem;
+		padding: 1.5rem 2rem 2.5rem;
 	}
 }
 
-@media only screen and (min-width: 900px) {
-	.articles__article-card {
-		margin: 3rem;
-		padding: 2rem;
-	}
-}
-
-@media only screen and (min-width: 1200px) {
-	.articles__article-card {
-		margin: 4rem auto 5rem;
-		max-width: 920px;
-	}
-}
-
-/* News.elm newsItemArticleStyle: the image is a column of its own on the left
-   with the title, meta line, summary and button stacked beside it. Core nests
-   those in .articles__aside / .articles__main / .articles__content, so the
-   wrappers go display:contents and the card places every part itself. */
+/* NewsCard: the image is a column of its own on the left with the title, meta
+   line, summary and button stacked beside it. Core nests those in
+   .articles__aside / .articles__main / .articles__content, so the wrappers go
+   display:contents and the card places every part itself. */
 .articles__aside,
 .articles__main,
 .articles__content {
@@ -82,13 +69,24 @@
 	margin-bottom: 0;
 }
 
-/* News.elm newsItemMetaStyle puts the partner and the date on one line. Core
-   renders them as two elements in two different wrappers, so they cannot share
-   a flex parent; the card grid gives the byline row its own pair of columns
-   instead and every other part spans both. */
+/* NewsCard's byline puts the partner and the date on one line. Core renders
+   them as two elements in two different wrappers (recorded as a core slot,
+   doc/core-slots-needed.md "News meta as one line"), so they cannot share a
+   flex parent; the card grid gives the byline row its own pair of columns
+   instead, and every other part spans both.
+
+   The partner column is a "fit-content" track rather than plain max-content:
+   a max-content track still grows to help satisfy the title/body/button's
+   spanning width requirement (their span includes the flexible last column,
+   which the grid algorithm excludes from that distribution, so the slack
+   lands on the partner column instead) leaving a wide gap before the date.
+   Capping its growth limit keeps it hugging the partner name. The image
+   column keeps its own gap; the partner/date pair sit in a zero-gap pair of
+   columns so the bullet's own 0.4em padding is the only space between them. */
 @media only screen and (min-width: 600px) {
 	.articles__article-card {
-		grid-template-columns: 294px max-content minmax(0, 1fr);
+		column-gap: 0;
+		grid-template-columns: 294px 2rem fit-content(12rem) minmax(0, 1fr);
 	}
 
 	.articles__image {
@@ -99,16 +97,16 @@
 	.articles__title,
 	.articles__body,
 	.articles__main > p:last-child {
-		grid-column: 2 / -1;
+		grid-column: 3 / -1;
 	}
 
 	.articles__partners {
-		grid-column: 2;
+		grid-column: 3;
 		grid-row: 3;
 	}
 
 	.articles__published {
-		grid-column: 3;
+		grid-column: 4;
 		grid-row: 3;
 		justify-self: start;
 	}
@@ -120,31 +118,34 @@
 	}
 }
 
-@media only screen and (min-width: 900px) {
-	.articles__article-card {
-		grid-template-columns: 303px max-content minmax(0, 1fr);
-	}
-}
-
-.articles__published {
-	font-size: 1rem;
-	font-weight: 600;
+/* NewsCard byline: "Partner • date", 0.8777rem 700. On index the partner name
+   is plain text, not underlined like the article-show byline link. */
+.articles__published,
+.articles__partners {
+	font-size: 0.8777rem;
+	font-weight: 700;
 	line-height: 1.5;
 	margin: 1rem 0 0;
 	text-align: center;
 }
 
+.articles__partners a {
+	color: inherit;
+	text-decoration: none;
+}
+
 @media only screen and (min-width: 600px) {
-	.articles__published {
+	.articles__published,
+	.articles__partners {
 		text-align: left;
 	}
 }
 
-/* News.elm newsItemTitleStyle */
+/* NewsCard title: 1.5rem italic 500, pink underline on the link. */
 .articles__title {
-	font-size: 1.85rem;
+	font-size: 1.5rem;
 	font-style: italic;
-	font-weight: 400;
+	font-weight: 500;
 	line-height: 1.3em;
 	margin: 0;
 	text-align: center;
@@ -156,27 +157,29 @@
 	}
 }
 
-.articles__partners {
-	font-size: 1rem;
-	font-weight: 600;
-	line-height: 1.5;
-	margin: 1rem 0 0;
-	text-align: center;
+.articles .articles__title a {
+	color: var(--color-foreground);
+	text-decoration: underline;
+	text-decoration-color: var(--color-primary);
+	text-underline-offset: 0.2em;
+	transition:
+		color 300ms,
+		text-decoration-color 300ms;
 }
 
-@media only screen and (min-width: 600px) {
-	.articles__partners {
-		text-align: left;
+@media only screen and (hover: hover) and (pointer: fine) {
+	.articles .articles__title a:hover {
+		color: var(--color-primary);
+		text-decoration-color: var(--color-foreground);
 	}
 }
 
-/* News.elm newsItemImageStyle: 303x202 with an even 1rem above and below, and
-   no border (core tags the image .border). */
+/* NewsCard image: 294x196 (3:2), no border (core tags the image .border). */
 .articles__image img {
-	aspect-ratio: 303 / 202;
+	aspect-ratio: 3 / 2;
 	border: 0;
-	display: block;
 	border-radius: 0.3rem;
+	display: block;
 	margin: 1rem 0;
 	object-fit: cover;
 	width: 100%;
@@ -188,11 +191,13 @@
 	margin: 0;
 }
 
-/* News.elm newsItemSummaryStyle. TD's summary runs to about 130 characters,
-   which is three lines in the card; core truncates at 200, so the clamp keeps
-   the card the same height until core takes the shorter excerpt. */
+/* NewsCard summary: 1rem, clamped to 3 lines. TD's summaries run to about 130
+   characters, which is three lines in the card; core truncates at 200
+   (doc/core-slots-needed.md "News card excerpt length"), so the clamp keeps
+   the card height fixed until core takes the shorter excerpt. */
 .articles__body p {
-	margin: 1rem 0 0;
+	font-size: 1rem;
+	margin: 0.5rem 0 0;
 	text-align: center;
 }
 
@@ -200,7 +205,6 @@
 	.articles__body p {
 		-webkit-box-orient: vertical;
 		display: -webkit-box;
-		font-size: 1.2rem;
 		-webkit-line-clamp: 3;
 		line-clamp: 3;
 		overflow: hidden;
@@ -208,28 +212,30 @@
 	}
 }
 
-/* Global.elm pinkButtonOnDarkBackgroundStyle */
+/* NewsCard "Read the rest" button: pink, straddling the card's bottom edge. */
 .articles__article-card .btn,
 .articles__article-card .btn--alt {
 	background-color: var(--color-primary);
 	border: 0.2rem solid var(--color-primary);
 	border-radius: 0.3rem;
+	bottom: -1.4rem;
+	box-sizing: border-box;
 	color: var(--color-background);
 	display: block;
 	font-size: 1.2rem;
 	font-weight: 600;
-	margin: 0 auto;
-	max-width: max-content;
+	left: 50%;
+	margin: 0;
 	padding: 0.375rem 1.25rem 0.5rem;
+	position: absolute;
 	text-align: center;
 	text-decoration: none;
-}
-
-@media only screen and (min-width: 600px) {
-	.articles__article-card .btn,
-	.articles__article-card .btn--alt {
-		margin: 0;
-	}
+	transform: translateX(-50%);
+	transition:
+		background-color 300ms,
+		border-color 300ms,
+		color 300ms;
+	white-space: nowrap;
 }
 
 @media only screen and (hover: hover) and (pointer: fine) {
@@ -240,37 +246,40 @@
 	}
 }
 
+/* "Older news" / "View more news" / "Recent news": core renders only the
+   older link (.articles__pagination, news.index.older); the other two buttons
+   are a core slot (no view/more or recent-news link exists to style). Styled
+   as a dark button matching the design's button row. */
 .articles__pagination {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 28px;
+	justify-content: center;
+	margin-top: 40px;
 	text-align: center;
 }
 
-/* News.elm card: underlined pink title link; the "Read the rest" button is
-   centred and straddles the card's bottom border. */
-.articles .articles__title a {
-	text-decoration: underline;
-	text-decoration-color: var(--color-primary);
-	text-underline-offset: 0.2em;
+.articles__pagination a {
+	background-color: var(--color-background);
+	border: 0.2rem solid var(--color-primary);
+	border-radius: 0.3rem;
+	box-sizing: border-box;
+	color: var(--color-foreground);
+	display: inline-block;
+	font-size: 1.2rem;
+	font-weight: 600;
+	padding: 0.375rem 1.25rem 0.5rem;
+	text-decoration: none;
+	transition:
+		background-color 300ms,
+		border-color 300ms,
+		color 300ms;
 }
 
-.articles .articles__article-card {
-	margin-bottom: 5rem;
-	padding-bottom: 2rem;
-	position: relative;
-}
-
-.articles .articles__article-card .btn--mt {
-	bottom: -1rem;
-	left: 50%;
-	margin: 0;
-	position: absolute;
-	transform: translateX(-50%);
-	width: max-content;
-}
-
-/* The card's column gap belongs between the image and the text, not inside
-   the byline, whose two halves are in adjacent columns. */
-@media only screen and (min-width: 600px) {
-	.articles .articles__published {
-		margin-left: -2rem;
+@media only screen and (hover: hover) and (pointer: fine) {
+	.articles__pagination a:hover {
+		background-color: var(--color-tertiary);
+		border-color: var(--color-foreground);
+		color: var(--color-foreground);
 	}
 }

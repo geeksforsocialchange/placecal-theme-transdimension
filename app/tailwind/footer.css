@@ -73,7 +73,11 @@
 		align-items: center;
 		justify-content: space-between;
 		box-sizing: border-box;
-		padding: 1rem 1rem 2rem;
+		/* Final designs (README "Grid & spacing"): "Footer: pink band 150px
+		   min-height, 28px 32px" (Footer.jsx.txt: minHeight 150, padding
+		   '28px 32px' once the layout stops stacking). */
+		padding: 28px 32px;
+		min-height: 150px;
 	}
 
 	.td-footer__wordmark img {
@@ -97,12 +101,6 @@
 
 	.td-footer__nav li {
 		margin: 0 0.55rem;
-	}
-}
-
-@media only screen and (min-width: 1500px) {
-	.td-footer__top {
-		padding: 1rem 20rem 2rem;
 	}
 }
 
@@ -130,7 +128,9 @@
 	text-align: center;
 }
 
-/* PageFooter.elm subheadStyle: Global.elm smallInlineTitleStyle in white */
+/* PageFooter.elm subheadStyle: Global.elm smallInlineTitleStyle in white.
+   Final designs (README "Grid & spacing"): "headings never wrap" - Footer.jsx
+   sets whiteSpace: 'nowrap' on both "Follow us out there" and "Created by". */
 .td-footer__subhead {
 	color: var(--color-foreground);
 	display: block;
@@ -140,6 +140,7 @@
 	margin: 0.5rem 0 1rem;
 	text-align: center;
 	text-transform: uppercase;
+	white-space: nowrap;
 }
 
 @media only screen and (min-width: 600px) {
@@ -226,16 +227,12 @@
 	}
 }
 
+/* Final designs (README "Grid & spacing"): "middle band 24px 56px 28px"
+   (Footer.jsx.txt padding once the layout stops stacking). */
 @media only screen and (min-width: 900px) {
 	.td-footer__middle {
-		padding: 1rem 3rem;
+		padding: 24px 56px 28px;
 		gap: 3rem;
-	}
-}
-
-@media only screen and (min-width: 1500px) {
-	.td-footer__middle {
-		padding: 1rem 12rem;
 	}
 }
 

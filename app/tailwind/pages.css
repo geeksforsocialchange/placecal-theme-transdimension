@@ -30,7 +30,11 @@ main {
 	box-sizing: border-box;
 	margin: 0.75rem;
 	margin-bottom: 150px;
-	max-width: 1150px;
+	/* Final designs (README "Grid & spacing"): 1186px container, 24px gutters,
+	   1138px column, measured at desktop. Below 1200px the column keeps the
+	   plain rem margins it always had, since the container/gutter model is a
+	   desktop-only reading of the 1366 XD refs. */
+	max-width: 1186px;
 	position: relative;
 }
 
@@ -49,12 +53,14 @@ main {
 @media only screen and (min-width: 1200px) {
 	main {
 		margin: 1rem auto 180px auto;
+		padding-inline: 24px;
 	}
 }
 
 @media only screen and (min-width: 1500px) {
 	main {
 		margin: 1rem auto 250px auto;
+		padding-inline: 24px;
 	}
 }
 
@@ -125,10 +131,14 @@ main > .container-public {
 	}
 }
 
+/* Final designs (README "Grid & spacing"): the listing page title holds at
+   40px (2.5rem) italic 500, 58px above (padding-top stays illustration-band
+   driven, see illustrations.css --td-title-padding-top) and 26px below - it
+   does not grow to 3.1rem at tablet landscape the way core's own heading
+   scale does. */
 @media only screen and (min-width: 900px) {
 	.hero h1 {
-		font-size: 3.1rem;
-		padding-bottom: 1rem;
+		padding-bottom: 26px;
 	}
 }
 
@@ -161,21 +171,16 @@ main > .container-public {
 	}
 }
 
+/* Final designs (README "Grid & spacing"): 46px 64px 50px padding, 34px
+   italic 500 standfirst at a 44px line-height, 838px measure. Supersedes the
+   Elm 2.5rem/3.1rem/2rem numbers at this breakpoint. */
 @media only screen and (min-width: 900px) {
 	.hero__standfirst {
-		font-size: 2.5rem;
-		line-height: 3.1rem;
-		padding-block: 2rem;
-		padding-inline: max(2rem, calc((100% - 838px) / 2));
-	}
-}
-
-/* PageTemplate.elm viewIntro drops an extra rem 1 under the copy on the widest
-   screens; the panels that close on a second element are handled at the foot
-   of this file, after the rules those elements pick up their padding from. */
-@media only screen and (min-width: 1500px) {
-	.hero__standfirst {
-		padding-bottom: 3rem;
+		font-size: 2.125rem;
+		line-height: 2.75rem;
+		padding-top: 46px;
+		padding-bottom: 50px;
+		padding-inline: max(64px, calc((100% - 838px) / 2));
 	}
 }
 
@@ -257,7 +262,10 @@ main > .hero .hero__standfirst:has(+ .hero__standfirst-detail) {
 	border: 1px solid var(--color-primary);
 	border-radius: 0.3rem;
 	box-sizing: border-box;
-	display: block;
+	/* ContentBox.jsx: flow-root always, not just when the box is attached to
+	   an intro panel above it - a margin on the box's own first/last child
+	   must not collapse out through the border either way. */
+	display: flow-root;
 }
 
 /* ...and the top of that border belongs to the intro panel, which sits flush
@@ -480,5 +488,88 @@ main > .hero:has(.hero__standfirst) + #partner_previews {
 
 	.hero__standfirst-detail {
 		padding-bottom: 3.5rem;
+	}
+}
+
+/* ---------------------------------------------------------------------------
+   Shared button contract (Final designs, Button.jsx.txt / README "Buttons")
+
+   Home's own .td-button family (app/tailwind/home.css) already paints this
+   spec for the homepage and is not moved. These are the same paint recipe
+   under shell-owned names, for every other route to reach: a route partial
+   adds .td-btn plus one colour modifier (and, for a small button, .td-btn--sm)
+   to whatever selector it already renders - for example:
+
+     .meta a { ... }              -> class="td-btn td-btn--dark td-btn--sm"
+     .event__fullinfo .cta a { }  -> class="td-btn td-btn--pink td-btn--sm"
+
+   2px solid border, 0.3rem radius, 600 weight, 300ms colour-only transitions.
+   dark   = dark blue fill / pink border / white text, hover purple fill /
+            white border.
+   pink   = pink fill / dark blue text, hover light pink fill/border.
+   white  = white fill / dark blue text, hover purple fill / white text.
+   Sizes: md (default) 1rem type, 0.375rem 1.25rem 0.5rem padding; sm 0.875rem
+   type, 0.2rem 0.9rem 0.3rem padding.
+--------------------------------------------------------------------------- */
+
+.td-btn {
+	box-sizing: border-box;
+	display: inline-block;
+	font-family: var(--font-sans);
+	font-size: 1rem;
+	font-weight: 600;
+	line-height: 1.5;
+	padding: 0.375rem 1.25rem 0.5rem;
+	border-style: solid;
+	border-width: 2px;
+	border-radius: 0.3rem;
+	text-align: center;
+	text-decoration: none;
+	transition:
+		background-color 300ms,
+		border-color 300ms,
+		color 300ms;
+}
+
+.td-btn--sm {
+	font-size: 0.875rem;
+	padding: 0.2rem 0.9rem 0.3rem;
+}
+
+.td-btn--dark {
+	background-color: var(--color-background);
+	border-color: var(--color-primary);
+	color: var(--color-foreground);
+}
+
+.td-btn--pink {
+	background-color: var(--color-primary);
+	border-color: var(--color-primary);
+	color: var(--color-foreground-dark);
+}
+
+.td-btn--white {
+	background-color: var(--color-foreground);
+	border-color: var(--color-foreground);
+	color: var(--color-foreground-dark);
+}
+
+@media only screen and (hover: hover) and (pointer: fine) {
+	.td-btn--dark:hover {
+		background-color: var(--color-tertiary);
+		border-color: var(--color-foreground);
+		color: var(--color-foreground);
+	}
+
+	.td-btn--pink:hover {
+		background-color: var(--color-primary-light);
+		border-color: var(--color-primary-light);
+		color: var(--color-foreground-dark);
+	}
+
+	.td-btn--white:hover {
+		background-color: var(--color-tertiary);
+		border-color: var(--color-foreground);
+		color: var(--color-foreground);
 	}
 }

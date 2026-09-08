@@ -1,16 +1,20 @@
-/* /partners/:slug — Views::Partners::Show
+/* /partners/:slug: Views::Partners::Show
    Partner.elm: name panel, description and contact columns, then the
    partner's own event list. Split out of pages.css (WP 3.19). */
 
 /* Event.elm and Partner.elm draw a pink-toned map inside the box; the ground
-   colour is what shows while the tiles load. */
+   colour is what shows while the tiles load. Final design (§5): the compact
+   map drops from core's 330px default to 220px, with a 16px gap under the
+   image above it. */
 .g--partner [data-controller="leaflet"] {
 	background-color: var(--color-primary);
+	height: 220px;
+	margin-top: 1rem;
 	overflow: hidden;
 }
 
 /* ---------------------------------------------------------------------------
-   /partners/:slug — Views::Partners::Show
+   /partners/:slug: Views::Partners::Show
    Partner.elm: the name in the pink panel, the description and contact columns
    below it, then the partner's own event list in TD's card layout (which the
    /events rules above already cover, since core reuses Components::Event).
@@ -22,10 +26,35 @@ main > div:not([vocab]):has(> .container-public .g--partner) {
 	border: 1px solid var(--color-primary);
 	border-radius: 0.3rem;
 	box-sizing: border-box;
+	/* Final design (§5): the floating section name above the panel ("Partners")
+	   and the room event-show.css reserves for it both go, the panel sits
+	   flush under the starfield, with the "All partners" kicker link this
+	   theme has no core slot for (doc: core-slots-needed.md candidate). */
+	margin-top: 0;
+}
+
+main > div:not([vocab]):has(> .container-public .g--partner) .hero__section {
+	display: none;
+}
+
+/* The box's bottom edge normally closes here, but when Components::Meta
+   follows with the iCal/CSV buttons (below), the join moves to that element
+   instead so the two read as one box. Dropping the border-bottom width to 0
+   (rather than just its colour) here, conditioned on this :has(+ .meta),
+   left roughly 130px of dead space inside the box before the iCal/CSV row:
+   the wrapper's own auto height came out taller than its content once the
+   border-width changed under a forward-looking :has(), a genuine layout bug
+   rather than anything in this stylesheet asking for the space. Keeping the
+   border-bottom at its normal width and only hiding its colour sidesteps it. */
+main > div:not([vocab]):has(> .container-public .g--partner):has(+ .meta) {
+	border-bottom-color: transparent;
+	border-radius: 0.3rem 0.3rem 0 0;
 }
 
 .g--partner {
 	padding-bottom: 2rem;
+	/* Final design (§5): 34px above the two-column body. */
+	padding-top: 2.125rem;
 }
 
 .g--partner .p--big p {
@@ -47,8 +76,29 @@ main > div:not([vocab]):has(> .container-public .g--partner) {
 	text-align: left;
 }
 
-/* WP 2.14: core's two-column partner body — copy and contacts on the left,
-   image, map and opening times on the right — is the layout TD keeps; only
+/* Final design (§5): "Get in touch" as plain stacked links, left aligned,
+   1.7 line-height, no icons (Components::ContactDetails draws an icon before
+   every link; the design has none). Core's own contact_details_component.scss
+   makes the element a 2-column icon/link grid (gap: 0 0.5rem) with no line
+   break between rows short of that second column, so with the icon column
+   gone each link is put on its own line directly instead. The icon stays out
+   of the accessible name either way (the link text alone already names each
+   one), so hiding it loses nothing for assistive tech. */
+.g--partner .contact_details {
+	display: block;
+	line-height: 1.7;
+}
+
+.g--partner .contact_details svg {
+	display: none;
+}
+
+.g--partner .contact_details a {
+	display: block;
+}
+
+/* WP 2.14: core's two-column partner body (copy and contacts on the left,
+   image, map and opening times on the right) is the layout TD keeps; only
    the gutter narrows so the right column has room for the map at TD's box
    width. */
 @media only screen and (min-width: 900px) {
@@ -59,9 +109,85 @@ main > div:not([vocab]):has(> .container-public .g--partner) {
 	}
 }
 
-.g--partner .gi__image img {
+/* events.css hides Components::EventList's day heading (h2.udl--fw) off
+   screen for every route, since on /events the date already repeats on each
+   card. Core's partner page reuses the same .udl--fw class on three headings
+   that have no date to repeat ("Get in touch", "Address" and "Opening
+   times"), so that rule was swallowing them too. This restores them, higher
+   specificity than either source rule so the fix holds regardless of import
+   order. */
+.g--partner h2.udl--fw {
+	border-bottom: 0;
+	clip-path: none;
+	color: var(--color-primary);
 	display: block;
+	font-size: 0.9rem;
+	font-weight: 700;
+	height: auto;
+	letter-spacing: 1.9px;
+	margin-block: 1.5rem 0.75rem;
+	overflow: visible;
+	padding: 0;
+	position: static;
+	text-align: left;
+	text-transform: uppercase;
+	white-space: normal;
+	width: auto;
+}
+
+/* Final design (§5): "Get in touch" and "Address" sit side by side as a
+   two-column row once the heading fix above makes both visible. Core has no
+   wrapper around either pair, so the heading and the content next to it are
+   matched by adjacency (Components::ContactDetails and Components::Address
+   are the only elements with these classes) and placed on explicit grid
+   lines, sparse auto-placement would otherwise read the four items in
+   source order (heading, contacts, heading, address) and misalign the
+   second pair by a row. */
+@media only screen and (min-width: 900px) {
+	.gi.gi__3-5 {
+		align-content: start;
+		column-gap: 1.75rem;
+		display: grid;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+
+	.gi.gi__3-5 > .p--big,
+	.gi.gi__3-5 > div:not(.p--big) {
+		grid-column: 1 / -1;
+	}
+
+	.gi.gi__3-5 > h2:has(+ .contact_details) {
+		grid-column: 1;
+		grid-row: 3;
+	}
+
+	.gi.gi__3-5 > .contact_details {
+		grid-column: 1;
+		grid-row: 4;
+	}
+
+	.gi.gi__3-5 > h2:has(+ .place_info__address) {
+		grid-column: 2;
+		grid-row: 3;
+	}
+
+	.gi.gi__3-5 > .place_info__address {
+		grid-column: 2;
+		grid-row: 4;
+	}
+}
+
+.g--partner .gi__image img {
+	aspect-ratio: 3 / 2;
+	display: block;
+	object-fit: cover;
 	width: 100%;
+}
+
+/* render_opening_times prints a bare <br> before its heading as a spacer;
+   the heading's own margin (above) already opens that gap. */
+.gi.gi__2-5 > br {
+	display: none;
 }
 
 .g--partner .opening_times {
@@ -98,6 +224,231 @@ main > div:not([vocab]):has(> .container-public .g--partner) {
 	display: contents;
 }
 
+/* Design (§5): "one continuous 2-col event list in date order (no day
+   headings)": every card already carries its own date. events.css already
+   takes Components::EventList's per-day h2 out of the picture the same way,
+   but only when the frame's paginator is wrapped in Components::Breadcrumb's
+   .paginator__context (Views::Events::Index); the partner page's own
+   Components::Timeline sits in .paginator__actions instead (see
+   event_filter.rb / partners/show.rb) and slips through that selector, so it
+   is repeated here, scoped off .paginator__context to stay off the events
+   route. The heading stays in the accessibility tree as the group label core
+   intends. */
+#events-browser:not(:has(.paginator__context)) > h2.udl--fw {
+	border: 0;
+	clip-path: inset(50%);
+	height: 1px;
+	margin: 0;
+	overflow: hidden;
+	padding: 0;
+	position: absolute;
+	white-space: nowrap;
+	width: 1px;
+}
+
+/* Final design (§5): a rule between the two-column body and the event
+   browser. Core has no <hr> here (Views::Partners::Show only prints one
+   between managed places), so the rule is drawn as a border on the frame
+   that follows, the same trick the show pages already use elsewhere in this
+   theme rather than inventing an element. Set after the flatten rule above
+   (and the paginated-path reset below), which both reset the frame's
+   `border` shorthand and would otherwise wipe this back out. */
+.g--partner + #events-browser {
+	border-top: 1px solid var(--color-primary);
+	padding-top: 2rem;
+}
+
+/* When the partner has enough upcoming events for core to paginate,
+   #events-browser carries a .paginator (Components::Timeline +
+   Components::EventFilter) and pages.css's generic content-box rule draws
+   its own border and background, which, nested inside the box this file
+   already draws around the whole partner body, doubled up. Unverified: no
+   partner in the dev seed data crosses core's 30-event pagination threshold,
+   so this path could not be checked against a running page. */
+.g--partner + #events-browser:has(.paginator) {
+	background-color: transparent;
+	border-bottom: 0;
+	border-left: 0;
+	border-radius: 0;
+	border-right: 0;
+}
+
+/* TD's day strip (events.css) has no equivalent in the final design's event
+   browser, which asks only for a "Show" select (core slot) and a date toggle
+   so it is hidden here rather than left to compete with them. */
+.g--partner + #events-browser .day-strip {
+	display: none;
+}
+
+/* Final design (§5): a slim right-aligned toolbar sits above the partner's
+   own event grid ("Show" / "Pick a date +"). Components::Timeline
+   (.paginator__buttons: back arrow, "Upcoming", day tabs, forward arrow) has
+   no "Show" select to fill that slot with (doc: core-slots-needed.md
+   candidate); "Upcoming" is the nearest core has, so it takes that place and
+   the day tabs and arrows it shares a row with, which have no equivalent in
+   the design, are hidden the same way the day strip above is.
+   Components::EventFilter's own "Filter and sort" toggle (.paginator__actions)
+   takes the "Pick a date +" slot, styled to match events.css's treatment of
+   the same toggle. */
+.g--partner + #events-browser .paginator {
+	align-items: center;
+	column-gap: 1.75rem;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: flex-end;
+	row-gap: 0.5rem;
+}
+
+.g--partner + #events-browser .paginator__buttons {
+	display: flex;
+}
+
+/* The back arrow is unconditional (Timeline always renders one), so the
+   "Upcoming" tab immediately after it is reachable without relying on its
+   text content: every other li[data-paginator-target="button"] is a day tab
+   and is hidden along with both arrows. */
+.g--partner + #events-browser .paginator__arrow,
+.g--partner + #events-browser li[data-paginator-target="button"] {
+	display: none;
+}
+
+.g--partner + #events-browser .paginator__arrow--back + li[data-paginator-target="button"] {
+	display: list-item;
+}
+
+.g--partner + #events-browser .paginator__arrow--back + li[data-paginator-target="button"] a {
+	color: var(--color-foreground);
+	display: inline-block;
+	font-size: 0.9rem;
+	font-weight: 700;
+	letter-spacing: 1.9px;
+	text-decoration: none;
+	text-transform: uppercase;
+}
+
+.g--partner + #events-browser .paginator__actions {
+	display: flex;
+	justify-content: flex-end;
+}
+
+/* Final design (§5): "the 'Filter and sort' toggle as the allcaps toggle
+   with a pink plus", matching events.css's treatment of the same toggle
+   (core's own copy stays; there is no slot to relabel it "Pick a date"). */
+.g--partner + #events-browser .filters__toggle {
+	display: flex;
+	justify-content: flex-end;
+}
+
+.g--partner + #events-browser .filters__toggle button {
+	align-items: center;
+	background: none;
+	border: 0;
+	color: var(--color-foreground);
+	cursor: pointer;
+	display: inline-flex;
+	font-family: inherit;
+	font-size: 0.9rem;
+	font-weight: 700;
+	gap: 0.5rem;
+	letter-spacing: 1.9px;
+	padding: 0.5rem 0;
+	text-transform: uppercase;
+}
+
+.g--partner + #events-browser .filters__toggle button:focus-visible {
+	outline: 2px solid var(--color-foreground);
+	outline-offset: 2px;
+}
+
+/* The triangle icon core draws on the toggle is dropped for the pink +/−
+   events.css's own copy of this toggle carries instead; the visible label
+   text is still the button's accessible name, so the glyph below is
+   decorative only. */
+.g--partner + #events-browser .filters__toggle button svg {
+	display: none;
+}
+
+.g--partner + #events-browser .filters__toggle button::after {
+	color: var(--color-primary);
+	content: "+";
+	font-size: 1.6rem;
+	font-weight: 400;
+	line-height: 0.8;
+}
+
+.g--partner
+	+ #events-browser
+	.filters__toggle:has(+ .filters__dropdown:not(.filters__dropdown--hidden))
+	button::after {
+	content: "\2212";
+}
+
+/* Dropdown (Select.jsx): opens below the toggle in normal flow (toggle and
+   dropdown are adjacent siblings in the DOM), right aligned under it to stay
+   inside the slim toolbar row above. */
+.g--partner + #events-browser .filters__dropdown {
+	display: grid;
+	gap: 1.75rem;
+	grid-template-columns: minmax(0, 1fr);
+	margin: 0.5rem 0 0 auto;
+	max-width: 32rem;
+	padding: 0.75rem 0;
+	text-align: left;
+}
+
+@media only screen and (min-width: 600px) {
+	.g--partner + #events-browser .filters__dropdown {
+		grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr));
+	}
+}
+
+.g--partner + #events-browser .filters__dropdown.filters__dropdown--hidden {
+	display: none;
+}
+
+.g--partner + #events-browser .filters__dropdown hr {
+	display: none;
+}
+
+.g--partner + #events-browser .filters__group {
+	background-color: var(--color-background);
+	border: 2px solid var(--color-primary);
+	border-radius: 0.3rem;
+	box-sizing: border-box;
+	padding: 0.5rem 0.75rem;
+}
+
+.g--partner + #events-browser .filters__option {
+	align-items: center;
+	display: flex;
+	gap: 0.5rem;
+	padding: 0.2rem 0;
+}
+
+.g--partner + #events-browser .filters__option input[type="radio"] {
+	accent-color: var(--color-primary);
+	flex: none;
+	margin: 0;
+}
+
+.g--partner + #events-browser .filters__option label,
+.g--partner + #events-browser .filters__label {
+	color: var(--color-foreground);
+	cursor: pointer;
+	font-size: 0.9rem;
+	font-weight: 600;
+}
+
+.g--partner + #events-browser .filters__option:has(input:checked) label {
+	color: var(--color-primary);
+}
+
+.g--partner + #events-browser .filter__reset {
+	font-size: 0.8rem;
+	margin-top: 0.5rem;
+	padding: 0.2rem 0.75rem 0.3rem;
+}
+
 /* Partner.elm opening times: a two-column row per day, pink day labels. */
 .opening_times li {
 	border-bottom: 1px solid var(--color-primary);
@@ -111,3 +462,60 @@ main > div:not([vocab]):has(> .container-public .g--partner) {
 	font-weight: 600;
 }
 
+/* ---------------------------------------------------------------------------
+   Components::Meta: iCal / CSV buttons
+   Final design (§5): "Subscribe with iCal" and "Download as CSV" as small
+   dark buttons 44px under the event list, with the Permalink link dropped.
+   Meta renders as a sibling of the box this file draws (not inside it), so
+   the join above extends the box's border down to include it.
+--------------------------------------------------------------------------- */
+
+main > div:not([vocab]):has(> .container-public .g--partner) + .meta {
+	background-color: var(--color-background);
+	border: 1px solid var(--color-primary);
+	border-radius: 0 0 0.3rem 0.3rem;
+	border-top: 0;
+	box-sizing: border-box;
+	margin-top: -1px;
+	padding: 0;
+}
+
+main > div:not([vocab]):has(> .container-public .g--partner) + .meta .container-public {
+	align-items: center;
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	gap: 1.75rem;
+	justify-content: center;
+	padding: 2.75rem 2rem 2rem;
+	text-align: center;
+}
+
+main > div:not([vocab]):has(> .container-public .g--partner) + .meta .meta__permalink {
+	display: none;
+}
+
+main > div:not([vocab]):has(> .container-public .g--partner) + .meta a {
+	background-color: var(--color-background);
+	border: 2px solid var(--color-primary);
+	border-radius: 0.3rem;
+	color: var(--color-foreground);
+	display: inline-block;
+	font-size: 0.875rem;
+	font-weight: 600;
+	padding: 0.2rem 0.9rem 0.3rem;
+	text-decoration: none;
+	transition:
+		background-color 300ms,
+		border-color 300ms,
+		color 300ms;
+}
+
+@media only screen and (hover: hover) and (pointer: fine) {
+	main > div:not([vocab]):has(> .container-public .g--partner) + .meta a:hover {
+		background-color: var(--color-tertiary);
+	}
+}
+
+/* Below the box: "Go back to all partners" has no core element on this page
+   (doc: core-slots-needed.md candidate), so there is nothing here to style. */

@@ -17,8 +17,9 @@ class Transdimension::Views::Home < Views::Base
 
   prop :site, Site, reader: :private
 
-  # Index.elm shows the next 8 upcoming events across the two columns.
-  MAX_EVENTS = 8
+  # Final design (README "1 Home"): four featured events across the two
+  # columns, not Index.elm's original eight.
+  MAX_EVENTS = 4
 
   def view_template
     content_for(:title) { t('transdimension.home.meta_title') }
@@ -88,11 +89,15 @@ class Transdimension::Views::Home < Views::Base
     end
   end
 
+  # The final design's news card is its own pink-bordered dark box (the
+  # "Read the rest" button hangs off its bottom edge), not the section box
+  # events uses: the section here is only a spacing/illustration wrapper, and
+  # "View all news" sits underneath in normal flow, not floating.
   def render_news
     section(class: 'td-section td-section--news') do
       h2(class: 'td-floating-title') { t('transdimension.home.news_header') }
       NewsCard(article: latest_article) if latest_article
-      p(class: 'td-button-floating td-button-floating--news') do
+      p(class: 'td-news__all') do
         link_to t('transdimension.home.news_button'), news_index_path,
                 class: 'with-no-sass td-button td-button--dark'
       end
