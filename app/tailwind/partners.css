@@ -235,6 +235,16 @@
 	margin-top: 0;
 }
 
+/* At 900px+ the list is two columns (below), so the first *row* is items 1
+   and 2: without this, only item 1 loses its top margin and item 2 (the
+   first row's right-hand card) still carries it, which inflates that shared
+   grid row and leaves a bigger-than-44px gap before row two. */
+@media only screen and (min-width: 900px) {
+	.partners .preview:nth-child(2) {
+		margin-top: 0;
+	}
+}
+
 /* Partners.elm partnerTopRowStyle / PartnerPreview.jsx row div. Core lays the
    header out as a grid; TD wants the badge pushed to the right of a name that
    may wrap, so it is a flex row here. */

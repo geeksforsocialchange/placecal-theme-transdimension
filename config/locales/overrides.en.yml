@@ -96,7 +96,7 @@ en:
           # Final design (screens/06-news-index-full.png): "Older news", not
           # core's "Older news items".
           older: "Older news"
-          standfirst: "Updates & articles from our partners."
+          standfirst: "Updates & articles from The Trans Dimension."
       # JoinUs.elm: the intro panel copy (the form fields are PlaceCal's, D8)
       sites:
         join:

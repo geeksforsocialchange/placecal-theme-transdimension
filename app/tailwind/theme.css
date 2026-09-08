@@ -423,12 +423,14 @@ select {
 		gap: 0;
 	}
 
-	/* navigationListItemStyle: padding2 (rem 1) (rem 0.75). The vertical half
-	   is split between the li and the link so the current-page rule can sit
-	   clear of the text and still leave an even band below it. */
+	/* navigationListItemStyle: padding2 (rem 1) (rem 0.75), but the Final
+	   design's bar is a 44px strip (screens/01-home-full.png), not the full
+	   rem-1 vertical padding Global.elm's spec implies: halving it to 8px
+	   is what actually lands the bar at that height once the link's own
+	   line-height and current-page border are added in. */
 	.header__partner .header__menu li {
-		padding: 16px 12px;
-		margin: 1.6px 0;
+		padding: 8px 12px;
+		margin: 0;
 		align-self: center;
 		flex-grow: 0;
 		font-size: 1.2rem;

@@ -723,19 +723,19 @@ main:has(.td-home) {
 }
 
 /* Index.elm reuses viewEvent from Events.elm, so the homepage cards are core's
-   Components::Event under the same `.events` rules /events uses, in pages.css.
-   Only the list's own spacing belongs to the homepage: the section gives the
-   grid a wider gutter than the content box does, and the cards keep a bottom
-   margin because no paginator follows the last row.
+   Components::Event under the same `.events` rules /events uses, in pages.css:
+   48px between rows, none above the first (events.css .events .event). Only
+   the list's own spacing belongs to the homepage: the section gives the grid
+   a wider gutter than the content box does, and the grid itself keeps a
+   bottom margin because no paginator follows the last row.
    Final design (Home.jsx's td-grid2): the four cards sit two-up from 900px,
-   28px column gap, no row gap (the cards carry their own bottom margin
-   instead). */
+   28px column gap, 48px row gap. */
 .td-events .events {
 	display: grid;
 	grid-template-columns: minmax(0, 1fr);
 	column-gap: 1.75rem;
 	row-gap: 0;
-	margin: 0;
+	margin: 0 0 1.25rem;
 }
 
 /* Index.elm's card is the title, the times, the place and the organiser. The
@@ -744,12 +744,8 @@ main:has(.td-home) {
 	display: none;
 }
 
-.td-events .events .event {
-	margin-bottom: 1.25rem;
-}
-
 @media only screen and (min-width: 600px) {
-	.td-events .events .event {
+	.td-events .events {
 		margin-bottom: 1.5rem;
 	}
 }
@@ -757,13 +753,13 @@ main:has(.td-home) {
 @media only screen and (min-width: 900px) {
 	.td-events .events {
 		grid-template-columns: repeat(2, minmax(0, 1fr));
-		margin: 1rem 0;
+		margin-top: 1rem;
 	}
 }
 
 @media only screen and (min-width: 1200px) {
 	.td-events .events {
-		margin: 2rem 0;
+		margin-top: 2rem;
 	}
 }
 

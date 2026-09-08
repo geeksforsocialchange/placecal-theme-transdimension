@@ -517,13 +517,19 @@
 }
 
 /* First row of the grid carries no top gap: Events.elm's viewEvent list has
-   none above its first card, at one or two columns alike. */
-.events .event:first-child {
+   none above its first card, at one or two columns alike.
+   Scoped to the <li> (the actual grid item and `.events`' direct child), not
+   `.event` itself: `.event` is always the *only* child of its own <li>, so
+   `.events .event:first-child` matched every card (each is "first child" of
+   its own li) and zeroed this margin everywhere, not just on the first
+   card - the actual cause of the cards reading tighter than the design's
+   48px rows. */
+.events > li:first-child .event {
 	margin-top: 0;
 }
 
 @media only screen and (min-width: 900px) {
-	.events .event:nth-child(2) {
+	.events > li:nth-child(2) .event {
 		margin-top: 0;
 	}
 }
@@ -717,6 +723,15 @@
    view today). The Permalink is a directory-only link with no place in this
    design and is hidden.
 --------------------------------------------------------------------------- */
+
+/* Core marks the box's own wrapper `mb-32` (an 8rem bottom margin, meant for
+   pages with no button row of their own to space themselves from whatever
+   follows). Adjoining vertical margins collapse to the larger one, so that
+   8rem was winning over the 2.5rem below regardless, landing the iCal button
+   about 90px under the box instead of the design's 40px. */
+.container-public:has(#events-browser .paginator__context) {
+	margin-bottom: 0;
+}
 
 .container-public:has(#events-browser .paginator__context) + .meta {
 	background: none;
