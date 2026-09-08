@@ -90,16 +90,17 @@ wraps differently), **capture** (an artefact of how the screenshot was taken).
 
 ## Final designs pass (2026-09-08)
 
-Measured against the seven Final screens (`screens/*.png` in the design handoff), not the
-live Elm site. Every row below traces to a slot recorded in `doc/core-slots-needed.md`
-under "Final designs".
+Measured as side-by-side composites of the seven Final screens (`screens/*-full.png` in the
+design handoff, 1161px) against 1161px captures of this theme on core's `td/final-design-slots`
+branch, which built the slots the first pass recorded. Method: `magick design ours +append`,
+then read element by element; the 390px check uses an iframe harness because headless Chrome
+clamps its window width. What still differs:
 
 | What | Ours | Design | Category | Reason |
 |---|---|---|---|---|
-| Show and listing page kickers and buttons | hidden hero section on events, breadcrumb trail on articles, and a single Older / Go back link per page | "← All events" / "← All partners" / "← All news" above the title, a themeable button row under the content box, and View more news / Recent news / Previous / Next | core slot | `Components::Hero` has no back-link slot, and the news index and article show views render only the one pagination action each (core-slots-needed.md item 6) |
-| Events index date controls, and events and partners filter controls | day strip only; toggle button plus radio-group dropdown | day strip plus a separate "Pick a date" toggle; select-styled controls, with no category filter for events either way; a mauve search field at the end of the partners filter row | core slot | `Components::EventFilter` renders the day strip or the date picker, never both; core has no `<select>` rendering mode, no events category facet, no toggle label/value split, and `Components::PartnerFilter` has no search input (item 7) |
-| Region control, and events index standfirst | rendered in-page, inside the intro panel / event box; fixed copy, no region name | a segmented control in the nav bar; names the selected region | core slot | `Components::Navigation` has no slot next to the CTA for an unrelated control, and `events.index.standfirst` takes no interpolation token (item 8) |
-| Partner address, contact links and events browser | address lines only; uniform icon row; no heading, combined filter dropdown, day-tab paging | address lines plus a Directions link; Visit website / Email / Call as distinctly styled buttons; "Upcoming partner events" heading with a count, a standalone "Show" select, and a "Show 4 more days" append button | core slot | `Components::Address` renders no directions link, `Components::ContactDetails` gives no per-link class, and there is no heading/count prop, standalone repeating facet, or append-mode paging (item 9) |
-| News and article dates, article image and article body | no ordinal suffix; no credit line; no pull quote | "14th January 2025"; italic credit line under the image; a pull quote after the third paragraph | core slot | `strftime` has no ordinal token, `Article` has no credit/caption or pull-quote field, and the news view never calls `Components::PullQuote` (item 10) |
-| Events index export links | iCal only | iCal and CSV | core slot | `Components::Meta` gets a CSV link only on the partner page today (item 11) |
-| Footer newsletter column | not built | a newsletter sign-up column | decision | owner decision, not a slot gap: kept out deliberately |
+| Partner page contact buttons | the link list only | Visit website / Email / Call as buttons under the list | core slot | `Components::ContactDetails` has no button variant (core-slots-needed.md item 6) |
+| Partner page event browser header | heading, count and the Show select | the same plus a "Pick a date" toggle | core slot | the flat browser does not render `Components::EventFilter`'s date toggle (item 7) |
+| News index buttons | Recent news and Older news | Older news, View more news, Recent news | decision | "View more news" has no behaviour in the prototype (item 8) |
+| Event card lozenges on the dev site | none | neighbourhood lozenge on every card | data | the dev Site has no neighbourhoods, so `Site#show_neighbourhoods?` is false; the live site's UK country node turns them on |
+| Events index toggles | the two toggles centred as a pair, 2rem apart | the pair spread wider across the box | content | the prototype spaces them by hand; the pair is centred as the README says |
+| Footer newsletter column | not built | a newsletter sign-up column | decision | owner decision, kept out deliberately |

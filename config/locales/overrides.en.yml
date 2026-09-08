@@ -25,16 +25,28 @@ en:
           # events.card below.
           date_format: "%a %-d"
           all_upcoming: "Future events"
-        # Partners index (README §4): Components::Filter's toggle button has
-        # no separate label/value slot, so this text is both the idle caption
-        # and, once chosen, the selected item's name (see partners.css).
+        # Partners index (README §4): Components::Filter's toggle button
+        # reads this text as the label span, sitting beside the (separate)
+        # value span core fills with "Show all" or the selected item's name
+        # (see partners.css). Core's own show_all / search_partners copy
+        # ("Show all" / "Search partners") already matches the design.
         category: "Type"
         neighbourhood: "Location"
         # Events index (README §2): FilterToggle.jsx's "FILTER EVENTS" toggle
         # is core's "Filter and sort" button (events.css styles it centred,
-        # allcaps, with the pink +/-). There is no separate "Pick a date"
-        # toggle for a day-strip theme (doc/core-slots-needed.md).
+        # allcaps, with the pink +/-), sitting beside core's own "Pick a
+        # date" toggle (filters.pick_a_date, unchanged) in .filters__toggles
+        # (event_filter_style :day_strip_with_date_picker).
         filter_and_sort: "Filter events"
+        # Partner page "Show" select (README §5/6): reads All / Repeats last /
+        # One-off, not core's Show repeats / Show repeats last / Hide repeats.
+        # These keys also label the events index's own repeating dropdown,
+        # which is an acceptable side effect since it filters the same field.
+        # "on"/"off" quoted for the same reason as core's own copy above:
+        # YAML would otherwise read them as booleans.
+        repeating:
+          "on": "All"
+          "off": "One-off"
       events:
         index:
           title: "Events"
@@ -59,6 +71,13 @@ en:
         # "07 SEP 2026": zero-padded day, short month, uppercased by CSS.
         show:
           section: "Events"
+          # Final design (README §3): the page-actions row under the map reads
+          # "Partner's events" / "Add to calendar" / "Go back", not core's
+          # "More from %{name}" / "Back to events" (add_to_calendar is already
+          # core's own copy, restated here so the three links are set together).
+          organiser_events: "Partner's events"
+          add_to_calendar: "Add to calendar"
+          go_back: "Go back"
         page:
           date_format: "%d %b %Y"
           date_format_with_year: "%d %b %Y"
@@ -66,9 +85,19 @@ en:
           date_format: "%d %b"
           date_format_with_year: "%d %b %Y"
           organiser_prefix: "By "
+        # Final design (README §2): the second button under the box reads
+        # "Download as CSV", not core's "Download events as CSV".
+        csv_export:
+          link: "Download as CSV"
       partners:
         show:
           section: "Partners"
+          # Final design (README §5): "Go back to all partners" below the box,
+          # not core's "Back to partners"; the event browser header reads
+          # "Upcoming partner events", not core's "Upcoming events" (the
+          # events_count_events / events_count_days count format stays core's).
+          go_back: "Go back to all partners"
+          upcoming_events: "Upcoming partner events"
         index:
           title: "Partners"
           page_title: "Partners"
@@ -83,19 +112,28 @@ en:
           # Final design (screens/07-article-show-full.png): the button under
           # the box reads "Go back", not core's "Back to news".
           back: "Go back"
-          # Ruby's strftime has no ordinal token, so the "14th January 2025"
-          # form in the design (reference/ui_kit/data.jsx.txt) is a core slot;
-          # this is the closest match without it.
-          date_format: "%-d %B %Y"
+          # article_date (app/helpers/articles_helper.rb) substitutes %o for
+          # the ordinal day before strftime, so "14th January 2025"
+          # (reference/ui_kit/data.jsx.txt) no longer needs the core slot the
+          # plain %-d fallback used to stand in for.
+          date_format: "%o %B %Y"
+          # Final design: the page-actions row below the box reads
+          # "Previous" / "Go back" / "Next", not core's "Previous article" /
+          # "Back to news" / "Next article".
+          previous: "Previous"
+          next: "Next"
+          go_back: "Go back"
         index:
           # News.elm card: "Read the rest" button, day-month-year byline
           read_more: "Read the rest"
-          date_format: "%-d %B %Y"
+          date_format: "%o %B %Y"
           title: "News"
           page_title: "News"
           # Final design (screens/06-news-index-full.png): "Older news", not
-          # core's "Older news items".
+          # core's "Older news items"; "Recent news" only appears once you've
+          # paged past the first page (core's own render_newer_link).
           older: "Older news"
+          newer: "Recent news"
           standfirst: "Updates & articles from The Trans Dimension."
       # JoinUs.elm: the intro panel copy (the form fields are PlaceCal's, D8)
       sites:

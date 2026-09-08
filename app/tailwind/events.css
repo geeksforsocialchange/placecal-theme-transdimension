@@ -23,13 +23,38 @@
    restarting a grid (and a visual seam) at each day heading.
 --------------------------------------------------------------------------- */
 
+/* pages.css joins the content box to the intro panel with a
+   `main > .hero:has(.hero__standfirst) + * #events-browser:has(.paginator)`
+   rule that sets display: flow-root; it outranks a bare id selector, so the
+   grid is declared at the same specificity to win. */
+#events-browser:has(.paginator__context),
+main > .hero:has(.hero__standfirst) + * #events-browser:has(.paginator__context) {
+	display: grid;
+}
+
+/* Only display rides on the strong selector above: the column count has to
+   stay at id-plus-class specificity so the two-column rule in the 900px
+   media query below can take over. */
 #events-browser:has(.paginator__context) {
 	box-sizing: border-box;
 	column-gap: 0;
-	display: grid;
 	grid-template-columns: minmax(0, 1fr);
 	padding: 1rem 1rem 2rem;
-	row-gap: 0;
+	/* The 48px between card rows lives on the grid, not on the cards: with
+	   one <ol> per day flattened into the frame, a per-card margin-top that
+	   zeroes itself on each list's first item would give every day boundary
+	   a different gap and stagger the two columns. */
+	row-gap: 3rem;
+}
+
+#events-browser:has(.paginator__context) .events .event {
+	margin-top: 0;
+}
+
+/* Core rules the list off from the filters; the design runs straight from
+   the day strip into the cards (40px), so the rule goes. */
+#events-browser:has(.paginator__context) > hr {
+	display: none;
 }
 
 @media only screen and (min-width: 600px) {
@@ -85,9 +110,12 @@
    Paginator row (Events.elm: FILTER EVENTS / PICK A DATE toggles, then the
    day strip flanked by its arrows).
 
-   Core nests the day strip, the neighbourhood Filter and the "Filter and
-   sort" toggle three levels deep inside Components::Breadcrumb, and renders
-   the paginator arrows (Components::Timeline) as a separate list entirely.
+   event_filter_style :day_strip_with_date_picker (event_filter.rb) groups
+   the sort ("Filter events") and date ("Pick a date") toggles together in
+   one .filters__toggles wrapper, renders the day strip after it, then the
+   neighbourhood Filter (Location) as a third, separate widget. Core nests
+   all of that, plus the paginator arrows (Components::Timeline, a separate
+   list entirely), three levels deep inside Components::Breadcrumb.
    `display: contents` on every wrapper between them and .paginator flattens
    the whole thing into one flex row, so `order` alone can put the toggles on
    their own centred line above the day strip and the two arrows either side
@@ -134,11 +162,77 @@
 }
 
 /* The two toggles share a line, centred, with the design's 28px gap between
-   them (Events.elm: FILTER EVENTS + / PICK A DATE +). Core has no second
-   "Pick a date" toggle for a day-strip theme (doc/core-slots-needed.md), so
-   only the neighbourhood Filter sits beside "Filter events" here. */
-#paginator:has(.paginator__context) .filters {
+   them (Events.elm: FILTER EVENTS + / PICK A DATE +). flex-basis: 100%
+   (rather than leaving this flex item to shrink-to-fit its own two narrow
+   buttons) makes it span the whole box width, same as the region row above:
+   the sort dropdown's own flex-basis: 100% below is a share of *this* box,
+   so without it the opened dropdown would only ever be as wide as the two
+   toggle buttons instead of stretching across the box like the design's
+   Select.jsx row. */
+#paginator:has(.paginator__context) .filters__toggles {
+	column-gap: 2rem;
+	display: flex;
+	flex-basis: 100%;
+	flex-wrap: wrap;
+	justify-content: center;
 	order: 2;
+	row-gap: 0;
+}
+
+/* Fallback for event_filter_style :day_strip (pre-#3368-D22-switch): the
+   sort filter renders directly under .paginator__context with no
+   .filters__toggles wrapper around it at all. Harmless once the wrapper
+   ships - the same .filters is display: contents inside it below, and order
+   has no effect on a box that generates none. */
+#paginator:has(.paginator__context) .filters:not(:has(.filters__group--neighbourhood)) {
+	order: 2;
+}
+
+/* The sort filter (event_filter.rb render_sort_filter) wraps its toggle
+   button and dropdown in their own .filters > form; flattening both here
+   promotes the toggle and dropdown to direct flex items of .filters__toggles
+   above, so the toggle can sit beside the date toggle instead of being
+   trapped in a column only as wide as its own label. */
+#paginator:has(.paginator__context) .filters__toggles .filters,
+#paginator:has(.paginator__context) .filters__toggles .filters__form {
+	display: contents;
+}
+
+/* Both wrappers share the plain .filters__toggle class; the date one is
+   told apart by the button class core gives it for this style
+   (event_filter.rb render_date_toggle button_class) and ordered second so
+   "Filter events" reads first, matching source order. */
+#paginator:has(.paginator__context) .filters__toggles .filters__toggle:has(.filters__toggle-button--date) {
+	order: 2;
+}
+
+/* Forces the sort dropdown onto its own full-width line under both toggles
+   once opened, rather than squeezed into the "Filter events" toggle's own
+   half of the row (the same zero-content flex-basis break used below for
+   the arrow/strip row). */
+#paginator:has(.paginator__context) .filters__toggles .filters__dropdown {
+	flex-basis: 100%;
+	order: 3;
+}
+
+/* The neighbourhood Filter (Location) is a third, separate widget core
+   renders after the day strip (event_filter.rb render_neighbourhood_filter);
+   there is no design slot for a third toggle beside "Filter events" / "Pick
+   a date" (doc/core-slots-needed.md), so flattening its own .filters > form
+   the same way lands its toggle and dropdown on their own centred line
+   after the day strip instead. */
+#paginator:has(.paginator__context) .filters:has(.filters__group--neighbourhood),
+#paginator:has(.paginator__context) .filters:has(.filters__group--neighbourhood) .filters__form {
+	display: contents;
+}
+
+#paginator:has(.paginator__context) .filters__toggle:has(+ .filters__dropdown:has(.filters__group--neighbourhood)) {
+	order: 7;
+}
+
+#paginator:has(.paginator__context) .filters__dropdown:has(.filters__group--neighbourhood) {
+	flex-basis: 100%;
+	order: 8;
 }
 
 /* Empty flex spacer: forces the arrow/strip row onto its own line after the
@@ -173,13 +267,10 @@
 }
 
 /* ---------------------------------------------------------------------------
-   Filter toggles ("FILTER EVENTS +" / neighbourhood Filter's own toggle).
-   FilterToggle.jsx: centred allcaps label, pink + that becomes − when open.
+   Filter toggles ("FILTER EVENTS +" / "PICK A DATE +" / neighbourhood
+   Filter's own toggle). FilterToggle.jsx: centred allcaps label, pink + that
+   becomes − when open.
 --------------------------------------------------------------------------- */
-
-#paginator:has(.paginator__context) .filters {
-	text-align: center;
-}
 
 #paginator:has(.paginator__context) .filters__toggle {
 	display: flex;
@@ -240,19 +331,40 @@
 
 /* ---------------------------------------------------------------------------
    Filter dropdown (Select.jsx, arranged Events.elm's way: up to four controls
-   in a row with 28px gap). Core's radio groups have no <select> chrome or
-   group heading of their own (doc/core-slots-needed.md); each group gets the
-   dark-blue/pink-border box Select.jsx draws around a real select instead.
+   - neighbourhood, sort, period, repeating - in a row with 28px gap). Core's
+   radio groups have no <select> chrome or group heading of their own
+   (doc/core-slots-needed.md); each group gets the dark-blue/pink-border box
+   Select.jsx draws around a real select instead.
+
+   Core splits these across two independently toggled dropdowns rather than
+   one (the sort dropdown holding sort/period/repeating, the neighbourhood
+   Filter's own dropdown holding just neighbourhood, see the order: 7/8 rule
+   above); there is no core slot to open both together (doc/core-slots-
+   needed.md). This grid is shared by both dropdowns so each reads as the
+   same pink/dark-blue box the design draws, up to four columns wide.
 --------------------------------------------------------------------------- */
 
+/* position: static overrides core's own .filters__dropdown { position:
+   absolute; top: 2rem; left: 0 } (components/filters.scss): left in place,
+   the dropdown pins to the top-left of its nearest positioned ancestor (this
+   page has none, so the whole viewport) instead of taking its flex-item
+   order/flex-basis: 100% place in the toggles row below the two buttons.
+   background/box-shadow/white-space/overflow-x all undo the rest of that
+   same core rule (a cream card with a drop shadow, sized to its unwrapped
+   content) now that this is a plain in-flow block on the dark box. */
 #paginator:has(.paginator__context) .filters__dropdown {
+	background: none;
+	box-shadow: none;
 	display: grid;
 	gap: 1.75rem;
 	grid-template-columns: minmax(0, 1fr);
 	margin: 0.5rem auto 0;
 	max-width: 32rem;
+	overflow-x: visible;
 	padding: 0.75rem 0;
+	position: static;
 	text-align: left;
+	white-space: normal;
 }
 
 @media only screen and (min-width: 600px) {
@@ -375,26 +487,16 @@
 }
 
 /* The day strip's own "All upcoming" entry (D22, labelled "Future events" by
-   filters.day_strip.all_upcoming) has no place in the design's seven-day row;
-   it stays reachable as an eighth button. At equal eighth-shares of the row
-   its longer label ("Future events" vs. "Sun 13") clips before the box the
-   content box has actually run out of room, including at 1440, so this drops
-   it onto its own centred line below instead of shrinking every button to
-   fit it in (the same fallback the pre-refactor CSS used), at every width. */
-#paginator:has(.paginator__context) .day-strip ul {
-	flex-wrap: wrap;
-	justify-content: center;
+   filters.day_strip.all_upcoming) has no place in the design's seven-day
+   row: hidden entirely, rather than kept as an eighth button, so the strip
+   reads as exactly the seven equal-width day buttons between the arrows. */
+#paginator:has(.paginator__context) .day-strip li.day-strip__all {
+	display: none;
 }
 
-#paginator:has(.paginator__context) .day-strip li:last-child {
-	flex: 0 1 auto;
-	flex-basis: 100%;
-	margin-top: 0.5rem;
-}
-
-/* The wrap above means the strip never needs to scroll from tablet landscape
-   up; core's overflow-x-auto would otherwise paint a scrollbar under the row
-   whenever the eight buttons run wider than the strip. */
+/* With the eighth button gone, the seven day buttons never need to wrap or
+   scroll from tablet landscape up; core's overflow-x-auto would otherwise
+   paint a scrollbar under the row whenever they ran wider than the strip. */
 @media only screen and (min-width: 900px) {
 	#paginator:has(.paginator__context) .day-strip {
 		overflow-x: visible;
@@ -788,3 +890,4 @@
 .container-public:has(#events-browser .paginator__context) + .meta .meta__permalink {
 	display: none;
 }
+

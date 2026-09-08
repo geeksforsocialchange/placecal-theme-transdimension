@@ -37,7 +37,7 @@ The CSS is committed prebuilt, so core's Docker build needs no extra Node step.
 
 The host has to be a PlaceCal with the extension scaffold, that is core with #3368 merged. Specifically `PlaceCal::Extension` must exist, since `lib/transdimension/engine.rb` includes it and core's `config/application.rb` is what requires it; on an older core the two-line guard in `lib/transdimension.rb` aborts naming this gem rather than raising a `NameError` from the middle of a class body. The theme `PlaceCal::Extensions.register_theme` yields then has to support every setting this engine uses:
 
-`stylesheet`, `homepage_view`, `font_stylesheet`, `footer`, `event_filter_style`, `nav_cta`, `nav_join`, `map_style`, `menu_label`, `icons`, `theme_color`, `background_color`, `og_image`, `page`
+`stylesheet`, `homepage_view`, `font_stylesheet`, `footer`, `event_filter_style`, `nav_cta`, `nav_join`, `map_style`, `menu_label`, `icons`, `theme_color`, `background_color`, `og_image`, `page`, `nav_region_filter`, `events_default_period`
 
 The engine declares that list as `required_settings` and core's `PlaceCal::Extension` checks it while the theme registers, raising `PlaceCal::Extension::UnsupportedHost` naming the missing capability rather than failing with a `NoMethodError` from inside an initializer. Core pins this engine by tag in its own Gemfile and the two ship together, so every setting is required and none is applied conditionally.
 

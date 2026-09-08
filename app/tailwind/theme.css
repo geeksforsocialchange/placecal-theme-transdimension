@@ -449,6 +449,76 @@ select {
 	}
 }
 
+/* Theme region control (#3368 WP 3.20, NavBar.jsx's Seg): core renders it as
+   `li.header__region > nav.region-filter.region-filter--nav` once
+   `theme.nav_region_filter` is set and the site has two or more Partnership
+   tags (Components::Navigation#show_region_filter?). Components::RegionFilter
+   paints every option as a rounded Tailwind pill; both selectors below are
+   qualified on `.region-filter--nav` together with the shared `.region-filter`
+   class so they win on specificity over pages.css's own (unrelated) pill
+   override for the in-page copy of the filter, regardless of import order. */
+.region-filter.region-filter--nav {
+	margin: 0;
+	max-width: none;
+}
+
+.region-filter.region-filter--nav ul {
+	display: inline-flex;
+	flex-wrap: nowrap;
+	gap: 0;
+	align-items: stretch;
+	border: 2px solid var(--color-background);
+	border-radius: 0.3rem;
+	overflow: hidden;
+}
+
+.region-filter.region-filter--nav li {
+	margin: 0;
+	list-style: none;
+}
+
+.region-filter.region-filter--nav a {
+	display: block;
+	background-color: transparent;
+	border: 0;
+	border-radius: 0;
+	color: var(--color-background);
+	cursor: pointer;
+	font-size: 0.9rem;
+	font-weight: 600;
+	line-height: 1.5;
+	padding: 0.25rem 0.75rem;
+	text-align: center;
+	text-decoration: none;
+	transition: background-color 300ms, color 300ms;
+	width: auto;
+}
+
+.region-filter.region-filter--nav a[aria-current="page"] {
+	background-color: var(--color-background);
+	color: var(--color-foreground);
+}
+
+@media only screen and (hover: hover) and (pointer: fine) {
+	.region-filter.region-filter--nav a:hover {
+		background-color: var(--color-tertiary);
+		color: var(--color-foreground);
+	}
+}
+
+/* Desktop nav: the control sits right of the links and left of Donate, with
+   a 0.75rem gap. Giving it (not the CTA) the auto margin means it, and
+   everything after it, get pushed to the far right together; the CTA's own
+   `margin-left: auto` below then has no free space left to act on when the
+   region control is present, and still pushes it right on its own when the
+   region control is absent (fewer than two tags). */
+@media only screen and (min-width: 600px) {
+	.header__partner .header__menu .header__region {
+		margin-left: auto;
+		margin-right: 0.75rem;
+	}
+}
+
 @import "./home.css";
 /* Per-route page templates (WP 2.4), split into a shared shell plus one
    partial per route (WP 3.19) so routes can be edited in parallel. */

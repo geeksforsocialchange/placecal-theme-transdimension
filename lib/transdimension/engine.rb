@@ -18,7 +18,7 @@ module Transdimension
     # of these and not the rest.
     required_settings %i[
       stylesheet homepage_view font_stylesheet footer event_filter_style nav_cta nav_join map_style
-      menu_label icons theme_color background_color og_image page
+      menu_label icons theme_color background_color og_image page nav_region_filter events_default_period
     ]
 
     # PageHeader.elm: the Donate button at the end of the nav goes to the
@@ -64,16 +64,32 @@ module Transdimension
       theme.homepage_view 'Transdimension::Views::Home'
       theme.font_stylesheet TYPEKIT_CSS, preconnect: TYPEKIT_PRECONNECT
       theme.footer 'Transdimension::Components::Footer'
-      theme.event_filter_style :day_strip
+      register_listing(theme)
       # PageHeader.elm: the Donate button (PHT Donorbox) at the end of the nav
       theme.nav_cta 'transdimension.header.donate', DONATE_URL
       # PageHeader.elm has no Join link; PageFooter.elm carries it instead
       theme.nav_join false
+      # Final design (NavBar.jsx's Seg): the region control now lives in the
+      # nav bar as a segmented control, not just above each listing (#3368 WP
+      # 3.20). Core only renders it once a site has two or more Partnership
+      # tags, same guard the in-page filter already used.
+      theme.nav_region_filter true
       # Pink-tinted OpenFreeMap style shipped with the engine
       theme.map_style 'transdimension'
       # PageHeader.elm labels the mobile toggle "Menu" rather than drawing a
       # hamburger.
       theme.menu_label true
+    end
+
+    # How the events listing behaves for a site on this theme.
+    def self.register_listing(theme)
+      # Final design (screens/02-events-index-full.png WP 3.20): a day strip
+      # plus a date picker toggle, not the plain day strip the earlier port used.
+      theme.event_filter_style :day_strip_with_date_picker
+      # Final design (screens/02-events-index-full.png WP 3.20): the events
+      # index is one flat list of everything upcoming, not core's day/week/
+      # future density heuristic.
+      theme.events_default_period 'future'
     end
 
     def self.register_branding(theme)
