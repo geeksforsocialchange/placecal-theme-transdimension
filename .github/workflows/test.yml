@@ -13,11 +13,13 @@ on:
     tags: ["v*"]
   pull_request:
 
+# TEMPORARY, revert to main before merging: this branch needs the theme slots
+# on core's td/final-design-slots (PlaceCal #3528) until that PR lands.
 jobs:
   test:
-    uses: geeksforsocialchange/PlaceCal/.github/workflows/extension-test.yml@main
+    uses: geeksforsocialchange/PlaceCal/.github/workflows/extension-test.yml@td/final-design-slots
     with:
       engine: placecal-theme-transdimension
       module_dir: transdimension
       chrome: true
-      placecal_ref: main
+      placecal_ref: td/final-design-slots
