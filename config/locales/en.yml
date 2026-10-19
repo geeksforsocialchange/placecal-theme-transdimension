@@ -39,6 +39,13 @@ en:
       twitter_alt: "The Trans Dimension on Twitter"
       facebook_alt: "The Trans Dimension on Facebook"
       gfsc_alt: "Geeks for Social Change"
+      # The sign-up goes to GFSC's own newsletter, not a TD list, so say so.
+      signup_label: "Get the GFSC newsletter"
+      signup_note: "Get weekly emails from Geeks for Social Change, the team behind The Trans Dimension."
+      signup_placeholder: "Your email address"
+      signup_button: "Sign up"
+      signup_success: "Thanks! Check your inbox for a link to confirm."
+      signup_error: "That didn't work. Try again, or sign up at gfsc.community."
       byline: "Created by"
       info_title: "The Trans Dimension, c/o Gendered Intelligence"
       info_charity: "Gendered Intelligence is a Registered Charity in England and Wales No. 1182558."

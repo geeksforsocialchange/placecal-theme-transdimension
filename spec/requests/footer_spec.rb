@@ -28,6 +28,13 @@ RSpec.describe 'Trans Dimension footer', type: :request do
     expect(response.body).to include('Follow us out there')
   end
 
+  it 'wires the newsletter sign-up to GFSC\'s Ghost site and says whose list it is' do
+    expect(response.body).to include('data-controller="newsletter-signup"')
+    expect(response.body).to include('data-newsletter-signup-site-value="https://gfsc.community"')
+    expect(response.body).to include('action="https://gfsc.community/#/portal/signup"')
+    expect(response.body).to include('Get the GFSC newsletter')
+  end
+
   it 'carries the Gendered Intelligence charity number' do
     expect(response.body).to include('Registered Charity in England and Wales No. 1182558')
   end

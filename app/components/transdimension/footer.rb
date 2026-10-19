@@ -6,19 +6,21 @@
 # Ported from src/Theme/PageFooter.elm. Three full-width bands:
 #
 #   1. pink   - the footer wordmark and the link list
-#   2. dark   - "Follow us out there" and "Created by"
+#   2. dark   - "Follow us out there", "Created by" and the newsletter sign-up
 #   3. pink   - the charity/company details, the credits, the copyright line
 #              and the "powered by PlaceCal" lockup
 #
-# Deviation from the Elm original: its middle band has a third column, the
-# newsletter sign-up form, which the coordinator dropped, so the two remaining
-# columns are centred instead. And TD had no log-in link at all; one is kept at
+# Deviation from the Elm original: TD had no log-in link at all; one is kept at
 # the end of the legal band in small type so site admins can still reach admin.
 class Transdimension::Components::Footer < Components::Base
   prop :site, ::Site
   prop :navigation, Array, default: -> { [] }
 
   SOCIAL_LINKS = %w[insta twitter facebook].freeze
+
+  # GFSC's Ghost site; the Elm site's listmonk endpoint is gone.
+  SIGNUP_SITE = 'https://gfsc.community'
+  SIGNUP_LABEL = 'transdimension.uk'
 
   # Logo, link and alt text for each maker in the "Created by" band.
   CREATED_BY = [
@@ -38,6 +40,7 @@ class Transdimension::Components::Footer < Components::Base
       div(class: 'td-footer__middle') do
         render_social
         render_created_by
+        render_signup
       end
       div(class: 'td-footer__legal') do
         render_info
@@ -104,6 +107,33 @@ class Transdimension::Components::Footer < Components::Base
         end
       end
     end
+  end
+
+  # Core's newsletter-signup controller does the Ghost calls; without JS the
+  # form falls through to Ghost's own sign-up page.
+  def render_signup
+    form(class: 'td-footer__signup', action: "#{SIGNUP_SITE}/#/portal/signup", method: 'get', target: '_blank',
+         data: signup_controller_data) do
+      label(class: 'td-footer__subhead', for: 'signup') { t('transdimension.footer.signup_label') }
+      div(class: 'td-footer__signup-fields', data: { newsletter_signup_target: 'fields' }) do
+        input(class: 'td-footer__signup-input', id: 'signup', name: 'email', type: 'email', required: true,
+              placeholder: t('transdimension.footer.signup_placeholder'), data: { newsletter_signup_target: 'email' })
+        button(class: 'td-btn td-btn--pink', type: 'submit') { t('transdimension.footer.signup_button') }
+      end
+      p(class: 'td-footer__signup-note', role: 'status', hidden: true, data: { newsletter_signup_target: 'message' })
+      p(class: 'td-footer__signup-note') { t('transdimension.footer.signup_note') }
+    end
+  end
+
+  def signup_controller_data
+    {
+      controller: 'newsletter-signup',
+      action: 'submit->newsletter-signup#submit',
+      newsletter_signup_site_value: SIGNUP_SITE,
+      newsletter_signup_label_value: SIGNUP_LABEL,
+      newsletter_signup_success_message_value: t('transdimension.footer.signup_success'),
+      newsletter_signup_error_message_value: t('transdimension.footer.signup_error')
+    }
   end
 
   def render_created_by
