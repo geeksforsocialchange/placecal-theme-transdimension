@@ -14,7 +14,7 @@ en:
       title: The Trans Dimension
       description: "The Trans Dimension is an online community hub connecting trans communities in London and Manchester. We collate news, events and services by and for trans people."
     external:
-      gfsc_home: "https://gfsc.studio/"
+      gfsc_home: "https://gfsc.community/"
       gendered_intelligence_home: "https://genderedintelligence.co.uk/"
       gendered_intelligence_name: "Gendered Intelligence"
     # Nav labels for the theme's own pages, read by the page registrations in
@@ -60,7 +60,7 @@ en:
       credit_2_link: "https://studiosquid.co.uk/"
       credit_3_text: "website by"
       credit_3_name: "GFSC"
-      credit_3_link: "https://gfsc.studio/"
+      credit_3_link: "https://gfsc.community/"
       copyright: "© %{year} Gendered Intelligence. All rights reserved."
       powered_by: "Powered by PlaceCal"
       login_lead: "Site admin?"
