@@ -1,0 +1,24 @@
+export interface EventCardProps {
+  /** Zero-padded day, e.g. "07". */
+  day: string;
+  /** Three-letter month, e.g. "Sep". */
+  month: string;
+  title: string;
+  href?: string;
+  /** "9am — 10am" */
+  time?: string;
+  /** "Weekly" / "Fortnightly" — printed after the time: "9am — 10am, weekly". */
+  repeat?: string;
+  /** Venue line: "Venue name, first part of address, London EC1". */
+  location?: string;
+  /** Neighbourhood shown as a small mauve lozenge at the start of the time line. */
+  area?: string;
+  /** Rendered as "By {organiser}". Omit on a partner's own page. */
+  organiser?: string;
+  /** Optional Badge shown inline after the title. */
+  badge?: React.ReactNode;
+  onClick?: () => void;
+  compact?: boolean;
+  style?: React.CSSProperties;
+}
+export function EventCard(props: EventCardProps): JSX.Element;

@@ -1,0 +1,20 @@
+function App() {
+  const [route, setRoute] = React.useState(() => { const h = location.hash ? location.hash.slice(1) : (localStorage.getItem('td-kit-route') || '/'); if (!location.hash && h !== '/') history.replaceState(null, '', '#' + h); return h; });
+  const [region, setRegion] = React.useState(() => localStorage.getItem('td-kit-region') || 'Everywhere');
+  React.useEffect(() => { localStorage.setItem('td-kit-route', route); }, [route]);
+  React.useEffect(() => { localStorage.setItem('td-kit-region', region); }, [region]);
+  React.useEffect(() => { const h = () => setRoute((location.hash || '#/').slice(1)); window.addEventListener('hashchange', h); return () => window.removeEventListener('hashchange', h); }, []);
+  const navigate = href => { if (!href || href.startsWith('http')) { if (href) window.open(href, '_blank'); return; } location.hash = '#' + href; window.scrollTo(0, 0); };
+  const [_, seg, id] = route.split('/');
+  const P = { navigate, region, setRegion, final: true };
+  let page;
+  if (!seg) page = <window.Home {...P} />;
+  else if (seg === 'events') page = id ? <window.EventF {...P} id={id} /> : <window.EventsF {...P} />;
+  else if (seg === 'partners') page = id ? <window.PartnerF {...P} slug={id} /> : <window.PartnersF {...P} />;
+  else if (seg === 'news') page = id ? <window.ArticleF {...P} slug={id} /> : <window.NewsF {...P} />;
+  else if (seg === 'about') page = <window.About {...P} />;
+  else if (seg === 'join' || seg === 'privacy') page = <window.Join {...P} />;
+  else page = <window.Home {...P} />;
+  return page;
+}
+ReactDOM.createRoot(document.getElementById('root')).render(<App />);

@@ -1,0 +1,18 @@
+export interface NewsCardProps {
+  title: string; href?: string; image?: string;
+  /** Byline partner, e.g. "Geeks for Social Change". */
+  partner?: string;
+  /** Ordinal long date, e.g. "14th January 2025". */
+  date?: string;
+  summary?: string;
+  onClick?: () => void;
+  /** false = the homepage variant, no border (the section box is the border). */
+  bordered?: boolean;
+  /** Image above text (mobile). */
+  stacked?: boolean;
+  /** dark = live-site pink-bordered dark card (default); light = the XD white card. */
+  tone?: 'light' | 'dark';
+  buttonLabel?: string;
+  style?: React.CSSProperties;
+}
+export function NewsCard(props: NewsCardProps): JSX.Element;

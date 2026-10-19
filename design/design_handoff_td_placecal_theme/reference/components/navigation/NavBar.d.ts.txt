@@ -1,0 +1,21 @@
+export interface NavItem { label: string; href: string; }
+export interface NavCta extends NavItem { /** primary = white fill; secondary = dark blue outline. */ kind?: 'primary' | 'secondary'; }
+export interface NavBarProps {
+  items?: NavItem[];
+  /** href of the current page; underlined in dark blue (never on "/"). */
+  current?: string;
+  /** Single white button at the far right (Donate). Pass null to hide. Superseded by ctas when given. */
+  cta?: NavItem | null;
+  /** Several CTAs at the right, e.g. [{label:'Join us',href:'/join',kind:'secondary'},{label:'Donate',href:'…'}]. */
+  ctas?: NavCta[];
+  /** Region options rendered as a compact segmented control in the bar (moves the region selector out of the page body). */
+  regions?: string[];
+  region?: string;
+  onRegionChange?: (region: string) => void;
+  onNavigate?: (href: string) => void;
+  /** Render the <600px treatment: wordmark + Menu toggle. */
+  mobile?: boolean;
+  assetBase?: string;
+  style?: React.CSSProperties;
+}
+export function NavBar(props: NavBarProps): JSX.Element;

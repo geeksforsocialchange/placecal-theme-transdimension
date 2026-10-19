@@ -1,0 +1,2 @@
+export interface DayStripProps { /** Seven short labels: "Today", "Tomorrow", then "Wed 9"… */ days?: string[]; value?: string; onChange?: (day: string) => void; /** Called with -1 / +1 when the earlier/later arrows are pressed. */ onPage?: (dir: number) => void; arrows?: boolean; style?: React.CSSProperties; }
+export function DayStrip(props: DayStripProps): JSX.Element;

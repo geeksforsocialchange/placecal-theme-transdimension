@@ -1,0 +1,47 @@
+:root {
+  /* rem scale (16px root). Elm uses rems throughout; no 4px grid. */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.25rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-10: 2.5rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+  --space-20: 5rem;
+  --space-24: 6rem;
+  --space-28: 7rem;
+
+  /* Button geometry (baseButtonStyle) */
+  --button-padding: 0.375rem 1.25rem 0.5rem;
+  --button-border: 0.2rem;
+  --button-font-size: 1.2rem;
+
+  /* Content box inset (contentContainerStyle) */
+  --box-inset-mobile: 0.75rem;
+  --box-inset: 2rem;
+  --box-inset-wide: 1.5rem;
+
+  /* Page column */
+  --page-max: 1150px;
+  --section-max: 982px;
+  --events-max: 1182px;
+  --news-card-max: 920px;
+
+  /* Filter button widths (RegionSelector / Paginator) */
+  --filter-width-sm: 100px;
+  --filter-width-md: 110px;
+  --filter-width-lg: 140px;
+
+  /* Event card date column */
+  --event-date-col: 4.75rem;
+  --event-date-col-mobile: 3.6rem;
+
+  /* Breakpoints (Global.elm) — for reference in JS; CSS can't read vars in @media */
+  --bp-tablet-portrait: 600px;
+  --bp-tablet-landscape: 900px;
+  --bp-desktop: 1200px;
+  --bp-desktop-wide: 1500px;
+}

@@ -1,0 +1,2 @@
+export interface FloatingTitleProps { children: React.ReactNode; color?: 'white' | 'pink'; as?: 'h2' | 'h3' | 'p' | 'span'; align?: 'left' | 'center'; size?: string; style?: React.CSSProperties; }
+export function FloatingTitle(props: FloatingTitleProps): JSX.Element;

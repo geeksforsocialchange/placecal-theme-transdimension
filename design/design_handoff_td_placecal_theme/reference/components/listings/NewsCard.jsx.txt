@@ -1,0 +1,23 @@
+import React, { useState } from 'react';
+import { Button } from '../core/Button.jsx';
+/** News.elm newsItemStyle: bordered card, image left, italic title, bold byline, clamped summary, pink button on the bottom edge. */
+export function NewsCard({ title, href = '#', image, partner, date, summary, onClick, bordered = true, stacked = false, tone = 'dark', buttonLabel = 'Read the rest', style }) {
+  const [h, setH] = useState(false);
+  const light = tone === 'light' && bordered;
+  const fg = light ? 'var(--td-dark-blue)' : 'var(--td-white)';
+  const card = <article style={{ display: 'flex', flexDirection: stacked ? 'column' : 'row', gap: stacked ? 0 : '2rem', fontFamily: 'var(--font-sans)', color: fg }}>
+    {image && <img src={image} alt="" style={{ width: stacked ? '100%' : 294, maxWidth: stacked ? '100%' : '50%', aspectRatio: '303 / 202', objectFit: 'cover', borderRadius: '0.3rem', margin: '1rem 0', display: 'block', flex: 'none' }} />}
+    <div style={{ flexGrow: 1, minWidth: 0, textAlign: stacked ? 'center' : 'left' }}>
+      <h3 style={{ margin: stacked ? '0' : '1rem 0 0', fontSize: light ? '1.5rem' : '1.85rem', fontStyle: 'italic', fontWeight: 500, lineHeight: '1.3em' }}>
+        <a href={href} onClick={e => { if (onClick) { e.preventDefault(); onClick(); } }} onMouseEnter={() => setH(true)} onMouseLeave={() => setH(false)} style={{ color: h ? 'var(--td-pink)' : fg, textDecoration: 'none', borderBottom: light ? 0 : '1px solid ' + (h ? 'var(--td-white)' : 'var(--td-pink)'), transition: 'color 300ms, border-color 300ms' }}>{title}</a>
+      </h3>
+      <p style={{ margin: '1rem 0', fontWeight: 700, fontSize: light ? '0.8777rem' : '1rem' }}>{partner}{partner && date && <span style={{ margin: '0 0.4em' }}>•</span>}{date}</p>
+      <p style={{ margin: '0.5rem 0 0', fontSize: light ? '1rem' : '1.2rem', display: '-webkit-box', WebkitBoxOrient: 'vertical', WebkitLineClamp: 3, overflow: 'hidden' }}>{summary}</p>
+    </div>
+  </article>;
+  if (!bordered) return <div style={style}>{card}{buttonLabel && <div style={{ textAlign: 'center', marginTop: '1rem' }}><Button variant="pinkOnLight" onClick={onClick} href={href}>{buttonLabel}</Button></div>}</div>;
+  return <div style={{ position: 'relative', background: light ? '#fff' : 'var(--td-dark-blue)', border: light ? 0 : '1px solid var(--td-pink)', borderRadius: '0.3rem', padding: stacked ? '1.25rem 1.25rem 2.5rem' : '1.5rem 2rem 2.5rem', boxSizing: 'border-box', margin: '2rem 0 3rem', ...style }}>
+    {card}
+    <div style={{ position: 'absolute', bottom: '-1.4rem', left: 0, width: '100%', textAlign: 'center' }}><Button variant="pinkOnLight" onClick={onClick} href={href}>{buttonLabel}</Button></div>
+  </div>;
+}

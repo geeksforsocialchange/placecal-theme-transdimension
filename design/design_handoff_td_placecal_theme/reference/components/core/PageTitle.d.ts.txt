@@ -1,0 +1,2 @@
+export interface PageTitleProps { children: React.ReactNode; as?: 'h1' | 'h2' | 'h3'; size?: 'sm' | 'md' | 'lg'; style?: React.CSSProperties; }
+export function PageTitle(props: PageTitleProps): JSX.Element;

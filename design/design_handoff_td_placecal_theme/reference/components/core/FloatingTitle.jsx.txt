@@ -1,0 +1,6 @@
+import React from 'react';
+/** Small allcaps section title: 1.2rem, 700, 1.9px tracking. White by default, pink for inline headings inside a box. */
+export function FloatingTitle({ children, color = 'white', as = 'h2', align = 'center', size = '1.2rem', style }) {
+  const Tag = as;
+  return <Tag style={{ margin: 0, textTransform: 'uppercase', letterSpacing: '1.9px', fontWeight: 700, fontSize: size, lineHeight: 1.5, textAlign: align, color: color === 'pink' ? 'var(--td-pink)' : 'var(--td-white)', fontFamily: 'var(--font-sans)', ...style }}>{children}</Tag>;
+}

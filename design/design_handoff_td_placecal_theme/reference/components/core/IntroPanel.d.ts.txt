@@ -1,0 +1,12 @@
+export interface IntroPanelProps {
+  /** The standfirst sentence, italic. */
+  children: React.ReactNode;
+  /** Optional body-type paragraph under the standfirst (Partners page). */
+  detail?: React.ReactNode;
+  /** Square the bottom corners and drop the bottom border so a ContentBox sits flush beneath. */
+  attached?: boolean;
+  /** sm = 1.6rem (mobile), md = 1.9rem, lg = 2.5rem (desktop). */
+  size?: 'sm' | 'md' | 'lg';
+  style?: React.CSSProperties;
+}
+export function IntroPanel(props: IntroPanelProps): JSX.Element;

@@ -1,0 +1,13 @@
+export interface ContentBoxProps {
+  children: React.ReactNode;
+  /** Drop the top border/corners to sit flush under an IntroPanel. */
+  attached?: boolean;
+  /** Inner padding (0.75rem mobile, 2rem tablet, 1.5rem wide). */
+  inset?: string;
+  /** Small allcaps title hanging 3rem above the box. */
+  floatingTitle?: React.ReactNode;
+  /** A Button hanging over the bottom border. */
+  floatingButton?: React.ReactNode;
+  style?: React.CSSProperties;
+}
+export function ContentBox(props: ContentBoxProps): JSX.Element;

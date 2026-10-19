@@ -1,0 +1,11 @@
+/* Covik Sans — licensed files supplied by the site owner (assets/fonts/). */
+@font-face { font-family: "covik-sans"; font-weight: 400; font-style: normal; font-display: swap; src: url("../assets/fonts/CovikSans-Regular.woff2") format("woff2"); }
+@font-face { font-family: "covik-sans"; font-weight: 400; font-style: italic; font-display: swap; src: url("../assets/fonts/CovikSans-RegularItalic.woff2") format("woff2"); }
+@font-face { font-family: "covik-sans"; font-weight: 500; font-style: normal; font-display: swap; src: url("../assets/fonts/CovikSans-Medium.woff2") format("woff2"); }
+@font-face { font-family: "covik-sans"; font-weight: 500; font-style: italic; font-display: swap; src: url("../assets/fonts/CovikSans-MediumItalic.woff2") format("woff2"); }
+@font-face { font-family: "covik-sans"; font-weight: 600; font-style: normal; font-display: swap; src: url("../assets/fonts/CovikSans-Semibold.woff2") format("woff2"); }
+@font-face { font-family: "covik-sans"; font-weight: 600; font-style: italic; font-display: swap; src: url("../assets/fonts/CovikSans-SemiboldItalic.woff2") format("woff2"); }
+@font-face { font-family: "covik-sans"; font-weight: 700; font-style: normal; font-display: swap; src: url("../assets/fonts/CovikSans-Bold.woff2") format("woff2"); }
+@font-face { font-family: "covik-sans"; font-weight: 700; font-style: italic; font-display: swap; src: url("../assets/fonts/CovikSans-BoldItalic.woff2") format("woff2"); }
+@font-face { font-family: "covik-sans"; font-weight: 800; font-style: italic; font-display: swap; src: url("../assets/fonts/CovikSans-ExtraBoldItalic.woff2") format("woff2"); }
+@font-face { font-family: "covik-sans"; font-weight: 900; font-style: normal; font-display: swap; src: url("../assets/fonts/CovikSans-Black.woff2") format("woff2"); }

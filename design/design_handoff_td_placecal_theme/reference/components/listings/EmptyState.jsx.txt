@@ -1,0 +1,5 @@
+import React from 'react';
+/** Pink italic centred message for an empty list (XD partner-page variations). */
+export function EmptyState({ children, style }) {
+  return <p style={{ color: 'var(--td-pink)', textAlign: 'center', fontStyle: 'italic', fontWeight: 500, fontSize: '1.6rem', lineHeight: 1.3, margin: '2.5rem auto', maxWidth: 560, fontFamily: 'var(--font-sans)', ...style }}>{children}</p>;
+}

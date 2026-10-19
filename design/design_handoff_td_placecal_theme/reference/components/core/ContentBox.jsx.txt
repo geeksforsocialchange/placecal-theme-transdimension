@@ -1,0 +1,11 @@
+import React from 'react';
+/** The pink-bordered dark box every page's content sits in. */
+export function ContentBox({ children, attached = false, inset = '2rem', style, floatingTitle, floatingButton }) {
+  return (
+    <div style={{ position: 'relative', marginTop: floatingTitle ? '3rem' : undefined, marginBottom: floatingButton ? '2rem' : undefined }}>
+      {floatingTitle && <div style={{ position: 'absolute', top: '-3rem', left: '1rem', width: 'calc(100% - 2rem)', textAlign: 'center', textTransform: 'uppercase', letterSpacing: '1.9px', fontWeight: 700, fontSize: '1.2rem', lineHeight: 1.5, color: 'var(--td-white)', fontFamily: 'var(--font-sans)' }}>{floatingTitle}</div>}
+      <div style={{ background: 'var(--td-dark-blue)', borderLeft: '1px solid var(--td-pink)', borderRight: '1px solid var(--td-pink)', borderBottom: '1px solid var(--td-pink)', borderTop: attached ? '0 none transparent' : '1px solid var(--td-pink)', borderRadius: attached ? '0 0 0.3rem 0.3rem' : '0.3rem', boxSizing: 'border-box', padding: inset, paddingBottom: floatingButton ? '3rem' : undefined, display: 'flow-root', color: 'var(--td-white)', fontFamily: 'var(--font-sans)', ...style }}>{children}</div>
+      {floatingButton && <div style={{ position: 'absolute', bottom: '-1.4rem', left: 0, width: '100%', textAlign: 'center' }}>{floatingButton}</div>}
+    </div>
+  );
+}

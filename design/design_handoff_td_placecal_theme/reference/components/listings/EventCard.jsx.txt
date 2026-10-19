@@ -1,0 +1,19 @@
+import React, { useState } from 'react';
+/** Events.elm / XD event card: date stack left (white day, pink allcaps month), italic title underlined pink, detail lines. */
+export function EventCard({ day, month, title, href = '#', time, repeat, location, area, organiser, badge, onClick, compact = false, style }) {
+  const [h, setH] = useState(false);
+  const detail = { margin: 0, fontSize: compact ? '0.8777rem' : '1rem', lineHeight: '28px', color: 'var(--td-white)', minWidth: 0, overflowWrap: 'anywhere' };
+  return <article onMouseEnter={() => setH(true)} onMouseLeave={() => setH(false)} style={{ display: 'grid', gridTemplateColumns: (compact ? '56px' : '70px') + ' minmax(0,1fr)', columnGap: compact ? '12px' : '10px', margin: compact ? '20px 0 0' : '48px 0 0', fontFamily: 'var(--font-sans)', ...style }}>
+    <div style={{ gridColumn: 1, gridRow: '1 / span 5', alignSelf: 'start', textAlign: 'center', marginTop: compact ? 0 : '-0.5rem' }}>
+      <div style={{ fontSize: compact ? '2.25rem' : '2.6rem', lineHeight: 1, fontWeight: 400, color: 'var(--td-white)' }}>{day}</div>
+      <div style={{ fontSize: compact ? '0.8rem' : '0.85rem', fontWeight: 900, letterSpacing: '1.9px', textTransform: 'uppercase', lineHeight: 1.25, marginTop: 6, color: h ? 'var(--td-white)' : 'var(--td-pink)', transition: 'color 500ms linear' }}>{month}</div>
+    </div>
+    <h3 style={{ gridColumn: 2, margin: '0 0 10px', minWidth: 0, display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', gap: '0 12px', borderBottom: '2px solid ' + (h ? 'var(--td-white)' : 'var(--td-pink)'), paddingBottom: '8px', transition: 'border 500ms linear', lineHeight: compact ? '1.25rem' : '1.65rem' }}>
+      <a href={href} onClick={e => { if (onClick) { e.preventDefault(); onClick(); } }} style={{ color: h ? 'var(--td-pink)' : 'var(--td-white)', fontSize: compact ? '1.1rem' : '1.25rem', fontStyle: 'italic', fontWeight: 500, textDecoration: 'none', transition: 'color 500ms linear', overflowWrap: 'anywhere' }}>{title}</a>
+      {(area || badge) && <span style={{ flex: 'none', marginBottom: 3 }}>{badge || <span style={{ display: 'inline-block', background: 'var(--td-mauve, #7b4a6e)', color: 'var(--td-pink)', borderRadius: '0.3rem', fontSize: '0.72rem', fontWeight: 700, lineHeight: 1.4, padding: '0.1rem 0.45rem', whiteSpace: 'nowrap', fontStyle: 'normal' }}>{area}</span>}</span>}
+    </h3>
+    {(time || repeat) && <p style={{ ...detail, gridColumn: 2 }}>{time}{time && repeat ? ', ' : ''}{repeat && repeat.toLowerCase()}</p>}
+    {location && <p style={{ ...detail, gridColumn: 2 }}>{location}</p>}
+    {organiser && <p style={{ ...detail, gridColumn: 2 }}>By {organiser}</p>}
+  </article>;
+}

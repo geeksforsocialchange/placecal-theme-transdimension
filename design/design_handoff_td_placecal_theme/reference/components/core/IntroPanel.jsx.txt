@@ -1,0 +1,12 @@
+import React from 'react';
+/** Pink standfirst panel: dark blue italic 500 copy, centred, sits flush on top of a ContentBox. */
+export function IntroPanel({ children, detail, attached = false, size = 'md', style }) {
+  const fs = size === 'lg' ? '2.125rem' : size === 'sm' ? '1.6rem' : '1.9rem';
+  const lh = size === 'lg' ? '2.75rem' : size === 'sm' ? '2rem' : '2.1rem';
+  return (
+    <section style={{ background: 'var(--td-pink)', color: 'var(--td-dark-blue)', borderRadius: attached ? '0.3rem 0.3rem 0 0' : '0.3rem', borderLeft: '1px solid var(--td-pink)', borderRight: '1px solid var(--td-pink)', borderTop: '1px solid var(--td-pink)', borderBottom: attached ? '0 none transparent' : '1px solid var(--td-pink)', boxSizing: 'border-box', textAlign: 'center', padding: size === 'lg' ? '2rem max(2rem, calc((100% - 838px) / 2))' : '1.5rem 1.25rem', fontFamily: 'var(--font-sans)', ...style }}>
+      <p style={{ margin: 0, fontSize: fs, lineHeight: lh, fontStyle: 'italic', fontWeight: 500 }}>{children}</p>
+      {detail && <p style={{ margin: '40px auto 0', maxWidth: 560, fontSize: '1rem', lineHeight: 1.6 }}>{detail}</p>}
+    </section>
+  );
+}

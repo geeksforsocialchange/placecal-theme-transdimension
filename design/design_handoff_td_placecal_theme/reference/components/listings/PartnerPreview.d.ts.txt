@@ -1,0 +1,2 @@
+export interface PartnerPreviewProps { name: string; href?: string; /** Badge text: postcode district or neighbourhood. */ /** Neighbourhood (e.g. "Westminster"), matching the event lozenge — not a postcode. */ area?: string; summary?: string; onClick?: () => void; compact?: boolean; style?: React.CSSProperties; }
+export function PartnerPreview(props: PartnerPreviewProps): JSX.Element;

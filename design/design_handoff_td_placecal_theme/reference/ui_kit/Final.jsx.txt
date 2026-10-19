@@ -1,0 +1,205 @@
+const { NavBar, Footer, Wordmark, PageTitle, IntroPanel, ContentBox, DayStrip, EventCard, NewsCard, PartnerPreview, OpeningTimes, Badge, Button, FloatingTitle, Select, SearchInput, FilterToggle, DatePicker, SubscribeBand, Pagination, MetaLinks, AccessibilityInfo, EmptyState, PullQuote, Icon } = window.DS;
+const REGIONS = ['Everywhere', 'London', 'Manchester'];
+const CTAS = [{ label: 'Donate', href: 'https://donorbox.org/the-trans-dimension' }];
+function ShellF({ route, navigate, title, back, children, about = false, region, setRegion }) {
+  return <>
+    <NavBar items={window.NAV} current={'/' + route.split('/')[1]} onNavigate={navigate} assetBase="../../assets" regions={REGIONS} region={region} onRegionChange={setRegion} ctas={CTAS} />
+    <main className="td-main">
+      <div className={'td-band td-band--header' + (about ? ' td-band--about' : '')} aria-hidden="true"></div>
+      <div className="td-band td-band--footer" aria-hidden="true"></div>
+      <div style={{ display: 'flex', justifyContent: 'center', paddingTop: 56 }}><Wordmark width={290} assetBase="../../assets" /></div>
+      {title && <PageTitle size="md" style={{ padding: '58px 0 26px', fontSize: '2.5rem', lineHeight: 1.2 }}>{title}</PageTitle>}
+      {back && <div style={{ height: 56 }}></div>}
+      {children}
+    </main>
+    <Footer onNavigate={navigate} assetBase="../../assets" newsletter login />
+  </>;
+}
+const Rule = ({ m = '34px 0' }) => <hr style={{ border: 0, borderTop: '1px solid var(--td-pink)', margin: m }} />;
+const fmt = iso => { const d = new Date(iso + 'T00:00'); return d.toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric' }).replace(',', ''); };
+const DAYS = ['Today', 'Tomorrow', 'Wed 9', 'Thu 10', 'Fri 11', 'Sat 12', 'Sun 13'];
+const uniq = a => ['Show all', ...Array.from(new Set(a))];
+const ok = (v, x) => v === 'Show all' || v === x;
+/** XD filter row: LOCATION [select]  TYPE [select]  …  [search] */
+function FilterRow({ children, search, onSearch }) {
+  return <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: '1rem 2rem', padding: '0.5rem 0 1rem' }}>
+    {children}
+    {onSearch && <div style={{ marginLeft: 'auto', width: 220 }}><SearchInput value={search} onChange={onSearch} /></div>}
+  </div>;
+}
+function EventsF({ navigate, region, setRegion }) {
+  const [day, setDay] = React.useState('Today'); const [open, setOpen] = React.useState(false); const [pick, setPick] = React.useState(false); const [date, setDate] = React.useState('');
+  const [hood, setHood] = React.useState('Show all'); const [cat, setCat] = React.useState('Show all'); const [rep, setRep] = React.useState('All'); const [sort, setSort] = React.useState('Soonest');
+  const base = window.EVENTS.filter(e => region === 'Everywhere' || e.region === region);
+  let list = base.filter(e => ok(hood, e.hood) && ok(cat, e.category) && (rep === 'All' || (rep === 'Repeating' ? !!e.repeat : !e.repeat)));
+  if (sort === 'A–Z') list = [...list].sort((a, b) => a.title.localeCompare(b.title));
+  return <ShellF route="/events" navigate={navigate} title="Events" region={region} setRegion={setRegion}>
+    <IntroPanel size="lg" attached style={{ padding: '46px 64px 50px' }}>Events & activities upcoming in {region === 'Everywhere' ? 'your area' : region}.</IntroPanel>
+    <ContentBox attached inset="28px 32px 100px">
+      <div style={{ display: 'flex', justifyContent: 'center', gap: '2rem', flexWrap: 'wrap' }}>
+        <FilterToggle open={open} onToggle={() => { setOpen(o => !o); setPick(false); }} />
+        <FilterToggle label={date ? 'Date: ' + fmt(date) : 'Pick a date'} open={pick} onToggle={() => { setPick(o => !o); setOpen(false); }} />
+      </div>
+      {pick && <div style={{ display: 'flex', justifyContent: 'center', padding: '8px 0 12px' }}><DatePicker value={date} onChange={v => { setDate(v); setDay(fmt(v)); setPick(false); }} /></div>}
+      {open && <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, minmax(0,1fr))', gap: '28px', padding: '8px 0 12px' }}>
+        <Select stacked label="Neighbourhood" value={hood} options={uniq(base.map(e => e.hood))} onChange={setHood} />
+        <Select stacked label="Category" value={cat} options={uniq(base.map(e => e.category))} onChange={setCat} />
+        <Select stacked label="Repeating" value={rep} options={['All', 'Repeating', 'One-off']} onChange={setRep} />
+        <Select stacked label="Sort" value={sort} options={['Soonest', 'A–Z']} onChange={setSort} />
+      </div>}
+      <DayStrip value={day} days={date && !['Today', 'Tomorrow', 'Wed 9', 'Thu 10', 'Fri 11', 'Sat 12', 'Sun 13'].includes(fmt(date)) ? [fmt(date), ...['Today', 'Tomorrow', 'Wed 9', 'Thu 10', 'Fri 11', 'Sat 12'].slice(0, 6)] : undefined} onChange={d => { setDay(d); setDate(''); }} onPage={() => {}} style={{ margin: '14px 0 40px' }} />
+      {list.length ? <div className="td-grid2" style={{ margin: '0 0 24px' }}>{list.map(e => <EventCard key={e.id} day={e.day} month={e.month} title={e.title} time={e.time} repeat={e.repeat} location={e.venue} area={e.hood} organiser={e.organiser} onClick={() => navigate('/events/' + e.id)} />)}</div>
+        : <EmptyState>No events match those filters. Try widening the search, or check back soon!</EmptyState>}
+    </ContentBox>
+    <div style={{ display: 'flex', gap: '28px', justifyContent: 'center', margin: '40px 0 -80px', flexWrap: 'wrap' }}><Button variant="dark" size="sm" href="#">Subscribe with iCal</Button><Button variant="dark" size="sm" href="#">Download as CSV</Button></div>
+  </ShellF>;
+}
+function EventF({ navigate, id, region, setRegion }) {
+  const e = window.EVENTS.find(x => x.id === Number(id)) || window.EVENTS[0];
+  const partner = window.PARTNERS.find(p => p.name === e.organiser) || window.PARTNERS[0];
+  const goPartner = ev => { ev && ev.preventDefault(); navigate('/partners/' + partner.slug); };
+  const online = e.location === 'Online';
+  return <ShellF route="/events" navigate={navigate} back={{ label: 'All events', href: '/events' }} region={region} setRegion={setRegion}>
+    <section style={{ background: 'var(--td-pink)', color: 'var(--td-dark-blue)', borderRadius: '0.3rem 0.3rem 0 0', padding: '26px 64px 34px', textAlign: 'center' }}>
+      <div><a href="/events" onClick={ev => { ev.preventDefault(); navigate('/events'); }} style={{ display: 'inline-block', color: 'var(--td-dark-blue)', fontWeight: 700, fontSize: '0.8rem', letterSpacing: '1.9px', textTransform: 'uppercase', textDecoration: 'none', opacity: 0.85, marginBottom: 12 }}><span aria-hidden="true" style={{ marginRight: 6 }}>←</span>All events</a></div>
+      <h1 style={{ margin: '0 auto', maxWidth: 838, fontSize: '2.1rem', fontStyle: 'italic', fontWeight: 500, lineHeight: 1.3 }}>{e.title}</h1>
+    </section>
+    <div style={{ background: 'var(--td-dark-blue)', borderLeft: '1px solid var(--td-pink)', borderRight: '1px solid var(--td-pink)', borderBottom: '1px solid var(--td-pink)', borderRadius: '0 0 0.3rem 0.3rem', padding: '0 32px', overflow: 'hidden', textAlign: 'center' }}>
+      <div style={{ padding: '30px 0 28px', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 10 }}>
+        <div style={{ fontSize: '1.75rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.04em', lineHeight: 1.1 }}>{e.day} {e.month} 2026</div>
+        <div style={{ color: 'var(--td-pink)', fontWeight: 700, letterSpacing: '1.9px', textTransform: 'uppercase', fontSize: '0.9rem', lineHeight: 1.4 }}>{[e.time, e.duration, e.repeat].filter(Boolean).join('  ·  ')}</div>
+        <div style={{ fontSize: '1rem', lineHeight: 1.5 }}>By <a href="#" onClick={goPartner}>{e.organiser}</a></div>
+      </div>
+      <Rule m="0 0 34px" />
+      <div style={{ maxWidth: 636, margin: '0 auto', textAlign: 'left' }}>
+        <p style={{ fontSize: '1.25rem', lineHeight: 1.55, margin: '0 0 1rem' }}>{e.desc}</p>
+      </div>
+      <Rule />
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, minmax(0,1fr))', gap: '28px', maxWidth: 700, margin: '0 auto', padding: '0 0 48px' }}>
+        <div><FloatingTitle as="h3" color="pink" size="0.9rem" style={{ margin: '0 0 1rem' }}>Contact information</FloatingTitle><div style={{ lineHeight: 1.6 }}>{e.contact.phone && <div>{e.contact.phone}</div>}{e.contact.email && <div><a href="#">{e.contact.email}</a></div>}{e.contact.web && <div><a href="#">{e.contact.web}</a></div>}</div></div>
+        <div><FloatingTitle as="h3" color="pink" size="0.9rem" style={{ margin: '0 0 1rem' }}>Event address</FloatingTitle><div style={{ lineHeight: 1.6 }}>{online ? <><div>Online event hosted on Zoom</div><Button variant="pink" size="sm" href="#" style={{ marginTop: '0.75rem' }}>Meeting link</Button></> : e.address.map(l => <div key={l}>{l}</div>)}</div></div>
+      </div>
+      {!online && <div className="td-map" style={{ height: 330, margin: '0 -32px' }} aria-label="Map"></div>}
+    </div>
+    <div style={{ display: 'flex', gap: '28px', justifyContent: 'center', marginTop: '40px', flexWrap: 'wrap' }}><Button variant="dark" onClick={() => goPartner()}>Partner's events</Button><Button variant="dark" href="#">Add to calendar</Button><Button variant="dark" onClick={() => navigate('/events')}>Go back</Button></div>
+    <p style={{ textAlign: 'center', fontSize: '0.8777rem', margin: '1.5rem 0 0' }}>Problem with this listing? <a href="#">Let us know.</a></p>
+  </ShellF>;
+}
+function PartnersF({ navigate, region, setRegion }) {
+  const [hood, setHood] = React.useState('Show all'); const [cat, setCat] = React.useState('Show all'); const [q, setQ] = React.useState('');
+  const base = window.PARTNERS.filter(p => region === 'Everywhere' || p.region === region);
+  const list = base.filter(p => ok(hood, p.hood) && ok(cat, p.category) && (!q || p.name.toLowerCase().includes(q.toLowerCase()))).sort((a, b) => a.name.localeCompare(b.name));
+  return <ShellF route="/partners" navigate={navigate} title="Partners" region={region} setRegion={setRegion}>
+    <IntroPanel size="lg" attached style={{ padding: '46px 64px 50px' }}>We are proud to partner with a number of charities and organisations with a long track record of supporting the trans community.</IntroPanel>
+    <ContentBox attached inset="28px 32px 0">
+      <FilterRow search={q} onSearch={setQ}>
+        <Select label="Location" value={hood} options={uniq(base.map(p => p.hood))} onChange={setHood} />
+        <Select label="Type" value={cat} options={uniq(base.map(p => p.category))} onChange={setCat} />
+      </FilterRow>
+      <FloatingTitle as="h2" size="0.9rem" style={{ margin: '40px 0 8px' }}>All partners</FloatingTitle>
+      {list.length ? <div className="td-grid2">{list.map(p => <PartnerPreview key={p.slug} name={p.name} area={p.hood} summary={p.summary} onClick={() => navigate('/partners/' + p.slug)} />)}</div> : <EmptyState>No partners match — try another location or type.</EmptyState>}
+      <div className="td-map" style={{ height: 330, margin: '40px -32px 0', borderRadius: '0 0 .3rem .3rem' }} aria-label="Map of all partners"></div>
+    </ContentBox>
+  </ShellF>;
+}
+function PartnerF({ navigate, slug, region, setRegion }) {
+  const p = window.PARTNERS.find(x => x.slug === slug) || window.PARTNERS[0];
+  const events = window.EVENTS.filter(e => e.organiser === p.name);
+  return <ShellF route="/partners" navigate={navigate} back={{ label: 'All partners', href: '/partners' }} region={region} setRegion={setRegion}>
+    <section style={{ background: 'var(--td-pink)', color: 'var(--td-dark-blue)', borderRadius: '0.3rem 0.3rem 0 0', padding: '26px 64px 34px', textAlign: 'center' }}>
+      <div><a href="/partners" onClick={ev => { ev.preventDefault(); navigate('/partners'); }} style={{ display: 'inline-block', color: 'var(--td-dark-blue)', fontWeight: 700, fontSize: '0.8rem', letterSpacing: '1.9px', textTransform: 'uppercase', textDecoration: 'none', opacity: 0.85, marginBottom: 12 }}><span aria-hidden="true" style={{ marginRight: 6 }}>←</span>All partners</a></div>
+      <h1 style={{ margin: 0, fontSize: '2.1rem', fontStyle: 'italic', fontWeight: 500, lineHeight: 1.3 }}>{p.name}</h1>
+    </section>
+    <div style={{ background: 'var(--td-dark-blue)', borderLeft: '1px solid var(--td-pink)', borderRight: '1px solid var(--td-pink)', borderBottom: '1px solid var(--td-pink)', borderRadius: '0 0 0.3rem 0.3rem', padding: '0 32px', overflow: 'hidden', textAlign: 'center' }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'minmax(0,6fr) minmax(0,5fr)', columnGap: 40, textAlign: 'left', padding: '34px 0 8px' }}>
+        <div>
+          <p style={{ fontSize: '1.25rem', lineHeight: 1.55, margin: '0 0 1.25rem' }}>{p.summary}</p>
+          <p style={{ fontSize: '1rem', lineHeight: 1.65, margin: '0 0 1.5rem', maxWidth: 560 }}>{p.description}</p>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, minmax(0,1fr))', gap: 28, marginTop: 8 }}>
+            <div><FloatingTitle as="h3" color="pink" size="0.9rem" align="left" style={{ margin: '0 0 0.75rem' }}>Get in touch</FloatingTitle><div style={{ lineHeight: 1.7 }}>{Object.entries(p.contact).map(([k, v]) => <div key={k}><a href="#">{v}</a></div>)}</div></div>
+            <div><FloatingTitle as="h3" color="pink" size="0.9rem" align="left" style={{ margin: '0 0 0.75rem' }}>Address</FloatingTitle><div style={{ lineHeight: 1.7 }}>{p.address.map(l => <div key={l}>{l}</div>)}<div style={{ marginTop: 6 }}><a href="#">Directions</a></div></div></div>
+          </div>
+          <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap', marginTop: 28 }}>{p.contact.web && <Button variant="pink" size="sm" href="#">Visit website</Button>}{p.contact.email && <Button variant="dark" size="sm" href="#">Email</Button>}{p.contact.phone && <Button variant="dark" size="sm" href="#">Call</Button>}</div>
+        </div>
+        <div>
+          <img src={p.image} alt="" style={{ display: 'block', width: '100%', aspectRatio: '3 / 2', objectFit: 'cover', borderRadius: '0.3rem' }} />
+          <div className="td-map" style={{ height: 220, borderRadius: '0.3rem', marginTop: 16 }} aria-label="Map"></div>
+          {p.opening.length > 0 && <><FloatingTitle as="h3" color="pink" size="0.9rem" align="left" style={{ margin: '24px 0 0.75rem' }}>Opening times</FloatingTitle><OpeningTimes rows={p.opening} style={{ fontSize: '0.9rem' }} /></>}
+        </div>
+      </div>
+      <Rule />
+      <PartnerEvents events={events} navigate={navigate} />
+    </div>
+    <div style={{ display: 'flex', gap: '28px', justifyContent: 'center', marginTop: '40px', flexWrap: 'wrap' }}><Button variant="dark" onClick={() => navigate('/partners')}>Go back to all partners</Button></div>
+  </ShellF>;
+}
+/** Partner event browser: core's per-day lists made visible — pink day headings spanning the two-column grid, a slim toolbar, "Show more" paging, iCal/CSV beneath. */
+const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+const WEEKDAYS = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+const TODAY = new Date(2026, 8, 8);
+function expand(events, weeks = 6) {
+  // Demo data only lists one date per event; a real partner feed repeats weekly/fortnightly, so project each repeating event forward.
+  const out = [];
+  events.forEach(e => {
+    const first = new Date(2026, MONTHS.indexOf(e.month), Number(e.day));
+    const step = /fortnight/i.test(e.repeat || '') ? 14 : /week/i.test(e.repeat || '') ? 7 : /month/i.test(e.repeat || '') ? 28 : 0;
+    for (let i = 0, d = new Date(first); i < (step ? weeks * 7 / step : 1); i++, d = new Date(d.getTime() + step * 864e5)) { if (d >= TODAY) out.push({ ...e, dateObj: d, key: e.id + '-' + i }); if (!step) break; }
+  });
+  return out.sort((a, b) => a.dateObj - b.dateObj || a.time.localeCompare(b.time));
+}
+const dayLabel = d => { const diff = Math.round((d - TODAY) / 864e5); const base = WEEKDAYS[d.getDay()] + ' ' + d.getDate() + ' ' + MONTHS[d.getMonth()]; return diff === 0 ? 'Today · ' + base : diff === 1 ? 'Tomorrow · ' + base : base; };
+function PartnerEvents({ events, navigate }) {
+  const [rep, setRep] = React.useState('All'); const [pick, setPick] = React.useState(false); const [date, setDate] = React.useState(''); const [shown, setShown] = React.useState(4);
+  const all = React.useMemo(() => expand(events), [events]);
+  let list = all.filter(e => rep === 'All' || (rep === 'Regular' ? !!e.repeat : !e.repeat));
+  if (date) { const from = new Date(date + 'T00:00'); list = list.filter(e => e.dateObj >= from); }
+  const days = []; list.forEach(e => { const k = e.dateObj.toDateString(); const g = days.find(g => g.k === k); g ? g.items.push(e) : days.push({ k, d: e.dateObj, items: [e] }); });
+  const visible = days.slice(0, shown); const more = days.length - visible.length;
+  if (!events.length) return <><FloatingTitle as="h2" size="0.9rem" style={{ margin: 0 }}>Upcoming partner events</FloatingTitle><EmptyState>There are no listed events for this partner but check back soon!</EmptyState></>;
+  return <div style={{ textAlign: 'left', paddingBottom: 40 }}>
+    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 16, flexWrap: 'wrap', marginBottom: 8 }}>
+      <FloatingTitle as="h2" size="0.9rem" align="left" style={{ margin: 0 }}>Upcoming partner events <span style={{ color: 'var(--td-light-pink)', fontWeight: 600, letterSpacing: 0, textTransform: 'none', marginLeft: 8 }}>{list.length} event{list.length === 1 ? '' : 's'} across {days.length} day{days.length === 1 ? '' : 's'}</span></FloatingTitle>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 20 }}>
+        <Select label="Show" value={rep} options={['All', 'Regular', 'One-off']} onChange={v => { setRep(v); setShown(4); }} />
+        <FilterToggle label={date ? 'From ' + fmt(date) : 'Pick a date'} open={pick} onToggle={() => setPick(o => !o)} style={{ margin: 0, padding: '0.5rem 0' }} />
+      </div>
+    </div>
+    {pick && <div style={{ display: 'flex', justifyContent: 'flex-end', padding: '0 0 12px' }}><DatePicker value={date} onChange={v => { setDate(v); setPick(false); setShown(4); }} /></div>}
+    <div className="td-grid2" style={{ paddingTop: 12 }}>{visible.flatMap(g => g.items).map(e => <EventCard key={e.key} day={String(e.dateObj.getDate()).padStart(2, '0')} month={MONTHS[e.dateObj.getMonth()]} title={e.title} time={e.time} repeat={e.repeat} location={e.venue} area={e.hood} onClick={() => navigate('/events/' + e.id)} />)}</div>
+    {!days.length && <EmptyState>Nothing matches — try another filter.</EmptyState>}
+    <div style={{ display: 'flex', gap: 28, justifyContent: 'center', marginTop: 44, flexWrap: 'wrap' }}>
+      {more > 0 && <Button variant="pink" size="sm" onClick={() => setShown(s => s + 4)}>Show {Math.min(more, 4)} more day{Math.min(more, 4) === 1 ? '' : 's'}</Button>}
+      <Button variant="dark" size="sm" href="#">Subscribe with iCal</Button><Button variant="dark" size="sm" href="#">Download as CSV</Button>
+    </div>
+  </div>;
+}
+function NewsF({ navigate, region, setRegion }) {
+  const [page, setPage] = React.useState(1); const per = 4;
+  const all = window.ARTICLES; const pages = Math.max(1, Math.ceil(all.length / per)); const list = all.slice((page - 1) * per, page * per);
+  return <ShellF route="/news" navigate={navigate} title="News" region={region} setRegion={setRegion}>
+    <IntroPanel size="lg" style={{ padding: '56px 64px' }}>Updates & articles from The Trans Dimension.</IntroPanel>
+    <div style={{ maxWidth: 800, margin: '0 auto' }}>
+      {list.map(a => <NewsCard key={a.slug} {...a} onClick={() => navigate('/news/' + a.slug)} style={{ margin: '44px 0 56px' }} />)}
+      <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap', marginTop: '1rem' }}><Button variant="dark" disabled={page === pages} onClick={() => setPage(p => Math.min(pages, p + 1))}>Older news</Button><Button variant="dark" onClick={() => setPage(1)}>View more news</Button><Button variant="dark" disabled={page === 1} onClick={() => setPage(p => Math.max(1, p - 1))}>Recent news</Button></div>
+    </div>
+  </ShellF>;
+}
+function ArticleF({ navigate, slug, region, setRegion }) {
+  const i = Math.max(0, window.ARTICLES.findIndex(x => x.slug === slug)); const a = window.ARTICLES[i];
+  const prev = window.ARTICLES[i - 1], next = window.ARTICLES[i + 1];
+  const partner = window.PARTNERS.find(p => p.name === a.partner);
+  return <ShellF route="/news" navigate={navigate} back={{ label: 'All news', href: '/news' }} region={region} setRegion={setRegion}>
+    <div style={{ background: 'var(--td-dark-blue)', border: '1px solid var(--td-pink)', borderRadius: '0.3rem', padding: '48px 32px 56px', margin: 0 }}>
+      <div style={{ textAlign: 'center' }}><a href="/news" onClick={ev => { ev.preventDefault(); navigate('/news'); }} style={{ display: 'inline-block', color: 'var(--td-white)', fontWeight: 700, fontSize: '0.8rem', letterSpacing: '1.9px', textTransform: 'uppercase', textDecoration: 'none', marginBottom: 12 }}><span aria-hidden="true" style={{ color: 'var(--td-pink)', marginRight: 6 }}>←</span>All news</a></div>
+      <h1 style={{ color: 'var(--td-pink)', textAlign: 'center', fontSize: '2.1rem', lineHeight: 1.3, fontStyle: 'italic', fontWeight: 500, margin: '0 auto 0.5rem', maxWidth: 760 }}>{a.title}</h1>
+      <p style={{ textAlign: 'center', fontWeight: 700, fontSize: '0.8777rem', margin: '0.25rem 0 2rem' }}>{partner ? <a href="#" onClick={e => { e.preventDefault(); navigate('/partners/' + partner.slug); }}>{a.partner}</a> : a.partner} <span style={{ margin: '0 .3em' }}>•</span> {a.date}</p>
+      <img src={a.image} alt="" style={{ display: 'block', margin: '0 auto', maxWidth: '100%', width: 636, borderRadius: '0.3rem', aspectRatio: '16/9', objectFit: 'cover' }} />
+      <p style={{ textAlign: 'center', fontSize: '0.78rem', fontStyle: 'italic', color: 'var(--td-light-pink)', margin: '0.5rem 0 2rem' }}>Optional image credit, note and/or details.</p>
+      <div className="td-prose">
+        {a.body.map((p, k) => <React.Fragment key={k}><p style={k === 0 ? { fontSize: '1.4rem', lineHeight: 1.4, marginBlockEnd: '2em' } : { fontSize: '1rem' }}>{p}</p>{k === 2 && a.body.length > 3 && <PullQuote>{a.body[3].split('. ')[0]}.</PullQuote>}</React.Fragment>)}
+      </div>
+    </div>
+    <div style={{ display: 'flex', gap: '28px', justifyContent: 'center', marginTop: '40px', flexWrap: 'wrap' }}><Button variant="dark" disabled={!prev} onClick={() => prev && navigate('/news/' + prev.slug)}>Previous</Button><Button variant="dark" onClick={() => navigate('/news')}>Go back</Button><Button variant="dark" disabled={!next} onClick={() => next && navigate('/news/' + next.slug)}>Next</Button></div>
+  </ShellF>;
+}
+Object.assign(window, { PartnerEvents, ShellF, EventsF, EventF, PartnersF, PartnerF, NewsF, ArticleF });

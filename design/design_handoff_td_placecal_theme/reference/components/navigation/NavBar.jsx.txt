@@ -1,0 +1,46 @@
+import React, { useState } from 'react';
+import { Wordmark } from '../core/Wordmark.jsx';
+function NavLink({ item, current, onNavigate, mobile }) {
+  const [h, setH] = useState(false);
+  const active = current === item.href;
+  return <a href={item.href} onClick={e => { if (onNavigate) { e.preventDefault(); onNavigate(item.href); } }} onMouseEnter={() => setH(true)} onMouseLeave={() => setH(false)}
+    style={{ display: 'block', color: mobile ? (h ? 'var(--td-white)' : 'var(--td-dark-blue)') : 'var(--td-dark-blue)', fontWeight: 600, fontSize: '1.2rem', lineHeight: 1.5, textDecoration: 'none', borderBottom: '3px solid', borderBottomColor: (active && item.href !== '/') || (h && !mobile) ? 'var(--td-dark-blue)' : 'transparent', transition: 'border-color 300ms, color 300ms', paddingBottom: 0 }}>{item.label}</a>;
+}
+/** Full-width flat pink nav bar. Desktop: links packed left, CTA at far right. Mobile: wordmark + "Menu +" toggle, stacked pink blocks. */
+function Seg({ options, value, onChange }) {
+  return <div role="group" aria-label="Region" style={{ display: 'inline-flex', border: '2px solid var(--td-dark-blue)', borderRadius: '0.3rem', overflow: 'hidden' }}>
+    {options.map(o => <button key={o} onClick={() => onChange && onChange(o)} aria-pressed={o === value} style={{ background: o === value ? 'var(--td-dark-blue)' : 'transparent', color: o === value ? 'var(--td-white)' : 'var(--td-dark-blue)', border: 0, fontFamily: 'inherit', fontWeight: 600, fontSize: '0.9rem', lineHeight: 1.5, padding: '0.25rem 0.75rem', cursor: 'pointer', transition: 'background-color 300ms, color 300ms' }}>{o}</button>)}
+  </div>;
+}
+const CTA = { primary: { bg: '#fff', fg: 'var(--td-dark-blue)', bd: '#fff' }, secondary: { bg: 'transparent', fg: 'var(--td-dark-blue)', bd: 'var(--td-dark-blue)' } };
+function CtaLink({ label, href, kind = 'primary', onNavigate }) {
+  const [h, setH] = useState(false); const c = CTA[kind];
+  return <a href={href} onClick={e => { if (onNavigate && !href.startsWith('http')) { e.preventDefault(); onNavigate(href); } }} onMouseEnter={() => setH(true)} onMouseLeave={() => setH(false)} style={{ display: 'inline-block', background: h ? 'var(--td-dark-blue)' : c.bg, color: h ? 'var(--td-white)' : c.fg, border: '2px solid ' + (h ? 'var(--td-dark-blue)' : c.bd), fontWeight: 700, borderRadius: '0.3rem', padding: '0.25rem 1.1rem 0.35rem', textDecoration: 'none', fontSize: '1rem', lineHeight: 1.5, transition: 'background-color 300ms, color 300ms, border-color 300ms' }}>{label}</a>;
+}
+export function NavBar({ items = [{ label: 'Home', href: '/' }, { label: 'Events', href: '/events' }, { label: 'Partners', href: '/partners' }, { label: 'News', href: '/news' }, { label: 'About', href: '/about' }], current = '/', cta = { label: 'Donate', href: 'https://donorbox.org/the-trans-dimension' }, ctas, regions, region, onRegionChange, onNavigate, mobile = false, assetBase = '../../assets', style }) {
+  const [open, setOpen] = useState(false);
+  const ctaList = ctas || (cta ? [{ ...cta, kind: 'primary' }] : []);
+  const rightCluster = <div style={{ marginLeft: 'auto', display: 'flex', alignItems: 'center', gap: '0.75rem', padding: '12px 12px' }}>
+    {regions && <Seg options={regions} value={region} onChange={onRegionChange} />}
+    {ctaList.map(c => <CtaLink key={c.label} {...c} onNavigate={onNavigate} />)}
+  </div>;
+  if (mobile) {
+    return <header style={{ fontFamily: 'var(--font-sans)', color: 'var(--td-white)', ...style }}>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '1rem' }}>
+        <Wordmark variant="header" width={139} assetBase={assetBase} />
+        <button onClick={() => setOpen(o => !o)} style={{ background: 'none', border: 0, color: 'var(--td-white)', fontFamily: 'inherit', fontSize: '1.1rem', fontWeight: 700, display: 'flex', alignItems: 'center', gap: 8, cursor: 'pointer' }}>Menu <span style={{ color: 'var(--td-pink)', fontSize: '2.2rem', lineHeight: 1, fontWeight: 400 }}>{open ? '−' : '+'}</span></button>
+      </div>
+      {open && <ul style={{ listStyle: 'none', margin: 0, padding: '0 0 1rem', display: 'flex', flexDirection: 'column', gap: '0.2rem' }}>
+        {items.map(i => <li key={i.href} style={{ background: 'var(--td-pink)', padding: '1rem', textAlign: 'center' }}><NavLink item={i} current={current} onNavigate={onNavigate} mobile /></li>)}
+        {regions && <li style={{ background: 'var(--td-pink)', padding: '1rem', textAlign: 'center' }}><Seg options={regions} value={region} onChange={onRegionChange} /></li>}
+        {ctaList.length > 0 && <li style={{ background: 'var(--td-pink)', padding: '1rem', textAlign: 'center', display: 'flex', gap: '0.75rem', justifyContent: 'center' }}>{ctaList.map(c => <CtaLink key={c.label} {...c} onNavigate={onNavigate} />)}</li>}
+      </ul>}
+    </header>;
+  }
+  return <header style={{ fontFamily: 'var(--font-sans)', paddingBottom: '1rem', ...style }}>
+    <ul style={{ listStyle: 'none', margin: 0, padding: '0 0.5rem', background: 'var(--td-pink)', display: 'flex', alignItems: 'center', flexWrap: 'wrap' }}>
+      {items.map(i => <li key={i.href} style={{ padding: '16px 12px', margin: '1.6px 0', fontSize: '1.2rem' }}><NavLink item={i} current={current} onNavigate={onNavigate} /></li>)}
+      {(ctaList.length > 0 || regions) && <li style={{ marginLeft: 'auto', display: 'flex' }}>{rightCluster}</li>}
+    </ul>
+  </header>;
+}

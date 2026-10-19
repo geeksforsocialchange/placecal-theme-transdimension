@@ -1,0 +1,21 @@
+const { NavBar, Footer, Wordmark, PageTitle } = window.DS;
+/** Inner-page shell: nav, header band with wordmark + title, content, footer band, footer. */
+function Shell({ route, navigate, title, children, about = false, mobile = false }) {
+  return <>
+    <NavBar items={window.NAV} current={'/' + route.split('/')[1]} onNavigate={navigate} mobile={mobile} assetBase="../../assets" />
+    <main className="td-main" style={mobile ? { padding: '0 0.75rem', marginBottom: 150 } : undefined}>
+      <div className={'td-band td-band--header' + (about ? ' td-band--about' : '')} aria-hidden="true"></div>
+      <div className="td-band td-band--footer" aria-hidden="true"></div>
+      {!mobile && <div style={{ display: 'flex', justifyContent: 'center', paddingTop: 50 }}><Wordmark width={305} assetBase="../../assets" /></div>}
+      {title && <PageTitle size={mobile ? 'sm' : 'lg'} style={{ paddingTop: mobile ? '3rem' : '4rem' }}>{title}</PageTitle>}
+      {children}
+    </main>
+    <Footer onNavigate={navigate} assetBase="../../assets" newsletter narrow={mobile} />
+  </>;
+}
+/** Pink allcaps inline heading + list, used for contact/address columns. */
+function InfoColumn({ heading, children }) {
+  const { FloatingTitle } = window.DS;
+  return <div><FloatingTitle as="h3" color="pink" size="1rem" align="left" style={{ margin: '2em 0 1.2em' }}>{heading}</FloatingTitle><div style={{ fontSize: '1rem', lineHeight: 1.6 }}>{children}</div></div>;
+}
+Object.assign(window, { Shell, InfoColumn });

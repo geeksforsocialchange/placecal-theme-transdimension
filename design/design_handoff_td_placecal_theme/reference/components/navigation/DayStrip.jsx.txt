@@ -1,0 +1,22 @@
+import React, { useState } from 'react';
+function Day({ label, active, onClick, fill }) {
+  const [h, setH] = useState(false);
+  return <a href="#" onClick={e => { e.preventDefault(); onClick && onClick(); }} aria-current={active ? 'date' : undefined} onMouseEnter={() => setH(true)} onMouseLeave={() => setH(false)}
+    style={{ display: 'block', flex: fill ? '1 1 0' : 'none', minWidth: 0, boxSizing: 'border-box', textAlign: 'center', textDecoration: 'none', cursor: 'pointer', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', borderRadius: '0.3rem', border: '2px solid ' + (h ? 'var(--td-white)' : 'var(--td-pink)'), fontWeight: 600, fontSize: '1rem', padding: '0.3rem 0.6rem 0.4rem', lineHeight: 1.5,
+      background: h ? 'var(--td-purple)' : active ? 'var(--td-pink)' : 'var(--td-dark-blue)', color: h ? 'var(--td-white)' : active ? 'var(--td-dark-blue)' : 'var(--td-pink)', transition: 'color 300ms, border-color 300ms, background-color 300ms' }}>{label}</a>;
+}
+function Arrow({ dir, onClick }) {
+  const [h, setH] = useState(false);
+  return <a href="#" aria-label={dir < 0 ? 'Earlier dates' : 'Later dates'} onClick={e => { e.preventDefault(); onClick && onClick(dir); }} onMouseEnter={() => setH(true)} onMouseLeave={() => setH(false)}
+    style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: 40, alignSelf: 'stretch', boxSizing: 'border-box', borderRadius: '0.3rem', border: '2px solid ' + (h ? 'var(--td-light-pink)' : 'var(--td-pink)'), background: h ? 'var(--td-light-pink)' : 'var(--td-pink)', color: 'var(--td-dark-blue)', textDecoration: 'none', fontSize: '0.9rem', lineHeight: 1, transition: 'border-color 300ms, background-color 300ms' }}>{dir < 0 ? '\u25C0' : '\u25B6'}</a>;
+}
+/** Paginator day strip: one row — earlier arrow, seven equal-width day buttons, later arrow. Selected day fills pink. */
+export function DayStrip({ days = ['Today', 'Tomorrow', 'Wed 9', 'Thu 10', 'Fri 11', 'Sat 12', 'Sun 13'], value = 'Today', onChange, onPage, arrows = true, style }) {
+  return <nav aria-label="Dates" style={{ display: 'flex', alignItems: 'stretch', gap: '0.5rem', width: '100%', margin: '0.5rem 0 1rem', fontFamily: 'var(--font-sans)', ...style }}>
+    {arrows && <Arrow dir={-1} onClick={onPage} />}
+    <div style={{ display: 'flex', gap: '0.5rem', flex: '1 1 0', minWidth: 0 }}>
+      {days.map(d => <Day key={d} label={d} fill active={d === value} onClick={() => onChange && onChange(d)} />)}
+    </div>
+    {arrows && <Arrow dir={1} onClick={onPage} />}
+  </nav>;
+}

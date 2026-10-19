@@ -1,0 +1,14 @@
+import React, { useState } from 'react';
+/** TD dropdown: dark blue fill, 2px pink border, pink chevron, 600 label. Used for PlaceCal's neighbourhood / category / repeating / sort filters. */
+export function Select({ label, value, options = [], onChange, stacked = false, style }) {
+  const [f, setF] = useState(false);
+  return <label style={{ position: 'relative', display: stacked ? 'flex' : 'inline-flex', flexDirection: stacked ? 'column' : 'row', alignItems: stacked ? 'stretch' : 'center', gap: stacked ? '0.35rem' : '0.5rem', minWidth: 0, fontFamily: 'var(--font-sans)', color: 'var(--td-white)', ...style }}>
+    {label && <span style={{ textTransform: 'uppercase', letterSpacing: '1.9px', fontWeight: 700, fontSize: '0.78rem', color: 'var(--td-white)' }}>{label}</span>}
+    <span style={{ position: 'relative', display: stacked ? 'block' : 'inline-block' }}>
+      <select value={value} onChange={e => onChange && onChange(e.target.value)} onFocus={() => setF(true)} onBlur={() => setF(false)} style={{ appearance: 'none', WebkitAppearance: 'none', background: 'var(--td-dark-blue)', border: '2px solid var(--td-pink)', borderRadius: '0.3rem', color: 'var(--td-pink)', fontFamily: 'inherit', fontWeight: 600, fontSize: '1rem', lineHeight: 1.5, padding: '0.3rem 2.2rem 0.4rem 0.75rem', width: stacked ? '100%' : undefined, outline: 'none', cursor: 'pointer', textOverflow: 'ellipsis', boxShadow: f ? '0 0 0 3px rgba(255,122,167,.35)' : 'none' }}>
+        {options.map(o => <option key={o} value={o} style={{ background: '#040f39' }}>{o}</option>)}
+      </select>
+      <span aria-hidden="true" style={{ position: 'absolute', right: '0.7rem', top: '50%', width: 0, height: 0, borderLeft: '7px solid transparent', borderRight: '7px solid transparent', borderTop: '9px solid var(--td-pink)', transform: 'translateY(-50%)', pointerEvents: 'none' }} />
+    </span>
+  </label>;
+}

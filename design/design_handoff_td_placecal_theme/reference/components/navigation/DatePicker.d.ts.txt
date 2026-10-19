@@ -1,0 +1,2 @@
+export interface DatePickerProps { /** ISO yyyy-mm-dd */ value?: string; onChange?: (iso: string) => void; /** ISO date whose month opens first. */ initialMonth?: string; style?: React.CSSProperties; }
+export function DatePicker(props: DatePickerProps): JSX.Element;

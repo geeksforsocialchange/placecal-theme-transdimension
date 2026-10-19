@@ -1,0 +1,6 @@
+import React from 'react';
+/** XD search field: mauve fill, pink placeholder, no border. */
+export function SearchInput({ value, onChange, placeholder = 'Search', style }) {
+  return <input type="search" value={value} onChange={e => onChange && onChange(e.target.value)} placeholder={placeholder} aria-label={placeholder}
+    style={{ boxSizing: 'border-box', background: 'var(--td-mauve, #7b4a6e)', border: 0, borderRadius: '0.3rem', color: 'var(--td-white)', fontFamily: 'var(--font-sans)', fontWeight: 600, fontSize: '1rem', lineHeight: 1.5, padding: '0.35rem 0.75rem 0.45rem', outline: 'none', width: '100%', ...style }} />;
+}
