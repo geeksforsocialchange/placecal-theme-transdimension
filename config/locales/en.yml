@@ -63,6 +63,7 @@ en:
       credit_3_link: "https://gfsc.studio/"
       copyright: "© %{year} Gendered Intelligence. All rights reserved."
       powered_by: "Powered by PlaceCal"
+      login_lead: "Site admin?"
     # Home/Index page
     home:
       # Copy is the Elm site's, verbatim from src/Copy/Text.elm.

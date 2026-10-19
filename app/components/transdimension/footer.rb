@@ -190,6 +190,10 @@ class Transdimension::Components::Footer < Components::Base
   end
 
   def render_log_in
-    p(class: 'td-footer__login') { link_to(t('navigation.site.log_in'), new_user_session_path) }
+    p(class: 'td-footer__login') do
+      plain t('transdimension.footer.login_lead')
+      plain ' '
+      link_to(t('navigation.site.log_in'), new_user_session_path)
+    end
   end
 end

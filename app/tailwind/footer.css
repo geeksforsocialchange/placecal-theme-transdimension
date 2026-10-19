@@ -136,6 +136,11 @@
 	margin-bottom: 1rem;
 }
 
+/* auto side margins would shrink the label to its text as a flex item */
+.td-footer__signup .td-footer__subhead {
+	margin-inline: 0;
+}
+
 /* Stacked: the note reads better under the heading than under the button */
 .td-footer__signup-fields {
 	order: 2;
@@ -327,6 +332,33 @@
 	.td-footer__created-by {
 		width: 100%;
 	}
+
+	/* Outer columns sit on the band's edges, level with the wordmark and nav above */
+	.td-footer__social,
+	.td-footer__social .td-footer__subhead {
+		text-align: left;
+	}
+
+	.td-footer__social-list {
+		justify-content: flex-start;
+	}
+
+	.td-footer__social-list li:first-child {
+		margin-left: 0;
+	}
+
+	.td-footer__signup,
+	.td-footer__signup .td-footer__subhead {
+		text-align: right;
+	}
+
+	.td-footer__signup-fields {
+		justify-content: flex-end;
+	}
+
+	.td-footer__signup-note {
+		margin-right: 0;
+	}
 }
 
 
@@ -349,8 +381,15 @@
 .td-footer__info {
 	font-size: var(--text-detail);
 	line-height: 1.2875;
-	margin: 1rem 2rem;
+	/* 0.5rem on phones: the Elm 2rem plus the block padding wrapped every line twice */
+	margin: 1rem 0.5rem;
 	text-align: center;
+}
+
+@media only screen and (min-width: 600px) {
+	.td-footer__info {
+		margin: 1rem 2rem;
+	}
 }
 
 .td-footer__info--title {
@@ -392,8 +431,9 @@
 /* Not in PageFooter.elm: a way back to admin for site administrators, kept
    deliberately quiet at the very end of the band. */
 .td-footer__login {
-	font-size: var(--text-2xs);
-	margin: 1rem 0 0;
+	font-size: var(--text-detail);
+	line-height: 1.2875;
+	margin: 0.5rem 0 0;
 	text-align: center;
 }
 
