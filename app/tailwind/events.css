@@ -40,11 +40,11 @@ main > .hero:has(.hero__standfirst) + * #events-browser:has(.paginator__context)
 	column-gap: 0;
 	grid-template-columns: minmax(0, 1fr);
 	padding: 1rem 1rem 2rem;
-	/* The 48px between card rows lives on the grid, not on the cards: with
+	/* The gap between card rows lives on the grid, not on the cards: with
 	   one <ol> per day flattened into the frame, a per-card margin-top that
 	   zeroes itself on each list's first item would give every day boundary
 	   a different gap and stagger the two columns. */
-	row-gap: 3rem;
+	row-gap: 2rem;
 }
 
 #events-browser:has(.paginator__context) .events .event {
@@ -57,9 +57,11 @@ main > .hero:has(.hero__standfirst) + * #events-browser:has(.paginator__context)
 	display: none;
 }
 
+/* From 600px the 24px above the region row is the row's own margin */
 @media only screen and (min-width: 600px) {
 	#events-browser:has(.paginator__context) {
-		padding: 1.25rem 1.5rem 3rem;
+		padding: 0 1.5rem 3rem;
+		row-gap: 2.5rem;
 	}
 }
 
@@ -67,7 +69,7 @@ main > .hero:has(.hero__standfirst) + * #events-browser:has(.paginator__context)
 	#events-browser:has(.paginator__context) {
 		column-gap: 1.75rem;
 		grid-template-columns: repeat(2, minmax(0, 1fr));
-		padding: 1.75rem 2rem 6.25rem;
+		padding: 0 2rem 6.25rem;
 	}
 }
 
@@ -117,9 +119,10 @@ main > .hero:has(.hero__standfirst) + * #events-browser:has(.paginator__context)
    all of that, plus the paginator arrows (Components::Timeline, a separate
    list entirely), three levels deep inside Components::Breadcrumb.
    `display: contents` on every wrapper between them and .paginator flattens
-   the whole thing into one flex row, so `order` alone can put the toggles on
-   their own centred line above the day strip and the two arrows either side
-   of it, regardless of the source order core renders them in.
+   the whole thing into one flex row, so `order` alone can put the day strip
+   with its two arrows on one line and the toggles on their own centred line
+   below it (2026-10-19 review), regardless of the source order core renders
+   them in.
 --------------------------------------------------------------------------- */
 
 .paginator__context,
@@ -136,13 +139,20 @@ main > .hero:has(.hero__standfirst) + * #events-browser:has(.paginator__context)
 	display: flex;
 	flex-wrap: wrap;
 	justify-content: center;
+	/* phones: the rows need the box's full width for three pills on one line;
+	   core's 12px block margin would put the first row 28px, not 16, from the top */
+	margin: 0;
 	row-gap: 0;
 }
 
+@media only screen and (min-width: 600px) {
+	#paginator:has(.paginator__context) {
+		margin-inline: 2rem;
+	}
+}
+
 /* Region selector (Everywhere / London / Manchester): its own full-width row
-   above the filter toggles. Core has no nav-bar region control on this build
-   (doc/core-slots-needed.md), so this in-box selector (already styled by
-   pages.css .region-filter) is the only functional one on the page.
+   above the day strip, as on the Elm site.
 
    Every selector below is a descendant (not child) combinator: display:
    contents removes .paginator__context, .breadcrumb etc. from the box tree
@@ -152,9 +162,8 @@ main > .hero:has(.hero__standfirst) + * #events-browser:has(.paginator__context)
 /* max-width: none overrides pages.css .region-filter { max-width: fit-content }
    (core's legacy pill sizing): a flex item's used main size is clamped by its
    max-width even when flex-basis is 100%, so without this the region row only
-   ever claimed its own content width and the "Filter events" toggle (order 2)
-   kept sharing that first line instead of wrapping onto its own centred row
-   below it, off to the row's remaining right-hand space. */
+   ever claimed its own content width and the next item kept sharing that
+   first line instead of wrapping onto its own row below it. */
 #paginator:has(.paginator__context) .region-filter {
 	flex-basis: 100%;
 	max-width: none;
@@ -175,7 +184,7 @@ main > .hero:has(.hero__standfirst) + * #events-browser:has(.paginator__context)
 	flex-basis: 100%;
 	flex-wrap: wrap;
 	justify-content: center;
-	order: 2;
+	order: 6;
 	row-gap: 0;
 }
 
@@ -185,7 +194,7 @@ main > .hero:has(.hero__standfirst) + * #events-browser:has(.paginator__context)
    ships - the same .filters is display: contents inside it below, and order
    has no effect on a box that generates none. */
 #paginator:has(.paginator__context) .filters:not(:has(.filters__group--neighbourhood)) {
-	order: 2;
+	order: 6;
 }
 
 /* The sort filter (event_filter.rb render_sort_filter) wraps its toggle
@@ -235,26 +244,23 @@ main > .hero:has(.hero__standfirst) + * #events-browser:has(.paginator__context)
 	order: 8;
 }
 
-/* Empty flex spacer: forces the arrow/strip row onto its own line after the
-   toggles without generating any text (hard rule 1 allows a decorative glyph
-   only; this inserts none, it is a zero-content layout break, the standard
-   way to force a flex wrap between differently-ordered items). */
+/* Zero-content flex break: keeps the toggles off the arrow/strip line. */
 #paginator:has(.paginator__context)::after {
 	content: "";
 	flex-basis: 100%;
-	order: 3;
-}
-
-#paginator:has(.paginator__context) .paginator__arrow--back {
-	order: 4;
-}
-
-#paginator:has(.paginator__context) .day-strip {
 	order: 5;
 }
 
+#paginator:has(.paginator__context) .paginator__arrow--back {
+	order: 2;
+}
+
+#paginator:has(.paginator__context) .day-strip {
+	order: 3;
+}
+
 #paginator:has(.paginator__context) .paginator__arrow--forwards {
-	order: 6;
+	order: 4;
 }
 
 /* Components::Timeline also renders a row of day/week/month buttons
@@ -440,10 +446,28 @@ main > .hero:has(.hero__standfirst) + * #events-browser:has(.paginator__context)
    overflow-x carries whatever still does not fit as a scroll. */
 #paginator:has(.paginator__context) .day-strip {
 	flex: 1 1 0;
-	margin: 0.875rem 0 2.5rem;
+	margin: 0 0 0.5rem;
 	min-width: 0;
-	order: 5;
 	overflow-x: auto;
+}
+
+/* Phones: a cut-off fourth button and a fade at the edge say "this scrolls" */
+@media only screen and (max-width: 599px) {
+	#paginator:has(.paginator__context) .day-strip {
+		mask-image: linear-gradient(to right, #000 calc(100% - 2.5rem), transparent);
+		scrollbar-width: none;
+	}
+
+}
+
+@media only screen and (min-width: 600px) {
+	#paginator:has(.paginator__context) .day-strip {
+		margin-bottom: 1.5rem;
+	}
+
+	#paginator:has(.paginator__context) .day-strip li {
+		min-width: 100px;
+	}
 }
 
 #paginator:has(.paginator__context) .day-strip ul {
@@ -457,7 +481,8 @@ main > .hero:has(.hero__standfirst) + * #events-browser:has(.paginator__context)
 	flex: 1 1 0;
 	list-style-type: none;
 	margin: 0;
-	min-width: 3.5rem;
+	/* 88px on phones shows a cut-off fourth button, 100px (live) from 600px */
+	min-width: 88px;
 }
 
 #paginator:has(.paginator__context) .day-strip__link {
@@ -467,9 +492,9 @@ main > .hero:has(.hero__standfirst) + * #events-browser:has(.paginator__context)
 	box-sizing: border-box;
 	color: var(--color-primary);
 	display: block;
-	font-size: 0.8rem;
+	font-size: 0.875rem;
 	font-weight: 600;
-	padding: 0.3rem 0.4rem 0.4rem;
+	padding: 0.2rem 0.2rem 0.3rem;
 	text-align: center;
 	text-decoration: none;
 	transition:
@@ -519,6 +544,15 @@ main > .hero:has(.hero__standfirst) + * #events-browser:has(.paginator__context)
 @media only screen and (min-width: 600px) {
 	#paginator:has(.paginator__context) .day-strip__link {
 		font-size: 1rem;
+	}
+}
+
+/* Live's day buttons at tablet landscape: 1.2rem on a 1.5 line, 41px tall */
+@media only screen and (min-width: 900px) {
+	#paginator:has(.paginator__context) .day-strip__link {
+		font-size: 1.2rem;
+		line-height: 1.5;
+		padding: 0.2rem 0.2rem 0.3rem;
 	}
 }
 

@@ -51,11 +51,9 @@ en:
         index:
           title: "Events"
           page_title: "Events"
-          # Final design (README §2): "Events & activities upcoming in your
-          # area." The region-aware variant ("...in London.") is a core slot
-          # (doc/core-slots-needed.md): core's standfirst key has no
-          # interpolation token for the selected region.
-          standfirst: "Events & activities upcoming in your area."
+          # Live's "Upcoming events & activities for you." without the tail
+          # (2026-10-19 review), so it fits one line on a phone.
+          standfirst: "Upcoming events & activities"
           # No list_heading: Events.elm has no heading between the intro panel
           # and the filters, and core ships the key blank, so overriding it
           # would put a heading in the page that the theme then has to hide.

@@ -565,8 +565,23 @@ select {
 
 .header__partner .header__toggle-label {
 	color: #fff;
-	font-size: 1.1rem;
-	font-weight: 700;
+	font-size: 1rem;
+	font-weight: 400;
+}
+
+/* PageHeader.elm buttonCrossStyle: a thin pink "+" in place of core's hamburger */
+.header__partner .header__toggle svg {
+	display: none;
+}
+
+.header__partner .header__toggle::after {
+	color: var(--color-primary);
+	content: "+";
+	display: block;
+	font-size: 4rem;
+	font-weight: 100;
+	line-height: 1.5;
+	margin: -1.75rem 0;
 }
 
 /* PageHeader.elm: Donate sits at the far right of the nav bar, from the width

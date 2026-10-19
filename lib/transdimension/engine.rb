@@ -69,11 +69,9 @@ module Transdimension
       theme.nav_cta 'transdimension.header.donate', DONATE_URL
       # PageHeader.elm has no Join link; PageFooter.elm carries it instead
       theme.nav_join false
-      # Final design (NavBar.jsx's Seg): the region control now lives in the
-      # nav bar as a segmented control, not just above each listing (#3368 WP
-      # 3.20). Core only renders it once a site has two or more Partnership
-      # tags, same guard the in-page filter already used.
-      theme.nav_region_filter true
+      # Region pills stay above each listing, as on the Elm site: in the nav
+      # they hid on phones and sat away from the list they filter.
+      theme.nav_region_filter false
       # Pink-tinted OpenFreeMap style shipped with the engine
       theme.map_style 'transdimension'
       # PageHeader.elm labels the mobile toggle "Menu" rather than drawing a
