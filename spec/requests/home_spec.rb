@@ -55,16 +55,14 @@ RSpec.describe 'Trans Dimension homepage', type: :request do
 
   # A region click is a frame update rather than a Drive visit, so the page
   # does not repaint and scroll to the top (see Views::Home#render_events).
-  # The region control itself lives in the nav now (theme nav_region_filter),
-  # so the frame holds the list and the button only.
-  it 'puts the event list in one advancing turbo frame' do
+  it 'puts the region filter, the event list and the button in one advancing turbo frame' do
     get 'http://transdimension.lvh.me/'
 
     frame = response.parsed_body.at_css('turbo-frame#home-events')
     expect(frame).to be_present
     expect(frame['data-turbo-action']).to eq('advance')
-    expect(frame.at_css('.region-filter')).to be_nil
-    expect(response.parsed_body.at_css('header .region-filter--nav')).to be_present
+    expect(frame.at_css('.region-filter')).to be_present
+    expect(response.parsed_body.at_css('header .region-filter--nav')).to be_nil
     expect(frame.at_css('.td-events')).to be_present
     expect(frame.at_css('.td-button-floating a')).to be_present
   end
