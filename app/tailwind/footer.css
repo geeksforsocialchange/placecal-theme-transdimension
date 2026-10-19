@@ -193,7 +193,8 @@
 		align-items: stretch;
 		display: flex;
 		justify-content: center;
-		margin: 1.5rem 0;
+		/* flex item margins don't collapse: 1rem under the heading + 0.5rem = live's 24px */
+		margin: 0.5rem 0 1.5rem;
 		order: 0;
 	}
 
