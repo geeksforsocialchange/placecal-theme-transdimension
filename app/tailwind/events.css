@@ -120,7 +120,7 @@ main > .hero:has(.hero__standfirst) + * #events-browser:has(.paginator__context)
    list entirely), three levels deep inside Components::Breadcrumb.
    `display: contents` on every wrapper between them and .paginator flattens
    the whole thing into one flex row, so `order` alone can put the day strip
-   with its two arrows on one line and the toggles on their own centred line
+   on one line and the toggles on their own centred line
    below it (2026-10-19 review), regardless of the source order core renders
    them in.
 --------------------------------------------------------------------------- */
@@ -251,16 +251,8 @@ main > .hero:has(.hero__standfirst) + * #events-browser:has(.paginator__context)
 	order: 5;
 }
 
-#paginator:has(.paginator__context) .paginator__arrow--back {
-	order: 2;
-}
-
 #paginator:has(.paginator__context) .day-strip {
 	order: 3;
-}
-
-#paginator:has(.paginator__context) .paginator__arrow--forwards {
-	order: 4;
 }
 
 /* Components::Timeline also renders a row of day/week/month buttons
@@ -587,79 +579,12 @@ main > .hero:has(.hero__standfirst) + * #events-browser:has(.paginator__context)
 }
 
 /* ---------------------------------------------------------------------------
-   Paginator arrows (DayStrip.jsx Arrow): square pink buttons either side of
-   the strip, dark-blue glyph, light-pink hover.
+   Paginator arrows: core's day-by-day arrows have no place in the design
+   (the day strip and the date picker move through time), so they are cut.
 --------------------------------------------------------------------------- */
 
-/* Core's own default (application.css) makes .paginator__arrow position:
-   absolute with top: 0 and left/right: 0, meant to overlay a positioned
-   .paginator__buttons row. display: contents on that row (above) takes it out
-   of the containing-block chain entirely, so with no override here the
-   arrows fall back to the viewport as their containing block and pin
-   themselves to the top corners of the page instead of flanking the day
-   strip. Putting them back in normal flow lets the flex order below place
-   them correctly. */
-/* Core's legacy .paginator li rule paints every list item (arrows included)
-   with a 2px border and a 3rem pill radius; the arrow-specific core rule
-   zeroes the border but leaves that radius, so the square pink button below
-   rendered inside an oversized rounded (almost domed) li shell. Flattening
-   the li back to a plain box lets the 0.3rem square button underneath be the
-   whole of what's visible. */
-/* align-self: flex-start, not the #paginator row's own align-items: center:
-   below 1500px the day strip wraps onto two lines (its seven-day row, then
-   "Future events" on its own line under it, see the day-strip li:last-child
-   rule below), which makes the day-strip flex item taller than the 36px
-   arrows. Centring the arrows against that full two-line height puts them
-   level with the boundary between the rows instead of the seven-day row
-   they are meant to flank, so they need to pin to the top of the line
-   instead and let their own top margin (matching the day strip's) land them
-   next to the first row. */
 #paginator:has(.paginator__context) .paginator__arrow {
-	align-self: flex-start;
-	background-color: transparent;
-	border-radius: 0;
-	flex: none;
-	position: static;
-}
-
-#paginator:has(.paginator__context) .paginator__arrow a {
-	align-items: center;
-	background-color: var(--color-primary);
-	border: 2px solid var(--color-primary);
-	border-radius: 0.3rem;
-	box-sizing: border-box;
-	color: var(--color-foreground-dark);
-	display: flex;
-	height: 2.25rem;
-	justify-content: center;
-	margin: 0.875rem 0 2.5rem;
-	transition:
-		background-color 300ms,
-		border-color 300ms;
-	width: 2.25rem;
-}
-
-/* Core's own .paginator__arrow svg rule paints the glyph a literal cream
-   (#fffcf0) directly on the svg, which wins over color: currentColor picking
-   up the dark-blue .paginator__arrow a above (an explicit colour on the svg
-   itself beats one only inherited from its parent), so the dark-blue glyph
-   the design draws needs restating here too. */
-#paginator:has(.paginator__context) .paginator__arrow a svg {
-	color: var(--color-foreground-dark);
-	height: 0.9rem;
-	width: 0.9rem;
-}
-
-@media only screen and (hover: hover) and (pointer: fine) {
-	#paginator:has(.paginator__context) .paginator__arrow a:hover {
-		background-color: var(--color-primary-light);
-		border-color: var(--color-primary-light);
-	}
-}
-
-#paginator:has(.paginator__context) .paginator__arrow a:focus-visible {
-	outline: 2px solid var(--color-foreground);
-	outline-offset: 2px;
+	display: none;
 }
 
 /* ---------------------------------------------------------------------------
