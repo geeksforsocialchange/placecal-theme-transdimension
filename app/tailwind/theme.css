@@ -401,6 +401,17 @@ select {
 		gap: 0;
 	}
 
+	/* Current page: the row inverts, like a selected day or region pill */
+	.header__partner .header__menu li:has(> a[aria-current]) {
+		background-color: var(--color-background);
+	}
+
+	.header__partner .header__menu a[aria-current] {
+		/* the pink border every link carries would show on the dark row */
+		border-bottom-color: transparent;
+		color: var(--color-primary);
+	}
+
 	.header__partner .header__menu .header__cta {
 		padding: 0;
 	}
