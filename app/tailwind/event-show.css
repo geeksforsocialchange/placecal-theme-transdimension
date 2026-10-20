@@ -177,6 +177,33 @@ main > div:not([vocab]) > .hero h1 {
 	}
 }
 
+/* "By <organiser>" under the event name, in the panel: core's standfirst slot,
+   so the listing panel's big pink type is undone here. */
+.event--full .hero__standfirst {
+	background: none;
+	border: 0;
+	color: var(--color-foreground-dark);
+	font-size: 1rem;
+	font-style: normal;
+	font-weight: 500;
+	line-height: 1.5;
+	margin: -0.5rem auto 0.75rem;
+	max-width: 838px;
+	padding: 0;
+}
+
+@media only screen and (min-width: 900px) {
+	.event--full .hero__standfirst {
+		font-size: 1.2rem;
+		margin: -0.75rem auto 0.75rem;
+	}
+}
+
+/* The organiser now reads in the panel, so the details line would repeat it. */
+.event--full .event__organiser {
+	display: none;
+}
+
 /* Event.elm, Partner.elm, NewsItem.elm: the section name sits on the
    starfield above the title panel, in the page-title type. Shared with the
    partner show page (non-vocab wrapper) and, via the vocab variant, the
@@ -399,17 +426,9 @@ main > div[vocab] > .hero .hero__section {
 .event__fullinfo .small,
 .event__fullinfo .contact_details,
 .event__fullinfo .place_info__address,
-.event__fullinfo .place_info__directions {
+.event__fullinfo .place_info__directions-list {
 	font-size: 1rem;
 	text-align: center;
-}
-
-/* Components::Address: the Google Maps directions link under the event
-   address (base `a` rule in theme.css already paints it as a plain white
-   link with a pink underline, so only its own top offset is needed here). */
-.event__fullinfo .place_info__directions {
-	display: block;
-	margin-top: 0.375rem;
 }
 
 /* Live's two columns, Contact information and Event address, halving the box
@@ -469,10 +488,35 @@ main > div[vocab] > .hero .hero__section {
 	display: none;
 }
 
-.event__fullinfo .contact_details a {
+.event__fullinfo .contact_details {
+	line-height: 1.5;
+}
+
+.event__fullinfo .contact_details__item:not(.contact_details__item--social) a {
 	display: block;
 	margin: 0;
 	overflow-wrap: anywhere;
+	text-decoration: none;
+}
+
+@media only screen and (hover: hover) and (pointer: fine) {
+	.event__fullinfo .contact_details__item:not(.contact_details__item--social) a:hover {
+		text-decoration: underline;
+	}
+}
+
+/* Option B: the social networks run on as one row of names under the lines. */
+.event__fullinfo .contact_details__item--social {
+	display: inline-block;
+	margin-top: 0.5rem;
+}
+
+.event__fullinfo .contact_details__item--social + .contact_details__item--social::before {
+	color: var(--color-primary-light);
+	content: "\00b7";
+	content: "\00b7" / "";
+	display: inline-block;
+	padding-inline: 0.5rem;
 }
 
 /* The address block sits under a kicker of its own and takes the same rhythm

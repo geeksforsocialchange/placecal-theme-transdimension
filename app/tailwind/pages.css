@@ -486,6 +486,28 @@ main > .hero:has(.hero__standfirst) + #partner_previews {
 	text-transform: uppercase;
 }
 
+/* Components::Address's directions row on the event and partner pages:
+   "Google Maps · Apple Maps · OSM", the links keeping theme.css's
+   thin pink underline. The dot is inline-block so the link's underline skips
+   it; its left padding is short because core puts a space before each link. */
+.place_info__directions-list {
+	line-height: 1.5;
+	margin-top: 0.5rem;
+}
+
+.place_info__address:has(+ .place_info__directions-list) {
+	margin-bottom: 0;
+}
+
+.place_info__directions-list > a + a::before {
+	color: var(--color-primary-light);
+	content: "\00b7";
+	content: "\00b7" / "";
+	display: inline-block;
+	padding-inline: 0.25rem 0.5rem;
+	text-decoration: none;
+}
+
 /* Event.elm and Partner.elm draw a pink-toned map inside the box. The ground
    colour is what shows while the tiles load. */
 .map--single,

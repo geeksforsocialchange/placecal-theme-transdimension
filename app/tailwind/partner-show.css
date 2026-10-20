@@ -84,12 +84,10 @@ main > div:not([vocab]):has(> .container-public .g--partner) .hero__section {
 	display: block;
 }
 
-/* Components::Address: the Google Maps directions link under the partner
-   address (base `a` rule in theme.css already paints it as a plain white
-   link with a pink underline, so only its own top offset is needed here). */
-.g--partner .place_info__directions {
-	display: block;
-	margin-top: 0.375rem;
+/* Components::Address's directions row, left aligned under the address. */
+.g--partner .place_info__directions-list {
+	font-size: 1rem;
+	text-align: left;
 }
 
 /* WP 2.14: core's two-column partner body (copy and contacts on the left,
@@ -171,10 +169,10 @@ main > div:not([vocab]):has(> .container-public .g--partner) .hero__section {
 		grid-row: 4;
 	}
 
-	/* The directions link (a sibling of .place_info__address, present only
+	/* The directions row (a sibling of .place_info__address, present only
 	   when Components::Address can resolve a destination) stays under the
-	   address column rather than auto-placing into row 5 of column 1. */
-	.gi.gi__3-5 > .place_info__directions {
+	   address column; div in the selector outranks the full-width div rule. */
+	.gi.gi__3-5 > div.place_info__directions-list {
 		grid-column: 2;
 		grid-row: 5;
 	}
