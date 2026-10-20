@@ -46,6 +46,7 @@ en:
         # YAML would otherwise read them as booleans.
         repeating:
           "on": "All"
+          last: "Repeats last"
           "off": "One-off"
       events:
         index:
@@ -94,11 +95,13 @@ en:
           # events_count_events / events_count_days count format stays core's).
           go_back: "Go back to all partners"
           upcoming_events: "Upcoming partner events"
+          # Same button copy as the events index, without the partner's name
+          subscribe_ical: "Subscribe with iCal"
         index:
           title: "Partners"
           page_title: "Partners"
           # Final design (README §4): one line only, no standfirst_detail.
-          standfirst: "Trans-friendly groups and services"
+          standfirst: "Trans-friendly groups & services"
           standfirst_detail: ""
           # Partners.elm: heading between the intro panel and the list
           list_heading: "All partners"

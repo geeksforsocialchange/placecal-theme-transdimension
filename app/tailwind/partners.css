@@ -1,6 +1,6 @@
 /* /partners: Views::Partners::Index
-   Final design (design/final-port): the region pills, a row of search and
-   Type, a two-column PartnerPreview list, and a
+   Final design (design/final-port): the region pills, a row of Type and
+   search, a two-column PartnerPreview list, and a
    full-bleed map closing the box. Split out of pages.css (WP 3.19), rewritten
    for the Final handoff (README §4 "4 Partners index"). */
 
@@ -24,21 +24,25 @@
 	}
 }
 
-/* The events index rhythm: 16px under the panel on phones, 24px from 600px. Phones
-   drop core's container padding so the region pills span the row as on events. */
+/* The events index rhythm: 16px under the panel on phones, 24px from 600px, and
+   the events box's side insets (16/24/32px) in place of core's container padding. */
 #partner_previews > * {
 	margin: 16px 16px 0;
 }
 
-@media only screen and (max-width: 599px) {
-	#partner_previews > .container-public {
-		padding-inline: 0;
-	}
+#partner_previews > .container-public {
+	padding-inline: 0;
 }
 
 @media only screen and (min-width: 600px) {
 	#partner_previews > * {
-		margin: 24px 32px 0;
+		margin: 24px 24px 0;
+	}
+}
+
+@media only screen and (min-width: 900px) {
+	#partner_previews > * {
+		margin-inline: 32px;
 	}
 }
 
@@ -66,8 +70,17 @@
 	width: 1px;
 }
 
-#partner_previews .container-public > ul.partners {
+#partner_previews .container-public > ul.partners,
+#partner_previews .container-public > .partners__empty {
 	order: 3;
+}
+
+/* Core's no-match copy, styled like the events index's empty copy. */
+#partner_previews .partners__empty {
+	color: var(--color-foreground);
+	font-size: 1rem;
+	margin: 0;
+	text-align: center;
 }
 
 /* The design has no rule between the filters and the heading; the spacing
@@ -78,7 +91,7 @@
 
 /* ---------------------------------------------------------------------------
    Filter rows (Final.jsx FilterRow / Select.jsx / SearchInput.jsx), per
-   review: the region pills, then "[search] TYPE [Show all v]". Core renders the
+   review: the region pills, then "TYPE [Show all v] ... [search]". Core renders the
    neighbourhood/category filters as Components::Filter: a toggle button
    whose children are the triangle svg, `span.filters__toggle-label` (the
    idle "Location"/"Type" caption from overrides.en.yml) and
@@ -139,6 +152,13 @@
 	}
 }
 
+/* Phones: extra padding brings the pills (WebKit lays their 18.2px line out at 18px) to the selects' 39.2px. */
+@media only screen and (max-width: 599px) {
+	#partner_previews .region-filter li a {
+		padding: calc(0.2rem + 4.5px) 0.2rem calc(0.3rem + 4.7px);
+	}
+}
+
 /* "Filter by:" is redundant once each control carries its own Location/Type
    label (below); hidden visually, kept for assistive tech. */
 #partner_previews form.filters__form > .breadcrumb__element--last > span:first-child {
@@ -151,44 +171,53 @@
 	width: 1px;
 }
 
-/* Second row: search, Type, then the neighbourhood select (only shown when the
-   site has more than one neighbourhood) and the reset link. Selected by the
-   toggle's action, not position, as either select can drop out. */
+/* Second row: Type, the neighbourhood select (only shown when the site has more
+   than one neighbourhood), the reset link, then search on the right. Selected by
+   the toggle's action, not position, as either select can drop out. */
 #partner_previews .breadcrumb__filters.filters {
 	position: relative;
 }
 
 #partner_previews .breadcrumb__filters.filters:has(button[data-action*="toggleCategory"]) {
-	order: 3;
+	order: 2;
 }
 
 #partner_previews .breadcrumb__filters.filters:has(button[data-action*="toggleNeighbourhood"]) {
-	order: 4;
+	order: 3;
 }
 
 #partner_previews .breadcrumb__filters:not(.filters) {
-	order: 5;
+	order: 4;
 }
 
 /* SearchInput.jsx: mauve fill, no border, white 600 text, pink placeholder.
    Full width on phones, 220px from 600px. */
 #partner_previews .breadcrumb__filters:has(> input.filters__search) {
 	flex-basis: 100%;
-	order: 2;
+	order: 5;
 }
 
 @media only screen and (min-width: 600px) {
 	#partner_previews .breadcrumb__filters:has(> input.filters__search) {
 		flex: 0 0 220px;
+		margin-left: auto;
 	}
 }
 
-/* Phones stack Type and Location on rows of their own, centred. */
+/* Phones: Type and Location share one line, half each, 8px apart, search below. */
 @media only screen and (max-width: 599px) {
+	#partner_previews .breadcrumb > .breadcrumb__element--last {
+		column-gap: 8px;
+	}
+
 	#partner_previews .breadcrumb__filters.filters:has(.filters__toggle) {
-		display: flex;
-		flex-basis: 100%;
-		justify-content: center;
+		flex: 1 1 0;
+		min-width: 0;
+	}
+
+	#partner_previews .filters__toggle,
+	#partner_previews .filters__toggle button {
+		width: 100%;
 	}
 }
 
@@ -203,6 +232,24 @@
 	line-height: 1.5;
 	padding: 0.35rem 0.75rem 0.45rem;
 	width: 100%;
+}
+
+/* WebKit's native clear button, redrawn as a 16px white cross that turns pink on hover. */
+#partner_previews input.filters__search::-webkit-search-cancel-button {
+	-webkit-appearance: none;
+	appearance: none;
+	background-color: var(--color-foreground);
+	cursor: pointer;
+	height: 16px;
+	-webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M3 3l10 10M13 3L3 13' stroke='black' stroke-width='2.5' stroke-linecap='round'/%3E%3C/svg%3E") center / contain no-repeat;
+	mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M3 3l10 10M13 3L3 13' stroke='black' stroke-width='2.5' stroke-linecap='round'/%3E%3C/svg%3E") center / contain no-repeat;
+	width: 16px;
+}
+
+/* WebKit ignores :hover on the button itself, so it follows the field's hover. */
+#partner_previews input.filters__search::-webkit-search-cancel-button:hover,
+#partner_previews input.filters__search:hover::-webkit-search-cancel-button {
+	background-color: var(--color-primary);
 }
 
 #partner_previews input.filters__search::placeholder {
@@ -282,6 +329,43 @@
 	}
 }
 
+/* Phones drop the separate label: with nothing chosen the box reads "Type" or
+   "Location" instead of "Show all", and the text not shown stays for screen readers. */
+@media only screen and (max-width: 599px) {
+	#partner_previews .filters__toggle-value,
+	#partner_previews .filters:not(:has(input:checked)) .filters__toggle-label {
+		background-color: var(--color-background);
+		border: 2px solid var(--color-primary);
+		border-radius: 0.3rem;
+		box-sizing: border-box;
+		color: var(--color-primary);
+		display: block;
+		font-size: 1rem;
+		font-weight: 600;
+		letter-spacing: normal;
+		overflow: hidden;
+		padding: 0.3rem 2.2rem 0.4rem 0.75rem;
+		text-align: left;
+		text-overflow: ellipsis;
+		text-transform: none;
+		white-space: nowrap;
+		width: 100%;
+	}
+
+	#partner_previews .filters:has(input:checked) .filters__toggle-label,
+	#partner_previews .filters:not(:has(input:checked)) .filters__toggle-value {
+		border: 0;
+		clip-path: inset(50%);
+		height: 1px;
+		margin: -1px;
+		overflow: hidden;
+		padding: 0;
+		position: absolute;
+		white-space: nowrap;
+		width: 1px;
+	}
+}
+
 #partner_previews .filters__toggle button:focus-visible {
 	outline: 2px solid var(--color-foreground);
 	outline-offset: 2px;
@@ -319,7 +403,10 @@
 	display: inline-flex;
 }
 
-#partner_previews a.filters__link {
+#partner_previews a.filters__link,
+#partner_previews a.filters__link:not(.with-no-sass) {
+	/* core's legacy link rule draws a border-bottom as well: one underline, not two */
+	border-bottom: 0;
 	color: var(--color-primary);
 	font-weight: 600;
 	text-decoration: underline;
@@ -415,13 +502,13 @@
 	text-transform: none;
 }
 
-/* Live's summary: 0.8777rem (14.04px) on phones, 1.2rem from 600px, on a 1.5 line. */
+/* Summary: 1rem on phones (the event page's phone body size), live's 1.2rem from 600px, on a 1.5 line. */
 .partners .preview__details {
 	padding: 8px 0;
 }
 
 .partners .preview__details p {
-	font-size: 0.8777rem;
+	font-size: 1rem;
 	line-height: 1.5;
 	margin: 0 1rem 0 0;
 }
