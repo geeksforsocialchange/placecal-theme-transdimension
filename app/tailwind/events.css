@@ -244,6 +244,24 @@ main > .hero:has(.hero__standfirst) + * #events-browser:has(.paginator__context)
 	order: 8;
 }
 
+/* "Showing Wed 21 Oct, Sorted by name. Reset filters": its own centred line
+   under the toggles. */
+#paginator:has(.paginator__context) .filters__applied {
+	color: var(--color-primary-light);
+	flex-basis: 100%;
+	font-size: 1rem;
+	margin-top: 0.5rem;
+	order: 7;
+	text-align: center;
+}
+
+#paginator:has(.paginator__context) .filters__applied-reset,
+#paginator:has(.paginator__context) .filters__applied-reset:not(.with-no-sass) {
+	color: var(--color-foreground);
+	margin-left: 0.75rem;
+	text-decoration: underline;
+}
+
 /* Zero-content flex break: keeps the toggles off the arrow/strip line. */
 #paginator:has(.paginator__context)::after {
 	content: "";
