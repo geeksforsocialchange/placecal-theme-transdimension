@@ -272,13 +272,20 @@ main > div.event--full:has(.hero__section) {
 	content: "\00a0\00b7\00a0";
 }
 
-.event--full .event__organiser {
+.event--full .event__organiser,
+.event--full .event__neighbourhood-line {
 	font-size: 1rem;
 	font-weight: 400;
 	letter-spacing: normal;
 	line-height: 1.5;
 	order: 0;
 	text-transform: none;
+}
+
+/* Its own row under the organiser line. */
+.event--full .event__neighbourhood-line {
+	flex-basis: 100%;
+	order: 1;
 }
 
 /* organiser_prefix (events.card.organiser_prefix, shared with the event list)
@@ -310,7 +317,8 @@ main > div.event--full:has(.hero__section) {
    narrow measure floating inside TD's wider box. Event.elm: 0 32px box
    padding at the design's own width. */
 .event--full > .container-public,
-.event__fullinfo {
+.event__fullinfo,
+.event__more {
 	box-sizing: border-box;
 	margin-inline: 0;
 	max-width: none;
@@ -319,14 +327,16 @@ main > div.event--full:has(.hero__section) {
 
 @media only screen and (min-width: 600px) {
 	.event--full > .container-public,
-	.event__fullinfo {
+	.event__fullinfo,
+	.event__more {
 		padding-inline: 1.5rem;
 	}
 }
 
 @media only screen and (min-width: 900px) {
 	.event--full > .container-public,
-	.event__fullinfo {
+	.event__fullinfo,
+	.event__more {
 		padding-inline: 2rem;
 	}
 }
@@ -468,4 +478,45 @@ main > div.event--full:has(.hero__section) {
    as a contact row, so the two columns read as one pair. */
 .event__fullinfo .place_info__address {
 	line-height: 1.6;
+}
+
+/* "More from {organiser}": the organiser's other upcoming events between the
+   map and the page actions, as index cards, two-up from 900px like /events. */
+.event__more {
+	margin-top: 2.5rem;
+}
+
+.event__more .udl {
+	border-bottom: 0;
+	color: var(--color-primary);
+	display: block;
+	font-size: 0.9rem;
+	font-weight: 700;
+	letter-spacing: 1.9px;
+	margin-block: 0 1.75rem;
+	text-align: center;
+	text-transform: uppercase;
+}
+
+.event__more > .events {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr);
+	row-gap: 2rem;
+}
+
+.event__more > .events .event {
+	margin-top: 0;
+}
+
+@media only screen and (min-width: 600px) {
+	.event__more > .events {
+		row-gap: 2.5rem;
+	}
+}
+
+@media only screen and (min-width: 900px) {
+	.event__more > .events {
+		column-gap: 1.75rem;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
 }

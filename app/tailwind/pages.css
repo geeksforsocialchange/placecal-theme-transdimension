@@ -148,11 +148,9 @@ main > div[vocab] .hero__back::before {
 	width: 1px;
 }
 
-/* The listing title ("Events", "Partners", "News") is cut from the picture
-   (2026-10-19 review): the active nav item and the intro panel already say
-   it. Kept in the tree as the page's h1. The hero itself holds the space
-   under the wordmark (illustrations.css). */
-.hero h1 {
+/* The listing title ("Events", "Partners", "News") is cut from the picture but
+   kept as the h1; only listing heroes carry a standfirst, so show pages keep theirs. */
+main > .hero:has(.hero__standfirst) h1 {
 	border: 0;
 	clip-path: inset(50%);
 	height: 1px;
