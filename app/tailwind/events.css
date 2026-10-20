@@ -299,6 +299,11 @@ main > .hero:has(.hero__standfirst) + * #events-browser:has(.paginator__context)
 	text-transform: uppercase;
 }
 
+/* A non-default sort, view or repeats setting: the closed toggle goes pink */
+#paginator:has(.paginator__context) .filters__toggle button.filters__toggle-button--active {
+	color: var(--color-primary);
+}
+
 #paginator:has(.paginator__context) .filters__toggle button:focus-visible {
 	outline: 2px solid var(--color-foreground);
 	outline-offset: 2px;
