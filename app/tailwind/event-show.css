@@ -187,20 +187,32 @@ main > div:not([vocab]) > .hero h1 {
 	font-style: normal;
 	font-weight: 500;
 	line-height: 1.5;
-	margin: -0.5rem auto 0.75rem;
+	/* bottom margin set by ink: the panel reads 40px above the title and below this line */
+	margin: -0.5rem auto 1.1rem;
 	max-width: 838px;
 	padding: 0;
+}
+
+.event--full .hero__standfirst a,
+.event--full .hero__standfirst a:not(.with-no-sass) {
+	border-bottom: 0;
+	color: var(--color-foreground-dark);
+	text-decoration: underline;
+	text-decoration-thickness: 1px;
+	text-underline-offset: 3px;
 }
 
 @media only screen and (min-width: 900px) {
 	.event--full .hero__standfirst {
 		font-size: 1.2rem;
-		margin: -0.75rem auto 0.75rem;
+		margin: -0.75rem auto 1.2rem;
 	}
 }
 
-/* The organiser now reads in the panel, so the details line would repeat it. */
-.event--full .event__organiser {
+/* The organiser now reads in the panel, so the details line would repeat it;
+   the neighbourhood line is cut too (2026-10-20 review). */
+.event--full .event__organiser,
+.event--full .event__neighbourhood-line {
 	display: none;
 }
 
