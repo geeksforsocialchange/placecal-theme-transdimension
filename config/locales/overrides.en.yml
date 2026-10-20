@@ -98,7 +98,7 @@ en:
           title: "Partners"
           page_title: "Partners"
           # Final design (README §4): one line only, no standfirst_detail.
-          standfirst: "We are proud to partner with a number of charities and organisations with a long track record of supporting the trans community."
+          standfirst: "Trans-friendly organisations, groups and services"
           standfirst_detail: ""
           # Partners.elm: heading between the intro panel and the list
           list_heading: "All partners"
