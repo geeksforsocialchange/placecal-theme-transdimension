@@ -34,11 +34,8 @@
    on the listing pages (which have a title on the starfield), the show pages
    (which do not) and the static markdown pages.
 
-   The bands are the same on every inner page. TD gives /about its own header
-   file (about_1_header.png, the generic band plus a character) and a set of
-   section illustrations, but nothing in core's markup says which static page is
-   being rendered, so /about takes the generic band with the rest. That missing
-   route hook is recorded in doc/core-slots-needed.md.
+   The bands are the same on every inner page except /about, which has its own
+   header file below; its characters and section bands are in about.css.
 */
 
 /* The bands are exactly one viewport wide, so they never overflow on their own;
@@ -189,8 +186,8 @@ main:not(:has(.td-home)) > div:has(> .hero) {
 	margin-top: var(--td-title-padding-top);
 }
 
-/* About.elm: the About page has its own header artwork (girl with afro,
-   galaxy). The theme's own page views mark the page with .page--<slug>. */
+/* pageHeadingAboutStyle: the About page's own header band. The girl with the
+   afro is a separate image, drawn in about.css. */
 body main:has(.page--about) {
 	--td-band-header: url("illustrations/320px/about_1_header.png");
 }
@@ -210,12 +207,13 @@ body main:has(.page--about) {
 @media only screen and (min-width: 1200px) {
 	body main:has(.page--about) {
 		--td-band-header: url("illustrations/1366px/about_1_header.png");
-		--td-band-header-height: 700px;
 	}
 }
 
 @media only screen and (min-width: 1500px) {
 	body main:has(.page--about) {
 		--td-band-header: url("illustrations/1920px/about_1_header.png");
+		--td-band-header-height: 1150px;
+		--td-band-header-top: -130px;
 	}
 }

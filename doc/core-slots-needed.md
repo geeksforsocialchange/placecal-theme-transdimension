@@ -59,7 +59,7 @@ generic slot that would give it to every theme rather than to this one.
   page being rendered.
 - **Element**: none.
 - **TD**: `src/Theme/PageTemplate.elm` gives `/about` its own header artwork
-  (`about_1_header.png`, the generic band plus a character cut-out) and a set of
+  (`about_1_header.png`, plus the `girl_with_afro.png` character) and a set of
   section illustrations keyed to that page; `pageHeadingAboutStyle` is a
   separate style from `pageHeadingGenericStyle` for exactly this reason.
 - **Slot**: a class or data attribute on `<body>` or `<main>` naming the
@@ -71,8 +71,8 @@ generic slot that would give it to every theme rather than to this one.
   (WP 3.12) emit the same wrapper, so `body main:has(.page--about)` can select
   the About band. The remaining gap is the other routes, which still carry no
   identifier.
-- **Consequence today**: `/about` has its own header band, but none of the About
-  page's own section artwork is drawn, and no other route can be styled singly.
+- **Consequence today**: `/about` has all of its own artwork (its view is the
+  theme's), but no other route can be styled singly.
 
 ## Laptop pass (WP 3.8)
 

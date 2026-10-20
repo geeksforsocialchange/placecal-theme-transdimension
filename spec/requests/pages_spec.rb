@@ -5,7 +5,7 @@ require 'rails_helper'
 # The theme's own static pages (#3368 WP 3.12). About and Privacy are views in
 # this engine registered with `theme.page`, not rows in the host database, so
 # what a request checks is that core serves the registered slug and that the
-# markup app/tailwind/pages.css selects on is still there. The markdown
+# markup the theme CSS selects on is still there. The markdown
 # pipeline itself, its cache and its missing-file rescue are core's
 # (Views::ThemeContentPage) and are covered by core's own specs.
 RSpec.describe 'Trans Dimension theme pages', type: :request do
@@ -25,27 +25,34 @@ RSpec.describe 'Trans Dimension theme pages', type: :request do
 
       expect(wrapper).to be_present
       expect(wrapper['data-page-slug']).to eq('about')
-      expect(wrapper.at_css('.markdown-content')).to be_present
+      expect(wrapper.css('.about-body').size).to eq(3)
     end
 
-    it 'opens with the site description as the intro paragraph' do
-      first_paragraph = response.parsed_body.at_css('.markdown-content > p')
+    it 'opens with the site description in the intro panel' do
+      lead = response.parsed_body.at_css('.about-intro .about-panel p')
 
-      expect(first_paragraph.text).to eq(I18n.t('transdimension.site.description'))
+      expect(lead.text).to eq(I18n.t('transdimension.site.description'))
     end
 
-    it 'renders every About section in About.elm order' do
-      headings = response.parsed_body.css('.markdown-content h2, .markdown-content h3').map(&:text)
+    it 'renders every About section in live order' do
+      headings = response.parsed_body.css('.page--about h2, .page--about h3').map { |h| h.text.presence || h.at_css('img')['alt'] }
 
       expect(headings).to eq(
         [
           I18n.t('transdimension.about.accessibility'),
           I18n.t('transdimension.about.makers'),
-          I18n.t('transdimension.about.gi'),
           I18n.t('transdimension.about.gfsc'),
+          I18n.t('transdimension.about.gi'),
           I18n.t('transdimension.about.placecal')
         ]
       )
+    end
+
+    it 'links each maker card to its organisation' do
+      links = response.parsed_body.css('.about-maker a.td-button').pluck('href')
+
+      expect(links).to eq([I18n.t('transdimension.about.gfsc_url'),
+                           I18n.t('transdimension.external.gendered_intelligence_home')])
     end
 
     it 'renders the markdown content of each section' do

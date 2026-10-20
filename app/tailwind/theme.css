@@ -573,6 +573,8 @@ select {
 @import "./footer.css";
 /* Decorative artwork on the inner pages (WP 2.10). */
 @import "./illustrations.css";
+/* /about, after the artwork it adds characters and section bands to. */
+@import "./about.css";
 
 /* PageHeader.elm: the Donate button is a white pill-less button (2px border,
    0.3rem radius, white fill, dark blue text) at the end of the nav, hovering

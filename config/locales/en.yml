@@ -79,8 +79,7 @@ en:
       news_header: Latest news
       news_button: View all news
       news_read_more: Read the rest
-    # About page. The section headings are rendered by
-    # Transdimension::Views::About, in the order About.elm renders them.
+    # About page, rendered by Transdimension::Views::About
     about:
       title: "About"
       accessibility: "Our Accessibility Process"
@@ -88,6 +87,10 @@ en:
       gi: "Gendered Intelligence"
       gfsc: "Geeks for Social Change"
       placecal: "Built using PlaceCal"
+      accessibility_lead: "As a trans and disabled led project, we have worked to put accessibility at the heart of everything we do."
+      find_out_more: "Find out more"
+      gfsc_url: "https://gfsc.studio/"
+      placecal_logo_alt: "PlaceCal logo"
     # Privacy page, rendered by Transdimension::Views::Privacy
     privacy:
       title: "Privacy Policy"
