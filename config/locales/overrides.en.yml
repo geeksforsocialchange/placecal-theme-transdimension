@@ -89,11 +89,9 @@ en:
       partners:
         show:
           section: "Partners"
-          # Final design (README §5): "Go back to all partners" below the box,
-          # not core's "Back to partners"; the event browser header reads
-          # "Upcoming partner events", not core's "Upcoming events" (the
-          # events_count_events / events_count_days count format stays core's).
-          go_back: "Go back to all partners"
+          # Below the box reads "All partners", not core's "Back to partners"; the
+          # event browser header reads "Upcoming partner events", not "Upcoming events".
+          go_back: "All partners"
           upcoming_events: "Upcoming partner events"
           # Same button copy as the events index, without the partner's name
           subscribe_ical: "Subscribe with iCal"

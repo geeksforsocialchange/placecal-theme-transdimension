@@ -32,6 +32,13 @@ main > div:has(> .container-public .g--partner) > .hero h1 {
 	}
 }
 
+/* Undoes event-show.css's wider bottom padding from 1500px, which the partner title does not want */
+@media only screen and (min-width: 1500px) {
+	main > div:has(> .container-public .g--partner) > .hero {
+		padding-bottom: 1rem;
+	}
+}
+
 /* The box closes 48px under its last block, map or not (live) */
 main > div > .container-public:has(> .g--partner) {
 	margin-bottom: 0;
@@ -179,11 +186,13 @@ main > div > .container-public:has(> .g--partner) {
 
 /* Side by side from 900px, heading and content matched by adjacency since core has no wrapper */
 @media only screen and (min-width: 900px) {
+	/* The flexible last row takes the contacts' extra height, so the directions sit right under the address */
 	.gi.gi__3-5 {
 		align-content: start;
 		column-gap: 0;
 		display: grid;
 		grid-template-columns: repeat(2, minmax(0, 1fr));
+		grid-template-rows: repeat(4, auto) 1fr;
 	}
 
 	.gi.gi__3-5 > .p--big,
@@ -208,7 +217,7 @@ main > div > .container-public:has(> .g--partner) {
 
 	.gi.gi__3-5 > .contact_details {
 		grid-column: 1;
-		grid-row: 4;
+		grid-row: 4 / span 2;
 	}
 
 	.gi.gi__3-5 > h2:has(+ .place_info__address) {
@@ -348,6 +357,17 @@ main > div > .container-public:has(> .g--partner) {
 	flex-wrap: wrap;
 }
 
+/* The header is a grid item, so this pulls the first cards to 24px under it rather than a full row gap */
+#events-browser:not(:has(.paginator)) > .partner-events__header {
+	margin-bottom: -0.5rem;
+}
+
+@media only screen and (min-width: 600px) {
+	#events-browser:not(:has(.paginator)) > .partner-events__header {
+		margin-bottom: -1rem;
+	}
+}
+
 .partner-events__heading {
 	border: 0;
 	clip-path: inset(50%);
@@ -400,8 +420,8 @@ main > div > .container-public:has(> .g--partner) {
 	font-weight: 600;
 	/* the label's tracking would otherwise reach the options, as the partners Type toggle has none */
 	letter-spacing: normal;
-	line-height: 1.5;
-	padding: 0.3rem 2.2rem 0.4rem 0.75rem;
+	line-height: 1.25;
+	padding: 0.2rem 2.2rem 0.3rem 0.75rem;
 	text-transform: none;
 }
 
@@ -449,18 +469,16 @@ main > div > .container-public:has(> .g--partner) {
 	padding: 0.4rem 0;
 }
 
+.g--partner .opening_times li:last-child {
+	border-bottom: 0;
+}
+
 .opening_times--day {
 	color: var(--color-primary);
 	font-weight: 600;
 }
 
-/* ---------------------------------------------------------------------------
-   Components::Meta: now permalink-only on this page (render_events_actions
-   in partners/show.rb carries the iCal and CSV links inside the events frame
-   instead, styled above as .partner-events__actions). The permalink itself
-   has no place in the design, so the whole row is hidden rather than styled;
-   Components::PageActions ("Go back to all partners") stays as the page's
-   last row. */
+/* Components::Meta is permalink-only here and the design has no place for it */
 main > div:not([vocab]):has(> .container-public .g--partner) ~ .meta {
 	display: none;
 }
