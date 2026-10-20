@@ -1,0 +1,14 @@
+export interface FooterProps {
+  /** [label, href] pairs for the pink top band. */
+  links?: [string, string][];
+  /** Show the "Register for updates" email form (live site has it; PlaceCal build dropped it). */
+  newsletter?: boolean;
+  /** Small "Log in" link for site admins (PlaceCal addition). */
+  login?: boolean;
+  onNavigate?: (href: string) => void;
+  assetBase?: string;
+  year?: number;
+  /** Stacked mobile layout. */
+  narrow?: boolean;
+}
+export function Footer(props: FooterProps): JSX.Element;

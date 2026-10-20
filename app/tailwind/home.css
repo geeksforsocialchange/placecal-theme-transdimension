@@ -117,8 +117,9 @@ main:has(.td-home) {
 		margin-right: auto;
 	}
 
+	/* Art scaled to 1600 at this tier so the panels sit higher on a laptop (review 2026-10-19). */
 	.td-section::before {
-		background-size: 1920px;
+		background-size: 1600px;
 	}
 }
 
@@ -180,13 +181,6 @@ main:has(.td-home) {
 @media only screen and (min-width: 1200px) {
 	.td-section--intro {
 		margin-top: 750px;
-		/* Final design (Home.jsx): the pink panel is its own 916px column,
-		   not the full section width the 7rem side margins give every other
-		   section. */
-		max-width: 916px;
-		margin-left: auto;
-		margin-right: auto;
-		padding: 64px 72px 56px;
 	}
 
 	.td-section--intro::before {
@@ -198,13 +192,13 @@ main:has(.td-home) {
 
 @media only screen and (min-width: 1500px) {
 	.td-section--intro {
-		margin-top: 1000px;
+		margin-top: 815px;
 	}
 
 	.td-section--intro::before {
 		background-image: url("illustrations/1920px/homepage_1_header.png");
-		height: 1306px;
-		top: -1100px;
+		height: 1088px;
+		top: -915px;
 	}
 }
 
@@ -222,6 +216,8 @@ main:has(.td-home) {
 	.td-home__logo {
 		display: block;
 		position: absolute;
+		/* left: 0 keeps it centred on the panel once the panel gains 72px side padding at 1200px. */
+		left: 0;
 		width: 100%;
 		text-align: center;
 		top: -600px;
@@ -251,7 +247,7 @@ main:has(.td-home) {
 
 @media only screen and (min-width: 1500px) {
 	.td-home__logo {
-		top: -750px;
+		top: -625px;
 	}
 
 	.td-home__logo-image {
@@ -294,19 +290,13 @@ main:has(.td-home) {
 @media only screen and (min-width: 1200px) {
 	.td-section__subtitle {
 		margin: 0.5rem 1rem;
-		/* Final design: 2.5rem italic title, tighter line-height than the
-		   3.2rem/1.1em tablet size. */
-		font-size: 2.5rem;
-		line-height: 1.2;
 	}
 
+	/* Live site's type and spacing kept over the design's 1rem/600px measure for readability (review 2026-10-19). */
 	.td-section__text {
-		/* Final design: 1rem/1.6 body copy in a 600px measure, not the wider
-		   8rem side margins the earlier port used. */
-		font-size: 1rem;
-		line-height: 1.6;
-		max-width: 600px;
-		margin: 1.5rem auto 0;
+		font-size: 1.2rem;
+		line-height: 1.5;
+		margin: 2rem 8rem;
 	}
 }
 
@@ -315,6 +305,8 @@ main:has(.td-home) {
 --------------------------------------------------------------------------- */
 
 .td-section--events {
+	/* 3rem at every width, not just 600px up: less dead space above "View all events" on phones (review 2026-10-19). */
+	padding-bottom: 3rem;
 	margin-top: 250px;
 }
 
@@ -354,9 +346,8 @@ main:has(.td-home) {
 		   than the intro and news panels. */
 		margin-left: 0;
 		margin-right: 0;
-		/* Final design (ContentBox inset="28px 32px 96px"): room for the
-		   floating "See more events" button below the card grid. */
-		padding: 28px 32px 96px;
+		/* Design's 32px sides kept; bottom back to live's 48px (review 2026-10-19). */
+		padding: 28px 32px 48px;
 	}
 
 	.td-section--events::before {
@@ -371,13 +362,13 @@ main:has(.td-home) {
 		max-width: 1182px;
 		margin-left: auto;
 		margin-right: auto;
-		margin-top: 220px;
+		margin-top: 180px;
 	}
 
 	.td-section--events::before {
 		background-image: url("illustrations/1920px/homepage_3.png");
-		height: 250px;
-		top: -220px;
+		height: 208px;
+		top: -183px;
 	}
 }
 
@@ -389,7 +380,8 @@ main:has(.td-home) {
 
 .td-section--news {
 	margin-top: 240px;
-	margin-bottom: 240px;
+	/* Trimmed from live's 240/175 below "View all news" (review 2026-10-19). */
+	margin-bottom: 200px;
 	/* No box inset here: `.td-news` (the card, below) carries its own
 	   padding, so the generic .td-section box inset is switched off. */
 	padding: 0;
@@ -412,14 +404,14 @@ main:has(.td-home) {
 	position: absolute;
 	z-index: -1;
 	margin: 0 -1.75rem;
-	bottom: -270px;
+	bottom: -230px;
 	height: 240px;
 }
 
 @media only screen and (min-width: 600px) {
 	.td-section--news {
 		margin-top: 175px;
-		margin-bottom: 175px;
+		margin-bottom: 150px;
 	}
 
 	.td-section--news::before {
@@ -432,7 +424,7 @@ main:has(.td-home) {
 		background-image: url("illustrations/768px/homepage_5.png");
 		background-size: 900px;
 		height: 200px;
-		bottom: -195px;
+		bottom: -170px;
 		margin: 0 -2.5rem;
 	}
 }
@@ -485,21 +477,21 @@ main:has(.td-home) {
 
 @media only screen and (min-width: 1500px) {
 	.td-section--news {
-		margin-top: 220px;
-		margin-bottom: 230px;
+		margin-top: 183px;
+		margin-bottom: 192px;
 	}
 
 	.td-section--news::before {
 		background-image: url("illustrations/1920px/homepage_4.png");
-		height: 250px;
-		top: -250px;
+		height: 208px;
+		top: -208px;
 	}
 
 	.td-section--news::after {
 		background-image: url("illustrations/1920px/homepage_5.png");
-		background-size: 1920px;
-		height: 250px;
-		bottom: -210px;
+		background-size: 1600px;
+		height: 208px;
+		bottom: -175px;
 		margin: 0 calc(-50vw - -475px);
 	}
 }
@@ -638,79 +630,11 @@ main:has(.td-home) {
 }
 
 /* ---------------------------------------------------------------------------
-   Region selector
-   Core's Components::RegionFilter renders the markup (rounded pills painted
-   with utility classes); TD wants fixed-width rectangular buttons, so the
-   utilities are overridden here rather than the component forked.
-   RegionSelector.elm sizes its row from the number of buttons; this uses flex
-   wrapping instead, which centres the same way for any number of regions.
---------------------------------------------------------------------------- */
-
-/* Only the homepage deltas live here: everything else this row needs is the
-   shared `.region-filter` block in pages.css, which applies on the homepage
-   too. */
-
-.td-home .region-filter {
-	/* Core's .region-filter is max-width: fit-content, which left-aligns it
-	   inside the box; TD centres the region buttons and lets them bleed into
-	   the section's own padding. */
-	margin: 0 -0.5rem;
-	max-width: none;
-}
-
-.td-home .region-filter ul {
-	width: 100%;
-	margin: 0 auto 0.5rem auto;
-	padding: 0;
-	list-style: none;
-}
-
-.td-home .region-filter li {
-	list-style: none;
-}
-
-.td-home .region-filter a {
-	transition:
-		background-color 300ms,
-		border-color 300ms,
-		color 300ms;
-}
-
-.td-home .region-filter a[aria-current="page"] {
-	border-color: var(--color-foreground);
-}
-
-.td-home .region-filter a:active,
-.td-home .region-filter a:focus {
-	background-color: var(--color-foreground);
-	color: var(--color-background);
-	border-color: var(--color-foreground);
-}
-
-@media only screen and (hover: hover) and (pointer: fine) {
-	.td-home .region-filter a:hover {
-		background-color: var(--color-home-background-3);
-	}
-}
-
-@media only screen and (min-width: 900px) {
-	.td-home .region-filter {
-		margin: 2rem -1rem;
-	}
-}
-
-@media only screen and (min-width: 1200px) {
-	.td-home .region-filter {
-		margin: 2rem -1rem 3rem -1rem;
-	}
-}
-
-/* ---------------------------------------------------------------------------
    Event list, Theme/Page/Events.elm
 --------------------------------------------------------------------------- */
 
 .td-events {
-	margin: 1rem 0;
+	margin: 1rem 0 0;
 }
 
 .td-events__empty {
@@ -723,19 +647,20 @@ main:has(.td-home) {
 }
 
 /* Index.elm reuses viewEvent from Events.elm, so the homepage cards are core's
-   Components::Event under the same `.events` rules /events uses, in pages.css.
-   Only the list's own spacing belongs to the homepage: the section gives the
-   grid a wider gutter than the content box does, and the cards keep a bottom
-   margin because no paginator follows the last row.
+   Components::Event under the same `.events` rules /events uses, in pages.css:
+   48px between rows, none above the first (events.css .events .event). Only
+   the list's own spacing belongs to the homepage: the section gives the grid
+   a wider gutter than the content box does, and the grid itself keeps a
+   bottom margin because no paginator follows the last row.
    Final design (Home.jsx's td-grid2): the four cards sit two-up from 900px,
-   28px column gap, no row gap (the cards carry their own bottom margin
-   instead). */
+   28px column gap, 48px row gap. */
 .td-events .events {
 	display: grid;
 	grid-template-columns: minmax(0, 1fr);
 	column-gap: 1.75rem;
 	row-gap: 0;
-	margin: 0;
+	/* Keeps 81px under the last card now the cards have no bottom margin. */
+	margin: 0 0 2rem;
 }
 
 /* Index.elm's card is the title, the times, the place and the organiser. The
@@ -744,26 +669,17 @@ main:has(.td-home) {
 	display: none;
 }
 
-.td-events .events .event {
-	margin-bottom: 1.25rem;
-}
-
-@media only screen and (min-width: 600px) {
-	.td-events .events .event {
-		margin-bottom: 1.5rem;
-	}
-}
 
 @media only screen and (min-width: 900px) {
 	.td-events .events {
 		grid-template-columns: repeat(2, minmax(0, 1fr));
-		margin: 1rem 0;
+		margin-top: 1rem;
 	}
 }
 
 @media only screen and (min-width: 1200px) {
 	.td-events .events {
-		margin: 2rem 0;
+		margin-top: 2rem;
 	}
 }
 
@@ -782,14 +698,21 @@ main:has(.td-home) {
 	background-color: var(--color-background);
 	border: 1px solid var(--color-primary);
 	border-radius: 0.3rem;
-	padding: 1.25rem 1.25rem 2.5rem;
+	/* Live site's news box padding, 1rem/4rem then 2rem/4rem then 3rem/4rem (review 2026-10-19). */
+	padding: 1rem 1.25rem 4rem;
 	margin: 0 0 3rem;
 	color: var(--color-foreground);
 }
 
 @media only screen and (min-width: 600px) {
 	.td-news {
-		padding: 1.5rem 2rem 2.5rem;
+		padding: 2rem 2rem 4rem;
+	}
+}
+
+@media only screen and (min-width: 1200px) {
+	.td-news {
+		padding: 3rem 2rem 4rem;
 	}
 }
 
@@ -802,7 +725,7 @@ main:has(.td-home) {
 
 .td-news__image {
 	width: 100%;
-	height: 56.25%;
+	aspect-ratio: 303 / 202;
 	object-fit: cover;
 	border-radius: 0.3rem;
 	margin-bottom: 1rem;
@@ -860,13 +783,16 @@ main:has(.td-home) {
 		display: flex;
 	}
 
+	/* flex-shrink 0: Safari otherwise squeezes the image to make room for the title (review 2026-10-19). */
 	.td-news__image {
+		flex-shrink: 0;
 		width: 294px;
 		max-width: 50%;
 	}
 
 	.td-news__info {
 		flex-grow: 1;
+		min-width: 0;
 		padding-left: 2rem;
 	}
 

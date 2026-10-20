@@ -1,0 +1,27 @@
+import React, { useState } from 'react';
+const DAYS = ['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su'];
+function Cell({ d, active, today, muted, onClick }) {
+  const [h, setH] = useState(false);
+  return <button type="button" onClick={onClick} aria-pressed={active} onMouseEnter={() => setH(true)} onMouseLeave={() => setH(false)} style={{ width: 36, height: 36, border: today && !active ? '2px solid var(--td-pink)' : '2px solid transparent', borderRadius: '0.3rem', background: active ? 'var(--td-pink)' : h ? 'var(--td-purple)' : 'transparent', color: active ? 'var(--td-dark-blue)' : muted ? 'var(--td-mauve, #7b4a6e)' : 'var(--td-white)', fontFamily: 'inherit', fontWeight: 600, fontSize: '0.9rem', cursor: 'pointer', transition: 'background-color 300ms, color 300ms' }}>{d}</button>;
+}
+/** TD month calendar dropdown (pink 1px border, dark fill) — opened by the "Pick a date +" toggle. value/onChange are ISO dates. */
+export function DatePicker({ value, onChange, initialMonth, style }) {
+  const sel = value ? new Date(value + 'T00:00') : null;
+  const now = new Date();
+  const [view, setView] = useState(() => { const b = sel || (initialMonth ? new Date(initialMonth + 'T00:00') : now); return new Date(b.getFullYear(), b.getMonth(), 1); });
+  const first = (view.getDay() + 6) % 7; const dim = new Date(view.getFullYear(), view.getMonth() + 1, 0).getDate();
+  const cells = []; for (let i = 0; i < first; i++) cells.push(null); for (let d = 1; d <= dim; d++) cells.push(d);
+  const iso = d => new Date(view.getFullYear(), view.getMonth(), d).toISOString().slice(0, 10);
+  const nav = (n, onClick) => <button type="button" onClick={onClick} aria-label={n < 0 ? 'Previous month' : 'Next month'} style={{ width: 32, height: 32, background: 'var(--td-pink)', color: 'var(--td-dark-blue)', border: 0, borderRadius: '0.3rem', cursor: 'pointer', fontSize: '0.8rem' }}>{n < 0 ? '\u25C0' : '\u25B6'}</button>;
+  return <div role="dialog" aria-label="Pick a date" style={{ display: 'inline-block', background: 'var(--td-dark-blue)', border: '1px solid var(--td-pink)', borderRadius: '0.3rem', padding: '1rem 1.25rem 1.25rem', fontFamily: 'var(--font-sans)', color: 'var(--td-white)', ...style }}>
+    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '1rem', marginBottom: '0.75rem' }}>
+      {nav(-1, () => setView(v => new Date(v.getFullYear(), v.getMonth() - 1, 1)))}
+      <span style={{ fontWeight: 700, letterSpacing: '1.9px', textTransform: 'uppercase', fontSize: '0.85rem' }}>{view.toLocaleString('en-GB', { month: 'long', year: 'numeric' })}</span>
+      {nav(1, () => setView(v => new Date(v.getFullYear(), v.getMonth() + 1, 1)))}
+    </div>
+    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(7, 36px)', gap: 4, justifyItems: 'center' }}>
+      {DAYS.map(d => <span key={d} style={{ color: 'var(--td-pink)', fontWeight: 700, fontSize: '0.72rem', letterSpacing: '1px', lineHeight: '24px' }}>{d}</span>)}
+      {cells.map((d, i) => d === null ? <span key={'e' + i} /> : <Cell key={d} d={d} active={!!sel && iso(d) === value} today={iso(d) === new Date(now.getFullYear(), now.getMonth(), now.getDate()).toISOString().slice(0, 10)} onClick={() => onChange && onChange(iso(d))} />)}
+    </div>
+  </div>;
+}

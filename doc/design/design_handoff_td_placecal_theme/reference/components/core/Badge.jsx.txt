@@ -1,0 +1,5 @@
+import React from 'react';
+/** Partner area tag: dark purple ground, pink 600 label, 0.3rem radius. */
+export function Badge({ children, style }) {
+  return <span style={{ display: 'inline-block', background: 'var(--td-mauve, #7b4a6e)', color: 'var(--td-pink)', borderRadius: '0.3rem', fontSize: '0.78rem', fontWeight: 700, padding: '0.15rem 0.5rem', lineHeight: 1.4, whiteSpace: 'nowrap', fontFamily: 'var(--font-sans)', ...style }}>{children}</span>;
+}

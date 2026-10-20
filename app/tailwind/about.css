@@ -1,0 +1,592 @@
+/* /about: Transdimension::Views::About, ported from About.elm. The numbers are
+   live's computed values at 390, 1024 and 1512; 600-899 follows the Elm. */
+
+/* Live's reset sets this on body for every page; it turns kerning off, which
+   is what moves live's line breaks. */
+.page--about {
+	text-rendering: optimizeSpeed;
+}
+
+/* main is 12px narrower than live's 1150px column from here up. */
+@media only screen and (min-width: 1200px) {
+	.page--about {
+		margin-inline: -6px;
+	}
+}
+
+main > .page--about > h1.h1 {
+	padding-bottom: 0.5rem;
+	position: relative;
+}
+
+@media only screen and (min-width: 900px) {
+	main > .page--about > h1.h1 {
+		padding-bottom: 1rem;
+	}
+}
+
+/* The girl with the afro hangs off the title, over the intro box. */
+@media only screen and (min-width: 900px) {
+	main > .page--about > h1.h1::after {
+		background: url("characters/girl_with_afro.png") center / 162px no-repeat;
+		bottom: -90px;
+		content: "";
+		display: block;
+		height: 305px;
+		left: 0;
+		position: absolute;
+		width: 162px;
+		z-index: 2;
+	}
+}
+
+@media only screen and (min-width: 1200px) {
+	main > .page--about > h1.h1::after {
+		background-size: 231px;
+		bottom: -250px;
+		height: 434px;
+		left: -100px;
+		width: 231px;
+	}
+}
+
+/* ---------------------------------------------------------------------------
+   Boxes, pink panels and the lead line
+--------------------------------------------------------------------------- */
+
+.about-box {
+	background-color: var(--color-background);
+	border: 1px solid var(--color-primary);
+	border-radius: 0.3rem;
+	position: relative;
+}
+
+.about-panel,
+.about-maker {
+	background-color: var(--color-primary);
+	border-radius: 0.3rem;
+	box-sizing: border-box;
+	color: var(--color-foreground-dark);
+	padding: 1rem 0.75rem;
+}
+
+@media only screen and (min-width: 600px) {
+	.about-panel,
+	.about-maker {
+		padding-inline: 1.5rem;
+	}
+}
+
+@media only screen and (min-width: 1500px) {
+	.about-panel {
+		padding-bottom: 2rem;
+	}
+}
+
+.page--about .about-lead {
+	color: var(--color-foreground-dark);
+	font-size: 1.6rem;
+	font-style: italic;
+	font-weight: 500;
+	line-height: 2rem;
+	margin: 1rem 0.5rem;
+	text-align: center;
+}
+
+@media only screen and (min-width: 600px) {
+	.page--about .about-lead {
+		font-size: 1.9rem;
+		line-height: 2.1rem;
+		margin: 1rem 1.5rem;
+	}
+}
+
+@media only screen and (min-width: 900px) {
+	.page--about .about-lead {
+		font-size: 2.5rem;
+		line-height: 3.1rem;
+		margin: 3rem auto;
+		max-width: 838px;
+	}
+
+	.about-accessibility > .about-panel {
+		padding-inline: 10rem;
+		position: relative;
+	}
+}
+
+@media only screen and (max-width: 599px) {
+	.about-accessibility > .about-label {
+		top: -4.5rem;
+	}
+}
+
+/* ---------------------------------------------------------------------------
+   Body copy: one column on a phone, two from tablet portrait
+--------------------------------------------------------------------------- */
+
+.about-body {
+	margin: 2rem 0.75rem;
+}
+
+.about-placecal > .about-body {
+	margin-block: 0.75rem;
+}
+
+.about-intro > .about-body {
+	position: relative;
+}
+
+.about-body p,
+.about-maker__body p {
+	font-size: 1rem;
+	line-height: 1.5;
+	margin-block: 1em;
+}
+
+/* Global.elm linkStyle draws the rule as a border, which sits lower than the
+   theme's offset underline. */
+.about-body a:not(.with-no-sass) {
+	border-bottom: 1px solid var(--color-primary);
+	text-decoration: none;
+}
+
+@media only screen and (hover: hover) and (pointer: fine) {
+	.about-body a:not(.with-no-sass):hover {
+		border-bottom-color: var(--color-foreground);
+	}
+}
+
+@media only screen and (min-width: 600px) {
+	.about-body {
+		columns: 2;
+		margin: 3rem 2rem;
+	}
+
+	.about-placecal > .about-body {
+		margin-block: 3rem;
+	}
+
+	.about-body > p:first-child,
+	.about-maker__body > p:first-child {
+		margin-block-start: 0;
+	}
+}
+
+@media only screen and (min-width: 1200px) {
+	.about-body {
+		column-gap: 2rem;
+		margin-inline: auto;
+		max-width: 848px;
+	}
+
+	.about-body p,
+	.about-maker__body p {
+		font-size: 1.2rem;
+		line-height: 1.8rem;
+	}
+}
+
+/* Live's phone layout breaks each long block with a band of artwork above
+   its third paragraph. */
+@media only screen and (max-width: 599px) {
+	.about-intro > .about-body > p:nth-child(3),
+	.about-accessibility > .about-body > p:nth-child(3) {
+		padding-top: 200px;
+		position: relative;
+	}
+
+	.about-intro > .about-body > p:nth-child(3)::before,
+	.about-accessibility > .about-body > p:nth-child(3)::before {
+		background: url("illustrations/320px/about_2.png") calc(50% + 1px) center / 420px no-repeat;
+		content: "";
+		display: block;
+		height: 230px;
+		/* to the viewport edge (live stops 1px short and clips the overflow) */
+		margin: 0 -25px;
+		position: absolute;
+		top: -30px;
+		width: 100vw;
+	}
+
+	.about-accessibility > .about-body > p:nth-child(3)::before {
+		background-image: url("illustrations/320px/about_4.png");
+	}
+}
+
+/* ---------------------------------------------------------------------------
+   Sections and their bands of artwork
+--------------------------------------------------------------------------- */
+
+.about-accessibility {
+	margin-top: 370px;
+}
+
+.about-makers {
+	margin-top: 170px;
+	position: relative;
+}
+
+.about-placecal {
+	margin-top: 400px;
+}
+
+.about-accessibility::before,
+.about-makers::before,
+.about-placecal::before {
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: 420px;
+	content: "";
+	display: block;
+	margin: 0 -0.75rem;
+	position: absolute;
+	width: 100vw;
+}
+
+/* Live starts these 1px in, inside the border, and clips the overflow; this
+   box starts at the edge and moves the image instead. */
+.about-accessibility::before,
+.about-placecal::before {
+	background-position: calc(50% + 1px) center;
+	left: -1px;
+}
+
+.about-accessibility::before {
+	background-image: url("illustrations/320px/about_3.png");
+	height: 290px;
+	top: -355px;
+}
+
+.about-makers::before {
+	background-image: url("illustrations/320px/about_5.png");
+	height: 150px;
+	top: -170px;
+}
+
+.about-placecal::before {
+	background-image: url("illustrations/320px/about_6.png");
+	height: 360px;
+	top: -390px;
+}
+
+@media only screen and (min-width: 600px) {
+	.about-accessibility {
+		margin-top: 200px;
+	}
+
+	.about-placecal {
+		margin-top: 150px;
+	}
+
+	.about-makers {
+		margin-top: 150px;
+	}
+
+	.about-accessibility::before,
+	.about-makers::before,
+	.about-placecal::before {
+		background-size: 900px;
+		height: 200px;
+		margin: 0 -2rem;
+		top: -190px;
+		z-index: -1;
+	}
+
+	.about-accessibility::before {
+		background-image: url("illustrations/768px/about_2.png");
+	}
+
+	.about-makers::before {
+		background-image: url("illustrations/768px/about_3.png");
+	}
+
+	.about-placecal::before {
+		background-image: url("illustrations/768px/about_4.png");
+		height: 150px;
+		top: -140px;
+	}
+}
+
+@media only screen and (min-width: 900px) {
+	.about-accessibility {
+		margin-top: 220px;
+	}
+
+	.about-placecal {
+		margin-top: 150px;
+	}
+
+	.about-accessibility::before,
+	.about-makers::before,
+	.about-placecal::before {
+		background-size: 1200px;
+		height: 280px;
+	}
+
+	.about-accessibility::before {
+		background-image: url("illustrations/1024px/about_2.png");
+		top: -250px;
+	}
+
+	.about-makers::before {
+		background-image: url("illustrations/1024px/about_3.png");
+		top: -210px;
+	}
+
+	.about-placecal::before {
+		background-image: url("illustrations/1024px/about_4.png");
+		height: 150px;
+		top: -150px;
+	}
+}
+
+@media only screen and (min-width: 1200px) {
+	.about-accessibility {
+		margin-top: 250px;
+	}
+
+	.about-makers {
+		margin-top: 140px;
+	}
+
+	/* Live hangs these bands 7rem left of the box and lets a wrapper clip the
+	   overflow; here the box spans the viewport and the image moves instead. */
+	.about-accessibility::before,
+	.about-makers::before,
+	.about-placecal::before {
+		background-position: calc(50% + 50vw - 686px) center;
+		background-size: 1367px;
+		height: 200px;
+		left: 50%;
+		margin: 0 0 0 -50vw;
+	}
+
+	.about-accessibility::before {
+		background-image: url("illustrations/1366px/about_2.png");
+	}
+
+	.about-makers::before {
+		background-image: url("illustrations/1366px/about_3.png");
+		background-position: center;
+		height: 140px;
+		top: -140px;
+	}
+
+	.about-placecal::before {
+		background-image: url("illustrations/1366px/about_4.png");
+	}
+}
+
+@media only screen and (min-width: 1500px) {
+	.about-makers,
+	.about-placecal {
+		margin-top: 170px;
+	}
+
+	.about-accessibility::before,
+	.about-makers::before,
+	.about-placecal::before {
+		background-position: calc(50% + 1px) center;
+		background-size: 1920px;
+		height: 250px;
+	}
+
+	.about-makers::before {
+		background-position: center;
+	}
+
+	.about-accessibility::before {
+		background-image: url("illustrations/1920px/about_2.png");
+		top: -260px;
+	}
+
+	.about-makers::before {
+		background-image: url("illustrations/1920px/about_3.png");
+		height: 160px;
+		top: -160px;
+	}
+
+	.about-placecal::before {
+		background-image: url("illustrations/1920px/about_4.png");
+		height: 170px;
+		top: -170px;
+	}
+}
+
+/* ---------------------------------------------------------------------------
+   Characters
+--------------------------------------------------------------------------- */
+
+@media only screen and (min-width: 900px) {
+	.about-accessibility > .about-panel::before,
+	.about-accessibility > .about-panel::after {
+		background-position: center;
+		background-repeat: no-repeat;
+		content: "";
+		display: block;
+		position: absolute;
+		z-index: 2;
+	}
+
+	.about-accessibility > .about-panel::before {
+		background-image: url("characters/person_in_wheelchair.png");
+		background-size: 182px;
+		height: 267px;
+		left: 10px;
+		top: -190px;
+		width: 182px;
+	}
+
+	.about-accessibility > .about-panel::after {
+		background-image: url("characters/nb_helmet_person.png");
+		background-size: 347px;
+		bottom: -50px;
+		height: 386px;
+		right: -10px;
+		width: 347px;
+	}
+}
+
+@media only screen and (min-width: 1200px) {
+	.about-accessibility > .about-panel::before {
+		background-size: 244px;
+		height: 357px;
+		left: -100px;
+		width: 244px;
+	}
+
+	.about-accessibility > .about-panel::after {
+		background-position: left center;
+		background-size: 429px;
+		bottom: -370px;
+		height: 478px;
+		left: calc(100% - 329px);
+		right: auto;
+		width: min(429px, calc(50vw - 245px));
+	}
+
+	.about-intro > .about-body::after,
+	.about-placecal::after {
+		background-position: center;
+		background-repeat: no-repeat;
+		content: "";
+		display: block;
+		position: absolute;
+	}
+
+	/* Live's flag holder and helmet person run off the right edge below about
+	   1530px and 1290px; the width stops at the viewport so the page never scrolls. */
+	.about-intro > .about-body::after {
+		background-image: url("characters/flag_holder.png");
+		background-position: left center;
+		background-size: 298px;
+		bottom: -160px;
+		height: 541px;
+		left: calc(100% + 52px);
+		width: min(298px, calc(50vw - 476px));
+	}
+
+	.about-placecal::after {
+		background-image: url("characters/space_princess.png");
+		background-size: 186px;
+		height: 516px;
+		left: -80px;
+		top: -70px;
+		width: 186px;
+	}
+}
+
+/* ---------------------------------------------------------------------------
+   Meet the makers: two pink cards, side by side from tablet landscape
+--------------------------------------------------------------------------- */
+
+.about-maker {
+	margin-block: 3rem;
+	position: relative;
+}
+
+.page--about .about-maker__name {
+	color: var(--color-foreground-dark);
+	font-size: 1rem;
+	line-height: 1.5;
+	margin: 0;
+}
+
+.about-maker__logo {
+	display: block;
+	height: 50px;
+	margin: 2rem auto 3rem;
+	max-width: 100%;
+	width: auto;
+}
+
+.about-maker__more {
+	bottom: -2rem;
+	margin: 1rem 0;
+	position: absolute;
+	text-align: center;
+	width: 100%;
+}
+
+.about-maker__more .td-button {
+	line-height: 1.5;
+}
+
+.about-placecal__logo {
+	display: block;
+	margin: 1rem auto;
+	width: 200px;
+}
+
+@media only screen and (min-width: 600px) {
+	.about-maker {
+		align-items: center;
+		display: flex;
+		padding-top: 2rem;
+	}
+
+	.page--about .about-maker__name {
+		flex-shrink: 0;
+		padding: 0 3rem 0 1rem;
+	}
+
+	.about-maker__logo {
+		margin: 0;
+	}
+
+	.about-placecal__logo {
+		margin-block: 1.5rem;
+	}
+}
+
+@media only screen and (min-width: 900px) {
+	.about-makers {
+		display: flex;
+		justify-content: space-around;
+	}
+
+	.about-maker {
+		flex-direction: column;
+		margin: 1rem 0 3rem;
+		width: 40%;
+	}
+
+	.page--about .about-maker__name {
+		padding: 0;
+	}
+
+	.about-maker__logo {
+		margin: 1rem auto 3rem;
+	}
+}
+
+@media only screen and (min-width: 1200px) {
+	.about-maker {
+		padding: 2rem 3rem 3rem;
+	}
+
+	.about-maker__logo {
+		height: 55px;
+	}
+}

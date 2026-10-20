@@ -1,0 +1,57 @@
+import React from 'react';
+import { Wordmark } from '../core/Wordmark.jsx';
+import { FloatingTitle } from '../core/FloatingTitle.jsx';
+const LINKS = [['Events', '/events'], ['Partners', '/partners'], ['News', '/news'], ['About', '/about'], ['Privacy', '/privacy'], ['Join us', '/join']];
+/** Three full-width bands: pink (wordmark + links), dark (social, created-by, optional newsletter), pink (legal, credits, Powered by PlaceCal). */
+export function Footer({ links = LINKS, newsletter = true, login = false, onNavigate, assetBase = '../../assets', year = new Date().getFullYear(), narrow = false }) {
+  const nav = href => e => { if (onNavigate) { e.preventDefault(); onNavigate(href); } };
+  const info = { fontSize: '0.8777rem', lineHeight: 1.2875, margin: narrow ? '1rem 1rem' : '1rem 2rem', textAlign: 'center' };
+  const pinkLink = { color: 'var(--td-dark-blue)', textDecorationColor: 'var(--td-dark-blue)' };
+  return <footer style={{ fontFamily: 'var(--font-sans)', color: 'var(--td-white)', background: 'var(--td-dark-blue)', marginTop: '2rem', fontSize: '1rem', lineHeight: 1.5 }}>
+    <div style={{ background: 'var(--td-pink)', display: 'flex', flexDirection: narrow ? 'column' : 'row', alignItems: 'center', justifyContent: 'space-between', padding: narrow ? '1rem' : '28px 32px', boxSizing: 'border-box', minHeight: narrow ? 0 : 150 }}>
+      <div style={{ padding: '1rem', textAlign: 'center' }}><Wordmark variant="footer" width={225} assetBase={assetBase} style={{ margin: narrow ? '1rem auto' : 0 }} /></div>
+      <nav aria-label="Footer" style={{ padding: narrow ? '1rem 1rem 3rem' : '1rem', maxWidth: narrow ? 'none' : '55%' }}>
+        <ul style={{ listStyle: 'none', margin: 0, padding: 0, display: 'flex', flexDirection: narrow ? 'column' : 'row', flexWrap: 'wrap', justifyContent: 'flex-end' }}>
+          {links.map(([l, h]) => <li key={h} style={{ textAlign: 'center', fontWeight: 600, margin: narrow ? '0.5rem' : '0 0.55rem', fontSize: '1.1rem' }}><a href={h} onClick={nav(h)} style={{ color: 'var(--td-dark-blue)', textDecoration: 'none' }}>{l}</a></li>)}
+        </ul>
+      </nav>
+    </div>
+    <div style={{ padding: narrow ? '1rem 0' : '24px 56px 28px', display: narrow ? 'flex' : 'grid', gridTemplateColumns: newsletter ? 'auto minmax(0,1fr) max-content' : 'auto auto', flexDirection: 'column', alignItems: narrow ? 'center' : 'start', justifyContent: 'space-between', justifyItems: 'center', gap: narrow ? 0 : '1.5rem', boxSizing: 'border-box' }}>
+      <div style={{ padding: '1rem', textAlign: 'center' }}>
+        <FloatingTitle as="p" style={{ margin: '0.5rem 0 1rem', whiteSpace: 'nowrap' }}>Follow us out there</FloatingTitle>
+        <ul style={{ listStyle: 'none', margin: '1.25rem 0 0.5rem', padding: 0, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+          {[['instagram', 'https://www.instagram.com/genderedintelligence/', 'Instagram'], ['twitter', 'https://twitter.com/genderintell', 'Twitter'], ['facebook', 'https://www.facebook.com/GenderedIntelligence', 'Facebook']].map(([f, h, a]) => <li key={f} style={{ margin: '0 1rem' }}><a href={h} target="_blank" rel="noopener"><img src={assetBase + '/icons/' + f + '.svg'} alt={'The Trans Dimension on ' + a} style={{ display: 'block', width: 40, height: 40 }} /></a></li>)}
+        </ul>
+      </div>
+      <div style={{ padding: '1rem', textAlign: 'center' }}>
+        <FloatingTitle as="p" style={{ margin: '0.5rem 0 1rem' }}>Created by</FloatingTitle>
+        <ul style={{ listStyle: 'none', margin: '1.25rem 0 0.5rem', padding: 0, display: 'flex', flexDirection: narrow ? 'column' : 'row', justifyContent: 'center', alignItems: 'center' }}>
+          <li style={{ display: 'flex', flexDirection: narrow ? 'column' : 'row', alignItems: 'center' }}><a href="https://gfsc.studio/" target="_blank" rel="noopener"><img src={assetBase + '/logos/footer_gfsc.svg'} alt="Geeks for Social Change" style={{ display: 'block', height: 48 }} /></a><span style={{ color: 'var(--td-white)', fontSize: '2rem', margin: narrow ? '1rem 1.5rem' : '0 1.5rem' }}>+</span></li>
+          <li><a href="https://genderedintelligence.co.uk/" target="_blank" rel="noopener"><img src={assetBase + '/logos/GI_pink.svg'} alt="Gendered Intelligence" style={{ display: 'block', height: 48 }} /></a></li>
+        </ul>
+      </div>
+      {newsletter && <div style={{ padding: '1rem', textAlign: 'center', whiteSpace: 'nowrap' }}>
+        <FloatingTitle as="p" style={{ margin: '0.5rem 0 1rem', whiteSpace: 'nowrap' }}>Register for updates</FloatingTitle>
+        <form onSubmit={e => e.preventDefault()} style={{ display: 'flex', flexDirection: narrow ? 'column' : 'row', gap: '0.5rem', margin: '1.25rem 0 0.5rem', justifyContent: 'center', flexWrap: 'nowrap' }}>
+          <input placeholder="Your email address" style={{ width: narrow ? '100%' : 180, boxSizing: 'border-box', background: 'var(--td-dark-blue)', border: '2px solid var(--td-pink)', borderRadius: '0.3rem', color: 'var(--td-white)', padding: '0.375rem 1rem 0.5rem', fontFamily: 'inherit', fontSize: '1rem', textAlign: 'center', outline: 'none', minWidth: 0 }} />
+          <button style={{ background: 'var(--td-pink)', border: '0.2rem solid var(--td-pink)', borderRadius: '0.3rem', color: 'var(--td-dark-blue)', fontWeight: 600, padding: '0.2rem 1rem 0.3rem', fontFamily: 'inherit', fontSize: '1rem', cursor: 'pointer' }}>Sign up</button>
+        </form>
+      </div>}
+    </div>
+    <div style={{ background: 'var(--td-pink)', color: 'var(--td-dark-blue)' }}>
+      <div style={{ padding: '1rem' }}>
+        <p style={{ ...info, fontWeight: 700 }}>The Trans Dimension, c/o Gendered Intelligence</p>
+        <p style={{ ...info, margin: '0 2rem' }}>Gendered Intelligence is a Registered Charity in England and Wales No. 1182558.</p>
+        <p style={{ ...info, margin: '0 2rem' }}>Registered as a Company Limited by Guarantee in England and Wales No. 06617608.</p>
+        <p style={{ ...info, margin: '0 2rem' }}>Registered office at VAI, 200a Pentonville Road, London N1 9JP.</p>
+      </div>
+      <div style={{ padding: '1rem' }}>
+        <p style={{ ...info, fontWeight: 700, marginTop: 0 }}>Credits</p>
+        <p style={info}>Illustrations by <a href="https://www.harrywoodgate.com/" style={pinkLink}>Harry Woodgate</a>, design by <a href="https://studiosquid.co.uk/" style={pinkLink}>Squid</a>, website by <a href="https://gfsc.studio/" style={pinkLink}>GFSC</a>.</p>
+        <p style={info}>© {year} Gendered Intelligence. All rights reserved.</p>
+        <a href="https://placecal.org" style={{ display: 'block', width: 192, maxWidth: '100%', margin: '3rem auto 1rem' }}><img src={assetBase + '/logos/footer_placecal.svg'} alt="Powered by PlaceCal" style={{ display: 'block', width: '100%' }} /></a>
+        {login && <p style={{ fontSize: '0.72rem', margin: '1rem 0 0', textAlign: 'center' }}><a href="/users/sign_in" style={{ ...pinkLink, textDecoration: 'underline' }}>Log in</a></p>}
+      </div>
+    </div>
+  </footer>;
+}

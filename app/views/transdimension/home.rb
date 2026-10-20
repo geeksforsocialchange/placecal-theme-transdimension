@@ -50,10 +50,9 @@ class Transdimension::Views::Home < Views::Base
     end
   end
 
-  # The filter, the list and the button sit in one Turbo Frame, so picking a
-  # region swaps just that box in place (and advances the URL) instead of a
-  # Drive visit that repaints the whole illustrated page from the top. Core's
-  # events and partners pages do the same with their own frames.
+  # The filter, the list and the button sit in one Turbo Frame so a region
+  # click advances the URL and swaps just this box in place, instead of a
+  # Drive visit that repaints the whole illustrated page from the top.
   def render_events
     section(class: 'td-section td-section--events') do
       h2(class: 'td-floating-title') { t('transdimension.home.events_header') }

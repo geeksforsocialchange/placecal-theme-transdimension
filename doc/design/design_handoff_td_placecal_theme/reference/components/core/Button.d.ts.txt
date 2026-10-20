@@ -1,0 +1,12 @@
+export interface ButtonProps {
+  /** Colour treatment. white = on dark ground CTA; pink = primary on dark; dark = secondary on dark; pinkOnLight = pink on a pink/light panel; outline = white outline (region filter style). */
+  variant?: 'white' | 'pink' | 'dark' | 'pinkOnLight' | 'outline';
+  size?: 'sm' | 'md';
+  href?: string;
+  onClick?: () => void;
+  disabled?: boolean;
+  block?: boolean;
+  children: React.ReactNode;
+  style?: React.CSSProperties;
+}
+export function Button(props: ButtonProps): JSX.Element;

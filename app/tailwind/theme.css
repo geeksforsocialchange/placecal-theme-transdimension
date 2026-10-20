@@ -380,13 +380,52 @@ select {
 	display: none;
 }
 
-.header__partner .header__menu a[aria-current] {
-	border-bottom-color: var(--color-background);
+/* The current-page rule is a desktop thing: live's phone menu has none. */
+@media only screen and (min-width: 600px) {
+	.header__partner .header__menu a[aria-current] {
+		border-bottom-color: var(--color-background);
+	}
+
+	/* PageHeader.elm shows no current-page rule on the homepage. */
+	.header__partner .header__menu a[aria-current][href="/"] {
+		border-bottom-color: transparent;
+	}
 }
 
-/* PageHeader.elm shows no current-page rule on the homepage. */
-.header__partner .header__menu a[aria-current][href="/"] {
-	border-bottom-color: transparent;
+/* Phone menu, as live: rows 3px apart on the page's own dark background (core
+   gives the list a purple backdrop and a 3px gap of its own), and Donate as a
+   full-width white row rather than a button inside a pink one. */
+@media only screen and (max-width: 599px) {
+	.header__partner .header__menu {
+		background-color: var(--color-background);
+		gap: 0;
+	}
+
+	/* Current page: the row inverts, like a selected day or region pill */
+	.header__partner .header__menu li:has(> a[aria-current]) {
+		background-color: var(--color-background);
+	}
+
+	.header__partner .header__menu a[aria-current] {
+		/* the pink border every link carries would show on the dark row */
+		border-bottom-color: transparent;
+		color: var(--color-primary);
+	}
+
+	.header__partner .header__menu .header__cta {
+		padding: 0;
+	}
+
+	/* the extra class outranks the desktop button rule further down the file */
+	.header__partner .header__menu .header__cta-link,
+	.header__partner .header__menu .header__cta-link:not(.with-no-sass) {
+		border: 0;
+		border-radius: 0;
+		display: block;
+		font-weight: 600;
+		margin: 0;
+		padding: 1rem;
+	}
 }
 
 @media only screen and (hover: hover) and (pointer: fine) {
@@ -423,12 +462,14 @@ select {
 		gap: 0;
 	}
 
-	/* navigationListItemStyle: padding2 (rem 1) (rem 0.75). The vertical half
-	   is split between the li and the link so the current-page rule can sit
-	   clear of the text and still leave an even band below it. */
+	/* navigationListItemStyle: padding2 (rem 1) (rem 0.75), but the Final
+	   design's bar is a 44px strip (screens/01-home-full.png), not the full
+	   rem-1 vertical padding Global.elm's spec implies: halving it to 8px
+	   is what actually lands the bar at that height once the link's own
+	   line-height and current-page border are added in. */
 	.header__partner .header__menu li {
-		padding: 16px 12px;
-		margin: 1.6px 0;
+		padding: 8px 12px;
+		margin: 0;
 		align-self: center;
 		flex-grow: 0;
 		font-size: 1.2rem;
@@ -447,6 +488,76 @@ select {
 	}
 }
 
+/* Theme region control (#3368 WP 3.20, NavBar.jsx's Seg): core renders it as
+   `li.header__region > nav.region-filter.region-filter--nav` once
+   `theme.nav_region_filter` is set and the site has two or more Partnership
+   tags (Components::Navigation#show_region_filter?). Components::RegionFilter
+   paints every option as a rounded Tailwind pill; both selectors below are
+   qualified on `.region-filter--nav` together with the shared `.region-filter`
+   class so they win on specificity over pages.css's own (unrelated) pill
+   override for the in-page copy of the filter, regardless of import order. */
+.region-filter.region-filter--nav {
+	margin: 0;
+	max-width: none;
+}
+
+.region-filter.region-filter--nav ul {
+	display: inline-flex;
+	flex-wrap: nowrap;
+	gap: 0;
+	align-items: stretch;
+	border: 2px solid var(--color-background);
+	border-radius: 0.3rem;
+	overflow: hidden;
+}
+
+.region-filter.region-filter--nav li {
+	margin: 0;
+	list-style: none;
+}
+
+.region-filter.region-filter--nav a {
+	display: block;
+	background-color: transparent;
+	border: 0;
+	border-radius: 0;
+	color: var(--color-background);
+	cursor: pointer;
+	font-size: 0.9rem;
+	font-weight: 600;
+	line-height: 1.5;
+	padding: 0.25rem 0.75rem;
+	text-align: center;
+	text-decoration: none;
+	transition: background-color 300ms, color 300ms;
+	width: auto;
+}
+
+.region-filter.region-filter--nav a[aria-current="page"] {
+	background-color: var(--color-background);
+	color: var(--color-foreground);
+}
+
+@media only screen and (hover: hover) and (pointer: fine) {
+	.region-filter.region-filter--nav a:hover {
+		background-color: var(--color-tertiary);
+		color: var(--color-foreground);
+	}
+}
+
+/* Desktop nav: the control sits right of the links and left of Donate, with
+   a 0.75rem gap. Giving it (not the CTA) the auto margin means it, and
+   everything after it, get pushed to the far right together; the CTA's own
+   `margin-left: auto` below then has no free space left to act on when the
+   region control is present, and still pushes it right on its own when the
+   region control is absent (fewer than two tags). */
+@media only screen and (min-width: 600px) {
+	.header__partner .header__menu .header__region {
+		margin-left: auto;
+		margin-right: 0.75rem;
+	}
+}
+
 @import "./home.css";
 /* Per-route page templates (WP 2.4), split into a shared shell plus one
    partial per route (WP 3.19) so routes can be edited in parallel. */
@@ -462,6 +573,8 @@ select {
 @import "./footer.css";
 /* Decorative artwork on the inner pages (WP 2.10). */
 @import "./illustrations.css";
+/* /about, after the artwork it adds characters and section bands to. */
+@import "./about.css";
 
 /* PageHeader.elm: the Donate button is a white pill-less button (2px border,
    0.3rem radius, white fill, dark blue text) at the end of the nav, hovering
@@ -493,8 +606,23 @@ select {
 
 .header__partner .header__toggle-label {
 	color: #fff;
-	font-size: 1.1rem;
-	font-weight: 700;
+	font-size: 1rem;
+	font-weight: 400;
+}
+
+/* PageHeader.elm buttonCrossStyle: a thin pink "+" in place of core's hamburger */
+.header__partner .header__toggle svg {
+	display: none;
+}
+
+.header__partner .header__toggle::after {
+	color: var(--color-primary);
+	content: "+";
+	display: block;
+	font-size: 4rem;
+	font-weight: 100;
+	line-height: 1.5;
+	margin: -1.75rem 0;
 }
 
 /* PageHeader.elm: Donate sits at the far right of the nav bar, from the width

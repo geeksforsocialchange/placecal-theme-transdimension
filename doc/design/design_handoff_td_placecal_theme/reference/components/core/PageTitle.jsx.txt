@@ -1,0 +1,6 @@
+import React from 'react';
+/** Page title on the starfield: white italic 500, centred, line-height 1.5. */
+export function PageTitle({ children, as = 'h1', size = 'lg', style }) {
+  const Tag = as; const fs = size === 'lg' ? '3.1rem' : size === 'md' ? '2.5rem' : '2.1rem';
+  return <Tag style={{ margin: 0, padding: '2rem 0 1rem', textAlign: 'center', color: 'var(--td-white)', fontFamily: 'var(--font-sans)', fontSize: fs, fontStyle: 'italic', fontWeight: 500, lineHeight: 1.5, ...style }}>{children}</Tag>;
+}

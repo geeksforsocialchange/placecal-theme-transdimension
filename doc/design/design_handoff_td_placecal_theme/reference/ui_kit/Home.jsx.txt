@@ -1,0 +1,35 @@
+const { NavBar, Footer, Wordmark, Button, ContentBox, RegionFilter, EventCard, NewsCard, FloatingTitle } = window.DS;
+function Home({ navigate, region, setRegion, final }) {
+  const events = window.EVENTS.filter(e => region === 'Everywhere' || e.region === region).slice(0, 4);
+  const latest = window.ARTICLES[0];
+  return <>
+    <NavBar items={window.NAV} current="/" onNavigate={navigate} assetBase="../../assets" {...(final ? { regions: ['Everywhere', 'London', 'Manchester'], region, onRegionChange: setRegion } : {})} />
+    <main style={{ margin: '0 auto', maxWidth: 1186, padding: '0 24px', position: 'relative', isolation: 'isolate' }}>
+      <section style={{ position: 'relative', marginTop: 560, maxWidth: 916, marginInline: 'auto', background: 'var(--td-pink)', borderRadius: '0.3rem', padding: '64px 72px 56px' }}>
+        <div className="td-home-band" style={{ backgroundImage: 'url(../../assets/illustrations/1366px/homepage_1_header.png)', height: 1142, top: -700, backgroundPosition: 'center top' }} aria-hidden="true"></div>
+        <h1 style={{ position: 'absolute', top: -440, left: 0, width: '100%', textAlign: 'center', margin: 0 }}><Wordmark width={381} assetBase="../../assets" style={{ display: 'inline-block' }} /></h1>
+        <h2 style={{ margin: '0.5rem 1rem', padding: 0, textAlign: 'center', fontStyle: 'italic', fontSize: '2.5rem', lineHeight: 1.2, fontWeight: 500, color: 'var(--td-dark-blue)' }}>Trusted, accessible, trans-friendly spaces. Always expanding.</h2>
+        <p style={{ textAlign: 'center', color: 'var(--td-dark-blue)', fontSize: '1rem', lineHeight: 1.6, margin: '1.5rem auto 0', maxWidth: 600 }}>The Trans Dimension is an online community hub connecting trans communities in London and Manchester. We collate news, events and services by and for trans people.</p>
+        <div style={{ position: 'absolute', bottom: '-1.4rem', left: 0, width: '100%', textAlign: 'center' }}><Button variant="white" onClick={() => navigate('/events')}>See what's on near you</Button></div>
+      </section>
+      <section style={{ position: 'relative', marginTop: 140, marginInline: 'auto' }}>
+        <div className="td-home-band" style={{ backgroundImage: 'url(../../assets/illustrations/1366px/homepage_3.png)', height: 200, top: -170 }} aria-hidden="true"></div>
+        <ContentBox inset="28px 32px 96px" floatingTitle="Featured events" floatingButton={<Button variant="pink" onClick={() => navigate('/events')}>See more events</Button>}>
+          <RegionFilter value={region} onChange={setRegion} style={{ margin: '0 auto 3rem' }} />
+          <div className="td-grid2" style={{ margin: 0 }}>{events.map(e => <EventCard key={e.id} day={e.day} month={e.month} title={e.title} time={e.time} repeat={e.repeat} location={e.venue} area={e.hood} organiser={e.organiser} onClick={() => navigate('/events/' + e.id)} />)}</div>
+        </ContentBox>
+      </section>
+      <section style={{ position: 'relative', marginTop: 130, marginBottom: 110, maxWidth: 916, marginInline: 'auto' }}>
+        <div className="td-home-band" style={{ backgroundImage: 'url(../../assets/illustrations/1366px/homepage_4.png)', height: 237, top: -150 }} aria-hidden="true"></div>
+        <div className="td-home-band" style={{ backgroundImage: 'url(../../assets/illustrations/1366px/homepage_5.png)', height: 237, bottom: -140 }} aria-hidden="true"></div>
+        <FloatingTitle style={{ marginBottom: '1.5rem' }}>Latest update</FloatingTitle>
+        <div style={{ position: 'relative' }}>
+          <NewsCard title={latest.title} partner={latest.partner} date={latest.date} image={latest.image} summary={latest.summary} onClick={() => navigate('/news/' + latest.slug)} buttonLabel="Read the rest" style={{ margin: '0 0 3rem' }} />
+          <div style={{ textAlign: 'center', marginTop: '0.5rem' }}><Button variant="dark" onClick={() => navigate('/news')}>View all news</Button></div>
+        </div>
+      </section>
+    </main>
+    <Footer onNavigate={navigate} assetBase="../../assets" newsletter />
+  </>;
+}
+Object.assign(window, { Home });

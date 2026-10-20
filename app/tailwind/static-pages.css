@@ -5,8 +5,8 @@
    Static pages: Views::Sites::Pages::Show and Views::Directory::MarkdownPage
    TextHeavyPage.elm: an "invisible" (dark) intro panel with the page's opening
    line in pink intro type, then the body in a 636px measure inside the content
-   box. Both core views use the same .markdown-content wrapper, so one set of
-   rules covers /about and /privacy.
+   box. Both core views and the theme's /privacy use the same .markdown-content
+   wrapper; /about has its own markup, styled in about.css.
 --------------------------------------------------------------------------- */
 
 /* The directory hero is a light band with a breadcrumb; TD's is the same
@@ -442,87 +442,6 @@ textarea.join-control {
 	color: var(--color-primary);
 }
 
-/* About.elm: the site description opens the page in the pink intro panel
-   (seeded as the first paragraph); the rest is the markdown treatment. The
-   panel spans the content box, flush with its border. */
-.page--about .markdown-content > p:first-child {
-	background-color: var(--color-primary);
-	border-radius: 0.3rem;
-	color: var(--color-foreground-dark);
-	font-size: 1.9rem;
-	font-style: italic;
-	font-weight: 500;
-	line-height: 2.4rem;
-	margin: -1rem -0.75rem 2rem;
-	max-width: none;
-	padding: 2rem 2.5rem;
-	text-align: center;
-}
-
-@media only screen and (min-width: 600px) {
-	.page--about .markdown-content > p:first-child {
-		margin: -1rem -1.5rem 2rem;
-		padding-inline: 4rem;
-	}
-}
-
-@media only screen and (min-width: 900px) {
-	/* the panel is flush on the top of the box, so it cancels the box's own
-	   padding rather than sitting inside it */
-	.page--about .markdown-content {
-		padding-top: 0;
-	}
-
-	.page--about .markdown-content > p:first-child {
-		font-size: 2.5rem;
-		line-height: 3.1rem;
-		margin-top: 0;
-		padding-block: 4rem;
-		/* the percentage resolves against the box's content width, which is
-		   1.5rem narrower each side than the panel the negative margins make */
-		padding-inline: max(2rem, calc((100% - 838px) / 2 + 1.5rem));
-	}
-}
-
-/* About.elm bodyStyle: /about is the one static page whose body runs in two
-   columns, in an 848px measure and at a smaller size than the single-column
-   pages use. The rules below select the block rather than .markdown-content
-   itself, so the intro panel and the headings between the blocks keep the
-   treatment they share with /privacy. */
-.page--about .about-body {
-	margin-block: 2rem;
-}
-
-.page--about .about-body > :first-child {
-	margin-block-start: 0;
-}
-
-.page--about .about-body p,
-.page--about .about-body li {
-	margin-block: 1em;
-	margin-inline: 0;
-	max-width: none;
-}
-
-@media only screen and (min-width: 600px) {
-	.page--about .about-body {
-		column-gap: 2rem;
-		columns: 2;
-		margin-block: 3rem;
-		max-width: 848px;
-	}
-}
-
-/* The body steps up to the reading size at the laptop breakpoint, as the rest
-   of the static-page type does; on a phone it stays at the inherited size. */
-@media only screen and (min-width: 900px) {
-	.page--about .about-body p,
-	.page--about .about-body li {
-		font-size: 1.2rem;
-		line-height: 1.8rem;
-	}
-}
-
 /* TextHeavyPage.elm bodyStyle: the long-form body reads at 1.2rem. Measured on
    the live /privacy at 1250: body paragraphs and list items 19.2px over 28.8px,
    with the list itself left at the inherited 1rem. The rule used to say 1.5rem
@@ -574,7 +493,6 @@ main > .container-editorial > .join-note + * {
    closing element is styled further up this file (the rule here has to come
    after it to win). */
 @media only screen and (min-width: 1500px) {
-	.page--about .markdown-content > p:first-child,
 	main > .container-editorial > .join-note {
 		padding-bottom: 5rem;
 	}

@@ -1,0 +1,7 @@
+import React from 'react';
+/** Partner opening times: one row per day, pink day label, pink rule between rows. */
+export function OpeningTimes({ rows = [], style }) {
+  return <ul style={{ listStyle: 'none', margin: 0, padding: 0, maxWidth: '24rem', fontFamily: 'var(--font-sans)', color: 'var(--td-white)', ...style }}>
+    {rows.map(([day, hours]) => <li key={day} style={{ display: 'flex', justifyContent: 'space-between', padding: '0.4rem 0', borderBottom: '1px solid var(--td-pink)', fontSize: '1rem' }}><span style={{ color: 'var(--td-pink)', fontWeight: 600 }}>{day}</span><span>{hours}</span></li>)}
+  </ul>;
+}

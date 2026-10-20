@@ -69,9 +69,8 @@ main {
    sits inside; the page title's padding-top there is what holds the space open
    under it. */
 
-/* PageTemplate.elm pageHeadingStyle. Core's Components::Hero is a coloured
-   band with a kicker, a divider rule and the title; TD runs the starfield
-   straight through and centres a white italic title on it. */
+/* Core's Components::Hero is a coloured band with a kicker, a divider rule
+   and the title; TD runs the starfield straight through to the intro panel. */
 .hero {
 	background-color: transparent;
 	background-image: none;
@@ -98,6 +97,11 @@ main > .container-public {
 	display: none;
 }
 
+/* Components::Hero `back:` prop: live's show pages have no back link. */
+.hero__back {
+	display: none;
+}
+
 /* Global.elm screenReaderOnly. TD draws the strapline as part of the wordmark
    artwork above, so core's text kicker would repeat it. It is moved off screen
    rather than removed: it is the only copy of the strapline a screen reader can
@@ -111,35 +115,18 @@ main > .container-public {
 	width: 1px;
 }
 
-.hero h1 {
-	color: var(--color-foreground);
-	font-size: 2.1rem;
-	font-style: italic;
-	font-weight: 500;
-	/* PageTemplate.elm pageHeadingStyle: lineHeight 1.5, not core's tight 1.15 */
-	line-height: 1.5;
-	margin-block: 0;
-	outline: none;
-	padding-bottom: 0.5rem;
-	padding-top: 2rem;
-	text-align: center;
-}
-
-@media only screen and (min-width: 600px) {
-	.hero h1 {
-		font-size: 2.5rem;
-	}
-}
-
-/* Final designs (README "Grid & spacing"): the listing page title holds at
-   40px (2.5rem) italic 500, 58px above (padding-top stays illustration-band
-   driven, see illustrations.css --td-title-padding-top) and 26px below - it
-   does not grow to 3.1rem at tablet landscape the way core's own heading
-   scale does. */
-@media only screen and (min-width: 900px) {
-	.hero h1 {
-		padding-bottom: 26px;
-	}
+/* The listing title ("Events", "Partners", "News") is cut from the picture but
+   kept as the h1; only listing heroes carry a standfirst, so show pages keep theirs. */
+main > .hero:has(.hero__standfirst) h1 {
+	border: 0;
+	clip-path: inset(50%);
+	height: 1px;
+	margin: 0;
+	overflow: hidden;
+	padding: 0;
+	position: absolute;
+	white-space: nowrap;
+	width: 1px;
 }
 
 /* PageTemplate.elm viewIntro (WP 2.9): the pink intro panel under the page
@@ -153,7 +140,8 @@ main > .container-public {
 	border-radius: 0.3rem;
 	box-sizing: border-box;
 	color: var(--color-foreground-dark);
-	font-size: 1.6rem;
+	/* 1.4rem, not the Elm 1.6rem: the events intro then fits one phone line */
+	font-size: 1.4rem;
 	font-style: italic;
 	font-weight: 500;
 	line-height: 2rem;
@@ -171,15 +159,15 @@ main > .container-public {
 	}
 }
 
-/* Final designs (README "Grid & spacing"): 46px 64px 50px padding, 34px
-   italic 500 standfirst at a 44px line-height, 838px measure. Supersedes the
-   Elm 2.5rem/3.1rem/2rem numbers at this breakpoint. */
+/* Live's intro panel at tablet landscape: 2.5rem italic 500 on a 1.24 line,
+   32px above and below (the Elm box's 1rem padding plus the copy's 1rem
+   margin), 838px measure. Kept over the design's 34px / 46px / 50px. */
 @media only screen and (min-width: 900px) {
 	.hero__standfirst {
-		font-size: 2.125rem;
-		line-height: 2.75rem;
-		padding-top: 46px;
-		padding-bottom: 50px;
+		font-size: 2.5rem;
+		line-height: 1.24;
+		padding-top: 2rem;
+		padding-bottom: 2rem;
 		padding-inline: max(64px, calc((100% - 838px) / 2));
 	}
 }
@@ -371,6 +359,36 @@ main > .hero:has(.hero__standfirst) + #partner_previews {
 	max-width: fit-content;
 }
 
+/* Live's pill geometry: 3.2px 3.2px 4.8px, not core's px-4 py-1.5 */
+.region-filter li a {
+	padding: 0.2rem 0.2rem 0.3rem;
+}
+
+/* Phones: the three pills share the row edge to edge, level with the strip
+   and the cards below. */
+@media only screen and (max-width: 599px) {
+	.paginator .region-filter {
+		margin-bottom: 0.75rem;
+	}
+
+	.region-filter ul,
+	.paginator .region-filter ul {
+		gap: 0.5rem;
+		width: 100%;
+	}
+
+	.region-filter li,
+	.paginator .region-filter li {
+		flex: 1 1 0;
+		margin: 0;
+		min-width: 0;
+	}
+
+	.region-filter li a {
+		width: 100%;
+	}
+}
+
 .region-filter ul {
 	display: flex;
 	flex-wrap: wrap;
@@ -417,7 +435,7 @@ main > .hero:has(.hero__standfirst) + #partner_previews {
 
 @media only screen and (min-width: 600px) {
 	.region-filter li {
-		margin: 0.25rem 0.375rem;
+		margin: 0.25rem;
 	}
 
 	.region-filter a {
@@ -426,17 +444,23 @@ main > .hero:has(.hero__standfirst) + #partner_previews {
 	}
 }
 
-@media only screen and (min-width: 900px) {
+/* From 600px the row's own margin is the 24px under the intro panel */
+@media only screen and (min-width: 600px) {
 	.region-filter {
-		margin: 2rem auto;
+		margin: 1.5rem auto 1rem;
 	}
+}
 
+@media only screen and (min-width: 900px) {
+
+	/* 8px between pills, the day strip's gap */
 	.region-filter li {
-		margin: 0.25rem 0.5rem;
+		margin: 0.25rem;
 	}
 
 	.region-filter a {
 		font-size: 1.2rem;
+		line-height: 1.5;
 		width: 140px;
 	}
 }
@@ -462,6 +486,28 @@ main > .hero:has(.hero__standfirst) + #partner_previews {
 	text-transform: uppercase;
 }
 
+/* Components::Address's directions row on the event and partner pages:
+   "Google Maps · Apple Maps · OSM", the links keeping theme.css's
+   thin pink underline. The dot is inline-block so the link's underline skips
+   it; its left padding is short because core puts a space before each link. */
+.place_info__directions-list {
+	line-height: 1.5;
+	margin-top: 0.5rem;
+}
+
+.place_info__address:has(+ .place_info__directions-list) {
+	margin-bottom: 0;
+}
+
+.place_info__directions-list > a + a::before {
+	color: var(--color-primary-light);
+	content: "\00b7";
+	content: "\00b7" / "";
+	display: inline-block;
+	padding-inline: 0.25rem 0.5rem;
+	text-decoration: none;
+}
+
 /* Event.elm and Partner.elm draw a pink-toned map inside the box. The ground
    colour is what shows while the tiles load. */
 .map--single,
@@ -476,6 +522,43 @@ main > .hero:has(.hero__standfirst) + #partner_previews {
 .leaflet-bar a,
 .leaflet-control-zoom a {
 	color: var(--color-home-background);
+}
+
+/* Leaflet's marker popup on the page's dark ground instead of its white box. */
+.leaflet-container .leaflet-popup-content-wrapper,
+.leaflet-container .leaflet-popup-tip {
+	background-color: var(--color-background);
+	border: 1px solid var(--color-primary);
+	box-shadow: none;
+	color: var(--color-foreground);
+}
+
+/* Core binds the event page's marker to an empty popup; nothing to show. */
+.leaflet-popup:has(.leaflet-popup-content:empty) {
+	display: none;
+}
+
+.leaflet-container .leaflet-popup-content {
+	font-size: 1rem;
+	line-height: 1.5;
+}
+
+.leaflet-container .leaflet-popup-content a {
+	color: var(--color-primary);
+}
+
+.leaflet-container .leaflet-popup-close-button {
+	color: var(--color-foreground);
+}
+
+/* The credit line as a dark strip, readable over the pink tiles. */
+.leaflet-container .leaflet-control-attribution {
+	background-color: var(--color-background);
+	color: var(--color-foreground);
+}
+
+.leaflet-container .leaflet-control-attribution a {
+	color: var(--color-foreground);
 }
 
 /* WP 3.8. The widest-screen rem 1 under the intro copy, for the panel whose
@@ -568,6 +651,64 @@ main > .hero:has(.hero__standfirst) + #partner_previews {
 	}
 
 	.td-btn--white:hover {
+		background-color: var(--color-tertiary);
+		border-color: var(--color-foreground);
+		color: var(--color-foreground);
+	}
+}
+
+/* ---------------------------------------------------------------------------
+   Page actions (Final designs: the centred button row below a box)
+   Components::PageActions renders `nav.page-actions > ul.reset > li > a.
+   page-actions__link` on the event, partner and article pages. Shared here
+   since all three reach it; each link gets the `.td-btn`/`.td-btn--dark`
+   geometry above without needing that class in core's markup.
+--------------------------------------------------------------------------- */
+
+.page-actions {
+	margin-top: 40px;
+}
+
+.page-actions ul {
+	align-items: center;
+	display: flex;
+	flex-wrap: wrap;
+	gap: 3rem 4rem;
+	justify-content: center;
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+/* Live stacks the buttons one per row at phone width; 1rem apart, not live's 3rem. */
+@media only screen and (max-width: 599px) {
+	.page-actions ul {
+		flex-direction: column;
+		gap: 1rem;
+	}
+}
+
+.page-actions__link {
+	background-color: var(--color-background);
+	border: 2px solid var(--color-primary);
+	border-radius: 0.3rem;
+	box-sizing: border-box;
+	color: var(--color-foreground);
+	display: inline-block;
+	font-size: 1.2rem;
+	font-weight: 600;
+	line-height: 1.5;
+	padding: 0.375rem 1.25rem 0.5rem;
+	text-align: center;
+	text-decoration: none;
+	transition:
+		background-color 300ms,
+		border-color 300ms,
+		color 300ms;
+}
+
+@media only screen and (hover: hover) and (pointer: fine) {
+	.page-actions__link:hover {
 		background-color: var(--color-tertiary);
 		border-color: var(--color-foreground);
 		color: var(--color-foreground);

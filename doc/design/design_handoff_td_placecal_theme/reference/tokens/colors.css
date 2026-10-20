@@ -1,0 +1,49 @@
+:root {
+  /* Brand palette — Global.elm "Brand colours" */
+  --td-dark-blue: #040f39;
+  --td-pink: #ff7aa7;
+  --td-light-pink: #ffbcd3;
+  --td-purple: #814470;
+  --td-dark-purple: #432955;
+  --td-white: #ffffff;
+  --td-print-grey: #dadada;
+  /* XD refs: info/flash panels ("Need help?", maintenance banner) */
+  --td-light-blue: #4fbdf5;
+  /* XD refs: muted mauve for badges, search field, iCal subscribe band */
+  --td-mauve: #7b4a6e;
+  /* Illustration accents (Harry Woodgate artwork) — reference only, never for UI */
+  --td-art-yellow: #f2c94c;
+  --td-art-teal: #3fc7b0;
+  --td-art-orange: #f28c28;
+
+  /* Semantic — surfaces */
+  --color-background: var(--td-dark-blue);
+  --color-surface: var(--td-dark-blue);
+  --color-surface-accent: var(--td-pink);
+  --color-surface-badge: var(--td-dark-purple);
+  --color-overlay-light: rgb(255 255 255 / 0.15);
+
+  /* Semantic — text */
+  --color-foreground: var(--td-white);
+  --color-foreground-dark: var(--td-dark-blue);
+  --color-text-body: var(--td-white);
+  --color-text-on-pink: var(--td-dark-blue);
+  --color-text-accent: var(--td-pink);
+  --color-text-muted: var(--td-light-pink);
+
+  /* Semantic — accents */
+  --color-primary: var(--td-pink);
+  --color-primary-light: var(--td-light-pink);
+  --color-tertiary: var(--td-purple);
+  --color-rules: var(--td-pink);
+  --color-link: var(--td-white);
+  --color-link-underline: var(--td-pink);
+  --color-link-hover: var(--td-pink);
+  --color-focus-ring: rgb(255 122 167 / 0.35);
+  --color-marker-shadow: rgb(0 0 0 / 0.25);
+
+  /* Interactive states */
+  --color-hover-fill: var(--td-purple);
+  --color-hover-fill-on-pink: var(--td-light-pink);
+  --color-active-fill: var(--td-white);
+}

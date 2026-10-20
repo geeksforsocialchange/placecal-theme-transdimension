@@ -1,0 +1,2 @@
+export interface FilterToggleProps { open?: boolean; onToggle?: () => void; label?: string; style?: React.CSSProperties; }
+export function FilterToggle(props: FilterToggleProps): JSX.Element;

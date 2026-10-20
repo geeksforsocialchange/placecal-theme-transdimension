@@ -105,27 +105,116 @@
 }
 
 /* ---------------------------------------------------------------------------
-   Middle band: social links and "created by"
-   PageFooter.elm footerMiddleSectionStyle is a three-column grid; its third
-   column was the newsletter sign-up, dropped by the coordinator, so the two
-   remaining columns are centred instead of pinned to the grid.
+   Middle band: social links, "created by" and the newsletter sign-up
+   PageFooter.elm footerMiddleSectionStyle: one column, two from 600px, and
+   a 4fr 6fr 4fr grid from 1200px with "Created by" in the wide middle.
 --------------------------------------------------------------------------- */
 
 .td-footer__middle {
 	background-color: var(--color-background);
 	padding: 1rem 0;
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: center;
+	display: grid;
+	grid-template-columns: 1fr;
+	justify-items: center;
 }
 
 .td-footer__social,
+.td-footer__signup,
 .td-footer__created-by {
 	color: var(--color-primary);
 	padding: 1rem;
 	box-sizing: border-box;
 	text-align: center;
+}
+
+/* PageFooter.elm formStyle / innerFormStyle / formInputStyle (Global.elm
+   textInputStyle). Stacked below 600px, input and button side by side above. */
+.td-footer__signup {
+	color: var(--color-foreground);
+	display: flex;
+	flex-direction: column;
+	margin-bottom: 1rem;
+}
+
+/* auto side margins would shrink the label to its text as a flex item */
+.td-footer__signup .td-footer__subhead {
+	margin-inline: 0;
+}
+
+/* Stacked: the note reads better under the heading than under the button */
+.td-footer__signup-fields {
+	order: 2;
+}
+
+.td-footer__signup-note[role="status"] {
+	order: 3;
+}
+
+.td-footer__signup-note {
+	font-size: var(--text-detail);
+	line-height: 1.2875;
+	margin: 0 auto;
+	max-width: 22rem;
+}
+
+.td-footer__signup-input {
+	background-color: var(--color-background);
+	border: 2px solid var(--color-primary);
+	border-radius: 0.3rem;
+	box-sizing: border-box;
+	color: var(--color-foreground);
+	font-family: var(--font-sans);
+	font-size: 1.2rem;
+	margin: 1rem auto;
+	outline: none;
+	padding: 0.5rem 1rem;
+	text-align: center;
+	width: 100%;
+}
+
+.td-footer__signup.is-busy .td-btn {
+	opacity: 0.6;
+	pointer-events: none;
+}
+
+.td-footer__signup-input::placeholder {
+	color: var(--color-foreground);
+}
+
+.td-footer__signup-input:focus {
+	border-color: var(--color-foreground);
+}
+
+.td-footer__signup .td-btn {
+	border-width: 0.2rem;
+	font-size: 1.2rem;
+	padding: 0.25rem 1.25rem;
+	width: 100%;
+}
+
+@media only screen and (min-width: 600px) {
+	.td-footer__signup-fields {
+		/* stretch, not center: the button matches the taller input */
+		align-items: stretch;
+		display: flex;
+		justify-content: center;
+		/* flex item margins don't collapse: 1rem under the heading + 0.5rem = live's 24px */
+		margin: 0.5rem 0 1.5rem;
+		order: 0;
+	}
+
+	.td-footer__signup-note[role="status"] {
+		order: 0;
+	}
+
+	.td-footer__signup-input {
+		margin: 0 1rem 0 0;
+	}
+
+	.td-footer__signup .td-btn {
+		flex-shrink: 0;
+		width: auto;
+	}
 }
 
 /* PageFooter.elm subheadStyle: Global.elm smallInlineTitleStyle in white.
@@ -206,9 +295,8 @@
 
 @media only screen and (min-width: 600px) {
 	.td-footer__middle {
-		flex-direction: row;
-		flex-wrap: wrap;
-		align-items: flex-start;
+		grid-template-columns: 1fr 1fr;
+		align-items: start;
 		padding: 1rem;
 	}
 
@@ -227,14 +315,52 @@
 	}
 }
 
-/* Final designs (README "Grid & spacing"): "middle band 24px 56px 28px"
-   (Footer.jsx.txt padding once the layout stops stacking). */
 @media only screen and (min-width: 900px) {
 	.td-footer__middle {
-		padding: 24px 56px 28px;
-		gap: 3rem;
+		padding: 1rem 3rem;
 	}
 }
+
+@media only screen and (min-width: 1200px) {
+	.td-footer__middle {
+		grid-template-columns: 4fr 6fr 4fr;
+		padding: 1rem 2rem;
+	}
+
+	.td-footer__social,
+	.td-footer__signup,
+	.td-footer__created-by {
+		width: 100%;
+	}
+
+	/* Outer columns sit on the band's edges, level with the wordmark and nav above */
+	.td-footer__social,
+	.td-footer__social .td-footer__subhead {
+		text-align: left;
+	}
+
+	.td-footer__social-list {
+		justify-content: flex-start;
+	}
+
+	.td-footer__social-list li:first-child {
+		margin-left: 0;
+	}
+
+	.td-footer__signup,
+	.td-footer__signup .td-footer__subhead {
+		text-align: right;
+	}
+
+	.td-footer__signup-fields {
+		justify-content: flex-end;
+	}
+
+	.td-footer__signup-note {
+		margin-right: 0;
+	}
+}
+
 
 /* ---------------------------------------------------------------------------
    Bottom band: legal text, credits, copyright and the PlaceCal lockup
@@ -255,8 +381,15 @@
 .td-footer__info {
 	font-size: var(--text-detail);
 	line-height: 1.2875;
-	margin: 1rem 2rem;
+	/* 0.5rem on phones: the Elm 2rem plus the block padding wrapped every line twice */
+	margin: 1rem 0.5rem;
 	text-align: center;
+}
+
+@media only screen and (min-width: 600px) {
+	.td-footer__info {
+		margin: 1rem 2rem;
+	}
 }
 
 .td-footer__info--title {
@@ -298,8 +431,9 @@
 /* Not in PageFooter.elm: a way back to admin for site administrators, kept
    deliberately quiet at the very end of the band. */
 .td-footer__login {
-	font-size: var(--text-2xs);
-	margin: 1rem 0 0;
+	font-size: var(--text-detail);
+	line-height: 1.2875;
+	margin: 0.5rem 0 0;
 	text-align: center;
 }
 

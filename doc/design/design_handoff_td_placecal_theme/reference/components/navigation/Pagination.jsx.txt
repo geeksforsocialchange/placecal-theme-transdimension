@@ -1,0 +1,11 @@
+import React from 'react';
+import { Button } from '../core/Button.jsx';
+/** Page controls for News: dark buttons, current page filled pink. */
+export function Pagination({ page = 1, pages = 3, onChange, style }) {
+  const go = p => () => onChange && p >= 1 && p <= pages && onChange(p);
+  return <nav aria-label="Pagination" style={{ display: 'flex', gap: '0.5rem', justifyContent: 'center', alignItems: 'center', flexWrap: 'wrap', fontFamily: 'var(--font-sans)', ...style }}>
+    <Button variant="dark" size="sm" disabled={page === 1} onClick={go(page - 1)}>Previous</Button>
+    {Array.from({ length: pages }, (_, i) => i + 1).map(p => <Button key={p} variant={p === page ? 'pink' : 'dark'} size="sm" onClick={go(p)} aria-current={p === page ? 'page' : undefined} style={{ minWidth: 42 }}>{p}</Button>)}
+    <Button variant="dark" size="sm" disabled={page === pages} onClick={go(page + 1)}>Next</Button>
+  </nav>;
+}

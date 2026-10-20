@@ -1,0 +1,53 @@
+:root {
+  /* TD has one face: Covik Sans from Typekit (kit qwi3qrw). */
+  --font-sans: "covik-sans", sans-serif;
+  --font-serif: var(--font-sans);
+  --font-body: var(--font-sans);
+  --font-display: var(--font-sans);
+
+  --root-font-size: 16px;
+  --root-line-height: 1.5;
+
+  /* Weights (Global.elm): body 400, intro 500, buttons + nav 600, bold 700, day numeral 900 */
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+  --font-weight-black: 900;
+
+  /* Type scale — the Elm site's odd numbers are deliberate */
+  --text-2xs: 0.72rem;
+  --text-xs: 0.78rem;
+  --text-sm: 0.8rem;
+  --text-detail: 0.8777rem;
+  --text-base: 1rem;
+  --text-card: 1.2rem;
+  --text-lg: 1.2rem;
+  --text-xl: 1.3rem;
+  --text-card-title: 1.5rem;
+  --text-section: 1.6rem;
+  --text-2xl: 1.6rem;
+  --text-standfirst: 1.9rem;
+  --text-news-title: 1.85rem;
+  --text-3xl: 2.1rem;
+  --text-intro-lg: 2.5rem;
+  --text-day: 3.1222rem;
+  --text-hero-subtitle: 3.2rem;
+  --text-hero: clamp(2.1rem, 5vw, 3.1rem);
+
+  /* Line heights */
+  --leading-hero: 1.15;
+  --leading-body: 1.5;
+  --leading-tight: 1.1;
+  --leading-card-title: 1.877rem;
+  --leading-intro: 3.1rem;
+
+  /* Tracking — smallTitleStyle allcaps labels */
+  --tracking-wide: 1.9px;
+  --tracking-caps: 0.05em;
+
+  /* Measures */
+  --width-prose: 636px;
+  --width-intro: 838px;
+  --width-detail: 892px;
+}

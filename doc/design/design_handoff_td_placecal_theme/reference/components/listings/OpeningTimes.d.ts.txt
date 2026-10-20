@@ -1,0 +1,2 @@
+export interface OpeningTimesProps { /** [day, hours] pairs. */ rows: [string, string][]; style?: React.CSSProperties; }
+export function OpeningTimes(props: OpeningTimesProps): JSX.Element;

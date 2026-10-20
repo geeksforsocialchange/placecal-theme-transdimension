@@ -1,0 +1,2 @@
+export interface SelectProps { /** Small pink allcaps label. */ label?: string; value?: string; options: string[]; onChange?: (value: string) => void; /** Label above the control and control fills its column — for toolbars. */ stacked?: boolean; style?: React.CSSProperties; }
+export function Select(props: SelectProps): JSX.Element;
