@@ -69,13 +69,11 @@ en:
         # "07 SEP 2026": zero-padded day, short month, uppercased by CSS.
         show:
           section: "Events"
-          # Final design (README §3): the page-actions row under the map reads
-          # "Partner's events" / "Add to calendar" / "Go back", not core's
-          # "More from %{name}" / "Back to events" (add_to_calendar is already
-          # core's own copy, restated here so the three links are set together).
-          organiser_events: "Partner's events"
+          # Live's buttons under the box: "All events by <organiser>" and
+          # "All events"; Add to calendar is core's own, kept between them.
+          organiser_events: "All events by %{name}"
           add_to_calendar: "Add to calendar"
-          go_back: "Go back"
+          go_back: "All events"
         page:
           date_format: "%d %b %Y"
           date_format_with_year: "%d %b %Y"
