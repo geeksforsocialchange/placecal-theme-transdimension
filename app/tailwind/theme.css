@@ -380,13 +380,41 @@ select {
 	display: none;
 }
 
-.header__partner .header__menu a[aria-current] {
-	border-bottom-color: var(--color-background);
+/* The current-page rule is a desktop thing: live's phone menu has none. */
+@media only screen and (min-width: 600px) {
+	.header__partner .header__menu a[aria-current] {
+		border-bottom-color: var(--color-background);
+	}
+
+	/* PageHeader.elm shows no current-page rule on the homepage. */
+	.header__partner .header__menu a[aria-current][href="/"] {
+		border-bottom-color: transparent;
+	}
 }
 
-/* PageHeader.elm shows no current-page rule on the homepage. */
-.header__partner .header__menu a[aria-current][href="/"] {
-	border-bottom-color: transparent;
+/* Phone menu, as live: rows 3px apart on the page's own dark background (core
+   gives the list a purple backdrop and a 3px gap of its own), and Donate as a
+   full-width white row rather than a button inside a pink one. */
+@media only screen and (max-width: 599px) {
+	.header__partner .header__menu {
+		background-color: var(--color-background);
+		gap: 0;
+	}
+
+	.header__partner .header__menu .header__cta {
+		padding: 0;
+	}
+
+	/* the extra class outranks the desktop button rule further down the file */
+	.header__partner .header__menu .header__cta-link,
+	.header__partner .header__menu .header__cta-link:not(.with-no-sass) {
+		border: 0;
+		border-radius: 0;
+		display: block;
+		font-weight: 600;
+		margin: 0;
+		padding: 1rem;
+	}
 }
 
 @media only screen and (hover: hover) and (pointer: fine) {
