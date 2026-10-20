@@ -210,10 +210,18 @@ main > div:not([vocab]) > .hero h1 {
 }
 
 /* The organiser now reads in the panel, so the details line would repeat it;
-   the neighbourhood line is cut too (2026-10-20 review). */
+   the neighbourhood and duration lines are cut too (2026-10-20 review). */
 .event--full .event__organiser,
-.event--full .event__neighbourhood-line {
+.event--full .event__neighbourhood-line,
+.event--full .event__duration {
 	display: none;
+}
+
+/* Phones: 20px sides, a touch more than live's 12px, for the body copy */
+@media only screen and (max-width: 599px) {
+	.event--full + .event__fullinfo {
+		padding-inline: 1.25rem;
+	}
 }
 
 /* Event.elm, Partner.elm, NewsItem.elm: the section name sits on the
@@ -502,6 +510,23 @@ main > div[vocab] > .hero .hero__section {
 
 .event__fullinfo .contact_details {
 	line-height: 1.5;
+}
+
+/* The organiser's name heads the column, in the same plain line as the rest */
+.event__fullinfo .contact_details__partner {
+	margin: 0;
+}
+
+.event__fullinfo .contact_details__partner a,
+.event__fullinfo .contact_details__partner a:not(.with-no-sass) {
+	border-bottom: 0;
+	color: var(--color-foreground);
+	font-weight: 500;
+	text-decoration: none;
+}
+
+.event__fullinfo .contact_details__partner a:hover {
+	text-decoration: underline;
 }
 
 .event__fullinfo .contact_details__item:not(.contact_details__item--social) a {

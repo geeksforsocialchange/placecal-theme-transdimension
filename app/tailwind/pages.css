@@ -680,10 +680,11 @@ main > .hero:has(.hero__standfirst) + #partner_previews {
 	padding: 0;
 }
 
-/* Live stacks the buttons one per row at phone width. */
+/* Live stacks the buttons one per row at phone width; 1rem apart, not live's 3rem. */
 @media only screen and (max-width: 599px) {
 	.page-actions ul {
 		flex-direction: column;
+		gap: 1rem;
 	}
 }
 
