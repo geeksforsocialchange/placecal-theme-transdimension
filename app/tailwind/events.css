@@ -257,6 +257,8 @@ main > .hero:has(.hero__standfirst) + * #events-browser:has(.paginator__context)
 
 #paginator:has(.paginator__context) .filters__applied-reset,
 #paginator:has(.paginator__context) .filters__applied-reset:not(.with-no-sass) {
+	/* core's legacy link rule draws a border-bottom as well: one underline, not two */
+	border-bottom: 0;
 	color: var(--color-foreground);
 	margin-left: 0.75rem;
 	text-decoration: underline;
