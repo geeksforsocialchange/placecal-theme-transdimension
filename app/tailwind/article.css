@@ -49,12 +49,7 @@ main > div[vocab] > .container-public > hr {
 	display: none;
 }
 
-/* ArticleF: "← All news" is core's Components::Hero `back:` link
-   (.hero__back, styled shared with the event/partner kickers and repainted
-   white with a pink arrow for this dark box in pages.css "Components::Hero
-   `back:` prop"). The old floating section name (.hero__section,
-   news.show.section) is superseded by it and hidden here, the way the other
-   show pages hide theirs for their own kickers (event-show.css). */
+/* No floating section name above the article, as on the other show pages. */
 main > div[vocab][typeof="Article"] > .hero .hero__section {
 	display: none;
 }

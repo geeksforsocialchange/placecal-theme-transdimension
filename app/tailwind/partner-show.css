@@ -32,11 +32,6 @@ main > div:not([vocab]):has(> .container-public .g--partner) {
 	border: 1px solid var(--color-primary);
 	border-radius: 0.3rem;
 	box-sizing: border-box;
-	/* Final design (§5): the floating section name above the panel ("Partners")
-	   and the room event-show.css reserves for it both go, the panel sits
-	   flush under the starfield, with the "All partners" kicker link this
-	   theme has no core slot for (doc: core-slots-needed.md candidate). */
-	margin-top: 0;
 }
 
 main > div:not([vocab]):has(> .container-public .g--partner) .hero__section {

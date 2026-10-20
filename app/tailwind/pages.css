@@ -97,42 +97,9 @@ main > .container-public {
 	display: none;
 }
 
-/* Components::Hero `back:` prop (#3368 WP 3.20): the kicker link above the
-   panel on the event and partner pages, and above the dark box on the
-   article page, replacing the floating section name the route partials
-   (event-show.css, partner-show.css, article.css) hide. Shared here since
-   all three pages carry it; the default paints it dark blue for the pink
-   panel context, the override below repaints it for the article's dark box. */
+/* Components::Hero `back:` prop: live's show pages have no back link. */
 .hero__back {
-	color: var(--color-foreground-dark);
-	display: block;
-	font-size: 0.8rem;
-	font-weight: 700;
-	letter-spacing: 1.9px;
-	margin: 0 0 12px;
-	text-align: center;
-	text-decoration: none;
-	text-transform: uppercase;
-}
-
-.hero__back::before {
-	color: var(--color-foreground-dark);
-	content: "\2190";
-	margin-right: 0.45em;
-}
-
-/* Article show: the box is dark blue, not a pink panel, so the kicker takes
-   white text and gets a pink arrow the design shows before the label
-   (Components::Hero renders only the link text, so the glyph is a ::before).
-   `main > div[vocab]` is the article wrapper article.css draws the dark box
-   on. */
-main > div[vocab] .hero__back {
-	color: var(--color-foreground);
-}
-
-main > div[vocab] .hero__back::before {
-	color: var(--color-primary);
-	content: "\2190 ";
+	display: none;
 }
 
 /* Global.elm screenReaderOnly. TD draws the strapline as part of the wordmark
@@ -535,6 +502,43 @@ main > .hero:has(.hero__standfirst) + #partner_previews {
 	color: var(--color-home-background);
 }
 
+/* Leaflet's marker popup on the page's dark ground instead of its white box. */
+.leaflet-container .leaflet-popup-content-wrapper,
+.leaflet-container .leaflet-popup-tip {
+	background-color: var(--color-background);
+	border: 1px solid var(--color-primary);
+	box-shadow: none;
+	color: var(--color-foreground);
+}
+
+/* Core binds the event page's marker to an empty popup; nothing to show. */
+.leaflet-popup:has(.leaflet-popup-content:empty) {
+	display: none;
+}
+
+.leaflet-container .leaflet-popup-content {
+	font-size: 1rem;
+	line-height: 1.5;
+}
+
+.leaflet-container .leaflet-popup-content a {
+	color: var(--color-primary);
+}
+
+.leaflet-container .leaflet-popup-close-button {
+	color: var(--color-foreground);
+}
+
+/* The credit line as a dark strip, readable over the pink tiles. */
+.leaflet-container .leaflet-control-attribution {
+	background-color: var(--color-background);
+	color: var(--color-foreground);
+}
+
+.leaflet-container .leaflet-control-attribution a {
+	color: var(--color-foreground);
+}
+
 /* WP 3.8. The widest-screen rem 1 under the intro copy, for the panel whose
    closing element is styled further up this file (the rule here has to come
    after it to win). */
@@ -647,11 +651,18 @@ main > .hero:has(.hero__standfirst) + #partner_previews {
 	align-items: center;
 	display: flex;
 	flex-wrap: wrap;
-	gap: 28px;
+	gap: 3rem 4rem;
 	justify-content: center;
 	list-style: none;
 	margin: 0;
 	padding: 0;
+}
+
+/* Live stacks the buttons one per row at phone width. */
+@media only screen and (max-width: 599px) {
+	.page-actions ul {
+		flex-direction: column;
+	}
 }
 
 .page-actions__link {
@@ -661,7 +672,7 @@ main > .hero:has(.hero__standfirst) + #partner_previews {
 	box-sizing: border-box;
 	color: var(--color-foreground);
 	display: inline-block;
-	font-size: 1rem;
+	font-size: 1.2rem;
 	font-weight: 600;
 	line-height: 1.5;
 	padding: 0.375rem 1.25rem 0.5rem;

@@ -69,11 +69,8 @@ main:not(:has(.td-home)) {
 	--td-wordmark: none;
 	--td-wordmark-size: 0 0;
 
-	/* pageHeadingGenericStyle's padding-top, and the whole title block (that
-	   padding plus the title's own line and padding-bottom) for the pages that
-	   have no title on the starfield to hold the space open. */
+	/* pageHeadingGenericStyle's padding-top: where every page's title panel starts. */
 	--td-title-padding-top: 2rem;
-	--td-title-block: 80px;
 }
 
 @media only screen and (min-width: 600px) {
@@ -91,7 +88,6 @@ main:not(:has(.td-home)) {
 		/* headerLogoStyle: 268px, then 305px from tablet landscape */
 		--td-wordmark-size: 268px auto;
 		--td-title-padding-top: 250px;
-		--td-title-block: 306px;
 	}
 }
 
@@ -108,8 +104,6 @@ main:not(:has(.td-home)) {
 		--td-band-inset: -1.5rem;
 		--td-wordmark-size: 305px auto;
 		--td-title-padding-top: 275px;
-		/* padding plus one 1.5 line of the title's 3.1rem plus 16px below */
-		--td-title-block: 365px;
 	}
 }
 
@@ -190,13 +184,9 @@ main:not(:has(.td-home)) > .container-public > h1.h1 {
 	padding-top: var(--td-title-padding-top);
 }
 
-/* The show pages put the item name in a pink panel and the section name
-   ("Events", "Partners", "News") on the starfield above it. Core renders no
-   section name (doc/core-slots-needed.md), so there is no title to hold the
-   band open, so the block the panel opens takes the whole title block as a
-   margin instead. */
+/* The show pages' box starts where the listing pages' panel does. */
 main:not(:has(.td-home)) > div:has(> .hero) {
-	margin-top: var(--td-title-block);
+	margin-top: var(--td-title-padding-top);
 }
 
 /* About.elm: the About page has its own header artwork (girl with afro,
