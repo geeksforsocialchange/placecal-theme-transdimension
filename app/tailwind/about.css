@@ -223,12 +223,12 @@ main > .page--about > h1.h1 {
 }
 
 .about-makers {
-	margin-top: 250px;
+	margin-top: 170px;
 	position: relative;
 }
 
 .about-placecal {
-	margin-top: 530px;
+	margin-top: 400px;
 }
 
 .about-accessibility::before,
@@ -260,20 +260,23 @@ main > .page--about > h1.h1 {
 
 .about-makers::before {
 	background-image: url("illustrations/320px/about_5.png");
-	height: 230px;
-	top: -250px;
+	height: 150px;
+	top: -170px;
 }
 
 .about-placecal::before {
 	background-image: url("illustrations/320px/about_6.png");
-	height: 480px;
-	top: -520px;
+	height: 360px;
+	top: -390px;
 }
 
 @media only screen and (min-width: 600px) {
-	.about-accessibility,
-	.about-placecal {
+	.about-accessibility {
 		margin-top: 200px;
+	}
+
+	.about-placecal {
+		margin-top: 150px;
 	}
 
 	.about-makers {
@@ -300,6 +303,8 @@ main > .page--about > h1.h1 {
 
 	.about-placecal::before {
 		background-image: url("illustrations/768px/about_4.png");
+		height: 150px;
+		top: -140px;
 	}
 }
 
@@ -309,7 +314,7 @@ main > .page--about > h1.h1 {
 	}
 
 	.about-placecal {
-		margin-top: 230px;
+		margin-top: 150px;
 	}
 
 	.about-accessibility::before,
@@ -331,7 +336,8 @@ main > .page--about > h1.h1 {
 
 	.about-placecal::before {
 		background-image: url("illustrations/1024px/about_4.png");
-		top: -230px;
+		height: 150px;
+		top: -150px;
 	}
 }
 
@@ -341,7 +347,7 @@ main > .page--about > h1.h1 {
 	}
 
 	.about-makers {
-		margin-top: 200px;
+		margin-top: 140px;
 	}
 
 	/* Live hangs these bands 7rem left of the box and lets a wrapper clip the
@@ -363,7 +369,8 @@ main > .page--about > h1.h1 {
 	.about-makers::before {
 		background-image: url("illustrations/1366px/about_3.png");
 		background-position: center;
-		top: -200px;
+		height: 140px;
+		top: -140px;
 	}
 
 	.about-placecal::before {
@@ -374,7 +381,7 @@ main > .page--about > h1.h1 {
 @media only screen and (min-width: 1500px) {
 	.about-makers,
 	.about-placecal {
-		margin-top: 250px;
+		margin-top: 170px;
 	}
 
 	.about-accessibility::before,
@@ -396,12 +403,14 @@ main > .page--about > h1.h1 {
 
 	.about-makers::before {
 		background-image: url("illustrations/1920px/about_3.png");
-		top: -240px;
+		height: 160px;
+		top: -160px;
 	}
 
 	.about-placecal::before {
 		background-image: url("illustrations/1920px/about_4.png");
-		top: -250px;
+		height: 170px;
+		top: -170px;
 	}
 }
 
