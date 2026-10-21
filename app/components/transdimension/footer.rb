@@ -109,14 +109,14 @@ class Transdimension::Components::Footer < Components::Base
     end
   end
 
-  # Core's newsletter-signup controller does the Ghost calls; without JS the
-  # form falls through to Ghost's own sign-up page.
+  # Core's newsletter-signup controller does the Ghost calls; without JS the form opens
+  # Ghost's sign-up page. The field has no name so the address never goes in that URL.
   def render_signup
     form(class: 'td-footer__signup', action: "#{SIGNUP_SITE}/#/portal/signup", method: 'get', target: '_blank',
          data: signup_controller_data) do
       label(class: 'td-footer__subhead', for: 'signup') { t('transdimension.footer.signup_label') }
       div(class: 'td-footer__signup-fields', data: { newsletter_signup_target: 'fields' }) do
-        input(class: 'td-footer__signup-input', id: 'signup', name: 'email', type: 'email', required: true,
+        input(class: 'td-footer__signup-input', id: 'signup', type: 'email', required: true,
               placeholder: t('transdimension.footer.signup_placeholder'), data: { newsletter_signup_target: 'email' })
         button(class: 'td-btn td-btn--pink', type: 'submit') { t('transdimension.footer.signup_button') }
       end
