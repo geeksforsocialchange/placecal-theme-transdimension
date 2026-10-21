@@ -9,7 +9,6 @@ RSpec.describe 'Trans Dimension footer', type: :request do
     create(:site,
            slug: 'transdimension',
            theme: 'transdimension',
-           url: 'https://transdimension.lvh.me',
            contact_email: 'hello@transdimension.uk')
   end
 

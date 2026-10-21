@@ -9,7 +9,7 @@ require 'rails_helper'
 # pipeline itself, its cache and its missing-file rescue are core's
 # (Views::ThemeContentPage) and are covered by core's own specs.
 RSpec.describe 'Trans Dimension theme pages', type: :request do
-  let(:site) { create(:site, slug: 'td-test', theme: 'transdimension', url: 'https://td-test.lvh.me') }
+  let(:site) { create(:site, slug: 'td-test', theme: 'transdimension') }
 
   before { site }
 
@@ -115,8 +115,8 @@ RSpec.describe 'Trans Dimension theme pages', type: :request do
       get 'http://td-test.lvh.me/sitemap/pages.xml'
 
       expect(response).to have_http_status(:ok)
-      expect(response.body).to include('https://td-test.lvh.me/about')
-      expect(response.body).to include('https://td-test.lvh.me/privacy')
+      expect(response.body).to include("#{site.canonical_url}/about")
+      expect(response.body).to include("#{site.canonical_url}/privacy")
     end
   end
 end

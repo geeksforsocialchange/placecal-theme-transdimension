@@ -25,10 +25,12 @@ namespace :transdimension do
     checks = [
       -> { site.is_published ? 'PASS: Site exists and is published' : 'FAIL: Site is not published' },
       lambda {
-        if site.url.present? && site.url.start_with?('https://')
-          "PASS: URL is present and uses HTTPS (#{site.url})"
+        if site.served_domain?
+          "PASS: Served at its own domain (#{site.canonical_url})"
+        elsif site.domain.blank?
+          "FAIL: Domain is not set, so the site is only at #{site.canonical_url}"
         else
-          'FAIL: URL is missing or does not start with https://'
+          "FAIL: #{site.domain} is not in this deploy's proxy hosts, so the site is only at #{site.canonical_url}"
         end
       },
       lambda {

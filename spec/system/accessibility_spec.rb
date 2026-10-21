@@ -19,8 +19,7 @@ RSpec.describe 'Trans Dimension accessibility', type: :system do
   let(:manchester) { create(:partnership, name: 'Manchester') }
 
   let(:site) do
-    create(:site, slug: 'transdimension', theme: 'transdimension',
-                  url: 'https://transdimension.lvh.me')
+    create(:site, slug: 'transdimension', theme: 'transdimension')
   end
 
   let(:partner) { create(:partner, name: 'London Trans Meet Up', tags: [london]) }

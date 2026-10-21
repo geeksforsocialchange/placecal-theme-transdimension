@@ -14,7 +14,7 @@ RSpec.describe 'Trans Dimension page templates', type: :request do
   let(:london) { create(:partnership, name: 'London') }
 
   let(:site) do
-    create(:site, slug: 'transdimension', theme: 'transdimension', url: 'https://transdimension.lvh.me')
+    create(:site, slug: 'transdimension', theme: 'transdimension')
   end
 
   # The Trans Dimension is a tag-scoped site: it spans cities and picks its

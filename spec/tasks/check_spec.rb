@@ -5,7 +5,10 @@ require 'rake'
 require 'tmpdir'
 
 describe 'transdimension:check rake task', type: :task do
-  before { Rails.application.load_tasks if Rake::Task.tasks.empty? }
+  before do
+    Rails.application.load_tasks if Rake::Task.tasks.empty?
+    allow(PlaceCal::ServedHosts).to receive(:current).and_return(PlaceCal::ServedHosts.new(%w[transdimension.uk]))
+  end
 
   # The task reports on stdout and calls exit(1) when a check fails. Capture
   # both so the examples can assert on what an operator would actually see.
@@ -75,7 +78,7 @@ describe 'transdimension:check rake task', type: :task do
     create(:site, {
       slug: slug,
       name: 'The Trans Dimension',
-      url: 'https://transdimension.uk',
+      domain: 'transdimension.uk',
       theme: 'transdimension',
       is_published: true,
       contact_email: 'contact@transdimension.uk',
@@ -91,7 +94,7 @@ describe 'transdimension:check rake task', type: :task do
     expect(status).to eq(0)
     expect(output).to include(
       'PASS: Site exists and is published',
-      'PASS: URL is present and uses HTTPS (https://transdimension.uk)',
+      'PASS: Served at its own domain (https://transdimension.uk)',
       'PASS: Theme is set to transdimension',
       'PASS: Contact email is present and valid (contact@transdimension.uk)',
       'PASS: Site admin is set',

@@ -12,7 +12,7 @@ require 'rails_helper'
 # size (core's fixture says 675), and the brand mask colour.
 RSpec.describe 'Trans Dimension icons', type: :request do
   let(:site) do
-    create(:site, slug: 'transdimension', theme: 'transdimension', url: 'https://transdimension.lvh.me')
+    create(:site, slug: 'transdimension', theme: 'transdimension')
   end
 
   before do
