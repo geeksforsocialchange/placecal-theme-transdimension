@@ -101,6 +101,6 @@ clamps its window width. What still differs:
 | Partner page contact buttons | the link list only | Visit website / Email / Call as buttons under the list | core slot | `Components::ContactDetails` has no button variant (core-slots-needed.md item 6) |
 | Partner page event browser header | heading, count and the Show select | the same plus a "Pick a date" toggle | core slot | the flat browser does not render `Components::EventFilter`'s date toggle (item 7) |
 | News index buttons | Recent news and Older news | Older news, View more news, Recent news | decision | "View more news" has no behaviour in the prototype (item 8) |
-| Event card lozenges on the dev site | none | neighbourhood lozenge on every card | data | the dev Site has no neighbourhoods, so `Site#show_neighbourhoods?` is false; the live site's UK country node turns them on |
+| Event card lozenges | none | neighbourhood lozenge on every card | decision | the live site's cards have none, and live wins; core still renders `.event__neighbourhood` when `Site#show_neighbourhoods?`, and the theme hides it |
 | Events index toggles | the two toggles centred as a pair, 2rem apart | the pair spread wider across the box | content | the prototype spaces them by hand; the pair is centred as the README says |
 | Footer newsletter column | not built | a newsletter sign-up column | decision | owner decision, kept out deliberately |

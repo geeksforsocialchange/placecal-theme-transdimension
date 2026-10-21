@@ -19,7 +19,7 @@ class Transdimension::Views::Home < Views::Base
 
   # Final design (README "1 Home"): four featured events across the two
   # columns, not Index.elm's original eight.
-  MAX_EVENTS = 4
+  MAX_EVENTS = 8
 
   def view_template
     content_for(:title) { t('transdimension.home.meta_title') }
@@ -61,7 +61,7 @@ class Transdimension::Views::Home < Views::Base
         div(class: 'td-events') { render_event_list }
         p(class: 'td-button-floating') do
           link_to t('transdimension.home.events_button'), events_path(**region_param),
-                  class: 'with-no-sass td-button td-button--pink'
+                  class: 'with-no-sass td-button td-button--pink', data: { turbo_frame: '_top' }
         end
       end
     end

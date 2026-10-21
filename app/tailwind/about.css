@@ -163,6 +163,11 @@ main > .page--about > h1.h1 {
 		margin: 3rem 2rem;
 	}
 
+	/* A paragraph split across the columns reads as an orphan */
+	.about-body > p {
+		break-inside: avoid;
+	}
+
 	.about-placecal > .about-body {
 		margin-block: 3rem;
 	}

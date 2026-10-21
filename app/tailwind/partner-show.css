@@ -254,13 +254,9 @@ main > div > .container-public:has(> .g--partner) {
 	max-width: 24rem;
 }
 
-/* Core gives the partner's own events their own copy of the events turbo frame,
-   one <ol> per day. Left alone that is a box inside the page's box and a run of
-   one-item grids; TD draws a single continuous two-column list. The frame
-   without a paginator is therefore the grid itself, and the per-day lists and
-   their items flatten into it. */
-/* The events index's card grid; no side margin, so the cards share the description's edges. */
-#events-browser:not(:has(.paginator)) {
+/* The partner's events frame (core: one <ol> per day) flattens into one two-column grid.
+   Keyed off .paginator__context, which only /events has: busy partners get a .paginator too. */
+#events-browser:not(:has(.paginator__context)) {
 	border: 0;
 	display: grid;
 	gap: 2rem 0;
@@ -269,25 +265,25 @@ main > div > .container-public:has(> .g--partner) {
 }
 
 @media only screen and (min-width: 600px) {
-	#events-browser:not(:has(.paginator)) {
+	#events-browser:not(:has(.paginator__context)) {
 		row-gap: 2.5rem;
 	}
 }
 
 @media only screen and (min-width: 900px) {
-	#events-browser:not(:has(.paginator)) {
+	#events-browser:not(:has(.paginator__context)) {
 		column-gap: 1.75rem;
 		grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
 	}
 }
 
 /* Each day is its own <ol>, so every card is a first child; the grid's gap spaces them */
-#events-browser:not(:has(.paginator)) .events .event {
+#events-browser:not(:has(.paginator__context)) .events .event {
 	margin-top: 0;
 }
 
-#events-browser:not(:has(.paginator)) .events,
-#events-browser:not(:has(.paginator)) .events > li {
+#events-browser:not(:has(.paginator__context)) .events,
+#events-browser:not(:has(.paginator__context)) .events > li {
 	display: contents;
 }
 
@@ -295,9 +291,9 @@ main > div > .container-public:has(> .g--partner) {
    as the flattened event grid above, so without this they are grid items
    too, each auto-placed into a single (half-width, once 2-up) column rather
    than the full frame width the design's header row and centred button need. */
-#events-browser:not(:has(.paginator)) > .partner-events__header,
-#events-browser:not(:has(.paginator)) > .partner-events__actions,
-#events-browser:not(:has(.paginator)) > .partner-events__more {
+#events-browser:not(:has(.paginator__context)) > .partner-events__header,
+#events-browser:not(:has(.paginator__context)) > .partner-events__actions,
+#events-browser:not(:has(.paginator__context)) > .partner-events__more {
 	grid-column: 1 / -1;
 }
 
@@ -323,26 +319,13 @@ main > div > .container-public:has(> .g--partner) {
 	width: 1px;
 }
 
-/* Final design (§5): a rule between the two-column body and the event
-   browser. Core has no <hr> here (Views::Partners::Show only prints one
-   between managed places), so the rule is drawn as a border on the frame
-   that follows, the same trick the show pages already use elsewhere in this
-   theme rather than inventing an element. Set after the flatten rule above
-   (and the paginated-path reset below), which both reset the frame's
-   `border` shorthand and would otherwise wipe this back out. */
+/* The design's rule above the events; after the flatten rule, whose `border: 0` would wipe it */
 .g--partner + #events-browser {
 	border-top: 1px solid var(--color-primary);
 	padding-top: 2rem;
 }
 
-/* When the partner has enough upcoming events for core to paginate,
-   #events-browser carries a .paginator (Components::Timeline +
-   Components::EventFilter). The flattened grid + "Show N more days" link
-   above now carry all the browsing the final design wants here, so the old
-   Timeline/day-strip/period paginator is dropped entirely rather than
-   restyled. Unverified: no partner in the dev seed data crosses core's
-   30-event pagination threshold, so this path could not be checked against a
-   running page. */
+/* Core's day strip for busy partners; "Show N more days" does the browsing here. */
 .g--partner + #events-browser .paginator {
 	display: none;
 }
@@ -358,12 +341,12 @@ main > div > .container-public:has(> .g--partner) {
 }
 
 /* The header is a grid item, so this pulls the first cards to 24px under it rather than a full row gap */
-#events-browser:not(:has(.paginator)) > .partner-events__header {
+#events-browser:not(:has(.paginator__context)) > .partner-events__header {
 	margin-bottom: -0.5rem;
 }
 
 @media only screen and (min-width: 600px) {
-	#events-browser:not(:has(.paginator)) > .partner-events__header {
+	#events-browser:not(:has(.paginator__context)) > .partner-events__header {
 		margin-bottom: -1rem;
 	}
 }
