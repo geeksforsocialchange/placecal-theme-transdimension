@@ -317,7 +317,8 @@ main > div[vocab] > .hero .hero__section {
 
 .event--full .event__time,
 .event--full .event__duration,
-.event--full .event__repeats {
+.event--full .event__repeats,
+.event--full .event__online {
 	color: var(--color-primary);
 	font-size: 1.2rem;
 	font-weight: 600;
@@ -328,7 +329,8 @@ main > div[vocab] > .hero .hero__section {
 }
 
 .event--full .event__duration::before,
-.event--full .event__repeats::before {
+.event--full .event__repeats::before,
+.event--full .event__online::before {
 	content: "\00a0\00b7\00a0";
 }
 
@@ -424,11 +426,12 @@ main > div[vocab] > .hero .hero__section {
 	border: 2px solid var(--color-primary);
 	border-radius: 0.3rem;
 	color: var(--color-foreground-dark);
-	display: inline-block;
+	display: block;
 	font-size: 0.875rem;
 	font-weight: 600;
 	margin: 0.75rem auto 0;
 	padding: 0.2rem 0.9rem 0.3rem;
+	width: fit-content;
 }
 
 @media only screen and (hover: hover) and (pointer: fine) {

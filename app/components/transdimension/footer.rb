@@ -121,7 +121,9 @@ class Transdimension::Components::Footer < Components::Base
         button(class: 'td-btn td-btn--pink', type: 'submit') { t('transdimension.footer.signup_button') }
       end
       p(class: 'td-footer__signup-note', role: 'status', hidden: true, data: { newsletter_signup_target: 'message' })
-      p(class: 'td-footer__signup-note') { t('transdimension.footer.signup_note') }
+      p(class: 'td-footer__signup-note', data: { newsletter_signup_target: 'hideOnSuccess' }) do
+        t('transdimension.footer.signup_note')
+      end
     end
   end
 

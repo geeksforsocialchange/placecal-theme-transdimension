@@ -763,19 +763,24 @@ main > .hero:has(.hero__standfirst) + * #events-browser:has(.paginator__context)
    specificity over any row assigned here) not a column-2 detail line, so no
    row is reserved for it in this stack.
 
-   Final design (screens/02-events-index-full.png, EventCard.jsx): time (plus
-   repeat, when core renders one), then location, then "By Organiser" -
-   swapped from core's own order (organiser before location). */
+   Final design (screens/02-events-index-full.png, EventCard.jsx): time, repeat
+   and online (each only when core renders one), then location, then "By
+   Organiser" - swapped from core's own order (organiser before location).
+   Absent lines leave empty min-content rows, which collapse to zero height. */
 .events .event__repeats {
 	grid-row: 3;
 }
 
-.events .event__location {
+.events .event__online {
 	grid-row: 4;
 }
 
-.events .event__organiser {
+.events .event__location {
 	grid-row: 5;
+}
+
+.events .event__organiser {
+	grid-row: 6;
 }
 
 /* Live site's 1.2rem detail lines kept over the design's 1rem for readability (review 2026-10-19). */
