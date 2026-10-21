@@ -610,8 +610,7 @@ main > .hero:has(.hero__standfirst) + * #events-browser:has(.paginator__context)
 /* ---------------------------------------------------------------------------
    Event card (EventCard.jsx / Events.elm viewEvent): date column 70px + 10px
    gap, day 2.6rem/1 white, month 0.85rem 900 caps pink, italic title with a
-   2px pink underline, neighbourhood lozenge on the title row, detail lines on
-   a 28px line, 48px between rows.
+   2px pink underline, detail lines on a 28px line, 48px between rows.
 --------------------------------------------------------------------------- */
 
 .events > li {
@@ -666,9 +665,7 @@ main > .hero:has(.hero__standfirst) + * #events-browser:has(.paginator__context)
 	display: none;
 }
 
-/* event__header wraps the title (h3) and, when core renders one, the
-   neighbourhood lozenge (Components::Event#render_list_header). EventCard.jsx
-   draws both on one row, right-aligned against the shared underline. */
+/* event__header wraps the title (h3) and core's neighbourhood badge, which is hidden below */
 .events .event__header {
 	align-items: flex-end;
 	border-bottom: 2px solid var(--color-primary);
@@ -723,24 +720,9 @@ main > .hero:has(.hero__standfirst) + * #events-browser:has(.paginator__context)
 	}
 }
 
-/* Neighbourhood lozenge: mauve is not a design token yet (reference/tokens
-   only defines the pink/purple/blue palette), so the fill is a literal colour
-   per doc/core-slots-needed.md / the design handoff's #7b4a6e. */
+/* The live site's cards carry no neighbourhood badge */
 .events .event__neighbourhood {
-	background-color: #7b4a6e;
-	border-radius: 0.3rem;
-	color: var(--color-primary);
-	flex: none;
-	font-size: 0.72rem;
-	font-weight: 700;
-	line-height: 1.4;
-	margin-bottom: 0.2rem;
-	padding: 0.1rem 0.45rem;
-	white-space: nowrap;
-}
-
-.events .event__neighbourhood span {
-	display: block;
+	display: none;
 }
 
 .events .event__time {
