@@ -35,6 +35,11 @@ RSpec.describe 'Trans Dimension footer', type: :request do
     expect(response.body).to include('Get the GFSC newsletter')
   end
 
+  it 'keeps the address out of the no-JS fallback URL' do
+    expect(response.body).to include('id="signup"')
+    expect(response.body).not_to include('name="email"')
+  end
+
   it 'carries the Gendered Intelligence charity number' do
     expect(response.body).to include('Registered Charity in England and Wales No. 1182558')
   end
