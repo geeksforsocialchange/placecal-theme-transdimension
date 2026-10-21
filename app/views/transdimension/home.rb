@@ -61,7 +61,7 @@ class Transdimension::Views::Home < Views::Base
         div(class: 'td-events') { render_event_list }
         p(class: 'td-button-floating') do
           link_to t('transdimension.home.events_button'), events_path(**region_param),
-                  class: 'with-no-sass td-button td-button--pink'
+                  class: 'with-no-sass td-button td-button--pink', data: { turbo_frame: '_top' }
         end
       end
     end
