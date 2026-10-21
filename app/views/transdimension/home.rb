@@ -19,7 +19,7 @@ class Transdimension::Views::Home < Views::Base
 
   # Final design (README "1 Home"): four featured events across the two
   # columns, not Index.elm's original eight.
-  MAX_EVENTS = 4
+  MAX_EVENTS = 8
 
   def view_template
     content_for(:title) { t('transdimension.home.meta_title') }
