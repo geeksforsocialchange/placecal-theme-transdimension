@@ -30,6 +30,7 @@ RSpec.describe 'host contract' do
       expect(theme.footer).to eq('Transdimension::Components::Footer')
       expect(theme.event_filter_style).to eq(:day_strip_with_date_picker)
       expect(theme.events_default_period).to eq('future')
+      expect(theme.event_neighbourhood_filter?).to be(false)
       expect(theme.map_style).to eq('transdimension')
       expect(theme.nav_join?).to be(false)
       expect(theme.nav_region_filter?).to be(false)

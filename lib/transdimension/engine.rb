@@ -19,6 +19,7 @@ module Transdimension
     required_settings %i[
       stylesheet homepage_view font_stylesheet footer event_filter_style nav_cta nav_join map_style
       menu_label icons theme_color background_color og_image page nav_region_filter events_default_period
+      event_neighbourhood_filter
     ]
 
     # PageHeader.elm: the Donate button at the end of the nav goes to the
@@ -88,6 +89,8 @@ module Transdimension
       # index is one flat list of everything upcoming, not core's day/week/
       # future density heuristic.
       theme.events_default_period 'future'
+      # The live site has no ward filter; the region pills above the list do that job.
+      theme.event_neighbourhood_filter false
     end
 
     def self.register_branding(theme)
