@@ -69,7 +69,7 @@ BUNDLE_GEMFILE=/path/to/PlaceCal/Gemfile.extensions-dev bundle exec rubocop
 
 ### Releasing
 
-The steps are the same for every extension and core keeps them: [Releasing an extension](https://github.com/geeksforsocialchange/PlaceCal/blob/main/doc/extensions.md#releasing-an-extension). In short, bump `lib/transdimension/version.rb` and `package.json` together, merge, tag the merge commit `v<version>`, then pin the new tag in core with `rake "placecal:extension:bump[placecal-theme-transdimension,<version>]"`.
+The steps are the same for every extension and core keeps them: [Releasing an extension](https://github.com/geeksforsocialchange/PlaceCal/blob/main/doc/extensions.md#releasing-an-extension). In short, bump `lib/transdimension/version.rb` and `package.json` together in the PR. When it merges and main's tests pass, the `release` job in `.github/workflows/test.yml` tags `v<version>` and publishes the release, and core opens a PR pinning the new tag within the hour.
 
 Two checks back that up here: `spec/version_spec.rb` fails if `VERSION` and `package.json` disagree or if the latest tag is ahead of `VERSION`, and CI fails a tag push whose tag name does not match `VERSION`.
 
