@@ -21,7 +21,6 @@ en:
         show:
           section: "Events"
           organiser_events: "All events by %{name}"
-          go_back: "All events"
         page:
           date_format: "%d %b %Y"
           date_format_with_year: "%d %b %Y"
@@ -29,12 +28,9 @@ en:
           date_format: "%d %b"
           date_format_with_year: "%d %b %Y"
           organiser_prefix: "By "
-        csv_export:
-          link: "Download as CSV"
       partners:
         show:
           section: "Partners"
-          go_back: "All partners"
           upcoming_events: "Upcoming partner events"
           subscribe_ical: "Subscribe with iCal"
         index:
@@ -45,15 +41,12 @@ en:
           section: "News"
           back: "Go back"
           date_format: "%o %B %Y"
-          previous: "Previous"
-          next: "Next"
           go_back: "Go back"
         index:
           read_more: "Read the rest"
           date_format: "%o %B %Y"
           title: "News"
           page_title: "News"
-          older: "Older news"
           standfirst: "Updates & articles from The Trans Dimension."
       sites:
         join:
