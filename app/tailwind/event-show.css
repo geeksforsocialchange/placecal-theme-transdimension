@@ -30,13 +30,8 @@
 	margin-top: 0;
 	max-width: none;
 	padding-bottom: 3rem;
-	padding-top: 1rem;
-}
-
-@media only screen and (min-width: 600px) {
-	.event__fullinfo {
-		padding-top: 2rem;
-	}
+	/* Matches the 40px from the description to the contact rule below, so the text sits evenly between the rules */
+	padding-top: 2.375rem;
 }
 
 /* Core's spacer after the description; the gaps here are set explicitly. */
@@ -288,7 +283,7 @@ main > div[vocab] > .hero .hero__section {
 	content: "";
 	flex-basis: 100%;
 	height: 0;
-	margin: 2rem 0;
+	margin: 2rem 0 0;
 	order: -1;
 }
 
