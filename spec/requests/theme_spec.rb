@@ -21,7 +21,7 @@ RSpec.describe 'Trans Dimension theme', type: :request do
 
   context 'with a site on the theme' do
     let(:site) do
-      create(:site, slug: 'transdimension', theme: 'transdimension', url: 'https://transdimension.lvh.me')
+      create(:site, slug: 'transdimension', theme: 'transdimension')
     end
 
     before do

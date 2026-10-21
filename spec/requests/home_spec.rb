@@ -9,8 +9,7 @@ RSpec.describe 'Trans Dimension homepage', type: :request do
   let(:manchester) { create(:partnership, name: 'Manchester') }
 
   let(:site) do
-    create(:site, slug: 'transdimension', theme: 'transdimension',
-                  url: 'https://transdimension.lvh.me')
+    create(:site, slug: 'transdimension', theme: 'transdimension')
   end
 
   let(:london_partner) { create(:partner, name: 'London Trans Meet Up', tags: [london]) }
@@ -77,8 +76,7 @@ RSpec.describe 'Trans Dimension homepage', type: :request do
 
   context 'when the site has one partnership tag' do
     let(:single_tag_site) do
-      create(:site, slug: 'onetag', theme: 'transdimension',
-                    url: 'https://onetag.lvh.me', tags: [london])
+      create(:site, slug: 'onetag', theme: 'transdimension', tags: [london])
     end
 
     it 'shows no region filter' do
