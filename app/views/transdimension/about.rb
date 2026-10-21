@@ -14,20 +14,19 @@ class Transdimension::Views::About < Views::ThemeContentPage
       body: 'about/makers/gi.md' }
   ].freeze
 
-  def view_template
-    content_for(:title) { page_title }
-    content_for(:description) { page_description }
+  private
 
-    div(class: 'container-public py-8 page page--about', data: { page_slug: page_slug }) do
-      h1(class: 'h1') { page_title }
-      render_intro
-      render_accessibility
-      render_makers
-      render_placecal
-    end
+  # About's sections are their own boxes, so they skip the markdown-content column.
+  def page_content
+    page_body
   end
 
-  private
+  def page_body
+    render_intro
+    render_accessibility
+    render_makers
+    render_placecal
+  end
 
   def render_intro
     div(class: 'about-box about-intro') do
