@@ -1,6 +1,6 @@
 {
 	"name": "placecal-theme-transdimension",
-	"version": "0.5.6",
+	"version": "0.5.7",
 	"private": true,
 	"description": "Tailwind build for the PlaceCal Trans Dimension theme engine",
 	"dependencies": {
