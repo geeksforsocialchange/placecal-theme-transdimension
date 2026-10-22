@@ -86,6 +86,7 @@ main > div > .container-public:has(> .g--partner) {
 /* Get in touch and Address in the event page's format: centred plain 16px lines, no icons,
    socials as one "Facebook · Twitter · Instagram" row, directions as one row. */
 .g--partner .contact_details,
+.g--partner .place_info__service_area,
 .g--partner .place_info__address,
 .g--partner .place_info__directions-list {
 	font-size: 1rem;
@@ -192,7 +193,7 @@ main > div > .container-public:has(> .g--partner) {
 		column-gap: 0;
 		display: grid;
 		grid-template-columns: repeat(2, minmax(0, 1fr));
-		grid-template-rows: repeat(4, auto) 1fr;
+		grid-template-rows: repeat(6, auto) 1fr;
 	}
 
 	.gi.gi__3-5 > .p--big,
@@ -205,7 +206,7 @@ main > div > .container-public:has(> .g--partner) {
 		margin-top: 1rem;
 	}
 
-	.gi.gi__3-5 > h2:has(+ .place_info__address) {
+	.gi.gi__3-5 > h2:has(+ .place_info__service_area, + .place_info__address) {
 		border-top: 1px solid var(--color-primary);
 		padding-top: 2rem;
 	}
@@ -217,30 +218,35 @@ main > div > .container-public:has(> .g--partner) {
 
 	.gi.gi__3-5 > .contact_details {
 		grid-column: 1;
-		grid-row: 4 / span 2;
+		grid-row: 4 / span 4;
 	}
 
-	.gi.gi__3-5 > h2:has(+ .place_info__address) {
+	.gi.gi__3-5 > h2:has(+ .place_info__service_area, + .place_info__address) {
 		grid-column: 2;
 		grid-row: 3;
 	}
 
-	.gi.gi__3-5 > .place_info__address {
+	/* Service area, address and directions stack in rows 4 to 6; a missing one leaves an empty auto row */
+	.gi.gi__3-5 > .place_info__service_area {
 		grid-column: 2;
 		grid-row: 4;
+	}
+
+	.gi.gi__3-5 > .place_info__address {
+		grid-column: 2;
+		grid-row: 5;
 	}
 
 	/* div in the selector outranks the full-width div rule above */
 	.gi.gi__3-5 > div.place_info__directions-list {
 		grid-column: 2;
-		grid-row: 5;
+		grid-row: 6;
 	}
 }
 
 .g--partner .gi__image img {
-	aspect-ratio: 3 / 2;
 	display: block;
-	object-fit: cover;
+	height: auto;
 	width: 100%;
 }
 
