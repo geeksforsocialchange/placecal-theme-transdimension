@@ -19,11 +19,8 @@ config/locales/overrides.en.yml    Overrides of core strings, appended after cor
 content/                           Static page content, rendered by the views above
 doc/core-slots-needed.md           Core slots the theme needs, and what it does without them
 doc/site-record.md                 Setting up the Site record the theme expects
-doc/visual-diff.md                 Open deviations from the live site, with reasons
 doc/audits/                        Legacy URL audit: path list, task output tables
 ```
-
-The reference screenshots of the live site live in `goldens/`, which is gitignored: they are large PNGs of a site we do not own, and they are a working artifact rather than a deliverable. Recapture them locally with `bash goldens/capture.sh` (the script is kept alongside them, so it is local too). The durable record of the comparison is `doc/visual-diff.md`, which is committed.
 
 There are deliberately no models, migrations, controllers or routes. Every visible string goes through `t()`.
 
