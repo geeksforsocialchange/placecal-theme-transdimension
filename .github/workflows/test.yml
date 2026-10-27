@@ -12,6 +12,10 @@ on:
     branches: ["main"]
     tags: ["v*"]
   pull_request:
+  # Nightly against core main, so a core change that breaks this theme shows up the next morning.
+  schedule:
+    - cron: "23 3 * * *"
+  workflow_dispatch:
 
 jobs:
   test:
