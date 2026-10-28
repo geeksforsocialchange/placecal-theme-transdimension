@@ -441,7 +441,7 @@ main > div[vocab] > .hero .hero__section {
    the whole box in textAlign: center and never overrides it here, unlike the
    partner page's left-aligned equivalent), so it reads as a stack under each
    FloatingTitle rather than a left-aligned block. */
-.event__fullinfo .event__column,
+.event__fullinfo .event__column-body,
 .event__fullinfo .contact_details,
 .event__fullinfo .place_info__address,
 .event__fullinfo .place_info__directions-list {
