@@ -10,74 +10,74 @@
    The panel treatment comes from the show-page rules in the /events/:id block.
 --------------------------------------------------------------------------- */
 
-main > div:not([vocab]):has(> .container-public .g--partner) {
+main > div:not([vocab]):has(> .container-public .partner-details) {
 	background-color: var(--color-background);
 	border: 1px solid var(--color-primary);
 	border-radius: 0.3rem;
 	box-sizing: border-box;
 }
 
-main > div:not([vocab]):has(> .container-public .g--partner) .hero__section {
+main > div:not([vocab]):has(> .container-public .partner-details) .hero__section {
 	display: none;
 }
 
 /* Title ink 37px from the panel's top and bottom edges on phones, 40 from 900px, as on the event page */
-main > div:has(> .container-public .g--partner) > .hero h1 {
+main > div:has(> .container-public .partner-details) > .hero h1 {
 	margin-block: calc(0.875rem + 0.5px) calc(1.125rem + 0.5px);
 }
 
 @media only screen and (min-width: 900px) {
-	main > div:has(> .container-public .g--partner) > .hero h1 {
+	main > div:has(> .container-public .partner-details) > .hero h1 {
 		margin-block: 0.8125rem 1.25rem;
 	}
 }
 
 /* Undoes event-show.css's wider bottom padding from 1500px, which the partner title does not want */
 @media only screen and (min-width: 1500px) {
-	main > div:has(> .container-public .g--partner) > .hero {
+	main > div:has(> .container-public .partner-details) > .hero {
 		padding-bottom: 1rem;
 	}
 }
 
 /* The box closes 48px under its last block, map or not (live) */
-main > div > .container-public:has(> .g--partner) {
+main > div > .container-public:has(> .partner-details) {
 	margin-bottom: 0;
 	padding-bottom: 3rem;
 }
 
 /* Hidden breadcrumb: its margins would still open the gap above the body */
-.container-public > .breadcrumb:has(~ .g--partner) {
+.container-public > .breadcrumb:has(~ .partner-details) {
 	margin-block: 0;
 }
 
 /* Live's first description line: 22px under the panel on phones, 39 from 900px (ink) */
-.g--partner {
+.partner-details {
 	padding-bottom: 2rem;
 	padding-top: 1.125rem;
 }
 
 @media only screen and (min-width: 900px) {
-	.g--partner {
+	.partner-details {
 		padding-top: 1.875rem;
 	}
 }
 
-.g--partner > .gi {
+.partner-details > * {
 	margin: 0;
 }
 
-.g--partner .p--big p {
+.partner-details .p--big p {
 	margin-top: 0;
 }
 
-.g--partner .p--big p {
+.partner-details .p--big p {
 	font-size: 1.2rem;
 	max-width: 636px;
 	text-align: left;
 }
 
 @media only screen and (min-width: 900px) {
-	.g--partner .p--big p {
+	.partner-details .p--big p {
 		font-size: 1.825rem;
 		line-height: 1.35em;
 	}
@@ -85,25 +85,25 @@ main > div > .container-public:has(> .g--partner) {
 
 /* Get in touch and Address in the event page's format: centred plain 16px lines, no icons,
    socials as one "Facebook · Twitter · Instagram" row, directions as one row. */
-.g--partner .contact_details,
-.g--partner .place_info__service_area,
-.g--partner .place_info__address,
-.g--partner .place_info__directions-list {
+.partner-details .contact_details,
+.partner-details .place_info__service_area,
+.partner-details .place_info__address,
+.partner-details .place_info__directions-list {
 	font-size: 1rem;
 	line-height: 1.5;
 	margin-top: 0;
 	text-align: center;
 }
 
-.g--partner .contact_details {
+.partner-details .contact_details {
 	display: block;
 }
 
-.g--partner .contact_details svg {
+.partner-details .contact_details svg {
 	display: none;
 }
 
-.g--partner .contact_details__item:not(.contact_details__item--social) a {
+.partner-details .contact_details__item:not(.contact_details__item--social) a {
 	display: block;
 	margin: 0;
 	overflow-wrap: anywhere;
@@ -111,17 +111,17 @@ main > div > .container-public:has(> .g--partner) {
 }
 
 @media only screen and (hover: hover) and (pointer: fine) {
-	.g--partner .contact_details__item:not(.contact_details__item--social) a:hover {
+	.partner-details .contact_details__item:not(.contact_details__item--social) a:hover {
 		text-decoration: underline;
 	}
 }
 
-.g--partner .contact_details__item--social {
+.partner-details .contact_details__item--social {
 	display: inline-block;
 	margin-top: 0.5rem;
 }
 
-.g--partner .contact_details__item--social + .contact_details__item--social::before {
+.partner-details .contact_details__item--social + .contact_details__item--social::before {
 	color: var(--color-primary-light);
 	content: "\00b7";
 	content: "\00b7" / "";
@@ -129,7 +129,7 @@ main > div > .container-public:has(> .g--partner) {
 	padding-inline: 0.5rem;
 }
 
-.g--partner .place_info__directions-list {
+.partner-details .place_info__directions-list {
 	margin-top: 0.5rem;
 }
 
@@ -139,7 +139,7 @@ main > div > .container-public:has(> .g--partner) {
    width. */
 /* From 900px the sidebar is as wide as the opening times. */
 @media only screen and (min-width: 900px) {
-	.g.g--partner {
+	.partner-details {
 		column-gap: 2.5rem;
 		grid-template-areas: "main right";
 		grid-template-columns: minmax(0, 1fr) 24rem;
@@ -153,7 +153,7 @@ main > div > .container-public:has(> .g--partner) {
    times"), so that rule was swallowing them too. This restores them, higher
    specificity than either source rule so the fix holds regardless of import
    order. */
-.g--partner h2.udl--fw {
+.partner-details h2.udl--fw {
 	border-bottom: 0;
 	clip-path: none;
 	color: var(--color-primary);
@@ -175,12 +175,12 @@ main > div > .container-public:has(> .g--partner) {
 
 /* Live: a rule 32px under the description, the headings 32px under it, the lines 25px under them.
    Phones stack the two blocks 32px apart. */
-.gi.gi__3-5 > h2.udl--fw {
+.partner-details__main > h2.udl--fw {
 	margin-block: 2rem 1.5625rem;
 	text-align: center;
 }
 
-.gi.gi__3-5 > h2:has(+ .contact_details) {
+.partner-details__main > h2:has(+ .contact_details) {
 	border-top: 1px solid var(--color-primary);
 	padding-top: 2rem;
 }
@@ -188,7 +188,7 @@ main > div > .container-public:has(> .g--partner) {
 /* Side by side from 900px, heading and content matched by adjacency since core has no wrapper */
 @media only screen and (min-width: 900px) {
 	/* The flexible last row takes the contacts' extra height, so the directions sit right under the address */
-	.gi.gi__3-5 {
+	.partner-details__main {
 		align-content: start;
 		column-gap: 0;
 		display: grid;
@@ -196,55 +196,55 @@ main > div > .container-public:has(> .g--partner) {
 		grid-template-rows: repeat(6, auto) 1fr;
 	}
 
-	.gi.gi__3-5 > .p--big,
-	.gi.gi__3-5 > div:not(.p--big) {
+	.partner-details__main > .p--big,
+	.partner-details__main > div:not(.p--big) {
 		grid-column: 1 / -1;
 	}
 
 	/* A grid item's margin does not collapse with the paragraph's above it */
-	.gi.gi__3-5 > h2.udl--fw {
+	.partner-details__main > h2.udl--fw {
 		margin-top: 1rem;
 	}
 
-	.gi.gi__3-5 > h2:has(+ .place_info__service_area, + .place_info__address) {
+	.partner-details__main > h2:has(+ .place_info__service_area, + .place_info__address) {
 		border-top: 1px solid var(--color-primary);
 		padding-top: 2rem;
 	}
 
-	.gi.gi__3-5 > h2:has(+ .contact_details) {
+	.partner-details__main > h2:has(+ .contact_details) {
 		grid-column: 1;
 		grid-row: 3;
 	}
 
-	.gi.gi__3-5 > .contact_details {
+	.partner-details__main > .contact_details {
 		grid-column: 1;
 		grid-row: 4 / span 4;
 	}
 
-	.gi.gi__3-5 > h2:has(+ .place_info__service_area, + .place_info__address) {
+	.partner-details__main > h2:has(+ .place_info__service_area, + .place_info__address) {
 		grid-column: 2;
 		grid-row: 3;
 	}
 
 	/* Service area, address and directions stack in rows 4 to 6; a missing one leaves an empty auto row */
-	.gi.gi__3-5 > .place_info__service_area {
+	.partner-details__main > .place_info__service_area {
 		grid-column: 2;
 		grid-row: 4;
 	}
 
-	.gi.gi__3-5 > .place_info__address {
+	.partner-details__main > .place_info__address {
 		grid-column: 2;
 		grid-row: 5;
 	}
 
 	/* div in the selector outranks the full-width div rule above */
-	.gi.gi__3-5 > div.place_info__directions-list {
+	.partner-details__main > div.place_info__directions-list {
 		grid-column: 2;
 		grid-row: 6;
 	}
 }
 
-.g--partner .gi__image img {
+.partner-details .partner-details__image img {
 	display: block;
 	height: auto;
 	width: 100%;
@@ -252,11 +252,11 @@ main > div > .container-public:has(> .g--partner) {
 
 /* render_opening_times prints a bare <br> before its heading as a spacer;
    the heading's own margin (above) already opens that gap. */
-.gi.gi__2-5 > br {
+.partner-details__aside > br {
 	display: none;
 }
 
-.g--partner .opening_times {
+.partner-details .opening_times {
 	max-width: 24rem;
 }
 
@@ -326,13 +326,13 @@ main > div > .container-public:has(> .g--partner) {
 }
 
 /* The design's rule above the events; after the flatten rule, whose `border: 0` would wipe it */
-.g--partner + #events-browser {
+.partner-details + #events-browser {
 	border-top: 1px solid var(--color-primary);
 	padding-top: 2rem;
 }
 
 /* Core's day strip for busy partners; "Show N more days" does the browsing here. */
-.g--partner + #events-browser .paginator {
+.partner-details + #events-browser .paginator {
 	display: none;
 }
 
@@ -458,7 +458,7 @@ main > div > .container-public:has(> .g--partner) {
 	padding: 0.4rem 0;
 }
 
-.g--partner .opening_times li:last-child {
+.partner-details .opening_times li:last-child {
 	border-bottom: 0;
 }
 
@@ -468,12 +468,12 @@ main > div > .container-public:has(> .g--partner) {
 }
 
 /* Components::Meta is permalink-only here and the design has no place for it */
-main > div:not([vocab]):has(> .container-public .g--partner) ~ .meta {
+main > div:not([vocab]):has(> .container-public .partner-details) ~ .meta {
 	display: none;
 }
 
 /* The partner's map closes the box full width, at the event page's heights */
-main > div:has(> .container-public .g--partner) > [data-controller="leaflet"] {
+main > div:has(> .container-public .partner-details) > [data-controller="leaflet"] {
 	background-color: var(--color-primary);
 	border: 0;
 	border-radius: 0 0 0.3rem 0.3rem;
@@ -484,12 +484,12 @@ main > div:has(> .container-public .g--partner) > [data-controller="leaflet"] {
 }
 
 @media only screen and (min-width: 900px) {
-	main > div:has(> .container-public .g--partner) > [data-controller="leaflet"] {
+	main > div:has(> .container-public .partner-details) > [data-controller="leaflet"] {
 		height: 400px;
 		min-height: 400px;
 	}
 }
 
-main:has(.g--partner) > nav.page-actions {
+main:has(.partner-details) > nav.page-actions {
 	margin-top: 3rem;
 }
