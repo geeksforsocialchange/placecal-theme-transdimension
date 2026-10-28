@@ -292,13 +292,9 @@ main > .hero:has(.hero__standfirst) + #partner_previews {
 	}
 }
 
-/* TD has no breadcrumb trail on any page. The trailing element is kept because
-   core hangs the region and category filters off it. */
+/* TD has no breadcrumb trail on any page; the slot holding the filters stays.
+   The --last selectors cover core before it named the slot (PlaceCal#3743). */
 .breadcrumb {
-	display: block;
-}
-
-.breadcrumb__element {
 	display: block;
 }
 
@@ -306,20 +302,11 @@ main > .hero:has(.hero__standfirst) + #partner_previews {
 	display: none;
 }
 
+.breadcrumb__slot,
 .breadcrumb__element--last {
+	display: block;
 	margin: 0;
 	width: 100%;
-}
-
-/* The partner filters nest a second trailing element inside the form, which
-   core lays out as a right-aligned row. TD centres every control on the page. */
-.breadcrumb__element--last .breadcrumb__element--last {
-	align-items: center;
-	display: flex;
-	flex-wrap: wrap;
-	gap: 0.5rem;
-	justify-content: center;
-	margin-bottom: 1rem;
 }
 
 /* Global.elm hrStyle is already in theme.css; inside a content box the rules
