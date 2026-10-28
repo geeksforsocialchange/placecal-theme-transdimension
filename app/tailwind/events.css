@@ -128,6 +128,8 @@ main > .hero:has(.hero__standfirst) + * #events-browser:has(.paginator__context)
 .paginator__context .breadcrumb,
 .paginator__context .breadcrumb__slot,
 .paginator__context .filter-bar,
+.paginator__context .breadcrumb__element--last,
+.paginator__context .breadcrumb__actions,
 .paginator__buttons {
 	display: contents;
 }
