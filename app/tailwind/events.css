@@ -90,7 +90,7 @@ main > .hero:has(.hero__standfirst) + * #events-browser:has(.paginator__context)
    listing has none (Events.elm renders one flat list) and every card already
    carries its date, so the heading stays in the accessibility tree as the
    group label core intends while being taken out of the picture visually. */
-#events-browser:has(.paginator__context) > h2.udl--fw {
+#events-browser:has(.paginator__context) > h2.ruled-heading {
 	border: 0;
 	clip-path: inset(50%);
 	height: 1px;
