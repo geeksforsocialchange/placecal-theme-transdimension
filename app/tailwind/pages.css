@@ -292,18 +292,16 @@ main > .hero:has(.hero__standfirst) + #partner_previews {
 	}
 }
 
-/* TD has no breadcrumb trail on any page; the slot holding the filters stays.
-   The --last selectors cover core before it named the slot (PlaceCal#3743). */
+/* TD has no breadcrumb trail on any page; the slot holding the filters stays. */
 .breadcrumb {
 	display: block;
 }
 
-.breadcrumb__element:not(.breadcrumb__element--last) {
+.breadcrumb__element {
 	display: none;
 }
 
-.breadcrumb__slot,
-.breadcrumb__element--last {
+.breadcrumb__slot {
 	display: block;
 	margin: 0;
 	width: 100%;

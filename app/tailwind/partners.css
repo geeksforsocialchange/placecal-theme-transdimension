@@ -102,10 +102,8 @@
    repositioned on top of it, pink.
 --------------------------------------------------------------------------- */
 /* The region pills sit outside the form, so the form and its controls row are
-   flattened to lay out the pills, selects and search in one flex box. The
-   breadcrumb__* selectors cover core before PlaceCal#3743. */
-#partner_previews .filter-bar,
-#partner_previews .breadcrumb > .breadcrumb__element--last {
+   flattened to lay out the pills, selects and search in one flex box. */
+#partner_previews .filter-bar {
 	align-items: center;
 	column-gap: 28px;
 	display: flex;
@@ -115,15 +113,13 @@
 }
 
 @media only screen and (min-width: 600px) {
-	#partner_previews .filter-bar,
-	#partner_previews .breadcrumb > .breadcrumb__element--last {
+	#partner_previews .filter-bar {
 		row-gap: 16px;
 	}
 }
 
 #partner_previews form.filters__form,
-#partner_previews .filter-bar__controls,
-#partner_previews form.filters__form > .breadcrumb__element--last {
+#partner_previews .filter-bar__controls {
 	display: contents;
 }
 
@@ -164,8 +160,7 @@
 
 /* "Filter by:" is redundant once each control carries its own Location/Type
    label (below); hidden visually, kept for assistive tech. */
-#partner_previews .filter-bar__label,
-#partner_previews form.filters__form > .breadcrumb__element--last > span:first-child {
+#partner_previews .filter-bar__label {
 	clip-path: inset(50%);
 	height: 1px;
 	margin: -1px;
@@ -178,21 +173,18 @@
 /* Second row: Type, the neighbourhood select (only shown when the site has more
    than one neighbourhood), the reset link, then search on the right. */
 #partner_previews .filter-bar__category,
-#partner_previews .filter-bar__neighbourhood,
-#partner_previews .breadcrumb__filters.filters {
+#partner_previews .filter-bar__neighbourhood {
 	position: relative;
 }
 
 /* SearchInput.jsx: mauve fill, no border, white 600 text, pink placeholder.
    Full width on phones, 220px from 600px. */
-#partner_previews .filter-bar__search,
-#partner_previews .breadcrumb__filters:has(> input.filters__search) {
+#partner_previews .filter-bar__search {
 	flex-basis: 100%;
 }
 
 @media only screen and (min-width: 600px) {
-	#partner_previews .filter-bar__search,
-	#partner_previews .breadcrumb__filters:has(> input.filters__search) {
+	#partner_previews .filter-bar__search {
 		flex: 0 0 220px;
 		margin-left: auto;
 	}
@@ -200,14 +192,12 @@
 
 /* Phones: Type and Location share one line, half each, 8px apart, search below. */
 @media only screen and (max-width: 599px) {
-	#partner_previews .filter-bar,
-	#partner_previews .breadcrumb > .breadcrumb__element--last {
+	#partner_previews .filter-bar {
 		column-gap: 8px;
 	}
 
 	#partner_previews .filter-bar__category,
-	#partner_previews .filter-bar__neighbourhood,
-	#partner_previews .breadcrumb__filters.filters:has(.filters__toggle) {
+	#partner_previews .filter-bar__neighbourhood {
 		flex: 1 1 0;
 		min-width: 0;
 	}
@@ -395,8 +385,7 @@
 
 /* The reset link renders as its own trailing element once a filter is
    active; keep it inline with the two selects. */
-#partner_previews .filter-bar__reset,
-#partner_previews .breadcrumb__filters:not(.filters) {
+#partner_previews .filter-bar__reset {
 	align-items: center;
 	display: inline-flex;
 }
