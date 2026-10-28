@@ -146,30 +146,19 @@ main > div > .container-public:has(> .partner-details) {
 	}
 }
 
-/* events.css hides Components::EventList's day heading (h2.ruled-heading) off
-   screen for every route, since on /events the date already repeats on each
-   card. Core's partner page uses the same heading on three sections that have
-   no date to repeat ("Get in touch", "Address" and "Opening times"), so this
-   restores them, at higher specificity than the events.css rule so the fix
-   holds regardless of import order. */
+/* The partner page's section headings: pink caps, no rule. */
 .partner-details h2.ruled-heading {
 	border-bottom: 0;
-	clip-path: none;
 	color: var(--color-primary);
 	display: block;
 	font-size: 1rem;
 	font-weight: 700;
-	height: auto;
 	letter-spacing: 1.9px;
 	line-height: 1.5;
 	margin-block: 1.5rem 0.75rem;
-	overflow: visible;
 	padding: 0;
-	position: static;
 	text-align: left;
 	text-transform: uppercase;
-	white-space: normal;
-	width: auto;
 }
 
 /* Live: a rule 32px under the description, the headings 32px under it, the lines 25px under them.
@@ -307,8 +296,7 @@ main > div > .container-public:has(> .partner-details) {
    takes Components::EventList's per-day h2 out of the picture the same way,
    but only when the frame's paginator is wrapped in Components::Breadcrumb's
    .paginator__context (Views::Events::Index); the partner page's own
-   Components::Timeline sits in .paginator__actions instead (see
-   event_filter.rb / partners/show.rb) and slips through that selector, so it
+   Components::Timeline has no such wrapper and slips through that selector, so it
    is repeated here, scoped off .paginator__context to stay off the events
    route. The heading stays in the accessibility tree as the group label core
    intends. */

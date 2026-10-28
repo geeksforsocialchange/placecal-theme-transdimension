@@ -405,7 +405,7 @@
 
 #partner_previews a.filters__link,
 #partner_previews a.filters__link:not(.with-no-sass) {
-	/* core's legacy link rule draws a border-bottom as well: one underline, not two */
+	/* core's Breadcrumb link draws a border-bottom as well: one underline, not two */
 	border-bottom: 0;
 	color: var(--color-primary);
 	font-weight: 600;
@@ -442,10 +442,6 @@
 .partners .preview__details {
 	min-width: 0;
 	overflow-wrap: anywhere;
-}
-
-.partners .preview {
-	margin: 0;
 }
 
 /* Partners.elm partnerTopRowStyle / PartnerPreview.jsx row div. Core lays the
@@ -555,10 +551,6 @@
 	display: grid;
 }
 
-.partners > li {
-	margin-top: 0;
-}
-
 /* The badge never wraps; the name wraps instead. */
 .partners .preview .preview__neighbourhood {
 	flex-shrink: 0;
@@ -578,7 +570,7 @@
 	padding-inline: 0;
 }
 
-/* Core's .map--multiple draws a 10px stripe plus a 10px box-shadow above the map;
+/* Core's multiple-point map draws a 10px stripe plus a 10px box-shadow above the map;
    one 1px pink rule replaces both. The ground is the style's pink while tiles load. */
 #partner_previews > #map > [data-controller="leaflet"] {
 	background-color: var(--color-primary);

@@ -40,7 +40,7 @@ RSpec.describe 'Trans Dimension homepage', type: :request do
   it "draws the events with core's card, the one the listing page uses" do
     get 'http://transdimension.lvh.me/'
 
-    expect(response.body).to include('event event--list')
+    expect(response.body).to include('h-event')
     expect(response.body).not_to include('td-event__title')
   end
 

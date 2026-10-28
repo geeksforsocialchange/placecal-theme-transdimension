@@ -9,9 +9,8 @@
    (app/tailwind/partner-show.css) reuses the same #events-browser id and
    .paginator markup for its own event browser, so every selector below is
    scoped through :has(.paginator__context) (the wrapper class only
-   Views::Events::Index's paginator renders (Components::Timeline on a
-   partner page uses .paginator__actions instead, see event_filter.rb /
-   partners/show.rb), to keep this file's rules off that page.
+   Views::Events::Index's paginator renders; the partner page's Timeline has
+   no such wrapper), to keep this file's rules off that page.
 --------------------------------------------------------------------------- */
 
 /* ---------------------------------------------------------------------------
@@ -159,8 +158,8 @@ main > .hero:has(.hero__standfirst) + * #events-browser:has(.paginator__context)
    for layout purposes, but the region filter, day strip, filters and arrows
    are still several levels deep in the *DOM* tree those wrappers are part
    of, so `>` off #paginator would never match them. */
-/* max-width: none overrides pages.css .region-filter { max-width: fit-content }
-   (core's legacy pill sizing): a flex item's used main size is clamped by its
+/* max-width: none overrides pages.css .region-filter { max-width: fit-content }:
+   a flex item's used main size is clamped by its
    max-width even when flex-basis is 100%, so without this the region row only
    ever claimed its own content width and the next item kept sharing that
    first line instead of wrapping onto its own row below it. */
@@ -188,20 +187,6 @@ main > .hero:has(.hero__standfirst) + * #events-browser:has(.paginator__context)
 	row-gap: 0;
 }
 
-/* Fallback for event_filter_style :day_strip (pre-#3368-D22-switch): the
-   sort filter renders directly under .paginator__context with no
-   .filters__toggles wrapper around it at all. Harmless once the wrapper
-   ships - the same .filters is display: contents inside it below, and order
-   has no effect on a box that generates none. */
-#paginator:has(.paginator__context) .filters:not(:has(.filters__group--neighbourhood)) {
-	order: 6;
-}
-
-/* The sort filter (event_filter.rb render_sort_filter) wraps its toggle
-   button and dropdown in their own .filters > form; flattening both here
-   promotes the toggle and dropdown to direct flex items of .filters__toggles
-   above, so the toggle can sit beside the date toggle instead of being
-   trapped in a column only as wide as its own label. */
 #paginator:has(.paginator__context) .filters__toggles .filters,
 #paginator:has(.paginator__context) .filters__toggles .filters__form {
 	display: contents;
@@ -224,26 +209,6 @@ main > .hero:has(.hero__standfirst) + * #events-browser:has(.paginator__context)
 	order: 3;
 }
 
-/* The neighbourhood Filter (Location) is a third, separate widget core
-   renders after the day strip (event_filter.rb render_neighbourhood_filter);
-   there is no design slot for a third toggle beside "Filter events" / "Pick
-   a date" (doc/core-slots-needed.md), so flattening its own .filters > form
-   the same way lands its toggle and dropdown on their own centred line
-   after the day strip instead. */
-#paginator:has(.paginator__context) .filters:has(.filters__group--neighbourhood),
-#paginator:has(.paginator__context) .filters:has(.filters__group--neighbourhood) .filters__form {
-	display: contents;
-}
-
-#paginator:has(.paginator__context) .filters__toggle:has(+ .filters__dropdown:has(.filters__group--neighbourhood)) {
-	order: 7;
-}
-
-#paginator:has(.paginator__context) .filters__dropdown:has(.filters__group--neighbourhood) {
-	flex-basis: 100%;
-	order: 8;
-}
-
 /* "Showing Wed 21 Oct, Sorted by name. Reset filters": its own centred line
    under the toggles. */
 #paginator:has(.paginator__context) .filters__applied {
@@ -257,7 +222,7 @@ main > .hero:has(.hero__standfirst) + * #events-browser:has(.paginator__context)
 
 #paginator:has(.paginator__context) .filters__applied-reset,
 #paginator:has(.paginator__context) .filters__applied-reset:not(.with-no-sass) {
-	/* core's legacy link rule draws a border-bottom as well: one underline, not two */
+	/* core's Breadcrumb link draws a border-bottom as well: one underline, not two */
 	border-bottom: 0;
 	color: var(--color-foreground);
 	margin-left: 0.75rem;
@@ -328,7 +293,7 @@ main > .hero:has(.hero__standfirst) + * #events-browser:has(.paginator__context)
 	display: none;
 }
 
-/* Core's legacy .filters__link carries its own border-bottom (a 2px underline
+/* Core's .filters__link carries its own border-bottom (a 2px underline
    under the idle caption); FilterToggle.jsx draws no rule under the label. */
 #paginator:has(.paginator__context) .filters__toggle .filters__link {
 	border-bottom: 0;
@@ -368,7 +333,7 @@ main > .hero:has(.hero__standfirst) + * #events-browser:has(.paginator__context)
 --------------------------------------------------------------------------- */
 
 /* position: static overrides core's own .filters__dropdown { position:
-   absolute; top: 2rem; left: 0 } (components/filters.scss): left in place,
+   absolute; top: 2rem; left: 0 }: left in place,
    the dropdown pins to the top-left of its nearest positioned ancestor (this
    page has none, so the whole viewport) instead of taking its flex-item
    order/flex-basis: 100% place in the toggles row below the two buttons.
@@ -464,12 +429,6 @@ main > .hero:has(.hero__standfirst) + * #events-browser:has(.paginator__context)
 
 #paginator:has(.paginator__context) .filters__option:has(input:checked) label {
 	color: var(--color-primary);
-}
-
-#paginator:has(.paginator__context) .filter__reset {
-	font-size: 0.8rem;
-	margin-top: 0.5rem;
-	padding: 0.2rem 0.75rem 0.3rem;
 }
 
 /* ---------------------------------------------------------------------------
@@ -612,11 +571,6 @@ main > .hero:has(.hero__standfirst) + * #events-browser:has(.paginator__context)
    gap, day 2.6rem/1 white, month 0.85rem 900 caps pink, italic title with a
    2px pink underline, detail lines on a 28px line, 48px between rows.
 --------------------------------------------------------------------------- */
-
-.events > li {
-	display: block;
-	width: 100%;
-}
 
 /* Live site's card geometry kept over EventCard.jsx's (review 2026-10-19): 56px date column, 1rem gap. */
 .events .event {

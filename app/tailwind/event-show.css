@@ -54,7 +54,7 @@ main > [data-controller="leaflet"] {
 	border-radius: 0 0 0.3rem 0.3rem;
 	border-top: 0;
 	box-sizing: border-box;
-	/* Core's .map--multiple draws a two-tone decorative stripe above the map
+	/* Core's multiple-point map draws a two-tone decorative stripe above the map
 	   (a 10px border plus a box-shadow of the same height). TD's map meets the
 	   foot of the content box directly, so both go. */
 	box-shadow: none;
@@ -190,7 +190,6 @@ main > div:not([vocab]) > .hero h1 {
 
 .event--full .hero__standfirst a,
 .event--full .hero__standfirst a:not(.with-no-sass) {
-	border-bottom: 0;
 	color: var(--color-foreground-dark);
 	text-decoration: underline;
 	text-decoration-thickness: 1px;
@@ -311,7 +310,6 @@ main > div[vocab] > .hero .hero__section {
 }
 
 .event--full .event__time,
-.event--full .event__duration,
 .event--full .event__repeats,
 .event--full .event__online {
 	color: var(--color-primary);
@@ -323,42 +321,15 @@ main > div[vocab] > .hero .hero__section {
 	text-transform: uppercase;
 }
 
-.event--full .event__duration::before,
 .event--full .event__repeats::before,
 .event--full .event__online::before {
 	content: "\00a0\00b7\00a0";
-}
-
-.event--full .event__organiser,
-.event--full .event__neighbourhood-line {
-	font-size: 1.2rem;
-	font-weight: 400;
-	letter-spacing: normal;
-	line-height: 1.5;
-	order: 0;
-	text-transform: none;
-}
-
-/* Its own row under the organiser line. */
-.event--full .event__neighbourhood-line {
-	flex-basis: 100%;
-	order: 1;
-}
-
-/* organiser_prefix (events.card.organiser_prefix, shared with the event list)
-   is lower case ("by "); the design's stack reads "By {organiser}". */
-.event--full .event__organiser-prefix {
-	text-transform: capitalize;
 }
 
 /* Covered by the address column (online) or dropped as noise on this page
    (place: the venue, when it differs from the organiser, has its own
    column further down). */
 .event--full .event__location {
-	display: none;
-}
-
-.event--full > .p-name {
 	display: none;
 }
 
@@ -411,7 +382,7 @@ main > div[vocab] > .hero .hero__section {
 }
 
 /* event_link/online_link ("Visit the webpage for this event", "Join this
-   meeting") render as plain .btn.btn-primary links straight after the
+   meeting") render as plain UI::Button links straight after the
    description; core gives them no distinguishing class from one another, and
    no slot inside the address column the design puts the online button in
    (see core-slots-needed.md). Given TD's small pink button treatment here so
@@ -474,12 +445,6 @@ main > div[vocab] > .hero .hero__section {
 	}
 }
 
-.event__fullinfo .event__columns .event__column {
-	flex: none;
-	margin: 0;
-	width: auto;
-}
-
 /* A grid item's margin cannot collapse with the rule above it. */
 .event__fullinfo .event__columns .event__column > :first-child {
 	margin-top: 0;
@@ -493,7 +458,7 @@ main > div[vocab] > .hero .hero__section {
 	text-align: center;
 }
 
-/* Components::ContactDetails (render_scss) prints one <p class="contact_
+/* Components::ContactDetails (the sites variant) prints one <p class="contact_
    details"> holding an icon then a link, run on with no row wrapper, per
    contact method. Final.jsx.txt EventF's column is plain stacked divs with
    no icons at all; a block display on the icon-less links reproduces that
@@ -517,7 +482,6 @@ main > div[vocab] > .hero .hero__section {
 
 .event__fullinfo .contact_details__partner a,
 .event__fullinfo .contact_details__partner a:not(.with-no-sass) {
-	border-bottom: 0;
 	color: var(--color-foreground);
 	font-weight: 500;
 	text-decoration: none;

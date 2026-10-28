@@ -181,15 +181,6 @@ main > div[vocab] .article__author {
 	text-align: center;
 }
 
-/* ArticleF: single centred column (core lays the date out in a side column);
-   the image and body sit in the page's own measure. */
-main > div[vocab] .gi {
-	margin-inline: auto;
-	max-width: 636px;
-	text-align: center;
-	width: auto;
-}
-
 /* ArticleF: first paragraph 1.4rem/1.4, the rest 16px prose in a 560px
    measure (narrower than the 636px image above it). */
 main > div[vocab] .article__content {
@@ -209,8 +200,8 @@ main > div[vocab] .article__content {
 }
 
 /* Components::PullQuote (article.pull_quote, rendered after the third
-   paragraph, or at the end when the body has fewer): core's own
-   pull_quote_component.scss already lays the icon/text/icon out as a row
+   paragraph, or at the end when the body has fewer): core's PullQuote
+   already lays the icon/text/icon out as a row
    from tablet-portrait-up with the quote centred between them, so only the
    Final designs' own numbers go here. Selectors go one level deeper than
    core's own (.pullquote blockquote svg, not .pullquote svg) to match its
@@ -228,7 +219,6 @@ main > div[vocab] .article__content {
 }
 
 .pullquote blockquote svg {
-	color: var(--color-primary);
 	height: 3rem;
 	width: 3rem;
 }
