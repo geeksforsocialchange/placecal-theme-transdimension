@@ -71,16 +71,14 @@ main > div[vocab] > .hero h1 {
 	}
 }
 
-/* Core lays the date out in a fifth-width column beside the body (core's own
-   .g/.gi grid classes, base/grid.scss, flex it into two flex items); TD puts
-   the partner and the date on one line under the title, centred, and reads
-   the partner first even though core renders the date first (.article__aside
-   before .article__main). The selectors here are qualified past .g/.gi's own
-   specificity so they win regardless of stylesheet order. The wrappers go
-   display:contents so the grid below can place the two byline paragraphs
-   itself. */
+/* Core lays the date out in a column beside the body; TD puts the partner and
+   the date on one line under the title, centred, partner first even though
+   core renders the date first (.article__aside before .article__main). The
+   wrappers go display:contents so the grid below can place the two byline
+   paragraphs itself. Below 600px it is one column; flow-root keeps the byline
+   and body margins inside the box. */
 main > div[vocab] .article {
-	display: block;
+	display: flow-root;
 }
 
 main > div[vocab] .article__aside,
