@@ -7,15 +7,11 @@
    the shared chrome) from the Elm site. Values here are the Elm ones, not
    approximations: when a number looks odd, it is because Global.elm says so.
 
-   Two variable families are overridden. `--color-*`, `--font-*`, `--text-*`,
-   `--radius-*` and `--root-font-size` are core's Tailwind tokens (see core
-   app/tailwind/public/_theme.css and its OVERRIDE CONTRACT). `--base-*` are the
-   legacy SCSS custom properties that core's application.scss still uses; both
-   have to move together or half the page stays PlaceCal-coloured.
-
-   Where core's legacy SCSS bakes a Sass literal instead of a custom property
-   (body colour, heading font, heading sizes) there is no token to override, so
-   this file restates the rule. Those are marked below.
+   `--color-*`, `--font-*`, `--text-*`, `--radius-*` and `--root-font-size`
+   override core's Tailwind tokens (see core app/tailwind/public/_theme.css and
+   its OVERRIDE CONTRACT). Where core has no token for a value (body ground,
+   heading weight and leading) this file restates the rule; those are marked
+   below.
 */
 
 @import "tailwindcss/theme" layer(theme);
@@ -134,16 +130,6 @@
 	--shadow-marker: 0 2px 6px var(--color-marker-shadow);
 	--shadow-dot: 0 1px 3px var(--color-dot-shadow);
 
-	/* Legacy SCSS custom properties (core app/assets/stylesheets/application.scss).
-	   Core's SCSS components read these, not the --color-* tokens above. */
-	--base-primary: #ff7aa7;
-	--base-background: #040f39;
-	--base-text: #ffffff;
-	--base-rules: #ff7aa7;
-	--base-rules-dark: #ff7aa7;
-	--base-secondary: #ff7aa7;
-	--base-tertiary: #814470;
-	--base-map-stripe-second: #ff7aa7;
 	--print-grey: #dadada;
 }
 
@@ -155,8 +141,8 @@
    sits above the 900px rule there, so at equal specificity the 900px one always
    wins and the 1920px image never paints on the live site. Not ported, and the
    asset is not shipped.
-   Core's base/layout.scss sets body colour and background from Sass literals,
-   so there is no token to override and these rules restate them.
+   Core's body rule reads --color-foreground and --color-tertiary-light; TD's
+   ground is not its tertiary colour, so these rules restate it.
 --------------------------------------------------------------------------- */
 
 body {
@@ -186,8 +172,7 @@ body {
 	border: 0;
 }
 
-/* Headings. Core base/typography.scss sets h1 to the Trocchi Sass literal at
-   $h1-size, neither of which is a custom property.
+/* Headings. Core's h1 rule sets weight and leading with no token for either.
    Deviation from Global.elm: it paints h1-h4 dark blue, which works there only
    because every TD heading sits on a pink panel. Core renders headings straight
    onto the dark ground, so they inherit the copy colour instead; the panelled
@@ -250,9 +235,8 @@ a:not(.with-no-sass) {
 	}
 }
 
-/* The iCal / permalink strip under a listing. Core's components/meta.scss paints
-   it from the $base-rules Sass literal, so there is no token to move; TD has no
-   band like it, so it drops back to the page ground. */
+/* The iCal / permalink strip under a listing. Core paints it bg-rules; TD has
+   no band like it, so it drops back to the page ground. */
 .meta {
 	background-color: transparent;
 	padding: 2rem 0;
@@ -485,76 +469,6 @@ select {
 	.header__partner .header__menu a:hover {
 		border-bottom-color: var(--color-background);
 		color: var(--color-foreground);
-	}
-}
-
-/* Theme region control (#3368 WP 3.20, NavBar.jsx's Seg): core renders it as
-   `li.header__region > nav.region-filter.region-filter--nav` once
-   `theme.nav_region_filter` is set and the site has two or more Partnership
-   tags (Components::Navigation#show_region_filter?). Components::RegionFilter
-   paints every option as a rounded Tailwind pill; both selectors below are
-   qualified on `.region-filter--nav` together with the shared `.region-filter`
-   class so they win on specificity over pages.css's own (unrelated) pill
-   override for the in-page copy of the filter, regardless of import order. */
-.region-filter.region-filter--nav {
-	margin: 0;
-	max-width: none;
-}
-
-.region-filter.region-filter--nav ul {
-	display: inline-flex;
-	flex-wrap: nowrap;
-	gap: 0;
-	align-items: stretch;
-	border: 2px solid var(--color-background);
-	border-radius: 0.3rem;
-	overflow: hidden;
-}
-
-.region-filter.region-filter--nav li {
-	margin: 0;
-	list-style: none;
-}
-
-.region-filter.region-filter--nav a {
-	display: block;
-	background-color: transparent;
-	border: 0;
-	border-radius: 0;
-	color: var(--color-background);
-	cursor: pointer;
-	font-size: 0.9rem;
-	font-weight: 600;
-	line-height: 1.5;
-	padding: 0.25rem 0.75rem;
-	text-align: center;
-	text-decoration: none;
-	transition: background-color 300ms, color 300ms;
-	width: auto;
-}
-
-.region-filter.region-filter--nav a[aria-current="page"] {
-	background-color: var(--color-background);
-	color: var(--color-foreground);
-}
-
-@media only screen and (hover: hover) and (pointer: fine) {
-	.region-filter.region-filter--nav a:hover {
-		background-color: var(--color-tertiary);
-		color: var(--color-foreground);
-	}
-}
-
-/* Desktop nav: the control sits right of the links and left of Donate, with
-   a 0.75rem gap. Giving it (not the CTA) the auto margin means it, and
-   everything after it, get pushed to the far right together; the CTA's own
-   `margin-left: auto` below then has no free space left to act on when the
-   region control is present, and still pushes it right on its own when the
-   region control is absent (fewer than two tags). */
-@media only screen and (min-width: 600px) {
-	.header__partner .header__menu .header__region {
-		margin-left: auto;
-		margin-right: 0.75rem;
 	}
 }
 

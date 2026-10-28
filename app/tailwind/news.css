@@ -185,12 +185,6 @@
 	width: 100%;
 }
 
-/* core's grid helper puts a gutter margin on every .gi; the card places its
-   own columns, so the gutter only narrows the text. */
-.articles__article-card .gi {
-	margin: 0;
-}
-
 /* NewsCard summary: 1rem, clamped to 3 lines. TD's summaries run to about 130
    characters, which is three lines in the card; core truncates at 200
    (doc/core-slots-needed.md "News card excerpt length"), so the clamp keeps

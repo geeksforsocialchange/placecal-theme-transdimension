@@ -337,23 +337,6 @@ main > .hero:has(.hero__standfirst) + #partner_previews {
    pills inside the breadcrumb, so the utilities are overridden here.
 --------------------------------------------------------------------------- */
 
-/* Both filter rows sit inside core's .paginator, whose legacy SCSS puts a 3rem
-   pill border on every list item it contains. TD draws the button on the link
-   itself, so the item goes back to being an undecorated box; without this the
-   pill shows through as a second, rounder outline behind each button. */
-.paginator .region-filter li,
-.paginator .day-strip li {
-	border-radius: 0;
-	border-width: 0;
-}
-
-.paginator .region-filter li.active,
-.paginator .region-filter li:has(a:hover),
-.paginator .day-strip li.active,
-.paginator .day-strip li:has(a:hover) {
-	background-color: transparent;
-}
-
 .region-filter {
 	margin: 0 auto 0.5rem;
 	max-width: fit-content;
