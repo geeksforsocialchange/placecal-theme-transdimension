@@ -473,8 +473,8 @@ main > .hero:has(.hero__standfirst) + #partner_previews {
    marks all of them with .udl, whose 3px underline TD does not draw. */
 .event__fullinfo .udl,
 .event__fullinfo h2,
-.g--partner .udl,
-.g--partner h2 {
+.partner-details .udl,
+.partner-details h2 {
 	border-bottom: 0;
 	color: var(--color-primary);
 	display: block;
@@ -511,9 +511,9 @@ main > .hero:has(.hero__standfirst) + #partner_previews {
 /* Event.elm and Partner.elm draw a pink-toned map inside the box. The ground
    colour is what shows while the tiles load. */
 .map--single,
-.g--partner [data-controller="leaflet"],
+.partner-details [data-controller="leaflet"],
 .event__fullinfo .leaflet-container,
-.g--partner .leaflet-container {
+.partner-details .leaflet-container {
 	border-radius: 0.3rem;
 }
 

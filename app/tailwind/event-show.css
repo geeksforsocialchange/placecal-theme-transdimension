@@ -453,11 +453,11 @@ main > div[vocab] > .hero .hero__section {
    width and stacking below 600px. Core also renders an "Event organiser"
    column, always the 3rd and redundant with the "By {organiser}" line, so hidden;
    a "Venue" column, when present, is kept. */
-.event__fullinfo .g.three-col .gi:nth-child(3) {
+.event__fullinfo .event__columns .event__column:nth-child(3) {
 	display: none;
 }
 
-.event__fullinfo .g.three-col {
+.event__fullinfo .event__columns {
 	border-top: 1px solid var(--color-primary);
 	column-gap: 0;
 	display: grid;
@@ -468,20 +468,20 @@ main > div[vocab] > .hero .hero__section {
 }
 
 @media only screen and (min-width: 600px) {
-	.event__fullinfo .g.three-col {
+	.event__fullinfo .event__columns {
 		grid-template-columns: repeat(2, minmax(0, 1fr));
 		padding-top: 3rem;
 	}
 }
 
-.event__fullinfo .g.three-col .gi {
+.event__fullinfo .event__columns .event__column {
 	flex: none;
 	margin: 0;
 	width: auto;
 }
 
 /* A grid item's margin cannot collapse with the rule above it. */
-.event__fullinfo .g.three-col .gi > :first-child {
+.event__fullinfo .event__columns .event__column > :first-child {
 	margin-top: 0;
 }
 

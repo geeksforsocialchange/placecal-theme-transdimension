@@ -69,11 +69,11 @@ RSpec.describe 'Trans Dimension page templates', type: :request do
       expect(response.parsed_body.at_css('.partners .preview__details')).to be_present
     end
 
-    it 'keeps .g--partner .place_info__address on a partner page' do
+    it 'keeps .partner-details .place_info__address on a partner page' do
       get "http://transdimension.lvh.me#{partner_path(partner)}"
 
       expect(response).to have_http_status(:ok)
-      expect(response.parsed_body.at_css('.g--partner .place_info__address')).to be_present
+      expect(response.parsed_body.at_css('.partner-details .place_info__address')).to be_present
     end
   end
 

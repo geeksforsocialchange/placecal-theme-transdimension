@@ -549,20 +549,13 @@
 	}
 }
 
-/* Row-aligned two-column grid: core's `two-col` utility lays the list out in
-   CSS columns, which lets rows drift; the grid above replaces it so both
-   columns share row tops as in Partners.elm / PartnerPreview.jsx. */
-.partners.two-col {
+/* Row-aligned grid, so both columns share row tops as in Partners.elm / PartnerPreview.jsx. */
+.partners {
 	align-items: start;
-	/* core's legacy .two-col forces margin-top: 1.35rem !important */
-	margin-top: 0 !important;
-	column-count: auto;
-	columns: auto;
 	display: grid;
 }
 
-.partners.two-col > li {
-	break-inside: auto;
+.partners > li {
 	margin-top: 0;
 }
 
