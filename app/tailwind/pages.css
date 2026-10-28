@@ -470,10 +470,10 @@ main > .hero:has(.hero__standfirst) + #partner_previews {
    kept here rather than duplicated into a per-route partial. */
 /* Global.elm smallInlineTitleStyle: the pink allcaps section headings TD uses
    for "Contact information", "Event address", "Get in touch" and so on. Core
-   marks all of them with .udl, whose 3px underline TD does not draw. */
-.event__fullinfo .udl,
+   renders them as .ruled-heading, whose 3px rule TD does not draw. */
+.event__fullinfo .ruled-heading,
 .event__fullinfo h2,
-.partner-details .udl,
+.partner-details .ruled-heading,
 .partner-details h2 {
 	border-bottom: 0;
 	color: var(--color-primary);

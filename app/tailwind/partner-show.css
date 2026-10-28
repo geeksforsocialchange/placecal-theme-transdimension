@@ -66,18 +66,18 @@ main > div > .container-public:has(> .partner-details) {
 	margin: 0;
 }
 
-.partner-details .p--big p {
+.partner-details .partner-details__description p {
 	margin-top: 0;
 }
 
-.partner-details .p--big p {
+.partner-details .partner-details__description p {
 	font-size: 1.2rem;
 	max-width: 636px;
 	text-align: left;
 }
 
 @media only screen and (min-width: 900px) {
-	.partner-details .p--big p {
+	.partner-details .partner-details__description p {
 		font-size: 1.825rem;
 		line-height: 1.35em;
 	}
@@ -146,14 +146,13 @@ main > div > .container-public:has(> .partner-details) {
 	}
 }
 
-/* events.css hides Components::EventList's day heading (h2.udl--fw) off
+/* events.css hides Components::EventList's day heading (h2.ruled-heading) off
    screen for every route, since on /events the date already repeats on each
-   card. Core's partner page reuses the same .udl--fw class on three headings
-   that have no date to repeat ("Get in touch", "Address" and "Opening
-   times"), so that rule was swallowing them too. This restores them, higher
-   specificity than either source rule so the fix holds regardless of import
-   order. */
-.partner-details h2.udl--fw {
+   card. Core's partner page uses the same heading on three sections that have
+   no date to repeat ("Get in touch", "Address" and "Opening times"), so this
+   restores them, at higher specificity than the events.css rule so the fix
+   holds regardless of import order. */
+.partner-details h2.ruled-heading {
 	border-bottom: 0;
 	clip-path: none;
 	color: var(--color-primary);
@@ -175,7 +174,7 @@ main > div > .container-public:has(> .partner-details) {
 
 /* Live: a rule 32px under the description, the headings 32px under it, the lines 25px under them.
    Phones stack the two blocks 32px apart. */
-.partner-details__main > h2.udl--fw {
+.partner-details__main > h2.ruled-heading {
 	margin-block: 2rem 1.5625rem;
 	text-align: center;
 }
@@ -196,13 +195,13 @@ main > div > .container-public:has(> .partner-details) {
 		grid-template-rows: repeat(6, auto) 1fr;
 	}
 
-	.partner-details__main > .p--big,
-	.partner-details__main > div:not(.p--big) {
+	.partner-details__main > .partner-details__description,
+	.partner-details__main > div:not(.partner-details__description) {
 		grid-column: 1 / -1;
 	}
 
 	/* A grid item's margin does not collapse with the paragraph's above it */
-	.partner-details__main > h2.udl--fw {
+	.partner-details__main > h2.ruled-heading {
 		margin-top: 1rem;
 	}
 
@@ -313,7 +312,7 @@ main > div > .container-public:has(> .partner-details) {
    is repeated here, scoped off .paginator__context to stay off the events
    route. The heading stays in the accessibility tree as the group label core
    intends. */
-#events-browser:not(:has(.paginator__context)) > h2.udl--fw {
+#events-browser:not(:has(.paginator__context)) > h2.ruled-heading {
 	border: 0;
 	clip-path: inset(50%);
 	height: 1px;
