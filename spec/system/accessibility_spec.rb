@@ -64,6 +64,38 @@ RSpec.describe 'Trans Dimension accessibility', type: :system do
     end
   end
 
+  # axe cannot resolve backgrounds past the page's pseudo elements, so it skips this text as needs-review.
+  it 'gives text on the mauve fills of the partners listing at least 4.5:1 contrast' do
+    visit_themed('/partners')
+
+    colours = page.evaluate_script(<<~JS)
+      (() => {
+        const badge = getComputedStyle(document.querySelector('.preview__neighbourhood span'));
+        const search = document.querySelector('input.filters__search');
+        return {
+          badge: [badge.color, badge.backgroundColor],
+          placeholder: [getComputedStyle(search, '::placeholder').color, getComputedStyle(search).backgroundColor]
+        };
+      })()
+    JS
+
+    expect(colours.transform_values { |pair| contrast(*pair).round(2) })
+      .to match('badge' => be >= 4.5, 'placeholder' => be >= 4.5)
+  end
+
+  def contrast(foreground, background)
+    lighter, darker = [foreground, background].map { |rgb| luminance(rgb) }.sort.reverse
+    (lighter + 0.05) / (darker + 0.05)
+  end
+
+  def luminance(rgb)
+    red, green, blue = rgb.scan(/\d+/).first(3).map do |channel|
+      value = channel.to_f / 255
+      value <= 0.04045 ? value / 12.92 : ((value + 0.055) / 1.055)**2.4
+    end
+    (0.2126 * red) + (0.7152 * green) + (0.0722 * blue)
+  end
+
   it 'has no accessibility violations on a partner page' do
     visit_themed("/partners/#{partner.to_param}")
 
