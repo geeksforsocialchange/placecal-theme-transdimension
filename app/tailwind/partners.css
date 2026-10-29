@@ -177,7 +177,7 @@
 	position: relative;
 }
 
-/* SearchInput.jsx: mauve fill, no border, white 600 text, pink placeholder.
+/* SearchInput.jsx: mauve fill, no border, white 600 text, white 400 placeholder.
    Full width on phones, 220px from 600px. */
 #partner_previews .filter-bar__search {
 	flex-basis: 100%;
@@ -239,8 +239,10 @@
 	background-color: var(--color-primary);
 }
 
+/* Pink on mauve is 2.82:1, so the placeholder is white and told apart from typed text by weight. */
 #partner_previews input.filters__search::placeholder {
-	color: var(--color-primary);
+	color: var(--color-foreground);
+	font-weight: 400;
 	opacity: 1;
 }
 
@@ -467,14 +469,12 @@
 	transition: color 300ms linear;
 }
 
-/* Badge.jsx: dark purple ground is replaced by TD's mauve badge fill
-   (design tokens: mauve #7b4a6e, used for badges and the search field), pink
-   600 label, 0.3rem radius. */
+/* Mauve badge fill from the design tokens; white label, as pink on mauve is only 2.82:1. */
 .preview__neighbourhood span,
 .neighbourhood span {
-	background-color: #7b4a6e; /* mauve (design tokens: badges, search field) */
+	background-color: var(--td-mauve);
 	border-radius: 0.3rem;
-	color: var(--color-primary);
+	color: var(--color-foreground);
 	display: inline-block;
 	font-size: 0.78rem;
 	font-weight: 700;
