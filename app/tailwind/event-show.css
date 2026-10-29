@@ -382,12 +382,11 @@ main > div[vocab] > .hero .hero__section {
 }
 
 /* event_link/online_link ("Visit the webpage for this event", "Join this
-   meeting") render as plain UI::Button links straight after the
-   description; core gives them no distinguishing class from one another, and
-   no slot inside the address column the design puts the online button in
+   meeting"), in core's .event__links row under the description; core gives
+   them no slot inside the address column the design puts the online button in
    (see core-slots-needed.md). Given TD's small pink button treatment here so
    an event that has one is not left in core's unstyled default. */
-.event__fullinfo > a.btn {
+.event__links > a.btn {
 	background-color: var(--color-primary);
 	border: 2px solid var(--color-primary);
 	border-radius: 0.3rem;
@@ -401,7 +400,7 @@ main > div[vocab] > .hero .hero__section {
 }
 
 @media only screen and (hover: hover) and (pointer: fine) {
-	.event__fullinfo > a.btn:hover {
+	.event__links > a.btn:hover {
 		background-color: var(--color-primary-light);
 		border-color: var(--color-primary-light);
 		color: var(--color-foreground-dark);
