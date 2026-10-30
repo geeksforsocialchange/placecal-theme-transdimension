@@ -188,8 +188,7 @@ main > div:not([vocab]) > .hero h1 {
 	padding: 0;
 }
 
-.event--full .hero__standfirst a,
-.event--full .hero__standfirst a:not(.with-no-sass) {
+.event--full .hero__standfirst a {
 	color: var(--color-foreground-dark);
 	text-decoration: underline;
 	text-decoration-thickness: 1px;
@@ -479,8 +478,7 @@ main > div[vocab] > .hero .hero__section {
 	margin: 0;
 }
 
-.event__fullinfo .contact_details__partner a,
-.event__fullinfo .contact_details__partner a:not(.with-no-sass) {
+.event__fullinfo .contact_details__partner a {
 	color: var(--color-foreground);
 	font-weight: 500;
 	text-decoration: none;
