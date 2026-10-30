@@ -23,11 +23,11 @@
 --------------------------------------------------------------------------- */
 
 /* pages.css joins the content box to the intro panel with a
-   `main > .hero:has(.hero__standfirst) + * #events-browser:has(.paginator)`
+   `main > [hero root]:has([hero standfirst]) + * #events-browser:has(.paginator)`
    rule that sets display: flow-root; it outranks a bare id selector, so the
    grid is declared at the same specificity to win. */
 #events-browser:has(.paginator__context),
-main > .hero:has(.hero__standfirst) + * #events-browser:has(.paginator__context) {
+main > [data-scope="hero"][data-part="root"]:has([data-scope="hero"][data-part="standfirst"]) + * #events-browser:has(.paginator__context) {
 	display: grid;
 }
 
@@ -46,7 +46,7 @@ main > .hero:has(.hero__standfirst) + * #events-browser:has(.paginator__context)
 	row-gap: 2rem;
 }
 
-#events-browser:has(.paginator__context) .events .event {
+#events-browser:has(.paginator__context) .events [data-scope="event"][data-part="root"] {
 	margin-top: 0;
 }
 
@@ -572,7 +572,7 @@ main > .hero:has(.hero__standfirst) + * #events-browser:has(.paginator__context)
 --------------------------------------------------------------------------- */
 
 /* Live site's card geometry kept over EventCard.jsx's (review 2026-10-19): 56px date column, 1rem gap. */
-.events .event {
+.events [data-scope="event"][data-part="root"] {
 	column-gap: 1rem;
 	display: grid;
 	grid-auto-rows: min-content;
@@ -585,41 +585,41 @@ main > .hero:has(.hero__standfirst) + * #events-browser:has(.paginator__context)
 /* First row of the grid carries no top gap: Events.elm's viewEvent list has
    none above its first card, at one or two columns alike.
    Scoped to the <li> (the actual grid item and `.events`' direct child), not
-   `.event` itself: `.event` is always the *only* child of its own <li>, so
-   `.events .event:first-child` matched every card (each is "first child" of
+   the event root itself: the root is always the *only* child of its own <li>, so
+   a :first-child on the root matched every card (each is "first child" of
    its own li) and zeroed this margin everywhere, not just on the first
    card - the actual cause of the cards reading tighter than the design's
    48px rows. */
-.events > li:first-child .event {
+.events > li:first-child [data-scope="event"][data-part="root"] {
 	margin-top: 0;
 }
 
 @media only screen and (min-width: 900px) {
-	.events > li:nth-child(2) .event {
+	.events > li:nth-child(2) [data-scope="event"][data-part="root"] {
 		margin-top: 0;
 	}
 }
 
-.events .event__details {
+.events [data-scope="event"][data-part="details"] {
 	border-width: 0;
 	display: contents;
 	font-size: inherit;
 	padding: 0;
 }
 
-.events .event__detail {
+.events [data-scope="event"][data-part="detail"] {
 	grid-column: 2;
 	margin: 0;
 	min-width: 0;
 	overflow-wrap: anywhere;
 }
 
-.events .event__detail svg {
+.events [data-scope="event"][data-part="icon"] {
 	display: none;
 }
 
-/* event__header wraps the title (h3) and core's neighbourhood badge, which is hidden below */
-.events .event__header {
+/* The header part wraps the title and core's neighbourhood badge, which is hidden below */
+.events [data-scope="event"][data-part="header"] {
 	align-items: flex-end;
 	border-bottom: 2px solid var(--color-primary);
 	column-gap: 0.75rem;
@@ -634,13 +634,13 @@ main > .hero:has(.hero__standfirst) + * #events-browser:has(.paginator__context)
 	transition: border-color 500ms linear;
 }
 
-.events .event__header h3 {
+.events [data-scope="event"][data-part="title"] {
 	margin: 0;
 	min-width: 0;
 	overflow-wrap: anywhere;
 }
 
-.events .event__header h3 a {
+.events [data-scope="event"][data-part="title"] a {
 	color: var(--color-foreground);
 	display: block;
 	font-size: 1.2rem;
@@ -653,48 +653,48 @@ main > .hero:has(.hero__standfirst) + * #events-browser:has(.paginator__context)
 
 /* Live site's card type steps (Events.elm): title and day number grow from tablet up. */
 @media only screen and (min-width: 600px) {
-	.events .event {
+	.events [data-scope="event"][data-part="root"] {
 		margin-top: 2.5rem;
 	}
 
-	.events .event__header h3 a {
+	.events [data-scope="event"][data-part="title"] a {
 		font-size: 1.5rem;
 		line-height: 1.877rem;
 	}
 
 	/* -0.25rem puts the day number's glyph top level with the title's (checked
 	   in WebKit and Chromium screenshots; element boxes mislead here) */
-	.events .event__detail.event__date {
+	.events [data-scope="event"][data-part="detail"][data-variant="date"] {
 		margin-top: -0.25rem;
 	}
 
-	.events .event__detail.event__date::first-line {
+	.events [data-scope="event"][data-part="detail"][data-variant="date"]::first-line {
 		font-size: 3.1222rem;
 	}
 }
 
 /* The live site's cards carry no neighbourhood badge */
-.events .event__neighbourhood {
+.events [data-scope="event"][data-part="neighbourhood"] {
 	display: none;
 }
 
-.events .event__time {
+.events [data-scope="event"][data-part="detail"][data-variant="time"] {
 	grid-row: 2;
 }
 
 /* EventCard.jsx's one detail line is time and repeat comma-joined
    ("11:00am to 1:00pm, weekly"); core prints the duration ("1 hour 30 mins")
    as a third, separate paragraph with no such line to join into, and it
-   shared event__time's row here uncorrected, overlapping the two. Core
+   shared the time's row here uncorrected, overlapping the two. Core
    has no way to suppress just the duration string short of hiding the
    element (doc/core-slots-needed.md), so it is hidden rather than given a
    row the design has no line for. */
-.events .event__duration {
+.events [data-scope="event"][data-part="detail"][data-variant="duration"] {
 	display: none;
 }
 
-/* .events .event__date is the big day/month badge in column 1 (grid-row:
-   1 / span 6, set with .event__detail.event__date below, which wins on
+/* The date part is the big day/month badge in column 1 (grid-row:
+   1 / span 6, set below, which wins on
    specificity over any row assigned here) not a column-2 detail line, so no
    row is reserved for it in this stack.
 
@@ -702,32 +702,32 @@ main > .hero:has(.hero__standfirst) + * #events-browser:has(.paginator__context)
    and online (each only when core renders one), then location, then "By
    Organiser" - swapped from core's own order (organiser before location).
    Absent lines leave empty min-content rows, which collapse to zero height. */
-.events .event__repeats {
+.events [data-scope="event"][data-part="detail"][data-variant="repeats"] {
 	grid-row: 3;
 }
 
-.events .event__online {
+.events [data-scope="event"][data-part="detail"][data-variant="online"] {
 	grid-row: 4;
 }
 
-.events .event__location {
+.events [data-scope="event"][data-part="detail"][data-variant="place"] {
 	grid-row: 5;
 }
 
-.events .event__organiser {
+.events [data-scope="event"][data-part="detail"][data-variant="organiser"] {
 	grid-row: 6;
 }
 
 /* Live site's 1.2rem detail lines kept over the design's 1rem for readability (review 2026-10-19). */
-.events .event__detail,
-.events .event__detail a {
+.events [data-scope="event"][data-part="detail"],
+.events [data-scope="event"][data-part="detail"] a {
 	color: var(--color-foreground);
 	font-size: 1.2rem;
 	line-height: 28px;
 	text-decoration: none;
 }
 
-.events .event__detail a:hover {
+.events [data-scope="event"][data-part="detail"] a:hover {
 	color: var(--color-primary-light);
 }
 
@@ -736,7 +736,7 @@ main > .hero:has(.hero__standfirst) + * #events-browser:has(.paginator__context)
    month wraps onto its own line and ::first-line gives the day number its own
    size and colour. A real day/month split is the core slot this approximates
    (doc/core-slots-needed.md). */
-.events .event__detail.event__date {
+.events [data-scope="event"][data-part="detail"][data-variant="date"] {
 	align-self: start;
 	color: var(--color-primary);
 	display: block;
@@ -751,7 +751,7 @@ main > .hero:has(.hero__standfirst) + * #events-browser:has(.paginator__context)
 	transition: color 500ms linear;
 }
 
-.events .event__detail.event__date::first-line {
+.events [data-scope="event"][data-part="detail"][data-variant="date"]::first-line {
 	color: var(--color-foreground);
 	font-size: 2.5rem;
 	font-weight: 400;
@@ -759,20 +759,20 @@ main > .hero:has(.hero__standfirst) + * #events-browser:has(.paginator__context)
 	line-height: 1;
 }
 
-.event__organiser-prefix {
+[data-scope="event"][data-part="organiser-prefix"] {
 	margin-right: 0.3em;
 }
 
 @media only screen and (hover: hover) and (pointer: fine) {
-	.events .event:hover .event__header {
+	.events [data-scope="event"][data-part="root"]:hover [data-scope="event"][data-part="header"] {
 		border-bottom-color: var(--color-foreground);
 	}
 
-	.events .event:hover .event__header h3 a {
+	.events [data-scope="event"][data-part="root"]:hover [data-scope="event"][data-part="title"] a {
 		color: var(--color-primary);
 	}
 
-	.events .event:hover .event__detail.event__date {
+	.events [data-scope="event"][data-part="root"]:hover [data-scope="event"][data-part="detail"][data-variant="date"] {
 		color: var(--color-foreground);
 	}
 }

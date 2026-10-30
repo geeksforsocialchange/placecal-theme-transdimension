@@ -36,6 +36,8 @@ The host has to be a PlaceCal with the extension scaffold, that is core with #33
 
 `stylesheet`, `homepage_view`, `font_stylesheet`, `footer`, `event_filter_style`, `nav_cta`, `nav_join`, `map_style`, `menu_label`, `icons`, `theme_color`, `background_color`, `og_image`, `page`, `nav_region_filter`, `events_default_period`
 
+Its CSS targets core's markup only through the styling hooks (core's `doc/extensions.md`, "Styling hooks"), so the host has to declare every scope and part it names; `spec/host_contract_spec.rb` checks them against `PlaceCal::Theming.contract`, which a core without the theming contract doesn't have.
+
 The engine declares that list as `required_settings` and core's `PlaceCal::Extension` checks it while the theme registers, raising `PlaceCal::Extension::UnsupportedHost` naming the missing capability rather than failing with a `NoMethodError` from inside an initializer. Core pins this engine by tag in its own Gemfile and the two ship together, so every setting is required and none is applied conditionally.
 
 The check is `respond_to?` and nothing more, so it catches a setting that is absent, not one whose signature changed. A setting gaining a required keyword, or validating a value it used to accept, still raises `ArgumentError` at boot. That drift is covered by `spec/host_contract_spec.rb`, which runs `Transdimension::Engine.configure_theme` against a real `PlaceCal::Theme` and reads every setting back, so a signature change in core fails the suite instead of the next deploy.

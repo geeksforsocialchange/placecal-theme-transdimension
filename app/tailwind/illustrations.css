@@ -175,14 +175,14 @@ main:not(:has(.td-home))::after {
 /* pageHeadingGenericStyle's padding-top: the hero on the listing pages (its
    h1 is visually hidden, pages.css), h1.h1 on the static markdown pages and
    .hero-title on the directory pages. */
-main:not(:has(.td-home)) > .hero,
+main:not(:has(.td-home)) > [data-scope="hero"][data-part="root"],
 main:not(:has(.td-home)) > section.bg-foreground .hero-title,
 main:not(:has(.td-home)) > .container-public > h1.h1 {
 	padding-top: var(--td-title-padding-top);
 }
 
 /* The show pages' box starts where the listing pages' panel does. */
-main:not(:has(.td-home)) > div:has(> .hero) {
+main:not(:has(.td-home)) > div:has(> [data-scope="hero"][data-part="root"]) {
 	margin-top: var(--td-title-padding-top);
 }
 

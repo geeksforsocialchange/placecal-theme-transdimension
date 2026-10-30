@@ -17,24 +17,24 @@ main > div:not([vocab]):has(> .container-public .partner-details) {
 	box-sizing: border-box;
 }
 
-main > div:not([vocab]):has(> .container-public .partner-details) .hero__section {
+main > div:not([vocab]):has(> .container-public .partner-details) [data-scope="hero"][data-part="kicker"] {
 	display: none;
 }
 
 /* Title ink 37px from the panel's top and bottom edges on phones, 40 from 900px, as on the event page */
-main > div:has(> .container-public .partner-details) > .hero h1 {
+main > div:has(> .container-public .partner-details) > [data-scope="hero"][data-part="root"] [data-scope="hero"][data-part="title"] {
 	margin-block: calc(0.875rem + 0.5px) calc(1.125rem + 0.5px);
 }
 
 @media only screen and (min-width: 900px) {
-	main > div:has(> .container-public .partner-details) > .hero h1 {
+	main > div:has(> .container-public .partner-details) > [data-scope="hero"][data-part="root"] [data-scope="hero"][data-part="title"] {
 		margin-block: 0.8125rem 1.25rem;
 	}
 }
 
 /* Undoes event-show.css's wider bottom padding from 1500px, which the partner title does not want */
 @media only screen and (min-width: 1500px) {
-	main > div:has(> .container-public .partner-details) > .hero {
+	main > div:has(> .container-public .partner-details) > [data-scope="hero"][data-part="root"] {
 		padding-bottom: 1rem;
 	}
 }
@@ -272,7 +272,7 @@ main > div > .container-public:has(> .partner-details) {
 }
 
 /* Each day is its own <ol>, so every card is a first child; the grid's gap spaces them */
-#events-browser:not(:has(.paginator__context)) .events .event {
+#events-browser:not(:has(.paginator__context)) .events [data-scope="event"][data-part="root"] {
 	margin-top: 0;
 }
 

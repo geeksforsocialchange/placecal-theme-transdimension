@@ -19,7 +19,7 @@
 
 /* At 1.4rem the standfirst is 341px wide; 8px side padding gives it one line in a 390px phone's panel. */
 @media only screen and (max-width: 599px) {
-	main:has(> #partner_previews) > .hero .hero__standfirst {
+	main:has(> #partner_previews) > [data-scope="hero"][data-part="root"] [data-scope="hero"][data-part="standfirst"] {
 		padding-inline: 0.5rem;
 	}
 }
@@ -470,7 +470,8 @@
    (design tokens: mauve #7b4a6e, used for badges and the search field), pink
    600 label, 0.3rem radius. */
 .preview__neighbourhood span,
-.neighbourhood span {
+.neighbourhood span,
+[data-scope="event"][data-part="neighbourhood"] [data-scope="pill"][data-part="root"] {
 	background-color: #7b4a6e; /* mauve (design tokens: badges, search field) */
 	border-radius: 0.3rem;
 	color: var(--color-primary);
