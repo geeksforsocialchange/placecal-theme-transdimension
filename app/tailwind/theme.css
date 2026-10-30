@@ -403,7 +403,7 @@ select {
 	}
 
 	/* the extra class outranks the desktop button rule further down the file */
-	.header__partner .header__menu .header__cta-link {
+	.header__partner .header__menu .header__cta .header__cta-link {
 		border: 0;
 		border-radius: 0;
 		display: block;
@@ -495,7 +495,7 @@ select {
    0.3rem radius, white fill, dark blue text) at the end of the nav, hovering
    to dark blue fill / white text; the mobile toggle shows "Menu" next to a
    pink "+". */
-.header__partner .header__cta-link {
+.header__partner .header__menu .header__cta-link {
 	background-color: #fff;
 	border: 2px solid #fff;
 	border-radius: 0.3rem;
@@ -511,7 +511,7 @@ select {
 }
 
 @media only screen and (hover: hover) and (pointer: fine) {
-	.header__partner .header__cta-link:hover {
+	.header__partner .header__menu .header__cta-link:hover {
 		background-color: var(--color-home-background);
 		border-color: var(--color-home-background);
 		color: #fff;
