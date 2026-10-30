@@ -57,7 +57,7 @@ class Transdimension::Views::About < Views::ThemeContentPage
       end
       div(class: 'about-maker__body') { markdown(body) }
       p(class: 'about-maker__more') do
-        a(href: t(url), class: 'with-no-sass td-button td-button--white') { t('transdimension.about.find_out_more') }
+        a(href: t(url), class: 'td-button td-button--white') { t('transdimension.about.find_out_more') }
       end
     end
   end
