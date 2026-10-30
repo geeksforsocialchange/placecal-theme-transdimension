@@ -665,7 +665,7 @@ main:has(.td-home) {
 
 /* Index.elm's card is the title, the times, the place and the organiser. The
    duration line is the listing page's. */
-.td-events .events [data-scope="event"][data-part="duration"] {
+.td-events .events [data-scope="event"][data-part="detail"][data-variant="duration"] {
 	display: none;
 }
 

@@ -607,7 +607,7 @@ main > [data-scope="hero"][data-part="root"]:has([data-scope="hero"][data-part="
 	padding: 0;
 }
 
-.events [data-scope="event"]:is([data-part="time"], [data-part="duration"], [data-part="date"], [data-part="repeats"], [data-part="online"], [data-part="organiser"], [data-part="place"]) {
+.events [data-scope="event"][data-part="detail"] {
 	grid-column: 2;
 	margin: 0;
 	min-width: 0;
@@ -664,11 +664,11 @@ main > [data-scope="hero"][data-part="root"]:has([data-scope="hero"][data-part="
 
 	/* -0.25rem puts the day number's glyph top level with the title's (checked
 	   in WebKit and Chromium screenshots; element boxes mislead here) */
-	.events [data-scope="event"][data-part="date"] {
+	.events [data-scope="event"][data-part="detail"][data-variant="date"] {
 		margin-top: -0.25rem;
 	}
 
-	.events [data-scope="event"][data-part="date"]::first-line {
+	.events [data-scope="event"][data-part="detail"][data-variant="date"]::first-line {
 		font-size: 3.1222rem;
 	}
 }
@@ -678,7 +678,7 @@ main > [data-scope="hero"][data-part="root"]:has([data-scope="hero"][data-part="
 	display: none;
 }
 
-.events [data-scope="event"][data-part="time"] {
+.events [data-scope="event"][data-part="detail"][data-variant="time"] {
 	grid-row: 2;
 }
 
@@ -689,7 +689,7 @@ main > [data-scope="hero"][data-part="root"]:has([data-scope="hero"][data-part="
    has no way to suppress just the duration string short of hiding the
    element (doc/core-slots-needed.md), so it is hidden rather than given a
    row the design has no line for. */
-.events [data-scope="event"][data-part="duration"] {
+.events [data-scope="event"][data-part="detail"][data-variant="duration"] {
 	display: none;
 }
 
@@ -702,32 +702,32 @@ main > [data-scope="hero"][data-part="root"]:has([data-scope="hero"][data-part="
    and online (each only when core renders one), then location, then "By
    Organiser" - swapped from core's own order (organiser before location).
    Absent lines leave empty min-content rows, which collapse to zero height. */
-.events [data-scope="event"][data-part="repeats"] {
+.events [data-scope="event"][data-part="detail"][data-variant="repeats"] {
 	grid-row: 3;
 }
 
-.events [data-scope="event"][data-part="online"] {
+.events [data-scope="event"][data-part="detail"][data-variant="online"] {
 	grid-row: 4;
 }
 
-.events [data-scope="event"][data-part="place"] {
+.events [data-scope="event"][data-part="detail"][data-variant="place"] {
 	grid-row: 5;
 }
 
-.events [data-scope="event"][data-part="organiser"] {
+.events [data-scope="event"][data-part="detail"][data-variant="organiser"] {
 	grid-row: 6;
 }
 
 /* Live site's 1.2rem detail lines kept over the design's 1rem for readability (review 2026-10-19). */
-.events [data-scope="event"]:is([data-part="time"], [data-part="duration"], [data-part="date"], [data-part="repeats"], [data-part="online"], [data-part="organiser"], [data-part="place"]),
-.events [data-scope="event"]:is([data-part="time"], [data-part="duration"], [data-part="date"], [data-part="repeats"], [data-part="online"], [data-part="organiser"], [data-part="place"]) a {
+.events [data-scope="event"][data-part="detail"],
+.events [data-scope="event"][data-part="detail"] a {
 	color: var(--color-foreground);
 	font-size: 1.2rem;
 	line-height: 28px;
 	text-decoration: none;
 }
 
-.events [data-scope="event"]:is([data-part="time"], [data-part="duration"], [data-part="date"], [data-part="repeats"], [data-part="online"], [data-part="organiser"], [data-part="place"]) a:hover {
+.events [data-scope="event"][data-part="detail"] a:hover {
 	color: var(--color-primary-light);
 }
 
@@ -736,7 +736,7 @@ main > [data-scope="hero"][data-part="root"]:has([data-scope="hero"][data-part="
    month wraps onto its own line and ::first-line gives the day number its own
    size and colour. A real day/month split is the core slot this approximates
    (doc/core-slots-needed.md). */
-.events [data-scope="event"][data-part="date"] {
+.events [data-scope="event"][data-part="detail"][data-variant="date"] {
 	align-self: start;
 	color: var(--color-primary);
 	display: block;
@@ -751,7 +751,7 @@ main > [data-scope="hero"][data-part="root"]:has([data-scope="hero"][data-part="
 	transition: color 500ms linear;
 }
 
-.events [data-scope="event"][data-part="date"]::first-line {
+.events [data-scope="event"][data-part="detail"][data-variant="date"]::first-line {
 	color: var(--color-foreground);
 	font-size: 2.5rem;
 	font-weight: 400;
@@ -772,7 +772,7 @@ main > [data-scope="hero"][data-part="root"]:has([data-scope="hero"][data-part="
 		color: var(--color-primary);
 	}
 
-	.events [data-scope="event"][data-part="root"]:hover [data-scope="event"][data-part="date"] {
+	.events [data-scope="event"][data-part="root"]:hover [data-scope="event"][data-part="detail"][data-variant="date"] {
 		color: var(--color-foreground);
 	}
 }

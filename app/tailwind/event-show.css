@@ -204,9 +204,9 @@ main > div:not([vocab]) > [data-scope="hero"][data-part="root"] [data-scope="her
 
 /* The organiser now reads in the panel, so the details line would repeat it;
    the neighbourhood and duration lines are cut too (2026-10-20 review). */
-[data-scope="event"][data-variant="page"] [data-scope="event"][data-part="organiser"],
-[data-scope="event"][data-variant="page"] [data-scope="event"][data-part="neighbourhood"],
-[data-scope="event"][data-variant="page"] [data-scope="event"][data-part="duration"] {
+[data-scope="event"][data-variant="page"] [data-scope="event"][data-part="detail"][data-variant="organiser"],
+[data-scope="event"][data-variant="page"] [data-scope="event"][data-part="detail"][data-variant="neighbourhood"],
+[data-scope="event"][data-variant="page"] [data-scope="event"][data-part="detail"][data-variant="duration"] {
 	display: none;
 }
 
@@ -278,7 +278,7 @@ main > div[vocab] > [data-scope="hero"][data-part="root"] [data-scope="hero"][da
 	order: -1;
 }
 
-[data-scope="event"][data-variant="page"] [data-scope="event"]:is([data-part="time"], [data-part="duration"], [data-part="date"], [data-part="repeats"], [data-part="online"], [data-part="organiser"], [data-part="place"]) {
+[data-scope="event"][data-variant="page"] [data-scope="event"][data-part="detail"] {
 	color: var(--color-foreground);
 	flex: none;
 	justify-content: center;
@@ -291,7 +291,7 @@ main > div[vocab] > [data-scope="hero"][data-part="root"] [data-scope="hero"][da
 	display: none;
 }
 
-[data-scope="event"][data-variant="page"] [data-scope="event"][data-part="date"] {
+[data-scope="event"][data-variant="page"] [data-scope="event"][data-part="detail"][data-variant="date"] {
 	font-size: 1.8rem;
 	font-weight: 900;
 	letter-spacing: normal;
@@ -301,9 +301,9 @@ main > div[vocab] > [data-scope="hero"][data-part="root"] [data-scope="hero"][da
 	text-transform: uppercase;
 }
 
-[data-scope="event"][data-variant="page"] [data-scope="event"][data-part="time"],
-[data-scope="event"][data-variant="page"] [data-scope="event"][data-part="repeats"],
-[data-scope="event"][data-variant="page"] [data-scope="event"][data-part="online"] {
+[data-scope="event"][data-variant="page"] [data-scope="event"][data-part="detail"][data-variant="time"],
+[data-scope="event"][data-variant="page"] [data-scope="event"][data-part="detail"][data-variant="repeats"],
+[data-scope="event"][data-variant="page"] [data-scope="event"][data-part="detail"][data-variant="online"] {
 	color: var(--color-primary);
 	font-size: 1.2rem;
 	font-weight: 600;
@@ -313,15 +313,15 @@ main > div[vocab] > [data-scope="hero"][data-part="root"] [data-scope="hero"][da
 	text-transform: uppercase;
 }
 
-[data-scope="event"][data-variant="page"] [data-scope="event"][data-part="repeats"]::before,
-[data-scope="event"][data-variant="page"] [data-scope="event"][data-part="online"]::before {
+[data-scope="event"][data-variant="page"] [data-scope="event"][data-part="detail"][data-variant="repeats"]::before,
+[data-scope="event"][data-variant="page"] [data-scope="event"][data-part="detail"][data-variant="online"]::before {
 	content: "\00a0\00b7\00a0";
 }
 
 /* Covered by the address column (online) or dropped as noise on this page
    (place: the venue, when it differs from the organiser, has its own
    column further down). */
-[data-scope="event"][data-variant="page"] [data-scope="event"][data-part="place"] {
+[data-scope="event"][data-variant="page"] [data-scope="event"][data-part="detail"][data-variant="place"] {
 	display: none;
 }
 
