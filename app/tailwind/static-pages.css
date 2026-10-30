@@ -237,6 +237,11 @@ main > .container-editorial {
 	}
 }
 
+/* Core lays the card's blocks out in a gapped flex column; TD spaces them with margins, so it goes back to plain blocks. */
+.join-card > div {
+	display: block;
+}
+
 /* JoinUs.elm formStyle and formItemStyle */
 .join-grid {
 	display: block;
