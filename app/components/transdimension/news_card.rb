@@ -22,7 +22,7 @@ class Transdimension::Components::NewsCard < Components::Base
         render_image
         div(class: 'td-news__info') do
           h3(class: 'td-news__title') do
-            link_to news_article.title, news_path(news_article), class: 'with-no-sass td-news__link'
+            link_to news_article.title, news_path(news_article), class: 'td-news__link'
           end
           render_meta
           p(class: 'td-news__summary') { article_summary_text(news_article) }
@@ -30,7 +30,7 @@ class Transdimension::Components::NewsCard < Components::Base
       end
       div(class: 'td-button-floating') do
         link_to t('transdimension.home.news_read_more'), news_path(news_article),
-                class: 'with-no-sass td-button td-button--pink-on-light'
+                class: 'td-button td-button--pink-on-light'
       end
     end
   end

@@ -220,18 +220,20 @@ hr {
 	margin: 2rem 0;
 }
 
-/* Global.elm linkStyle: white copy with a pink underline. Core's
-   a:not(.with-no-sass) rule wins on specificity, so match its selector. */
-a:not(.with-no-sass) {
-	color: var(--color-foreground);
-	text-decoration-color: var(--color-primary);
-	text-decoration-thickness: 1px;
-	text-underline-offset: 3px;
-}
+/* Global.elm linkStyle: white copy with a pink underline. In core's base
+   layer, after core's own link rule, so a link's utilities still win. */
+@layer base {
+	a {
+		color: var(--color-foreground);
+		text-decoration-color: var(--color-primary);
+		text-decoration-thickness: 1px;
+		text-underline-offset: 3px;
+	}
 
-@media only screen and (hover: hover) and (pointer: fine) {
-	a:not(.with-no-sass):hover {
-		color: var(--color-primary);
+	@media only screen and (hover: hover) and (pointer: fine) {
+		a:hover {
+			color: var(--color-primary);
+		}
 	}
 }
 
@@ -401,8 +403,7 @@ select {
 	}
 
 	/* the extra class outranks the desktop button rule further down the file */
-	.header__partner .header__menu .header__cta-link,
-	.header__partner .header__menu .header__cta-link:not(.with-no-sass) {
+	.header__partner .header__menu .header__cta .header__cta-link {
 		border: 0;
 		border-radius: 0;
 		display: block;
@@ -494,8 +495,7 @@ select {
    0.3rem radius, white fill, dark blue text) at the end of the nav, hovering
    to dark blue fill / white text; the mobile toggle shows "Menu" next to a
    pink "+". */
-.header__partner .header__cta-link,
-.header__partner .header__cta-link:not(.with-no-sass) {
+.header__partner .header__menu .header__cta-link {
 	background-color: #fff;
 	border: 2px solid #fff;
 	border-radius: 0.3rem;
@@ -511,7 +511,7 @@ select {
 }
 
 @media only screen and (hover: hover) and (pointer: fine) {
-	.header__partner .header__cta-link:not(.with-no-sass):hover {
+	.header__partner .header__menu .header__cta-link:hover {
 		background-color: var(--color-home-background);
 		border-color: var(--color-home-background);
 		color: #fff;

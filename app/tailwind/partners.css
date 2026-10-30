@@ -390,8 +390,7 @@
 	display: inline-flex;
 }
 
-#partner_previews a.filters__link,
-#partner_previews a.filters__link:not(.with-no-sass) {
+#partner_previews a.filters__link {
 	/* core's Breadcrumb link draws a border-bottom as well: one underline, not two */
 	border-bottom: 0;
 	color: var(--color-primary);

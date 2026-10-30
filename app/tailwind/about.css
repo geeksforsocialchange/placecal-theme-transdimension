@@ -146,13 +146,13 @@ main > .page--about > h1.h1 {
 
 /* Global.elm linkStyle draws the rule as a border, which sits lower than the
    theme's offset underline. */
-.about-body a:not(.with-no-sass) {
+.about-body a {
 	border-bottom: 1px solid var(--color-primary);
 	text-decoration: none;
 }
 
 @media only screen and (hover: hover) and (pointer: fine) {
-	.about-body a:not(.with-no-sass):hover {
+	.about-body a:hover {
 		border-bottom-color: var(--color-foreground);
 	}
 }

@@ -220,8 +220,7 @@ main > .hero:has(.hero__standfirst) + * #events-browser:has(.paginator__context)
 	text-align: center;
 }
 
-#paginator:has(.paginator__context) .filters__applied-reset,
-#paginator:has(.paginator__context) .filters__applied-reset:not(.with-no-sass) {
+#paginator:has(.paginator__context) .filters__applied-reset {
 	/* core's Breadcrumb link draws a border-bottom as well: one underline, not two */
 	border-bottom: 0;
 	color: var(--color-foreground);
