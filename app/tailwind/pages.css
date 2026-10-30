@@ -71,7 +71,7 @@ main {
 
 /* Core's Components::Hero is a coloured band with a kicker, a divider rule
    and the title; TD runs the starfield straight through to the intro panel. */
-.hero {
+[data-scope="hero"][data-part="root"] {
 	background-color: transparent;
 	background-image: none;
 	color: var(--color-foreground);
@@ -79,7 +79,7 @@ main {
 	text-align: center;
 }
 
-.hero .container-public {
+[data-scope="hero"][data-part="content"] {
 	max-width: none;
 	padding-inline: 0;
 }
@@ -93,12 +93,12 @@ main > .container-public {
 	padding-inline: 0;
 }
 
-.hero__divider {
+[data-scope="hero"][data-part="divider"] {
 	display: none;
 }
 
 /* Components::Hero `back:` prop: live's show pages have no back link. */
-.hero__back {
+[data-scope="hero"][data-part="back"] {
 	display: none;
 }
 
@@ -106,7 +106,7 @@ main > .container-public {
    artwork above, so core's text kicker would repeat it. It is moved off screen
    rather than removed: it is the only copy of the strapline a screen reader can
    reach, since the lockup is a background image. */
-.hero p.allcaps {
+[data-scope="hero"][data-part="subtitle"] {
 	height: 1px;
 	left: -10000px;
 	overflow: hidden;
@@ -117,7 +117,7 @@ main > .container-public {
 
 /* The listing title ("Events", "Partners", "News") is cut from the picture but
    kept as the h1; only listing heroes carry a standfirst, so show pages keep theirs. */
-main > .hero:has(.hero__standfirst) h1 {
+main > [data-scope="hero"][data-part="root"]:has([data-scope="hero"][data-part="standfirst"]) [data-scope="hero"][data-part="title"] {
 	border: 0;
 	clip-path: inset(50%);
 	height: 1px;
@@ -131,11 +131,11 @@ main > .hero:has(.hero__standfirst) h1 {
 
 /* PageTemplate.elm viewIntro (WP 2.9): the pink intro panel under the page
    title on the listing pages. Elm wraps introTextLargeStyle copy in a
-   textBoxPinkStyle section; core's hero renders one <p class="hero__standfirst">,
+   textBoxPinkStyle section; core's hero renders one standfirst paragraph,
    so the box and the type share the element - the padding is the box, the rest
    is the intro type. Elm centres the copy in an 838px measure inside the box,
    which the padding-inline max() reproduces without a second element. */
-.hero__standfirst {
+[data-scope="hero"][data-part="standfirst"] {
 	background-color: var(--color-primary);
 	border-radius: 0.3rem;
 	box-sizing: border-box;
@@ -152,7 +152,7 @@ main > .hero:has(.hero__standfirst) h1 {
 }
 
 @media only screen and (min-width: 600px) {
-	.hero__standfirst {
+	[data-scope="hero"][data-part="standfirst"] {
 		font-size: 1.9rem;
 		line-height: 2.1rem;
 		padding: 2rem 3rem;
@@ -163,7 +163,7 @@ main > .hero:has(.hero__standfirst) h1 {
    32px above and below (the Elm box's 1rem padding plus the copy's 1rem
    margin), 838px measure. Kept over the design's 34px / 46px / 50px. */
 @media only screen and (min-width: 900px) {
-	.hero__standfirst {
+	[data-scope="hero"][data-part="standfirst"] {
 		font-size: 2.5rem;
 		line-height: 1.24;
 		padding-top: 2rem;
@@ -173,9 +173,9 @@ main > .hero:has(.hero__standfirst) h1 {
 }
 
 /* Partners.elm sets its intro as one large line plus a smaller paragraph under
-   it. Core's hero renders the second paragraph as .hero__standfirst-detail; it
+   it. Core's hero renders the second paragraph as the standfirst-detail part; it
    continues the same pink panel in body type. */
-.hero__standfirst:has(+ .hero__standfirst-detail) {
+[data-scope="hero"][data-part="root"]:has([data-scope="hero"][data-part="standfirst-detail"]) [data-scope="hero"][data-part="standfirst"] {
 	border-bottom-left-radius: 0;
 	border-bottom-right-radius: 0;
 	padding-bottom: 0.5rem;
@@ -186,19 +186,19 @@ main > .hero:has(.hero__standfirst) h1 {
    and behind the panel. Core renders them as siblings, so the panel carries the
    top and sides of that border itself (pink on pink, so only the join shows)
    and the box below drops its own top edge. */
-main > .hero .hero__standfirst,
-main > .hero .hero__standfirst-detail {
+main > [data-scope="hero"][data-part="root"] [data-scope="hero"][data-part="standfirst"],
+main > [data-scope="hero"][data-part="root"] [data-scope="hero"][data-part="standfirst-detail"] {
 	border-inline: 1px solid var(--color-primary);
 	border-radius: 0.3rem 0.3rem 0 0;
 	border-top: 1px solid var(--color-primary);
 }
 
-main > .hero .hero__standfirst-detail {
+main > [data-scope="hero"][data-part="root"] [data-scope="hero"][data-part="standfirst-detail"] {
 	border-radius: 0;
 	border-top: 0;
 }
 
-main > .hero .hero__standfirst:has(+ .hero__standfirst-detail) {
+main > [data-scope="hero"][data-part="root"]:has([data-scope="hero"][data-part="standfirst-detail"]) [data-scope="hero"][data-part="standfirst"] {
 	border-bottom: 0;
 }
 
@@ -206,13 +206,13 @@ main > .hero .hero__standfirst:has(+ .hero__standfirst-detail) {
    1.5 between it and the smaller paragraph, on top of the panel's own
    padding. */
 @media only screen and (min-width: 900px) {
-	.hero__standfirst:has(+ .hero__standfirst-detail) {
+	[data-scope="hero"][data-part="root"]:has([data-scope="hero"][data-part="standfirst-detail"]) [data-scope="hero"][data-part="standfirst"] {
 		padding-bottom: 1.5rem;
 		padding-top: 4.5rem;
 	}
 }
 
-.hero__standfirst-detail {
+[data-scope="hero"][data-part="standfirst-detail"] {
 	background-color: var(--color-primary);
 	border-radius: 0 0 0.3rem 0.3rem;
 	box-sizing: border-box;
@@ -225,13 +225,13 @@ main > .hero .hero__standfirst:has(+ .hero__standfirst-detail) {
 }
 
 @media only screen and (min-width: 600px) {
-	.hero__standfirst-detail {
+	[data-scope="hero"][data-part="standfirst-detail"] {
 		padding: 0 3rem 2rem;
 	}
 }
 
 @media only screen and (min-width: 900px) {
-	.hero__standfirst-detail {
+	[data-scope="hero"][data-part="standfirst-detail"] {
 		font-size: 1.2rem;
 		line-height: 1.8rem;
 		padding-inline: max(2rem, calc((100% - 892px) / 2));
@@ -258,8 +258,8 @@ main > .hero .hero__standfirst:has(+ .hero__standfirst-detail) {
 
 /* ...and the top of that border belongs to the intro panel, which sits flush
    on it with no seam. */
-main > .hero:has(.hero__standfirst) + * #events-browser:has(.paginator),
-main > .hero:has(.hero__standfirst) + #partner_previews {
+main > [data-scope="hero"][data-part="root"]:has([data-scope="hero"][data-part="standfirst"]) + * #events-browser:has(.paginator),
+main > [data-scope="hero"][data-part="root"]:has([data-scope="hero"][data-part="standfirst"]) + #partner_previews {
 	border-radius: 0 0 0.3rem 0.3rem;
 	border-top: 0;
 	/* flow-root, not block: without a top border there is nothing to stop the
@@ -438,9 +438,9 @@ main > .hero:has(.hero__standfirst) + #partner_previews {
    kept here rather than duplicated into a per-route partial. */
 /* Global.elm smallInlineTitleStyle: the pink allcaps section headings TD uses
    for "Contact information", "Event address", "Get in touch" and so on. Core
-   renders them as .ruled-heading, whose 3px rule TD does not draw. */
-.event__fullinfo .ruled-heading,
-.event__fullinfo h2,
+   renders them as ruled headings, whose 3px rule TD does not draw. */
+[data-scope="event-details"][data-part="root"] [data-scope="ruled-heading"][data-part="root"],
+[data-scope="event-details"][data-part="root"] h2,
 .partner-details .ruled-heading,
 .partner-details h2 {
 	border-bottom: 0;
@@ -480,7 +480,7 @@ main > .hero:has(.hero__standfirst) + #partner_previews {
    colour is what shows while the tiles load. */
 .map--single,
 .partner-details [data-controller="leaflet"],
-.event__fullinfo .leaflet-container,
+[data-scope="event-details"][data-part="root"] .leaflet-container,
 .partner-details .leaflet-container {
 	border-radius: 0.3rem;
 }
@@ -533,11 +533,11 @@ main > .hero:has(.hero__standfirst) + #partner_previews {
    closing element is styled further up this file (the rule here has to come
    after it to win). */
 @media only screen and (min-width: 1500px) {
-	.hero__standfirst:has(+ .hero__standfirst-detail) {
+	[data-scope="hero"][data-part="root"]:has([data-scope="hero"][data-part="standfirst-detail"]) [data-scope="hero"][data-part="standfirst"] {
 		padding-bottom: 1.5rem;
 	}
 
-	.hero__standfirst-detail {
+	[data-scope="hero"][data-part="standfirst-detail"] {
 		padding-bottom: 3.5rem;
 	}
 }
@@ -552,7 +552,7 @@ main > .hero:has(.hero__standfirst) + #partner_previews {
    to whatever selector it already renders - for example:
 
      .meta a { ... }              -> class="td-btn td-btn--dark td-btn--sm"
-     .event__fullinfo .cta a { }  -> class="td-btn td-btn--pink td-btn--sm"
+     [data-part="links"] a { } -> class="td-btn td-btn--pink td-btn--sm"
 
    2px solid border, 0.3rem radius, 600 weight, 300ms colour-only transitions.
    dark   = dark blue fill / pink border / white text, hover purple fill /

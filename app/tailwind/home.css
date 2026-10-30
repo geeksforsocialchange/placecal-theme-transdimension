@@ -648,7 +648,7 @@ main:has(.td-home) {
 
 /* Index.elm reuses viewEvent from Events.elm, so the homepage cards are core's
    Components::Event under the same `.events` rules /events uses, in pages.css:
-   48px between rows, none above the first (events.css .events .event). Only
+   48px between rows, none above the first (the events.css card rules). Only
    the list's own spacing belongs to the homepage: the section gives the grid
    a wider gutter than the content box does, and the grid itself keeps a
    bottom margin because no paginator follows the last row.
@@ -665,7 +665,7 @@ main:has(.td-home) {
 
 /* Index.elm's card is the title, the times, the place and the organiser. The
    duration line is the listing page's. */
-.td-events .events .event__duration {
+.td-events .events [data-scope="event"][data-part="duration"] {
 	display: none;
 }
 

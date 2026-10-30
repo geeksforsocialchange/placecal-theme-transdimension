@@ -7,11 +7,11 @@
    /events/:id: Views::Events::Show
    Event.elm: the event name sits in a pink panel at the top of the content
    box, with the date, times, organiser, the description and the two info
-   columns below it. Core splits the page across .event--full and
-   .event__fullinfo, so the box is drawn as two halves that meet with no gap.
+   columns below it. Core splits the page across the event's page variant and
+   the event-details block, so the box is drawn as two halves that meet with no gap.
 --------------------------------------------------------------------------- */
 
-.event--full {
+[data-scope="event"][data-variant="page"] {
 	background-color: var(--color-background);
 	border: 1px solid var(--color-primary);
 	border-bottom: 0;
@@ -19,7 +19,7 @@
 	margin-bottom: 0;
 }
 
-.event__fullinfo {
+[data-scope="event-details"][data-part="root"] {
 	background-color: var(--color-background);
 	border: 1px solid var(--color-primary);
 	border-bottom: 0;
@@ -35,7 +35,7 @@
 }
 
 /* Core's spacer after the description; the gaps here are set explicitly. */
-.event__fullinfo > br {
+[data-scope="event-details"][data-part="description"] > br {
 	display: none;
 }
 
@@ -75,9 +75,9 @@ main > [data-controller="leaflet"] {
    "Go back" below the full-bleed map (or, for an online event with no map,
    straight after the two info columns). Styled by pages.css; only the
    per-page top offset lives here. Scoped through `main` (both this page and
-   the partner show page below share the same .hero/.event--full ancestry, so
-   a bare nav.page-actions selector would leak across routes). */
-main:has(> .event--full) > nav.page-actions {
+   the partner show page below share the same hero ancestry, so a bare
+   nav.page-actions selector would leak across routes). */
+main:has([data-scope="event"][data-variant="page"]) > nav.page-actions {
 	margin-top: 3rem;
 }
 
@@ -115,7 +115,7 @@ main:has(> .event--full) > nav.page-actions {
    dark ground (News.elm), so the [vocab] wrapper they use is excluded.
    Shared with the partner show page, whose wrapper is non-vocab too.
    Event.elm/Partner.elm: 26px 64px 34px padding at the design's own width. */
-main > div:not([vocab]) > .hero {
+main > div:not([vocab]) > [data-scope="hero"][data-part="root"] {
 	background-color: var(--color-primary);
 	/* Event.elm and Partner.elm: the panel is the full width of the content
 	   box, flush with its border (the box radius shows at the top corners). */
@@ -127,25 +127,25 @@ main > div:not([vocab]) > .hero {
 }
 
 @media only screen and (min-width: 600px) {
-	main > div:not([vocab]) > .hero {
+	main > div:not([vocab]) > [data-scope="hero"][data-part="root"] {
 		padding-inline: 2.5rem;
 	}
 }
 
 @media only screen and (min-width: 900px) {
-	main > div:not([vocab]) > .hero {
+	main > div:not([vocab]) > [data-scope="hero"][data-part="root"] {
 		padding-inline: 4rem;
 	}
 }
 
 @media only screen and (min-width: 1500px) {
-	main > div:not([vocab]) > .hero {
+	main > div:not([vocab]) > [data-scope="hero"][data-part="root"] {
 		padding-bottom: 2rem;
 	}
 }
 
 /* The event/partner name, the page's only h1, at live's sizes. */
-main > div:not([vocab]) > .hero h1 {
+main > div:not([vocab]) > [data-scope="hero"][data-part="root"] [data-scope="hero"][data-part="title"] {
 	color: var(--color-foreground-dark);
 	font-size: 1.6rem;
 	font-style: italic;
@@ -158,14 +158,14 @@ main > div:not([vocab]) > .hero h1 {
 }
 
 @media only screen and (min-width: 600px) {
-	main > div:not([vocab]) > .hero h1 {
+	main > div:not([vocab]) > [data-scope="hero"][data-part="root"] [data-scope="hero"][data-part="title"] {
 		font-size: 1.9rem;
 		line-height: 2.1rem;
 	}
 }
 
 @media only screen and (min-width: 900px) {
-	main > div:not([vocab]) > .hero h1 {
+	main > div:not([vocab]) > [data-scope="hero"][data-part="root"] [data-scope="hero"][data-part="title"] {
 		font-size: 2.5rem;
 		line-height: 1.24;
 		margin: 0.75rem auto 1.25rem;
@@ -174,7 +174,7 @@ main > div:not([vocab]) > .hero h1 {
 
 /* "By <organiser>" under the event name, in the panel: core's standfirst slot,
    so the listing panel's big pink type is undone here. */
-.event--full .hero__standfirst {
+[data-scope="event"][data-variant="page"] [data-scope="hero"][data-part="standfirst"] {
 	background: none;
 	border: 0;
 	color: var(--color-foreground-dark);
@@ -188,7 +188,7 @@ main > div:not([vocab]) > .hero h1 {
 	padding: 0;
 }
 
-.event--full .hero__standfirst a {
+[data-scope="event"][data-variant="page"] [data-scope="hero"][data-part="standfirst"] a {
 	color: var(--color-foreground-dark);
 	text-decoration: underline;
 	text-decoration-thickness: 1px;
@@ -196,7 +196,7 @@ main > div:not([vocab]) > .hero h1 {
 }
 
 @media only screen and (min-width: 900px) {
-	.event--full .hero__standfirst {
+	[data-scope="event"][data-variant="page"] [data-scope="hero"][data-part="standfirst"] {
 		font-size: 1.2rem;
 		margin: -0.75rem auto 1.15rem;
 	}
@@ -204,30 +204,23 @@ main > div:not([vocab]) > .hero h1 {
 
 /* The organiser now reads in the panel, so the details line would repeat it;
    the neighbourhood and duration lines are cut too (2026-10-20 review). */
-.event--full .event__organiser,
-.event--full .event__neighbourhood-line,
-.event--full .event__duration {
+[data-scope="event"][data-variant="page"] [data-scope="event"][data-part="organiser"],
+[data-scope="event"][data-variant="page"] [data-scope="event"][data-part="neighbourhood"],
+[data-scope="event"][data-variant="page"] [data-scope="event"][data-part="duration"] {
 	display: none;
-}
-
-/* Phones: 20px sides, a touch more than live's 12px, for the body copy */
-@media only screen and (max-width: 599px) {
-	.event--full + .event__fullinfo {
-		padding-inline: 1.25rem;
-	}
 }
 
 /* Event.elm, Partner.elm, NewsItem.elm: the section name sits on the
    starfield above the title panel, in the page-title type. Shared with the
    partner show page (non-vocab wrapper) and, via the vocab variant, the
    article show page. */
-main > div:not([vocab]) > .hero,
-main > div[vocab] > .hero {
+main > div:not([vocab]) > [data-scope="hero"][data-part="root"],
+main > div[vocab] > [data-scope="hero"][data-part="root"] {
 	position: relative;
 }
 
-main > div:not([vocab]) > .hero .hero__section,
-main > div[vocab] > .hero .hero__section {
+main > div:not([vocab]) > [data-scope="hero"][data-part="root"] [data-scope="hero"][data-part="kicker"],
+main > div[vocab] > [data-scope="hero"][data-part="root"] [data-scope="hero"][data-part="kicker"] {
 	color: var(--color-foreground);
 	font-size: 3rem;
 	font-style: italic;
@@ -242,18 +235,18 @@ main > div[vocab] > .hero .hero__section {
 }
 
 /* No starfield section name on the event page (README §3). */
-.event--full .hero__section {
+[data-scope="event"][data-variant="page"] [data-scope="hero"][data-part="kicker"] {
 	display: none;
 }
 
 /* Event.elm: the header stack under the title panel (date, then time ·
    duration · repeats, then "By {organiser}"), centred, 10px gaps, no icons.
-   Core emits one flat run of icon-and-text .event__detail pairs in source
+   Core emits one flat run of icon-and-text detail parts in source
    order time, duration, date, repeats/online, organiser, place; the rules
    below use `order` to regroup them into three rows and hide the pairs the
    design does not want here (place/online are covered by the address column
-   instead, online sharing a class with repeats, see core-slots-needed.md). */
-.event--full .event__details {
+   instead). */
+[data-scope="event"][data-variant="page"] [data-scope="event"][data-part="details"] {
 	align-items: center;
 	border-bottom: 0;
 	column-gap: 0.4em;
@@ -269,14 +262,14 @@ main > div[vocab] > .hero .hero__section {
 
 /* Two break points split the row into three: date alone, then the
    time/duration/repeats trio, then the organiser line; the second is live's rule. */
-.event--full .event__details::before {
+[data-scope="event"][data-variant="page"] [data-scope="event"][data-part="details"]::before {
 	content: "";
 	flex-basis: 100%;
 	height: 0;
 	order: -3;
 }
 
-.event--full .event__details::after {
+[data-scope="event"][data-variant="page"] [data-scope="event"][data-part="details"]::after {
 	border-top: 1px solid var(--color-primary);
 	content: "";
 	flex-basis: 100%;
@@ -285,7 +278,7 @@ main > div[vocab] > .hero .hero__section {
 	order: -1;
 }
 
-.event--full .event__detail {
+[data-scope="event"][data-variant="page"] [data-scope="event"]:is([data-part="time"], [data-part="duration"], [data-part="date"], [data-part="repeats"], [data-part="online"], [data-part="organiser"], [data-part="place"]) {
 	color: var(--color-foreground);
 	flex: none;
 	justify-content: center;
@@ -294,11 +287,11 @@ main > div[vocab] > .hero .hero__section {
 	text-align: center;
 }
 
-.event--full .event__detail svg {
+[data-scope="event"][data-variant="page"] [data-scope="event"][data-part="icon"] {
 	display: none;
 }
 
-.event--full .event__date {
+[data-scope="event"][data-variant="page"] [data-scope="event"][data-part="date"] {
 	font-size: 1.8rem;
 	font-weight: 900;
 	letter-spacing: normal;
@@ -308,9 +301,9 @@ main > div[vocab] > .hero .hero__section {
 	text-transform: uppercase;
 }
 
-.event--full .event__time,
-.event--full .event__repeats,
-.event--full .event__online {
+[data-scope="event"][data-variant="page"] [data-scope="event"][data-part="time"],
+[data-scope="event"][data-variant="page"] [data-scope="event"][data-part="repeats"],
+[data-scope="event"][data-variant="page"] [data-scope="event"][data-part="online"] {
 	color: var(--color-primary);
 	font-size: 1.2rem;
 	font-weight: 600;
@@ -320,15 +313,15 @@ main > div[vocab] > .hero .hero__section {
 	text-transform: uppercase;
 }
 
-.event--full .event__repeats::before,
-.event--full .event__online::before {
+[data-scope="event"][data-variant="page"] [data-scope="event"][data-part="repeats"]::before,
+[data-scope="event"][data-variant="page"] [data-scope="event"][data-part="online"]::before {
 	content: "\00a0\00b7\00a0";
 }
 
 /* Covered by the address column (online) or dropped as noise on this page
    (place: the venue, when it differs from the organiser, has its own
    column further down). */
-.event--full .event__location {
+[data-scope="event"][data-variant="page"] [data-scope="event"][data-part="place"] {
 	display: none;
 }
 
@@ -336,8 +329,8 @@ main > div[vocab] > .hero .hero__section {
    edge, so the page reads as a single left-aligned column rather than core's
    narrow measure floating inside TD's wider box. Event.elm: 0 32px box
    padding at the design's own width. */
-.event--full > .container-public,
-.event__fullinfo {
+[data-scope="event"][data-part="content"],
+[data-scope="event-details"][data-part="root"] {
 	box-sizing: border-box;
 	margin-inline: 0;
 	max-width: none;
@@ -345,21 +338,28 @@ main > div[vocab] > .hero .hero__section {
 }
 
 @media only screen and (min-width: 600px) {
-	.event--full > .container-public,
-	.event__fullinfo {
+	[data-scope="event"][data-part="content"],
+	[data-scope="event-details"][data-part="root"] {
 		padding-inline: 1.5rem;
 	}
 }
 
 @media only screen and (min-width: 900px) {
-	.event--full > .container-public,
-	.event__fullinfo {
+	[data-scope="event"][data-part="content"],
+	[data-scope="event-details"][data-part="root"] {
 		padding-inline: 2rem;
 	}
 }
 
+/* Phones: 20px sides, a touch more than live's 12px, for the body copy */
+@media only screen and (max-width: 599px) {
+	[data-scope="event-details"][data-part="root"] {
+		padding-inline: 1.25rem;
+	}
+}
+
 /* Live's description: one body size throughout, in a 636px measure. */
-.event__fullinfo > p {
+[data-scope="event-details"][data-part="description"] > p {
 	font-size: 1rem;
 	line-height: 1.5;
 	margin: 0 auto 1em;
@@ -368,24 +368,24 @@ main > div[vocab] > .hero .hero__section {
 }
 
 @media only screen and (min-width: 600px) and (max-width: 899px) {
-	.event__fullinfo > p {
+	[data-scope="event-details"][data-part="description"] > p {
 		margin-inline: 4rem;
 		max-width: none;
 	}
 }
 
 @media only screen and (min-width: 1200px) {
-	.event__fullinfo > p {
+	[data-scope="event-details"][data-part="description"] > p {
 		font-size: 1.2rem;
 	}
 }
 
 /* event_link/online_link ("Visit the webpage for this event", "Join this
-   meeting"), in core's .event__links row under the description; core gives
+   meeting"), in core's links row under the description; core gives
    them no slot inside the address column the design puts the online button in
    (see core-slots-needed.md). Given TD's small pink button treatment here so
    an event that has one is not left in core's unstyled default. */
-.event__links > a.btn {
+[data-scope="event-details"][data-part="links"] [data-scope="button"][data-part="root"] {
 	background-color: var(--color-primary);
 	border: 2px solid var(--color-primary);
 	border-radius: 0.3rem;
@@ -399,7 +399,7 @@ main > div[vocab] > .hero .hero__section {
 }
 
 @media only screen and (hover: hover) and (pointer: fine) {
-	.event__links > a.btn:hover {
+	[data-scope="event-details"][data-part="links"] [data-scope="button"][data-part="root"]:hover {
 		background-color: var(--color-primary-light);
 		border-color: var(--color-primary-light);
 		color: var(--color-foreground-dark);
@@ -410,23 +410,23 @@ main > div[vocab] > .hero .hero__section {
    the whole box in textAlign: center and never overrides it here, unlike the
    partner page's left-aligned equivalent), so it reads as a stack under each
    FloatingTitle rather than a left-aligned block. */
-.event__fullinfo .event__column-body,
-.event__fullinfo .contact_details,
-.event__fullinfo .place_info__address,
-.event__fullinfo .place_info__directions-list {
+[data-scope="event-details"][data-part="section-body"],
+[data-scope="event-details"][data-part="root"] .contact_details,
+[data-scope="event-details"][data-part="root"] .place_info__address,
+[data-scope="event-details"][data-part="root"] .place_info__directions-list {
 	font-size: 1rem;
 	text-align: center;
 }
 
 /* Live's two columns, Contact information and Event address, halving the box
    width and stacking below 600px. Core also renders an "Event organiser"
-   column, always the 3rd and redundant with the "By {organiser}" line, so hidden;
+   column, redundant with the "By {organiser}" line, so hidden;
    a "Venue" column, when present, is kept. */
-.event__fullinfo .event__columns .event__column:nth-child(3) {
+[data-scope="event-details"][data-part="organiser"] {
 	display: none;
 }
 
-.event__fullinfo .event__columns {
+[data-scope="event-details"][data-part="info"] {
 	border-top: 1px solid var(--color-primary);
 	column-gap: 0;
 	display: grid;
@@ -437,19 +437,19 @@ main > div[vocab] > .hero .hero__section {
 }
 
 @media only screen and (min-width: 600px) {
-	.event__fullinfo .event__columns {
+	[data-scope="event-details"][data-part="info"] {
 		grid-template-columns: repeat(2, minmax(0, 1fr));
 		padding-top: 3rem;
 	}
 }
 
 /* A grid item's margin cannot collapse with the rule above it. */
-.event__fullinfo .event__columns .event__column > :first-child {
+[data-scope="event-details"][data-part="info"] [data-scope="ruled-heading"][data-part="root"] {
 	margin-top: 0;
 }
 
 /* Live's column headings: 1rem bold allcaps pink, 1.6rem above the text. */
-.event__fullinfo .ruled-heading {
+[data-scope="event-details"][data-part="root"] [data-scope="ruled-heading"][data-part="root"] {
 	line-height: 1.5;
 	margin-bottom: 1.6rem;
 	padding-bottom: 0;
@@ -461,34 +461,34 @@ main > div[vocab] > .hero .hero__section {
    contact method. Final.jsx.txt EventF's column is plain stacked divs with
    no icons at all; a block display on the icon-less links reproduces that
    stack from core's flat markup without a wrapper element per row. */
-.event__fullinfo .contact_details {
+[data-scope="event-details"][data-part="root"] .contact_details {
 	display: block;
 }
 
-.event__fullinfo .contact_details svg {
+[data-scope="event-details"][data-part="root"] .contact_details svg {
 	display: none;
 }
 
-.event__fullinfo .contact_details {
+[data-scope="event-details"][data-part="root"] .contact_details {
 	line-height: 1.5;
 }
 
 /* The organiser's name heads the column, in the same plain line as the rest */
-.event__fullinfo .contact_details__partner {
+[data-scope="event-details"][data-part="contact-name"] {
 	margin: 0;
 }
 
-.event__fullinfo .contact_details__partner a {
+[data-scope="event-details"][data-part="contact-name"] a {
 	color: var(--color-foreground);
 	font-weight: 500;
 	text-decoration: none;
 }
 
-.event__fullinfo .contact_details__partner a:hover {
+[data-scope="event-details"][data-part="contact-name"] a:hover {
 	text-decoration: underline;
 }
 
-.event__fullinfo .contact_details__item:not(.contact_details__item--social) a {
+[data-scope="event-details"][data-part="root"] .contact_details__item:not(.contact_details__item--social) a {
 	display: block;
 	margin: 0;
 	overflow-wrap: anywhere;
@@ -496,18 +496,18 @@ main > div[vocab] > .hero .hero__section {
 }
 
 @media only screen and (hover: hover) and (pointer: fine) {
-	.event__fullinfo .contact_details__item:not(.contact_details__item--social) a:hover {
+	[data-scope="event-details"][data-part="root"] .contact_details__item:not(.contact_details__item--social) a:hover {
 		text-decoration: underline;
 	}
 }
 
 /* Option B: the social networks run on as one row of names under the lines. */
-.event__fullinfo .contact_details__item--social {
+[data-scope="event-details"][data-part="root"] .contact_details__item--social {
 	display: inline-block;
 	margin-top: 0.5rem;
 }
 
-.event__fullinfo .contact_details__item--social + .contact_details__item--social::before {
+[data-scope="event-details"][data-part="root"] .contact_details__item--social + .contact_details__item--social::before {
 	color: var(--color-primary-light);
 	content: "\00b7";
 	content: "\00b7" / "";
@@ -517,7 +517,7 @@ main > div[vocab] > .hero .hero__section {
 
 /* The address block sits under a kicker of its own and takes the same rhythm
    as a contact row, so the two columns read as one pair. */
-.event__fullinfo .place_info__address {
+[data-scope="event-details"][data-part="root"] .place_info__address {
 	line-height: 1.5;
 }
 

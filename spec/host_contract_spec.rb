@@ -54,4 +54,34 @@ RSpec.describe 'host contract' do
       )
     end
   end
+
+  # Core's styling hooks (core doc/extensions.md, "Styling hooks"): a scope, part or variant core drops fails here.
+  describe 'styling hooks' do
+    let(:css) do
+      Dir[Transdimension::Engine.root.join('app/tailwind/**/*.css')].sum('') { |path| File.read(path) }.gsub(%r{/\*.*?\*/}m, '')
+    end
+    let(:compounds) { css.scan(/\[data-scope="([a-z-]+)"\]((?:\[[^\]]*\]|:[a-z-]+(?:\([^)]*\))?)*)/) }
+    let(:contract) { PlaceCal::Theming.contract }
+
+    it 'targets only scopes core declares' do
+      expect(compounds.map(&:first).uniq - contract.keys).to be_empty
+    end
+
+    it 'targets only parts and variants of those scopes' do
+      undeclared = compounds.flat_map do |scope, rest|
+        hooks = contract.fetch(scope, { parts: [], variants: {} })
+        parts = rest.scan(/data-part="([a-z-]+)"/).flatten - hooks[:parts]
+        variants = rest.scan(/data-variant="([a-z-]+)"/).flatten - hooks[:variants].values.flatten
+        (parts + variants).map { |name| "#{scope} #{name}" }
+      end
+
+      expect(undeclared.uniq).to be_empty
+    end
+
+    it 'names a scope on every part it targets' do
+      unscoped = css.gsub(/\[data-scope="[a-z-]+"\]:is\([^)]*\)/, '').scan(/(?<!\])\[data-part="[a-z-]+"\]/)
+
+      expect(unscoped).to be_empty
+    end
+  end
 end
