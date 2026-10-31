@@ -410,14 +410,19 @@ textarea.join-control {
    dark treatment so it does not read as a second panel. Core paints it as a
    salmon card with a pill link, both of which are undone here. */
 .join-email-cta {
-	align-items: center;
 	background: none;
+	/* plus the 1rem gap of the Stack core puts it in */
+	margin-top: 1rem;
+	padding: 0;
+	text-align: center;
+}
+
+/* The Cluster inside the card */
+.join-email-cta > div {
+	align-items: center;
 	flex-direction: column;
 	gap: 0.25rem;
 	justify-content: center;
-	margin-top: 2rem;
-	padding: 0;
-	text-align: center;
 }
 
 .join-email-cta__body {
@@ -434,9 +439,11 @@ textarea.join-control {
 
 .join-email-link {
 	background: none;
+	border: 0;
 	box-shadow: none;
 	color: var(--color-foreground);
 	font-weight: 600;
+	gap: 0.5625rem;
 	padding: 0;
 	text-decoration: underline;
 	text-decoration-color: var(--color-primary);
