@@ -239,7 +239,7 @@ hr {
 
 /* The iCal / permalink strip under a listing. Core paints it bg-rules; TD has
    no band like it, so it drops back to the page ground. */
-.meta {
+[data-scope="meta"][data-part="root"] {
 	background-color: transparent;
 	padding: 2rem 0;
 }

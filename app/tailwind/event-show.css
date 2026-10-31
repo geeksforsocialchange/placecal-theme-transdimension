@@ -76,8 +76,8 @@ main > [data-controller="leaflet"] {
    straight after the two info columns). Styled by pages.css; only the
    per-page top offset lives here. Scoped through `main` (both this page and
    the partner show page below share the same hero ancestry, so a bare
-   nav.page-actions selector would leak across routes). */
-main:has([data-scope="event"][data-variant="page"]) > nav.page-actions {
+   nav[data-scope="page-actions"][data-part="root"] selector would leak across routes). */
+main:has([data-scope="event"][data-variant="page"]) > nav[data-scope="page-actions"][data-part="root"] {
 	margin-top: 3rem;
 }
 
@@ -86,7 +86,7 @@ main:has([data-scope="event"][data-variant="page"]) > nav.page-actions {
    the small centred treatment rather than sitting in the corner of the page;
    the permalink is TD's own canonical link (in <head>) doubled up, so it is
    dropped rather than styled. */
-.meta > .container-public {
+[data-scope="meta"][data-part="root"] > .container-public {
 	align-items: center;
 	display: flex;
 	flex-direction: column;
@@ -95,16 +95,16 @@ main:has([data-scope="event"][data-variant="page"]) > nav.page-actions {
 	text-align: center;
 }
 
-.meta__permalink {
+[data-scope="meta"][data-part="permalink"] {
 	display: none;
 }
 
-.meta {
+[data-scope="meta"][data-part="root"] {
 	margin-top: 2rem;
 }
 
-.meta,
-.meta a {
+[data-scope="meta"][data-part="root"],
+[data-scope="meta"][data-part="root"] a {
 	color: var(--color-foreground);
 	font-size: 0.8777rem;
 }
@@ -411,9 +411,9 @@ main > div[vocab] > [data-scope="hero"][data-part="root"] [data-scope="hero"][da
    partner page's left-aligned equivalent), so it reads as a stack under each
    FloatingTitle rather than a left-aligned block. */
 [data-scope="event-details"][data-part="section-body"],
-[data-scope="event-details"][data-part="root"] .contact_details,
-[data-scope="event-details"][data-part="root"] .place_info__address,
-[data-scope="event-details"][data-part="root"] .place_info__directions-list {
+[data-scope="event-details"][data-part="root"] [data-scope="contact-details"][data-part="root"],
+[data-scope="event-details"][data-part="root"] [data-scope="address"][data-part="postal-address"],
+[data-scope="event-details"][data-part="root"] [data-scope="address"][data-part="directions"] {
 	font-size: 1rem;
 	text-align: center;
 }
@@ -461,15 +461,15 @@ main > div[vocab] > [data-scope="hero"][data-part="root"] [data-scope="hero"][da
    contact method. Final.jsx.txt EventF's column is plain stacked divs with
    no icons at all; a block display on the icon-less links reproduces that
    stack from core's flat markup without a wrapper element per row. */
-[data-scope="event-details"][data-part="root"] .contact_details {
+[data-scope="event-details"][data-part="root"] [data-scope="contact-details"][data-part="root"] {
 	display: block;
 }
 
-[data-scope="event-details"][data-part="root"] .contact_details svg {
+[data-scope="event-details"][data-part="root"] [data-scope="contact-details"][data-part="root"] svg {
 	display: none;
 }
 
-[data-scope="event-details"][data-part="root"] .contact_details {
+[data-scope="event-details"][data-part="root"] [data-scope="contact-details"][data-part="root"] {
 	line-height: 1.5;
 }
 
@@ -488,7 +488,7 @@ main > div[vocab] > [data-scope="hero"][data-part="root"] [data-scope="hero"][da
 	text-decoration: underline;
 }
 
-[data-scope="event-details"][data-part="root"] .contact_details__item:not(.contact_details__item--social) a {
+[data-scope="event-details"][data-part="root"] [data-scope="contact-details"][data-part="item"]:not([data-scope="contact-details"][data-part="item"][data-variant="social"]) a {
 	display: block;
 	margin: 0;
 	overflow-wrap: anywhere;
@@ -496,18 +496,18 @@ main > div[vocab] > [data-scope="hero"][data-part="root"] [data-scope="hero"][da
 }
 
 @media only screen and (hover: hover) and (pointer: fine) {
-	[data-scope="event-details"][data-part="root"] .contact_details__item:not(.contact_details__item--social) a:hover {
+	[data-scope="event-details"][data-part="root"] [data-scope="contact-details"][data-part="item"]:not([data-scope="contact-details"][data-part="item"][data-variant="social"]) a:hover {
 		text-decoration: underline;
 	}
 }
 
 /* Option B: the social networks run on as one row of names under the lines. */
-[data-scope="event-details"][data-part="root"] .contact_details__item--social {
+[data-scope="event-details"][data-part="root"] [data-scope="contact-details"][data-part="item"][data-variant="social"] {
 	display: inline-block;
 	margin-top: 0.5rem;
 }
 
-[data-scope="event-details"][data-part="root"] .contact_details__item--social + .contact_details__item--social::before {
+[data-scope="event-details"][data-part="root"] [data-scope="contact-details"][data-part="item"][data-variant="social"] + [data-scope="contact-details"][data-part="item"][data-variant="social"]::before {
 	color: var(--color-primary-light);
 	content: "\00b7";
 	content: "\00b7" / "";
@@ -517,11 +517,11 @@ main > div[vocab] > [data-scope="hero"][data-part="root"] [data-scope="hero"][da
 
 /* The address block sits under a kicker of its own and takes the same rhythm
    as a contact row, so the two columns read as one pair. */
-[data-scope="event-details"][data-part="root"] .place_info__address {
+[data-scope="event-details"][data-part="root"] [data-scope="address"][data-part="postal-address"] {
 	line-height: 1.5;
 }
 
 /* The "More from {organiser}" section is cut from TD's event page. */
-.event__more {
+[data-scope="event-details"][data-part="more"] {
 	display: none;
 }

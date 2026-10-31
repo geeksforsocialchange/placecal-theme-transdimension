@@ -245,7 +245,7 @@ main > [data-scope="hero"][data-part="root"]:has([data-scope="hero"][data-part="
    whichever container each route already provides; the per-route sections
    below name them. */
 #events-browser:has(.paginator),
-#partner_previews {
+[data-scope="partner-index"][data-part="root"] {
 	background-color: var(--color-background);
 	border: 1px solid var(--color-primary);
 	border-radius: 0.3rem;
@@ -259,7 +259,7 @@ main > [data-scope="hero"][data-part="root"]:has([data-scope="hero"][data-part="
 /* ...and the top of that border belongs to the intro panel, which sits flush
    on it with no seam. */
 main > [data-scope="hero"][data-part="root"]:has([data-scope="hero"][data-part="standfirst"]) + * #events-browser:has(.paginator),
-main > [data-scope="hero"][data-part="root"]:has([data-scope="hero"][data-part="standfirst"]) + #partner_previews {
+main > [data-scope="hero"][data-part="root"]:has([data-scope="hero"][data-part="standfirst"]) + [data-scope="partner-index"][data-part="root"] {
 	border-radius: 0 0 0.3rem 0.3rem;
 	border-top: 0;
 	/* flow-root, not block: without a top border there is nothing to stop the
@@ -274,34 +274,34 @@ main > [data-scope="hero"][data-part="root"]:has([data-scope="hero"][data-part="
    filters, and is laid out on its own further down, so the box rules are tied
    to the frame that carries the paginator. */
 #events-browser:has(.paginator) > *,
-#partner_previews > * {
+[data-scope="partner-index"][data-part="root"] > * {
 	margin: 0.75rem;
 }
 
 @media only screen and (min-width: 600px) {
 	#events-browser:has(.paginator) > *,
-	#partner_previews > * {
+	[data-scope="partner-index"][data-part="root"] > * {
 		margin: 0 2rem;
 	}
 }
 
 @media only screen and (min-width: 1500px) {
 	#events-browser:has(.paginator) > *,
-	#partner_previews > * {
+	[data-scope="partner-index"][data-part="root"] > * {
 		margin: 1.5rem;
 	}
 }
 
 /* TD has no breadcrumb trail on any page; the slot holding the filters stays. */
-.breadcrumb {
+[data-scope="breadcrumb"][data-part="root"] {
 	display: block;
 }
 
-.breadcrumb__element {
+[data-scope="breadcrumb"][data-part="crumb"] {
 	display: none;
 }
 
-.breadcrumb__slot {
+[data-scope="breadcrumb"][data-part="controls"] {
 	display: block;
 	margin: 0;
 	width: 100%;
@@ -310,7 +310,7 @@ main > [data-scope="hero"][data-part="root"]:has([data-scope="hero"][data-part="
 /* Global.elm hrStyle is already in theme.css; inside a content box the rules
    TD draws are the thin pink ones between sections. */
 #events-browser hr,
-#partner_previews hr,
+[data-scope="partner-index"][data-part="root"] hr,
 .markdown-content hr {
 	margin: 1.5rem 0;
 }
@@ -441,8 +441,8 @@ main > [data-scope="hero"][data-part="root"]:has([data-scope="hero"][data-part="
    renders them as ruled headings, whose 3px rule TD does not draw. */
 [data-scope="event-details"][data-part="root"] [data-scope="ruled-heading"][data-part="root"],
 [data-scope="event-details"][data-part="root"] h2,
-.partner-details .ruled-heading,
-.partner-details h2 {
+[data-scope="partner-details"][data-part="root"] .ruled-heading,
+[data-scope="partner-details"][data-part="root"] h2 {
 	border-bottom: 0;
 	color: var(--color-primary);
 	display: block;
@@ -458,16 +458,16 @@ main > [data-scope="hero"][data-part="root"]:has([data-scope="hero"][data-part="
    "Google Maps · Apple Maps · OSM", the links keeping theme.css's
    thin pink underline. The dot is inline-block so the link's underline skips
    it; its left padding is short because core puts a space before each link. */
-.place_info__directions-list {
+[data-scope="address"][data-part="directions"] {
 	line-height: 1.5;
 	margin-top: 0.5rem;
 }
 
-.place_info__address:has(+ .place_info__directions-list) {
+[data-scope="address"][data-part="postal-address"]:has(+ [data-scope="address"][data-part="directions"]) {
 	margin-bottom: 0;
 }
 
-.place_info__directions-list > a + a::before {
+[data-scope="address"][data-part="directions"] > a + a::before {
 	color: var(--color-primary-light);
 	content: "\00b7";
 	content: "\00b7" / "";
@@ -478,10 +478,11 @@ main > [data-scope="hero"][data-part="root"]:has([data-scope="hero"][data-part="
 
 /* Event.elm and Partner.elm draw a pink-toned map inside the box. The ground
    colour is what shows while the tiles load. */
-.map--single,
-.partner-details [data-controller="leaflet"],
+[data-scope="map"][data-part="root"][data-variant="single"],
+[data-scope="partner-details"][data-part="image"] img,
+[data-scope="partner-details"][data-part="root"] [data-controller="leaflet"],
 [data-scope="event-details"][data-part="root"] .leaflet-container,
-.partner-details .leaflet-container {
+[data-scope="partner-details"][data-part="root"] .leaflet-container {
 	border-radius: 0.3rem;
 }
 
@@ -551,7 +552,7 @@ main > [data-scope="hero"][data-part="root"]:has([data-scope="hero"][data-part="
    adds .td-btn plus one colour modifier (and, for a small button, .td-btn--sm)
    to whatever selector it already renders - for example:
 
-     .meta a { ... }              -> class="td-btn td-btn--dark td-btn--sm"
+     [data-scope="meta"][data-part="root"] a { ... }              -> class="td-btn td-btn--dark td-btn--sm"
      [data-part="links"] a { } -> class="td-btn td-btn--pink td-btn--sm"
 
    2px solid border, 0.3rem radius, 600 weight, 300ms colour-only transitions.
@@ -627,17 +628,17 @@ main > [data-scope="hero"][data-part="root"]:has([data-scope="hero"][data-part="
 
 /* ---------------------------------------------------------------------------
    Page actions (Final designs: the centred button row below a box)
-   Components::PageActions renders `nav.page-actions > ul.reset > li > a.
-   page-actions__link` on the event, partner and article pages. Shared here
+   Components::PageActions renders its root nav, a list, and a link part per
+   item on the event, partner and article pages. Shared here
    since all three reach it; each link gets the `.td-btn`/`.td-btn--dark`
    geometry above without needing that class in core's markup.
 --------------------------------------------------------------------------- */
 
-.page-actions {
+[data-scope="page-actions"][data-part="root"] {
 	margin-top: 40px;
 }
 
-.page-actions ul {
+[data-scope="page-actions"][data-part="root"] ul {
 	align-items: center;
 	display: flex;
 	flex-wrap: wrap;
@@ -650,13 +651,13 @@ main > [data-scope="hero"][data-part="root"]:has([data-scope="hero"][data-part="
 
 /* Live stacks the buttons one per row at phone width; 1rem apart, not live's 3rem. */
 @media only screen and (max-width: 599px) {
-	.page-actions ul {
+	[data-scope="page-actions"][data-part="root"] ul {
 		flex-direction: column;
 		gap: 1rem;
 	}
 }
 
-.page-actions__link {
+[data-scope="page-actions"][data-part="link"] {
 	background-color: var(--color-background);
 	border: 2px solid var(--color-primary);
 	border-radius: 0.3rem;
@@ -676,7 +677,7 @@ main > [data-scope="hero"][data-part="root"]:has([data-scope="hero"][data-part="
 }
 
 @media only screen and (hover: hover) and (pointer: fine) {
-	.page-actions__link:hover {
+	[data-scope="page-actions"][data-part="link"]:hover {
 		background-color: var(--color-tertiary);
 		border-color: var(--color-foreground);
 		color: var(--color-foreground);
