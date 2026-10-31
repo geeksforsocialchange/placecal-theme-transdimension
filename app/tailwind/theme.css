@@ -358,8 +358,8 @@ hr {
 		padding: 0;
 	}
 
-	/* the extra class outranks the desktop button rule further down the file */
-	[data-scope="navigation"][data-part="root"][data-variant="site"] [data-scope="navigation"][data-part="menu"] [data-scope="navigation"][data-part="cta"] [data-scope="navigation"][data-part="cta"] [data-scope="button"][data-part="root"] {
+	/* the li outranks the desktop button rule further down the file */
+	[data-scope="navigation"][data-part="root"][data-variant="site"] [data-scope="navigation"][data-part="menu"] li[data-scope="navigation"][data-part="cta"] [data-scope="button"][data-part="root"] {
 		border: 0;
 		border-radius: 0;
 		display: block;
