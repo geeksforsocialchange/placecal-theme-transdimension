@@ -125,10 +125,10 @@ main > [data-scope="hero"][data-part="root"]:has([data-scope="hero"][data-part="
 --------------------------------------------------------------------------- */
 
 .paginator__context,
-.paginator__context .breadcrumb,
-.paginator__context .breadcrumb__slot,
+.paginator__context [data-scope="breadcrumb"][data-part="root"],
+.paginator__context [data-scope="breadcrumb"][data-part="controls"],
 .paginator__context .filter-bar,
-.paginator__buttons {
+[data-scope="timeline"][data-part="root"] {
 	display: contents;
 }
 
@@ -154,7 +154,7 @@ main > [data-scope="hero"][data-part="root"]:has([data-scope="hero"][data-part="
    above the day strip, as on the Elm site.
 
    Every selector below is a descendant (not child) combinator: display:
-   contents removes .paginator__context, .breadcrumb etc. from the box tree
+   contents removes .paginator__context, [data-scope="breadcrumb"][data-part="root"] etc. from the box tree
    for layout purposes, but the region filter, day strip, filters and arrows
    are still several levels deep in the *DOM* tree those wrappers are part
    of, so `>` off #paginator would never match them. */
@@ -561,7 +561,7 @@ main > [data-scope="hero"][data-part="root"]:has([data-scope="hero"][data-part="
    (the day strip and the date picker move through time), so they are cut.
 --------------------------------------------------------------------------- */
 
-#paginator:has(.paginator__context) .paginator__arrow {
+#paginator:has(.paginator__context) [data-scope="timeline"][data-part="arrow"] {
 	display: none;
 }
 
@@ -811,7 +811,7 @@ main > [data-scope="hero"][data-part="root"]:has([data-scope="hero"][data-part="
 	margin-bottom: 0;
 }
 
-.container-public:has(#events-browser .paginator__context) + .meta {
+.container-public:has(#events-browser .paginator__context) + [data-scope="meta"][data-part="root"] {
 	background: none;
 	display: flex;
 	flex-wrap: wrap;
@@ -823,11 +823,11 @@ main > [data-scope="hero"][data-part="root"]:has([data-scope="hero"][data-part="
 
 /* contents, not a nested flex box: core sizes this wrapper narrower than the
    two buttons, which then wrapped under each other */
-.container-public:has(#events-browser .paginator__context) + .meta .container-public {
+.container-public:has(#events-browser .paginator__context) + [data-scope="meta"][data-part="root"] .container-public {
 	display: contents;
 }
 
-.container-public:has(#events-browser .paginator__context) + .meta a {
+.container-public:has(#events-browser .paginator__context) + [data-scope="meta"][data-part="root"] a {
 	background-color: var(--color-background);
 	border: 2px solid var(--color-primary);
 	border-radius: 0.3rem;
@@ -846,22 +846,15 @@ main > [data-scope="hero"][data-part="root"]:has([data-scope="hero"][data-part="
 }
 
 @media only screen and (hover: hover) and (pointer: fine) {
-	.container-public:has(#events-browser .paginator__context) + .meta a:hover {
+	.container-public:has(#events-browser .paginator__context) + [data-scope="meta"][data-part="root"] a:hover {
 		background-color: var(--color-tertiary);
 		border-color: var(--color-foreground);
 		color: var(--color-foreground);
 	}
 }
 
-.container-public:has(#events-browser .paginator__context) + .meta a:focus-visible {
+.container-public:has(#events-browser .paginator__context) + [data-scope="meta"][data-part="root"] a:focus-visible {
 	outline: 2px solid var(--color-foreground);
 	outline-offset: 2px;
-}
-
-/* Permalink is directory-only (links to placecal.org, not this site) and has
-   no place in the design; the iCal link beside it is the only real Meta
-   content this view carries. */
-.container-public:has(#events-browser .paginator__context) + .meta .meta__permalink {
-	display: none;
 }
 

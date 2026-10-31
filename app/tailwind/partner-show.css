@@ -10,74 +10,74 @@
    The panel treatment comes from the show-page rules in the /events/:id block.
 --------------------------------------------------------------------------- */
 
-main > div:not([vocab]):has(> .container-public .partner-details) {
+main > div:not([vocab]):has(> .container-public [data-scope="partner-details"][data-part="root"]) {
 	background-color: var(--color-background);
 	border: 1px solid var(--color-primary);
 	border-radius: 0.3rem;
 	box-sizing: border-box;
 }
 
-main > div:not([vocab]):has(> .container-public .partner-details) [data-scope="hero"][data-part="kicker"] {
+main > div:not([vocab]):has(> .container-public [data-scope="partner-details"][data-part="root"]) [data-scope="hero"][data-part="kicker"] {
 	display: none;
 }
 
 /* Title ink 37px from the panel's top and bottom edges on phones, 40 from 900px, as on the event page */
-main > div:has(> .container-public .partner-details) > [data-scope="hero"][data-part="root"] [data-scope="hero"][data-part="title"] {
+main > div:has(> .container-public [data-scope="partner-details"][data-part="root"]) > [data-scope="hero"][data-part="root"] [data-scope="hero"][data-part="title"] {
 	margin-block: calc(0.875rem + 0.5px) calc(1.125rem + 0.5px);
 }
 
 @media only screen and (min-width: 900px) {
-	main > div:has(> .container-public .partner-details) > [data-scope="hero"][data-part="root"] [data-scope="hero"][data-part="title"] {
+	main > div:has(> .container-public [data-scope="partner-details"][data-part="root"]) > [data-scope="hero"][data-part="root"] [data-scope="hero"][data-part="title"] {
 		margin-block: 0.8125rem 1.25rem;
 	}
 }
 
 /* Undoes event-show.css's wider bottom padding from 1500px, which the partner title does not want */
 @media only screen and (min-width: 1500px) {
-	main > div:has(> .container-public .partner-details) > [data-scope="hero"][data-part="root"] {
+	main > div:has(> .container-public [data-scope="partner-details"][data-part="root"]) > [data-scope="hero"][data-part="root"] {
 		padding-bottom: 1rem;
 	}
 }
 
 /* The box closes 48px under its last block, map or not (live) */
-main > div > .container-public:has(> .partner-details) {
+main > div > .container-public:has(> [data-scope="partner-details"][data-part="root"]) {
 	margin-bottom: 0;
 	padding-bottom: 3rem;
 }
 
 /* Hidden breadcrumb: its margins would still open the gap above the body */
-.container-public > .breadcrumb:has(~ .partner-details) {
+.container-public > [data-scope="breadcrumb"][data-part="root"]:has(~ [data-scope="partner-details"][data-part="root"]) {
 	margin-block: 0;
 }
 
 /* Live's first description line: 22px under the panel on phones, 39 from 900px (ink) */
-.partner-details {
+[data-scope="partner-details"][data-part="root"] {
 	padding-bottom: 2rem;
 	padding-top: 1.125rem;
 }
 
 @media only screen and (min-width: 900px) {
-	.partner-details {
+	[data-scope="partner-details"][data-part="root"] {
 		padding-top: 1.875rem;
 	}
 }
 
-.partner-details > * {
+[data-scope="partner-details"][data-part="root"] > * {
 	margin: 0;
 }
 
-.partner-details .partner-details__description p {
+[data-scope="partner-details"][data-part="root"] [data-scope="partner-details"][data-part="description"] p {
 	margin-top: 0;
 }
 
-.partner-details .partner-details__description p {
+[data-scope="partner-details"][data-part="root"] [data-scope="partner-details"][data-part="description"] p {
 	font-size: 1.2rem;
 	max-width: 636px;
 	text-align: left;
 }
 
 @media only screen and (min-width: 900px) {
-	.partner-details .partner-details__description p {
+	[data-scope="partner-details"][data-part="root"] [data-scope="partner-details"][data-part="description"] p {
 		font-size: 1.825rem;
 		line-height: 1.35em;
 	}
@@ -85,25 +85,25 @@ main > div > .container-public:has(> .partner-details) {
 
 /* Get in touch and Address in the event page's format: centred plain 16px lines, no icons,
    socials as one "Facebook · Twitter · Instagram" row, directions as one row. */
-.partner-details .contact_details,
-.partner-details .place_info__service_area,
-.partner-details .place_info__address,
-.partner-details .place_info__directions-list {
+[data-scope="partner-details"][data-part="root"] [data-scope="contact-details"][data-part="root"],
+[data-scope="partner-details"][data-part="root"] [data-scope="partner-details"][data-part="service-area"],
+[data-scope="partner-details"][data-part="root"] [data-scope="address"][data-part="postal-address"],
+[data-scope="partner-details"][data-part="root"] [data-scope="address"][data-part="directions"] {
 	font-size: 1rem;
 	line-height: 1.5;
 	margin-top: 0;
 	text-align: center;
 }
 
-.partner-details .contact_details {
+[data-scope="partner-details"][data-part="root"] [data-scope="contact-details"][data-part="root"] {
 	display: block;
 }
 
-.partner-details .contact_details svg {
+[data-scope="partner-details"][data-part="root"] [data-scope="contact-details"][data-part="root"] svg {
 	display: none;
 }
 
-.partner-details .contact_details__item:not(.contact_details__item--social) a {
+[data-scope="partner-details"][data-part="root"] [data-scope="contact-details"][data-part="item"]:not([data-scope="contact-details"][data-part="item"][data-variant="social"]) a {
 	display: block;
 	margin: 0;
 	overflow-wrap: anywhere;
@@ -111,17 +111,17 @@ main > div > .container-public:has(> .partner-details) {
 }
 
 @media only screen and (hover: hover) and (pointer: fine) {
-	.partner-details .contact_details__item:not(.contact_details__item--social) a:hover {
+	[data-scope="partner-details"][data-part="root"] [data-scope="contact-details"][data-part="item"]:not([data-scope="contact-details"][data-part="item"][data-variant="social"]) a:hover {
 		text-decoration: underline;
 	}
 }
 
-.partner-details .contact_details__item--social {
+[data-scope="partner-details"][data-part="root"] [data-scope="contact-details"][data-part="item"][data-variant="social"] {
 	display: inline-block;
 	margin-top: 0.5rem;
 }
 
-.partner-details .contact_details__item--social + .contact_details__item--social::before {
+[data-scope="partner-details"][data-part="root"] [data-scope="contact-details"][data-part="item"][data-variant="social"] + [data-scope="contact-details"][data-part="item"][data-variant="social"]::before {
 	color: var(--color-primary-light);
 	content: "\00b7";
 	content: "\00b7" / "";
@@ -129,7 +129,7 @@ main > div > .container-public:has(> .partner-details) {
 	padding-inline: 0.5rem;
 }
 
-.partner-details .place_info__directions-list {
+[data-scope="partner-details"][data-part="root"] [data-scope="address"][data-part="directions"] {
 	margin-top: 0.5rem;
 }
 
@@ -139,7 +139,7 @@ main > div > .container-public:has(> .partner-details) {
    width. */
 /* From 900px the sidebar is as wide as the opening times. */
 @media only screen and (min-width: 900px) {
-	.partner-details {
+	[data-scope="partner-details"][data-part="root"] {
 		column-gap: 2.5rem;
 		grid-template-areas: "main right";
 		grid-template-columns: minmax(0, 1fr) 24rem;
@@ -147,7 +147,7 @@ main > div > .container-public:has(> .partner-details) {
 }
 
 /* The partner page's section headings: pink caps, no rule. */
-.partner-details h2.ruled-heading {
+[data-scope="partner-details"][data-part="root"] h2.ruled-heading {
 	border-bottom: 0;
 	color: var(--color-primary);
 	display: block;
@@ -163,12 +163,12 @@ main > div > .container-public:has(> .partner-details) {
 
 /* Live: a rule 32px under the description, the headings 32px under it, the lines 25px under them.
    Phones stack the two blocks 32px apart. */
-.partner-details__main > h2.ruled-heading {
+[data-scope="partner-details"][data-part="main"] > h2.ruled-heading {
 	margin-block: 2rem 1.5625rem;
 	text-align: center;
 }
 
-.partner-details__main > h2:has(+ .contact_details) {
+[data-scope="partner-details"][data-part="main"] > h2:has(+ [data-scope="contact-details"][data-part="root"]) {
 	border-top: 1px solid var(--color-primary);
 	padding-top: 2rem;
 }
@@ -176,7 +176,7 @@ main > div > .container-public:has(> .partner-details) {
 /* Side by side from 900px, heading and content matched by adjacency since core has no wrapper */
 @media only screen and (min-width: 900px) {
 	/* The flexible last row takes the contacts' extra height, so the directions sit right under the address */
-	.partner-details__main {
+	[data-scope="partner-details"][data-part="main"] {
 		align-content: start;
 		column-gap: 0;
 		display: grid;
@@ -184,55 +184,55 @@ main > div > .container-public:has(> .partner-details) {
 		grid-template-rows: repeat(6, auto) 1fr;
 	}
 
-	.partner-details__main > .partner-details__description,
-	.partner-details__main > div:not(.partner-details__description) {
+	[data-scope="partner-details"][data-part="main"] > [data-scope="partner-details"][data-part="description"],
+	[data-scope="partner-details"][data-part="main"] > div:not([data-scope="partner-details"][data-part="description"]) {
 		grid-column: 1 / -1;
 	}
 
 	/* A grid item's margin does not collapse with the paragraph's above it */
-	.partner-details__main > h2.ruled-heading {
+	[data-scope="partner-details"][data-part="main"] > h2.ruled-heading {
 		margin-top: 1rem;
 	}
 
-	.partner-details__main > h2:has(+ .place_info__service_area, + .place_info__address) {
+	[data-scope="partner-details"][data-part="main"] > h2:has(+ [data-scope="partner-details"][data-part="service-area"], + [data-scope="address"][data-part="postal-address"]) {
 		border-top: 1px solid var(--color-primary);
 		padding-top: 2rem;
 	}
 
-	.partner-details__main > h2:has(+ .contact_details) {
+	[data-scope="partner-details"][data-part="main"] > h2:has(+ [data-scope="contact-details"][data-part="root"]) {
 		grid-column: 1;
 		grid-row: 3;
 	}
 
-	.partner-details__main > .contact_details {
+	[data-scope="partner-details"][data-part="main"] > [data-scope="contact-details"][data-part="root"] {
 		grid-column: 1;
 		grid-row: 4 / span 4;
 	}
 
-	.partner-details__main > h2:has(+ .place_info__service_area, + .place_info__address) {
+	[data-scope="partner-details"][data-part="main"] > h2:has(+ [data-scope="partner-details"][data-part="service-area"], + [data-scope="address"][data-part="postal-address"]) {
 		grid-column: 2;
 		grid-row: 3;
 	}
 
 	/* Service area, address and directions stack in rows 4 to 6; a missing one leaves an empty auto row */
-	.partner-details__main > .place_info__service_area {
+	[data-scope="partner-details"][data-part="main"] > [data-scope="partner-details"][data-part="service-area"] {
 		grid-column: 2;
 		grid-row: 4;
 	}
 
-	.partner-details__main > .place_info__address {
+	[data-scope="partner-details"][data-part="main"] > [data-scope="address"][data-part="postal-address"] {
 		grid-column: 2;
 		grid-row: 5;
 	}
 
 	/* div in the selector outranks the full-width div rule above */
-	.partner-details__main > div.place_info__directions-list {
+	[data-scope="partner-details"][data-part="main"] > div[data-scope="address"][data-part="directions"] {
 		grid-column: 2;
 		grid-row: 6;
 	}
 }
 
-.partner-details .partner-details__image img {
+[data-scope="partner-details"][data-part="root"] [data-scope="partner-details"][data-part="image"] img {
 	display: block;
 	height: auto;
 	width: 100%;
@@ -240,11 +240,11 @@ main > div > .container-public:has(> .partner-details) {
 
 /* render_opening_times prints a bare <br> before its heading as a spacer;
    the heading's own margin (above) already opens that gap. */
-.partner-details__aside > br {
+[data-scope="partner-details"][data-part="aside"] > br {
 	display: none;
 }
 
-.partner-details .opening_times {
+[data-scope="partner-details"][data-part="root"] [data-scope="partner-details"][data-part="opening-times"] {
 	max-width: 24rem;
 }
 
@@ -313,13 +313,13 @@ main > div > .container-public:has(> .partner-details) {
 }
 
 /* The design's rule above the events; after the flatten rule, whose `border: 0` would wipe it */
-.partner-details + #events-browser {
+[data-scope="partner-details"][data-part="root"] + #events-browser {
 	border-top: 1px solid var(--color-primary);
 	padding-top: 2rem;
 }
 
 /* Core's day strip for busy partners; "Show N more days" does the browsing here. */
-.partner-details + #events-browser .paginator {
+[data-scope="partner-details"][data-part="root"] + #events-browser .paginator {
 	display: none;
 }
 
@@ -438,29 +438,29 @@ main > div > .container-public:has(> .partner-details) {
 }
 
 /* Partner.elm opening times: a two-column row per day, pink day labels. */
-.opening_times li {
+[data-scope="partner-details"][data-part="opening-times"] li {
 	border-bottom: 1px solid var(--color-primary);
 	display: flex;
 	justify-content: space-between;
 	padding: 0.4rem 0;
 }
 
-.partner-details .opening_times li:last-child {
+[data-scope="partner-details"][data-part="root"] [data-scope="partner-details"][data-part="opening-times"] li:last-child {
 	border-bottom: 0;
 }
 
-.opening_times--day {
+[data-scope="opening-time"][data-part="day"] {
 	color: var(--color-primary);
 	font-weight: 600;
 }
 
 /* Components::Meta is permalink-only here and the design has no place for it */
-main > div:not([vocab]):has(> .container-public .partner-details) ~ .meta {
+main > div:not([vocab]):has(> .container-public [data-scope="partner-details"][data-part="root"]) ~ [data-scope="meta"][data-part="root"] {
 	display: none;
 }
 
 /* The partner's map closes the box full width, at the event page's heights */
-main > div:has(> .container-public .partner-details) > [data-controller="leaflet"] {
+main > div:has(> .container-public [data-scope="partner-details"][data-part="root"]) > [data-controller="leaflet"] {
 	background-color: var(--color-primary);
 	border: 0;
 	border-radius: 0 0 0.3rem 0.3rem;
@@ -471,12 +471,12 @@ main > div:has(> .container-public .partner-details) > [data-controller="leaflet
 }
 
 @media only screen and (min-width: 900px) {
-	main > div:has(> .container-public .partner-details) > [data-controller="leaflet"] {
+	main > div:has(> .container-public [data-scope="partner-details"][data-part="root"]) > [data-controller="leaflet"] {
 		height: 400px;
 		min-height: 400px;
 	}
 }
 
-main:has(.partner-details) > nav.page-actions {
+main:has([data-scope="partner-details"][data-part="root"]) > nav[data-scope="page-actions"][data-part="root"] {
 	margin-top: 3rem;
 }

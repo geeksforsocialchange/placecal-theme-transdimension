@@ -409,7 +409,7 @@ textarea.join-control {
 /* Core's "rather just email?" block has no TD counterpart; it takes the plain
    dark treatment so it does not read as a second panel. Core paints it as a
    salmon card with a pill link, both of which are undone here. */
-.join-email-cta {
+[data-scope="email-cta"][data-part="root"] {
 	background: none;
 	/* plus the 1rem gap of the Stack core puts it in */
 	margin-top: 1rem;
@@ -418,18 +418,18 @@ textarea.join-control {
 }
 
 /* The Cluster inside the card */
-.join-email-cta > div {
+[data-scope="email-cta"][data-part="content"] {
 	align-items: center;
 	flex-direction: column;
 	gap: 0.25rem;
 	justify-content: center;
 }
 
-.join-email-cta__body {
+[data-scope="email-cta"][data-part="body"] {
 	color: var(--color-foreground);
 }
 
-.join-email-cta__heading {
+[data-scope="email-cta"][data-part="heading"] {
 	color: var(--color-primary);
 	font-size: 1rem;
 	font-weight: 700;
@@ -437,7 +437,7 @@ textarea.join-control {
 	text-transform: uppercase;
 }
 
-.join-email-link {
+[data-scope="email-cta"][data-part="root"] [data-scope="button"][data-part="root"] {
 	background: none;
 	border: 0;
 	box-shadow: none;
@@ -449,7 +449,7 @@ textarea.join-control {
 	text-decoration-color: var(--color-primary);
 }
 
-.join-email-link:hover {
+[data-scope="email-cta"][data-part="root"] [data-scope="button"][data-part="root"]:hover {
 	background: none;
 	color: var(--color-primary);
 }
