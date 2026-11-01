@@ -47,7 +47,7 @@ RSpec.describe 'Trans Dimension homepage', type: :request do
   it 'offers the region filter with both partnership tags' do
     get 'http://transdimension.lvh.me/'
 
-    expect(response.body).to include('region-filter')
+    expect(response.body).to include('data-scope="region-filter"')
     expect(response.body).to include('?region=london')
     expect(response.body).to include('?region=manchester')
   end
@@ -60,8 +60,8 @@ RSpec.describe 'Trans Dimension homepage', type: :request do
     frame = response.parsed_body.at_css('turbo-frame#home-events')
     expect(frame).to be_present
     expect(frame['data-turbo-action']).to eq('advance')
-    expect(frame.at_css('.region-filter')).to be_present
-    expect(response.parsed_body.at_css('header .region-filter--nav')).to be_nil
+    expect(frame.at_css('[data-scope="region-filter"]')).to be_present
+    expect(response.parsed_body.at_css('header [data-scope="region-filter"][data-variant="nav"]')).to be_nil
     expect(frame.at_css('.td-events')).to be_present
     expect(frame.at_css('.td-button-floating a')).to be_present
   end
