@@ -293,7 +293,7 @@ select {
    wrapped line of its own. Core's two-column grid renders the same thing, but
    the flex version keeps the placement independent of how wide the collapsed
    menu's content is. */
-.header.header__partner {
+[data-scope="navigation"][data-part="root"][data-scope="navigation"][data-part="root"][data-variant="site"] {
 	display: flex;
 	flex-wrap: wrap;
 	align-items: center;
@@ -304,7 +304,7 @@ select {
 	color: var(--color-foreground);
 }
 
-.header__partner .header__menu {
+[data-scope="navigation"][data-part="root"][data-variant="site"] [data-scope="navigation"][data-part="menu"] {
 	order: 1;
 	flex-basis: 100%;
 	margin: 0;
@@ -317,7 +317,7 @@ select {
    Keyed on core's theme class, not on `header__branding--<slug>`: the slug is
    an admin-editable field (production's is `trans-dimension`, the dev site's is
    `transdimension`), so a theme must not hang its markup on it. */
-.header__branding--theme-transdimension {
+[data-scope="navigation"][data-part="branding"] {
 	background-image: url("TDD_Logo_MobileHeader.svg");
 	background-repeat: no-repeat;
 	background-position: left center;
@@ -327,17 +327,17 @@ select {
 	height: 3.9rem;
 }
 
-.header__branding--theme-transdimension > svg,
-.header__branding--theme-transdimension > img {
+[data-scope="navigation"][data-part="branding"] > svg,
+[data-scope="navigation"][data-part="branding"] > img {
 	display: none;
 }
 
-.header__partner .header__toggle {
+[data-scope="navigation"][data-part="root"][data-variant="site"] [data-scope="navigation"][data-part="toggle"] {
 	margin: 2rem 1rem;
 	color: var(--color-foreground);
 }
 
-.header__partner .header__menu li {
+[data-scope="navigation"][data-part="root"][data-variant="site"] [data-scope="navigation"][data-part="menu"] li {
 	background-color: var(--color-primary);
 	padding: 1rem;
 	margin: 0.1rem 0;
@@ -345,7 +345,7 @@ select {
 	text-align: center;
 }
 
-.header__partner .header__menu a {
+[data-scope="navigation"][data-part="root"][data-variant="site"] [data-scope="navigation"][data-part="menu"] a {
 	color: var(--color-background);
 	font-weight: 600;
 	font-size: 1.2rem;
@@ -362,18 +362,18 @@ select {
 /* Core draws the current-page marker with an ::after bar of its own width; TD
    underlines the link itself, so the bar goes and the border does the work.
    Core marks the current link with aria-current, not a class. */
-.header__partner .header__menu a::after {
+[data-scope="navigation"][data-part="root"][data-variant="site"] [data-scope="navigation"][data-part="menu"] a::after {
 	display: none;
 }
 
 /* The current-page rule is a desktop thing: live's phone menu has none. */
 @media only screen and (min-width: 600px) {
-	.header__partner .header__menu a[aria-current] {
+	[data-scope="navigation"][data-part="root"][data-variant="site"] [data-scope="navigation"][data-part="menu"] a[aria-current] {
 		border-bottom-color: var(--color-background);
 	}
 
 	/* PageHeader.elm shows no current-page rule on the homepage. */
-	.header__partner .header__menu a[aria-current][href="/"] {
+	[data-scope="navigation"][data-part="root"][data-variant="site"] [data-scope="navigation"][data-part="menu"] a[aria-current][href="/"] {
 		border-bottom-color: transparent;
 	}
 }
@@ -382,28 +382,28 @@ select {
    gives the list a purple backdrop and a 3px gap of its own), and Donate as a
    full-width white row rather than a button inside a pink one. */
 @media only screen and (max-width: 599px) {
-	.header__partner .header__menu {
+	[data-scope="navigation"][data-part="root"][data-variant="site"] [data-scope="navigation"][data-part="menu"] {
 		background-color: var(--color-background);
 		gap: 0;
 	}
 
 	/* Current page: the row inverts, like a selected day or region pill */
-	.header__partner .header__menu li:has(> a[aria-current]) {
+	[data-scope="navigation"][data-part="root"][data-variant="site"] [data-scope="navigation"][data-part="menu"] li:has(> a[aria-current]) {
 		background-color: var(--color-background);
 	}
 
-	.header__partner .header__menu a[aria-current] {
+	[data-scope="navigation"][data-part="root"][data-variant="site"] [data-scope="navigation"][data-part="menu"] a[aria-current] {
 		/* the pink border every link carries would show on the dark row */
 		border-bottom-color: transparent;
 		color: var(--color-primary);
 	}
 
-	.header__partner .header__menu .header__cta {
+	[data-scope="navigation"][data-part="root"][data-variant="site"] [data-scope="navigation"][data-part="menu"] [data-scope="navigation"][data-part="cta"] {
 		padding: 0;
 	}
 
-	/* the extra class outranks the desktop button rule further down the file */
-	.header__partner .header__menu .header__cta .header__cta-link {
+	/* the li outranks the desktop button rule further down the file */
+	[data-scope="navigation"][data-part="root"][data-variant="site"] [data-scope="navigation"][data-part="menu"] li[data-scope="navigation"][data-part="cta"] [data-scope="button"][data-part="root"] {
 		border: 0;
 		border-radius: 0;
 		display: block;
@@ -414,24 +414,24 @@ select {
 }
 
 @media only screen and (hover: hover) and (pointer: fine) {
-	.header__partner .header__menu a:hover {
+	[data-scope="navigation"][data-part="root"][data-variant="site"] [data-scope="navigation"][data-part="menu"] a:hover {
 		color: var(--color-foreground);
 	}
 }
 
 @media only screen and (min-width: 600px) {
 	/* PageHeader.elm titleBarStyle and menuButtonStyle: display none */
-	.header__branding--theme-transdimension,
-	.header__partner .header__toggle {
+	[data-scope="navigation"][data-part="branding"],
+	[data-scope="navigation"][data-part="root"][data-variant="site"] [data-scope="navigation"][data-part="toggle"] {
 		display: none;
 	}
 
-	.header.header__partner {
+	[data-scope="navigation"][data-part="root"][data-scope="navigation"][data-part="root"][data-variant="site"] {
 		display: block;
 		padding-bottom: 1rem;
 	}
 
-	.header__partner .header__menu {
+	[data-scope="navigation"][data-part="root"][data-variant="site"] [data-scope="navigation"][data-part="menu"] {
 		background-color: var(--color-primary);
 		display: flex;
 		flex-direction: row;
@@ -452,7 +452,7 @@ select {
 	   rem-1 vertical padding Global.elm's spec implies: halving it to 8px
 	   is what actually lands the bar at that height once the link's own
 	   line-height and current-page border are added in. */
-	.header__partner .header__menu li {
+	[data-scope="navigation"][data-part="root"][data-variant="site"] [data-scope="navigation"][data-part="menu"] li {
 		padding: 8px 12px;
 		margin: 0;
 		align-self: center;
@@ -460,14 +460,14 @@ select {
 		font-size: 1.2rem;
 	}
 
-	.header__partner .header__menu a {
+	[data-scope="navigation"][data-part="root"][data-variant="site"] [data-scope="navigation"][data-part="menu"] a {
 		line-height: 1.5;
 		padding-bottom: 0;
 	}
 }
 
 @media only screen and (min-width: 600px) and (hover: hover) and (pointer: fine) {
-	.header__partner .header__menu a:hover {
+	[data-scope="navigation"][data-part="root"][data-variant="site"] [data-scope="navigation"][data-part="menu"] a:hover {
 		border-bottom-color: var(--color-background);
 		color: var(--color-foreground);
 	}
@@ -495,7 +495,7 @@ select {
    0.3rem radius, white fill, dark blue text) at the end of the nav, hovering
    to dark blue fill / white text; the mobile toggle shows "Menu" next to a
    pink "+". */
-.header__partner .header__menu .header__cta-link {
+[data-scope="navigation"][data-part="root"][data-variant="site"] [data-scope="navigation"][data-part="menu"] [data-scope="navigation"][data-part="cta"] [data-scope="button"][data-part="root"] {
 	background-color: #fff;
 	border: 2px solid #fff;
 	border-radius: 0.3rem;
@@ -511,25 +511,25 @@ select {
 }
 
 @media only screen and (hover: hover) and (pointer: fine) {
-	.header__partner .header__menu .header__cta-link:hover {
+	[data-scope="navigation"][data-part="root"][data-variant="site"] [data-scope="navigation"][data-part="menu"] [data-scope="navigation"][data-part="cta"] [data-scope="button"][data-part="root"]:hover {
 		background-color: var(--color-home-background);
 		border-color: var(--color-home-background);
 		color: #fff;
 	}
 }
 
-.header__partner .header__toggle-label {
+[data-scope="navigation"][data-part="root"][data-variant="site"] [data-scope="navigation"][data-part="toggle-label"] {
 	color: #fff;
 	font-size: 1rem;
 	font-weight: 400;
 }
 
 /* PageHeader.elm buttonCrossStyle: a thin pink "+" in place of core's hamburger */
-.header__partner .header__toggle svg {
+[data-scope="navigation"][data-part="root"][data-variant="site"] [data-scope="navigation"][data-part="toggle"] svg {
 	display: none;
 }
 
-.header__partner .header__toggle::after {
+[data-scope="navigation"][data-part="root"][data-variant="site"] [data-scope="navigation"][data-part="toggle"]::after {
 	color: var(--color-primary);
 	content: "+";
 	display: block;
@@ -542,7 +542,7 @@ select {
 /* PageHeader.elm: Donate sits at the far right of the nav bar, from the width
    at which the nav goes horizontal (600px, above). */
 @media only screen and (min-width: 600px) {
-	.header__partner .header__menu .header__cta {
+	[data-scope="navigation"][data-part="root"][data-variant="site"] [data-scope="navigation"][data-part="menu"] [data-scope="navigation"][data-part="cta"] {
 		margin-left: auto;
 	}
 }
