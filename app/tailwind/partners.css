@@ -47,19 +47,6 @@
 	}
 }
 
-/* "All partners" is cut from the picture like the page titles, kept for assistive tech. */
-[data-scope="partner-index"][data-part="root"] [data-scope="partner-index"][data-part="list-heading"] {
-	border: 0;
-	clip-path: inset(50%);
-	height: 1px;
-	margin: 0;
-	overflow: hidden;
-	padding: 0;
-	position: absolute;
-	white-space: nowrap;
-	width: 1px;
-}
-
 [data-scope="partner-index"][data-part="root"] .container-public > ul[data-scope="partner-index"][data-part="list"],
 [data-scope="partner-index"][data-part="root"] .container-public > [data-scope="partner-index"][data-part="empty"] {
 	order: 3;

@@ -213,19 +213,6 @@ main > div > .container-public:has(> [data-scope="partner-details"][data-part="r
 	grid-column: 1 / -1;
 }
 
-/* Design §5: one continuous list with no day headings; they stay as group labels for assistive tech */
-[data-scope="partner-details"][data-part="events-browser"] > [data-scope="ruled-heading"][data-part="root"] {
-	border: 0;
-	clip-path: inset(50%);
-	height: 1px;
-	margin: 0;
-	overflow: hidden;
-	padding: 0;
-	position: absolute;
-	white-space: nowrap;
-	width: 1px;
-}
-
 /* The design's rule above the events; after the flatten rule, whose `border: 0` would wipe it */
 [data-scope="partner-details"][data-part="root"] + [data-scope="partner-details"][data-part="events-browser"] {
 	border-top: 1px solid var(--color-primary);
@@ -261,18 +248,6 @@ main > div > .container-public:has(> [data-scope="partner-details"][data-part="r
 	[data-scope="partner-details"][data-part="events-browser"] > [data-scope="partner-details"][data-part="events-header"] {
 		margin-bottom: -1rem;
 	}
-}
-
-[data-scope="partner-details"][data-part="events-heading"] {
-	border: 0;
-	clip-path: inset(50%);
-	height: 1px;
-	margin: 0;
-	overflow: hidden;
-	padding: 0;
-	position: absolute;
-	white-space: nowrap;
-	width: 1px;
 }
 
 [data-scope="partner-details"][data-part="events-count"] {

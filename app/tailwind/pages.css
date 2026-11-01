@@ -116,9 +116,14 @@ main > .container-public {
 	width: 1px;
 }
 
-/* The listing title ("Events", "Partners", "News") is cut from the picture but
-   kept as the h1; only listing heroes carry a standfirst, so show pages keep theirs. */
-main > [data-scope="hero"][data-part="root"]:has([data-scope="hero"][data-part="standfirst"]) [data-scope="hero"][data-part="title"] {
+/* Cut from the picture but kept for assistive tech: the listing pages' h1
+   (only a listing hero has a standfirst), "All partners", the events'
+   day headings (every card carries its date) and the partner events heading. */
+main > [data-scope="hero"][data-part="root"]:has([data-scope="hero"][data-part="standfirst"]) [data-scope="hero"][data-part="title"],
+[data-scope="partner-index"][data-part="root"] [data-scope="partner-index"][data-part="list-heading"],
+[data-scope="event-index"][data-part="browser"] > [data-scope="ruled-heading"][data-part="root"],
+[data-scope="partner-details"][data-part="events-browser"] > [data-scope="ruled-heading"][data-part="root"],
+[data-scope="partner-details"][data-part="events-heading"] {
 	border: 0;
 	clip-path: inset(50%);
 	height: 1px;

@@ -52,19 +52,6 @@
 	display: contents;
 }
 
-/* The day headings stay as group labels for assistive tech; every card carries its date */
-[data-scope="event-index"][data-part="browser"] > [data-scope="ruled-heading"][data-part="root"] {
-	border: 0;
-	clip-path: inset(50%);
-	height: 1px;
-	margin: 0;
-	overflow: hidden;
-	padding: 0;
-	position: absolute;
-	white-space: nowrap;
-	width: 1px;
-}
-
 [data-scope="event-index"][data-part="browser"] hr {
 	border: 0;
 	border-top: 1px solid var(--color-primary);
