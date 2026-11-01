@@ -505,7 +505,25 @@ main > [data-scope="hero"][data-part="root"]:has([data-scope="hero"][data-part="
 	padding-inline: 0.5rem;
 }
 
-[data-scope="map"][data-part="root"][data-variant="single"],
+/* Event.elm and Partner.elm close the content box with a full-bleed map. The
+   ground is the map style's pink, so the block keeps its colour while tiles load. */
+[data-scope="map"][data-part="root"] {
+	background-color: var(--color-primary);
+	border-radius: 0 0 0.3rem 0.3rem;
+	box-shadow: none;
+	box-sizing: border-box;
+	height: 318px;
+	min-height: 318px;
+	overflow: hidden;
+}
+
+@media only screen and (min-width: 900px) {
+	[data-scope="map"][data-part="root"] {
+		height: 400px;
+		min-height: 400px;
+	}
+}
+
 [data-scope="partner-details"][data-part="image"] img {
 	border-radius: 0.3rem;
 }

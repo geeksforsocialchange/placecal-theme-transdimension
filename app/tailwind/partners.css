@@ -503,26 +503,18 @@
 --------------------------------------------------------------------------- */
 [data-scope="partner-index"][data-part="root"] > [data-scope="partner-index"][data-part="map"] {
 	margin: 40px 0 0;
-	margin-inline: 0;
 	padding-inline: 0;
 }
 
-/* Core's multiple-point map draws a 10px stripe plus a 10px box-shadow above the map;
-   one 1px pink rule replaces both. The ground is the style's pink while tiles load. */
-[data-scope="partner-index"][data-part="root"] > [data-scope="partner-index"][data-part="map"] > [data-controller="leaflet"] {
-	background-color: var(--color-primary);
-	border-radius: 0 0 0.3rem 0.3rem;
+/* A 1px pink rule above the map; 1.5x the phone height from 600px */
+[data-scope="partner-index"][data-part="root"] > [data-scope="partner-index"][data-part="map"] > [data-scope="map"][data-part="root"] {
 	border-top: 1px solid var(--color-primary);
-	box-shadow: none;
-	box-sizing: border-box;
 	height: 330px;
 	min-height: 330px;
-	overflow: hidden;
 }
 
-/* 1.5x the phone height from 600px. */
 @media only screen and (min-width: 600px) {
-	[data-scope="partner-index"][data-part="root"] > [data-scope="partner-index"][data-part="map"] > [data-controller="leaflet"] {
+	[data-scope="partner-index"][data-part="root"] > [data-scope="partner-index"][data-part="map"] > [data-scope="map"][data-part="root"] {
 		height: 495px;
 		min-height: 495px;
 	}

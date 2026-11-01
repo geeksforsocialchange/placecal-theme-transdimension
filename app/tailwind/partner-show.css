@@ -378,22 +378,9 @@ main > div:has(> .container-public [data-scope="partner-details"][data-part="roo
 	display: none;
 }
 
-/* The partner's map closes the box full width, at the event page's heights */
-main > div:has(> .container-public [data-scope="partner-details"][data-part="root"]) > [data-controller="leaflet"] {
-	background-color: var(--color-primary);
+/* The box's own border runs round the map, so core's single-map border goes */
+main > div:has(> .container-public [data-scope="partner-details"][data-part="root"]) > [data-scope="map"][data-part="root"] {
 	border: 0;
-	border-radius: 0 0 0.3rem 0.3rem;
-	box-shadow: none;
-	height: 318px;
-	min-height: 318px;
-	overflow: hidden;
-}
-
-@media only screen and (min-width: 900px) {
-	main > div:has(> .container-public [data-scope="partner-details"][data-part="root"]) > [data-controller="leaflet"] {
-		height: 400px;
-		min-height: 400px;
-	}
 }
 
 main:has([data-scope="partner-details"][data-part="root"]) > nav[data-scope="page-actions"][data-part="root"] {

@@ -26,36 +26,10 @@
 	padding-top: 2.375rem;
 }
 
-/* Event.elm ends the content box with a full-bleed map, 330px tall. Core
-   renders it as a bare sibling of the info block, so it takes the bottom of
-   the box. The background is the map's own pink ground showing through
-   until the tiles arrive. Core's Map component only offers 330px (compact)
-   or 500px; the local event page always renders the 500px variant, so the
-   height is retaken here instead (unlayered CSS beats the Tailwind utility
-   class regardless of source order). */
-main > [data-controller="leaflet"] {
-	/* WP 2.14: the ground the map style paints (map-styles/transdimension.json
-	   background), so the block does not change colour when the tiles land. */
-	background-color: var(--color-primary);
+/* The map continues the box's side borders */
+main > [data-scope="map"][data-part="root"] {
 	border: 1px solid var(--color-primary);
-	border-radius: 0 0 0.3rem 0.3rem;
 	border-top: 0;
-	box-sizing: border-box;
-	/* Core's multiple-point map draws a two-tone decorative stripe above the map
-	   (a 10px border plus a box-shadow of the same height). TD's map meets the
-	   foot of the content box directly, so both go. */
-	box-shadow: none;
-	height: 318px;
-	min-height: 318px;
-	overflow: hidden;
-}
-
-/* Live's static map image: 318px tall below 900px, 400px from 900px. */
-@media only screen and (min-width: 900px) {
-	main > [data-controller="leaflet"] {
-		height: 400px;
-		min-height: 400px;
-	}
 }
 
 /* The page actions row under the map, or under the info columns when there is none */
