@@ -249,7 +249,7 @@ hr {
    wrapped line of its own. Core's two-column grid renders the same thing, but
    the flex version keeps the placement independent of how wide the collapsed
    menu's content is. */
-[data-scope="navigation"][data-part="root"][data-scope="navigation"][data-part="root"][data-variant="site"] {
+[data-scope="navigation"][data-part="root"][data-variant="site"] {
 	display: flex;
 	flex-wrap: wrap;
 	align-items: center;
@@ -268,11 +268,8 @@ hr {
 	gap: 0.2rem;
 }
 
-/* The branding link inlines core's PlaceCal SVG (or a site logo upload), so the
-   TD wordmark goes on as a background and the inlined mark is hidden.
-   Keyed on core's theme class, not on `header__branding--<slug>`: the slug is
-   an admin-editable field (production's is `trans-dimension`, the dev site's is
-   `transdimension`), so a theme must not hang its markup on it. */
+/* The branding link inlines core's PlaceCal mark (or a site logo upload), so the
+   TD wordmark goes on as a background and the inlined mark is hidden. */
 [data-scope="navigation"][data-part="branding"] {
 	background-image: url("TDD_Logo_MobileHeader.svg");
 	background-repeat: no-repeat;
@@ -382,7 +379,7 @@ hr {
 		display: none;
 	}
 
-	[data-scope="navigation"][data-part="root"][data-scope="navigation"][data-part="root"][data-variant="site"] {
+	[data-scope="navigation"][data-part="root"][data-variant="site"] {
 		display: block;
 		padding-bottom: 1rem;
 	}
@@ -455,7 +452,7 @@ hr {
 	background-color: #fff;
 	border: 2px solid #fff;
 	border-radius: 0.3rem;
-	color: var(--color-home-background);
+	color: var(--color-background);
 	font-weight: 700;
 	margin-left: auto;
 	padding: 0.375rem 1.25rem 0.5rem;
@@ -468,8 +465,8 @@ hr {
 
 @media only screen and (hover: hover) and (pointer: fine) {
 	[data-scope="navigation"][data-part="root"][data-variant="site"] [data-scope="navigation"][data-part="menu"] [data-scope="navigation"][data-part="cta"] [data-scope="button"][data-part="root"]:hover {
-		background-color: var(--color-home-background);
-		border-color: var(--color-home-background);
+		background-color: var(--color-background);
+		border-color: var(--color-background);
 		color: #fff;
 	}
 }

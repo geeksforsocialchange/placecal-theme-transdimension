@@ -1,15 +1,5 @@
-/* /events/:id: Views::Events::Show
-   Event.elm: name panel, date/time/organiser stack, description, the two
-   info columns and the full-bleed map. Split out of pages.css (WP 3.19).
-   Final design (design_handoff_td_placecal_theme README §3, WP 3.20). */
-
-/* ---------------------------------------------------------------------------
-   /events/:id: Views::Events::Show
-   Event.elm: the event name sits in a pink panel at the top of the content
-   box, with the date, times, organiser, the description and the two info
-   columns below it. Core splits the page across the event's page variant and
-   the event-details block, so the box is drawn as two halves that meet with no gap.
---------------------------------------------------------------------------- */
+/* /events/:id, Event.elm. Core splits the content box between the event's page
+   variant and the event-details block, so it is drawn as two halves that meet. */
 
 [data-scope="event"][data-variant="page"] {
 	background-color: var(--color-background);
@@ -34,49 +24,13 @@
 	padding-top: 2.375rem;
 }
 
-/* Core's spacer after the description; the gaps here are set explicitly. */
-[data-scope="event-details"][data-part="description"] > br {
-	display: none;
-}
-
-/* Event.elm ends the content box with a full-bleed map, 330px tall. Core
-   renders it as a bare sibling of the info block, so it takes the bottom of
-   the box. The background is the map's own pink ground showing through
-   until the tiles arrive. Core's Map component only offers 330px (compact)
-   or 500px; the local event page always renders the 500px variant, so the
-   height is retaken here instead (unlayered CSS beats the Tailwind utility
-   class regardless of source order). */
-main > [data-controller="leaflet"] {
-	/* WP 2.14: the ground the map style paints (map-styles/transdimension.json
-	   background), so the block does not change colour when the tiles land. */
-	background-color: var(--color-primary);
+/* The map continues the box's side borders */
+main > [data-scope="map"][data-part="root"] {
 	border: 1px solid var(--color-primary);
-	border-radius: 0 0 0.3rem 0.3rem;
 	border-top: 0;
-	box-sizing: border-box;
-	/* Core's multiple-point map draws a two-tone decorative stripe above the map
-	   (a 10px border plus a box-shadow of the same height). TD's map meets the
-	   foot of the content box directly, so both go. */
-	box-shadow: none;
-	height: 318px;
-	min-height: 318px;
-	overflow: hidden;
 }
 
-/* Live's static map image: 318px tall below 900px, 400px from 900px. */
-@media only screen and (min-width: 900px) {
-	main > [data-controller="leaflet"] {
-		height: 400px;
-		min-height: 400px;
-	}
-}
-
-/* Components::PageActions (#3368): "Partner's events" / "Add to calendar" /
-   "Go back" below the full-bleed map (or, for an online event with no map,
-   straight after the two info columns). Styled by pages.css; only the
-   per-page top offset lives here. Scoped through `main` (both this page and
-   the partner show page below share the same hero ancestry, so a bare
-   nav[data-scope="page-actions"][data-part="root"] selector would leak across routes). */
+/* The page actions row under the map, or under the info columns when there is none */
 main:has([data-scope="event"][data-variant="page"]) > nav[data-scope="page-actions"][data-part="root"] {
 	margin-top: 3rem;
 }
@@ -207,35 +161,6 @@ main > div:not([vocab]) > [data-scope="hero"][data-part="root"] [data-scope="her
 [data-scope="event"][data-variant="page"] [data-scope="event"][data-part="detail"][data-variant="organiser"],
 [data-scope="event"][data-variant="page"] [data-scope="event"][data-part="detail"][data-variant="neighbourhood"],
 [data-scope="event"][data-variant="page"] [data-scope="event"][data-part="detail"][data-variant="duration"] {
-	display: none;
-}
-
-/* Event.elm, Partner.elm, NewsItem.elm: the section name sits on the
-   starfield above the title panel, in the page-title type. Shared with the
-   partner show page (non-vocab wrapper) and, via the vocab variant, the
-   article show page. */
-main > div:not([vocab]) > [data-scope="hero"][data-part="root"],
-main > div[vocab] > [data-scope="hero"][data-part="root"] {
-	position: relative;
-}
-
-main > div:not([vocab]) > [data-scope="hero"][data-part="root"] [data-scope="hero"][data-part="kicker"],
-main > div[vocab] > [data-scope="hero"][data-part="root"] [data-scope="hero"][data-part="kicker"] {
-	color: var(--color-foreground);
-	font-size: 3rem;
-	font-style: italic;
-	font-weight: 500;
-	left: 0;
-	line-height: 1.2;
-	margin: 0;
-	position: absolute;
-	right: 0;
-	text-align: center;
-	top: -4.6rem;
-}
-
-/* No starfield section name on the event page (README §3). */
-[data-scope="event"][data-variant="page"] [data-scope="hero"][data-part="kicker"] {
 	display: none;
 }
 
@@ -406,14 +331,8 @@ main > div[vocab] > [data-scope="hero"][data-part="root"] [data-scope="hero"][da
 	}
 }
 
-/* Event.elm: the two columns' content is centred (Final.jsx.txt EventF wraps
-   the whole box in textAlign: center and never overrides it here, unlike the
-   partner page's left-aligned equivalent), so it reads as a stack under each
-   FloatingTitle rather than a left-aligned block. */
-[data-scope="event-details"][data-part="section-body"],
-[data-scope="event-details"][data-part="root"] [data-scope="contact-details"][data-part="root"],
-[data-scope="event-details"][data-part="root"] [data-scope="address"][data-part="postal-address"],
-[data-scope="event-details"][data-part="root"] [data-scope="address"][data-part="directions"] {
+/* Event.elm: each column's content is a centred stack under its heading. */
+[data-scope="event-details"][data-part="section-body"] {
 	font-size: 1rem;
 	text-align: center;
 }
@@ -456,23 +375,6 @@ main > div[vocab] > [data-scope="hero"][data-part="root"] [data-scope="hero"][da
 	text-align: center;
 }
 
-/* Components::ContactDetails (the sites variant) prints one <p class="contact_
-   details"> holding an icon then a link, run on with no row wrapper, per
-   contact method. Final.jsx.txt EventF's column is plain stacked divs with
-   no icons at all; a block display on the icon-less links reproduces that
-   stack from core's flat markup without a wrapper element per row. */
-[data-scope="event-details"][data-part="root"] [data-scope="contact-details"][data-part="root"] {
-	display: block;
-}
-
-[data-scope="event-details"][data-part="root"] [data-scope="contact-details"][data-part="root"] svg {
-	display: none;
-}
-
-[data-scope="event-details"][data-part="root"] [data-scope="contact-details"][data-part="root"] {
-	line-height: 1.5;
-}
-
 /* The organiser's name heads the column, in the same plain line as the rest */
 [data-scope="event-details"][data-part="contact-name"] {
 	margin: 0;
@@ -486,39 +388,6 @@ main > div[vocab] > [data-scope="hero"][data-part="root"] [data-scope="hero"][da
 
 [data-scope="event-details"][data-part="contact-name"] a:hover {
 	text-decoration: underline;
-}
-
-[data-scope="event-details"][data-part="root"] [data-scope="contact-details"][data-part="item"]:not([data-scope="contact-details"][data-part="item"][data-variant="social"]) a {
-	display: block;
-	margin: 0;
-	overflow-wrap: anywhere;
-	text-decoration: none;
-}
-
-@media only screen and (hover: hover) and (pointer: fine) {
-	[data-scope="event-details"][data-part="root"] [data-scope="contact-details"][data-part="item"]:not([data-scope="contact-details"][data-part="item"][data-variant="social"]) a:hover {
-		text-decoration: underline;
-	}
-}
-
-/* Option B: the social networks run on as one row of names under the lines. */
-[data-scope="event-details"][data-part="root"] [data-scope="contact-details"][data-part="item"][data-variant="social"] {
-	display: inline-block;
-	margin-top: 0.5rem;
-}
-
-[data-scope="event-details"][data-part="root"] [data-scope="contact-details"][data-part="item"][data-variant="social"] + [data-scope="contact-details"][data-part="item"][data-variant="social"]::before {
-	color: var(--color-primary-light);
-	content: "\00b7";
-	content: "\00b7" / "";
-	display: inline-block;
-	padding-inline: 0.5rem;
-}
-
-/* The address block sits under a kicker of its own and takes the same rhythm
-   as a contact row, so the two columns read as one pair. */
-[data-scope="event-details"][data-part="root"] [data-scope="address"][data-part="postal-address"] {
-	line-height: 1.5;
 }
 
 /* The "More from {organiser}" section is cut from TD's event page. */

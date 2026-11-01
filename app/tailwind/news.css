@@ -12,11 +12,16 @@
 	max-width: 800px;
 }
 
+/* NewsCard: the image in its own left column, the rest stacked beside it. Core's
+   aside, main and content wrappers go display: contents so the grid places every part. */
 [data-scope="news-index"][data-part="card"] {
 	background-color: var(--color-background);
 	border: 1px solid var(--color-primary);
 	border-radius: 0.3rem;
 	box-sizing: border-box;
+	column-gap: 2rem;
+	display: grid;
+	grid-template-columns: minmax(0, 1fr);
 	margin: 44px 0 56px;
 	padding: 1.25rem 1.25rem 2.5rem;
 	position: relative;
@@ -28,28 +33,25 @@
 	}
 }
 
-/* NewsCard: the image is a column of its own on the left with the title, meta
-   line, summary and button stacked beside it. Core nests those in
-   [data-scope="news-index"][data-part="aside"] / [data-scope="news-index"][data-part="main"] / [data-scope="news-index"][data-part="content"], so the wrappers go
-   display:contents and the card places every part itself. */
 [data-scope="news-index"][data-part="aside"],
 [data-scope="news-index"][data-part="main"],
 [data-scope="news-index"][data-part="content"] {
 	display: contents;
 }
 
-[data-scope="news-index"][data-part="card"] {
-	column-gap: 2rem;
-	display: grid;
-	grid-template-columns: minmax(0, 1fr);
-}
-
 [data-scope="news-index"][data-part="image"] {
 	grid-row: 1;
 }
 
+/* NewsCard title: 1.5rem italic 500, pink underline on the link. */
 [data-scope="news-index"][data-part="title"] {
+	font-size: 1.5rem;
+	font-style: italic;
+	font-weight: 500;
 	grid-row: 2;
+	line-height: 1.3em;
+	margin: 0;
+	text-align: center;
 }
 
 [data-scope="news-index"][data-part="partners"] {
@@ -92,6 +94,10 @@
 	[data-scope="news-index"][data-part="image"] {
 		grid-column: 1;
 		grid-row: 1 / span 6;
+	}
+
+	[data-scope="news-index"][data-part="title"] {
+		text-align: left;
 	}
 
 	[data-scope="news-index"][data-part="title"],
@@ -137,22 +143,6 @@
 @media only screen and (min-width: 600px) {
 	[data-scope="news-index"][data-part="published"],
 	[data-scope="news-index"][data-part="partners"] {
-		text-align: left;
-	}
-}
-
-/* NewsCard title: 1.5rem italic 500, pink underline on the link. */
-[data-scope="news-index"][data-part="title"] {
-	font-size: 1.5rem;
-	font-style: italic;
-	font-weight: 500;
-	line-height: 1.3em;
-	margin: 0;
-	text-align: center;
-}
-
-@media only screen and (min-width: 600px) {
-	[data-scope="news-index"][data-part="title"] {
 		text-align: left;
 	}
 }
@@ -239,12 +229,7 @@
 	}
 }
 
-/* "Recent news" / "Older news": core renders both ([data-scope="news-index"][data-part="pagination"],
-   news.index.newer / news.index.older); render_newer_link only appears once
-   you've paged past the first page, render_older_link only while a next page
-   exists, and core prints newer before older, matching NewsF's button order.
-   Styled as .td-btn--dark (pages.css "Shared button contract"): dark fill,
-   2px pink border, white text, 0.3rem radius, 600 weight, 1rem gap. */
+/* "Recent news" / "Older news" as dark buttons, 1rem apart (NewsF). */
 [data-scope="news-index"][data-part="pagination"] {
 	display: flex;
 	flex-wrap: wrap;

@@ -1,17 +1,7 @@
-/* /partners: Views::Partners::Index
-   Final design (design/final-port): the region pills, a row of Type and
-   search, a two-column PartnerPreview list, and a
-   full-bleed map closing the box. Split out of pages.css (WP 3.19), rewritten
-   for the Final handoff (README §4 "4 Partners index"). */
+/* /partners, Final design README §4: the region pills, a row of Type and
+   search, a two-column partner list, and a full-bleed map closing the box. */
 
-/* ---------------------------------------------------------------------------
-   Layout order
-   Core's view (Views::Partners::Index) renders, in this order: the
-   `[data-scope="partner-index"][data-part="list-heading"]` h2, Components::Breadcrumb (region pills + the category /
-   neighbourhood filter form), an `hr`, then `ul[data-scope="partner-index"][data-part="list"]`. The heading is
-   hidden visually (below), so `.container-public` becomes a flex column with
-   the filters 40px above the list (32px on phones).
---------------------------------------------------------------------------- */
+/* A flex column, so `order` can put the filters 40px above the list (32px on phones) */
 [data-scope="partner-index"][data-part="root"] .container-public {
 	display: flex;
 	flex-direction: column;
@@ -57,19 +47,6 @@
 	}
 }
 
-/* "All partners" is cut from the picture like the page titles, kept for assistive tech. */
-[data-scope="partner-index"][data-part="root"] [data-scope="partner-index"][data-part="list-heading"] {
-	border: 0;
-	clip-path: inset(50%);
-	height: 1px;
-	margin: 0;
-	overflow: hidden;
-	padding: 0;
-	position: absolute;
-	white-space: nowrap;
-	width: 1px;
-}
-
 [data-scope="partner-index"][data-part="root"] .container-public > ul[data-scope="partner-index"][data-part="list"],
 [data-scope="partner-index"][data-part="root"] .container-public > [data-scope="partner-index"][data-part="empty"] {
 	order: 3;
@@ -89,18 +66,8 @@
 	display: none;
 }
 
-/* ---------------------------------------------------------------------------
-   Filter rows (Final.jsx FilterRow / Select.jsx / SearchInput.jsx), per
-   review: the region pills, then "TYPE [Show all v] ... [search]". Core renders the
-   neighbourhood/category filters as Components::Filter: a toggle button
-   whose children are the triangle svg, `span[data-scope="filter"][data-part="toggle-label"]` (the
-   idle "Location"/"Type" caption from overrides.en.yml) and
-   `span[data-scope="filter"][data-part="toggle-value"]` ("Show all", or the selected item once
-   chosen). The label reads as plain allcaps text beside the control
-   (Select.jsx's outer <span>); the value reads as the select itself (dark
-   fill, 2px pink border, pink 600 text, 0.3rem radius) with core's chevron
-   repositioned on top of it, pink.
---------------------------------------------------------------------------- */
+/* Filter rows (Final.jsx FilterRow): the region pills, then "TYPE [Show all v] ... [search]",
+   each toggle's label as plain caps and its value as the select, core's chevron on top. */
 /* The region pills sit outside the form, so the form and its controls row are
    flattened to lay out the pills, selects and search in one flex box. */
 [data-scope="partner-index"][data-part="root"] [data-scope="partner-filter"][data-part="root"] {
@@ -128,21 +95,6 @@
 	flex-basis: 100%;
 	margin: 0;
 	max-width: none;
-}
-
-/* pages.css scopes its phone pill rules and the 1.3 line to `.paginator`, which
-   this page lacks; repeated here so the pills match the events index. */
-@media only screen and (max-width: 599px) {
-	[data-scope="partner-index"][data-part="root"] [data-scope="region-filter"][data-part="root"] li {
-		flex: 1 1 0;
-		margin: 0;
-		min-width: 0;
-	}
-
-	[data-scope="partner-index"][data-part="root"] [data-scope="region-filter"][data-part="root"] ul {
-		gap: 0.5rem;
-		width: 100%;
-	}
 }
 
 @media only screen and (max-width: 899px) {
@@ -358,9 +310,8 @@
 	outline-offset: 2px;
 }
 
-/* Popover, not inline block: the closest a Stimulus toggle + list gets to a
-   native select's dropdown. Only the JS-driven `--hidden` class controls
-   visibility, so this is layout-only and does not touch behaviour. */
+/* Popover, not inline block: the closest a toggle and list get to a native
+   select's dropdown. Layout only; core's state attribute still hides it. */
 [data-scope="partner-index"][data-part="root"] [data-scope="filter"][data-part="dropdown"] {
 	background-color: var(--color-background);
 	border: 1px solid var(--color-primary);
@@ -404,6 +355,7 @@
 --------------------------------------------------------------------------- */
 /* Card rows 32px apart on phones and 40px from 600px, the events index gaps. */
 [data-scope="partner-index"][data-part="list"] {
+	align-items: start;
 	display: grid;
 	gap: 32px 2rem;
 	grid-template-columns: minmax(0, 1fr);
@@ -430,11 +382,10 @@
 	overflow-wrap: anywhere;
 }
 
-/* Partners.elm partnerTopRowStyle / PartnerPreview.jsx row div. Core lays the
-   header out as a grid; TD wants the badge pushed to the right of a name that
-   may wrap, so it is a flex row here. */
+/* Partners.elm partnerTopRowStyle: a flex row, the badge pushed right of a
+   name that may wrap and level with its foot. */
 [data-scope="partner-index"][data-part="list"] [data-scope="partner-preview"][data-part="header"] {
-	align-items: flex-start;
+	align-items: flex-end;
 	border-bottom: 2px solid var(--color-primary);
 	border-width: 0 0 2px;
 	display: flex;
@@ -466,13 +417,9 @@
 	transition: color 300ms linear;
 }
 
-/* Badge.jsx: dark purple ground is replaced by TD's mauve badge fill
-   (design tokens: mauve #7b4a6e, used for badges and the search field), pink
-   600 label, 0.3rem radius. */
-[data-scope="partner-preview"][data-part="neighbourhood"] span,
-[data-scope="partner-preview"][data-part="neighbourhood"] span,
-[data-scope="event"][data-part="neighbourhood"] [data-scope="pill"][data-part="root"] {
-	background-color: #7b4a6e; /* mauve (design tokens: badges, search field) */
+/* Badge.jsx in TD's mauve, pink label, 0.3rem radius. */
+[data-scope="partner-preview"][data-part="neighbourhood"] span {
+	background-color: var(--td-mauve);
 	border-radius: 0.3rem;
 	color: var(--color-primary);
 	display: inline-block;
@@ -510,11 +457,7 @@
 	}
 }
 
-/* Live's badge: 14.04px 600 on a 1.5 line, 4px 8px padding, level with the name's foot. */
-[data-scope="partner-index"][data-part="list"] [data-scope="partner-preview"][data-part="header"] {
-	align-items: flex-end;
-}
-
+/* Live's badge: 14.04px 600 on a 1.5 line, 4px 8px padding. */
 [data-scope="partner-index"][data-part="list"] [data-scope="partner-preview"][data-part="neighbourhood"] span {
 	font-size: 0.8778rem;
 	font-weight: 600;
@@ -532,47 +475,27 @@
 	}
 }
 
-/* Row-aligned grid, so both columns share row tops as in Partners.elm / PartnerPreview.jsx. */
-[data-scope="partner-index"][data-part="list"] {
-	align-items: start;
-	display: grid;
-}
-
 /* The badge never wraps; the name wraps instead. */
 [data-scope="partner-index"][data-part="list"] [data-scope="partner-preview"][data-part="root"] [data-scope="partner-preview"][data-part="neighbourhood"] {
 	flex-shrink: 0;
 	white-space: nowrap;
 }
 
-/* ---------------------------------------------------------------------------
-   Map: full-bleed, closes the box (Final.jsx: `.td-map` height 330, margin
-   '40px -32px 0', bottom radius only). [data-scope="partner-index"][data-part="map"] is the turbo frame's other direct
-   child, alongside `.container-public`, so the shell's generic
-   `[data-scope="partner-index"][data-part="root"] > *` inset (pages.css) is overridden here to go
-   edge-to-edge with 40px above and no bottom margin, closing the box.
---------------------------------------------------------------------------- */
+/* Map: full-bleed, 40px under the list, closing the box (Final.jsx `.td-map`) */
 [data-scope="partner-index"][data-part="root"] > [data-scope="partner-index"][data-part="map"] {
 	margin: 40px 0 0;
-	margin-inline: 0;
 	padding-inline: 0;
 }
 
-/* Core's multiple-point map draws a 10px stripe plus a 10px box-shadow above the map;
-   one 1px pink rule replaces both. The ground is the style's pink while tiles load. */
-[data-scope="partner-index"][data-part="root"] > [data-scope="partner-index"][data-part="map"] > [data-controller="leaflet"] {
-	background-color: var(--color-primary);
-	border-radius: 0 0 0.3rem 0.3rem;
+/* A 1px pink rule above the map; 1.5x the phone height from 600px */
+[data-scope="partner-index"][data-part="root"] > [data-scope="partner-index"][data-part="map"] > [data-scope="map"][data-part="root"] {
 	border-top: 1px solid var(--color-primary);
-	box-shadow: none;
-	box-sizing: border-box;
 	height: 330px;
 	min-height: 330px;
-	overflow: hidden;
 }
 
-/* 1.5x the phone height from 600px. */
 @media only screen and (min-width: 600px) {
-	[data-scope="partner-index"][data-part="root"] > [data-scope="partner-index"][data-part="map"] > [data-controller="leaflet"] {
+	[data-scope="partner-index"][data-part="root"] > [data-scope="partner-index"][data-part="map"] > [data-scope="map"][data-part="root"] {
 		height: 495px;
 		min-height: 495px;
 	}

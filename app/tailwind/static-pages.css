@@ -1,23 +1,11 @@
-/* Static pages: Views::Sites::Pages::Show, Views::Directory::MarkdownPage and
-   /get-in-touch (Views::Sites::Join). Split out of pages.css (WP 3.19). */
-
-/* ---------------------------------------------------------------------------
-   Static pages: Views::Sites::Pages::Show and Views::Directory::MarkdownPage
-   TextHeavyPage.elm: an "invisible" (dark) intro panel with the page's opening
-   line in pink intro type, then the body in a 636px measure inside the content
-   box. Both core views and the theme's /privacy use the same .markdown-content
-   wrapper; /about has its own markup, styled in about.css.
---------------------------------------------------------------------------- */
+/* Markdown pages (TextHeavyPage.elm): the opening line in pink intro type, then
+   the body in a 636px measure inside the content box. */
 
 /* The directory hero is a light band with a breadcrumb; TD's is the same
    starfield title as everywhere else. */
 main > section.bg-foreground {
 	background-color: transparent;
-	/* !important: core renders an inline style="color: var(--color-background)"
-	   on this section, which no ordinary rule can beat. The background needs no
-	   such help: core's .bg-foreground is inside @layer utilities and this file
-	   is unlayered. */
-	color: var(--color-foreground) !important;
+	color: var(--color-foreground);
 	padding: 0;
 }
 
@@ -485,7 +473,6 @@ main > .container-editorial:has(> [data-scope="get-in-touch"][data-part="intro"]
 	padding-inline: 0;
 }
 
-main > .container-editorial > [data-scope="get-in-touch"][data-part="intro"] + [data-scope="contact-form"][data-part="card"],
 main > .container-editorial > [data-scope="get-in-touch"][data-part="intro"] + * {
 	border-top-left-radius: 0;
 	border-top-right-radius: 0;

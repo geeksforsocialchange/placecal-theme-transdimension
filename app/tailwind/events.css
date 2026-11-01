@@ -1,140 +1,60 @@
-/* /events: Views::Events::Index
-   Final design (design_handoff_td_placecal_theme, "2 Events index"): the
-   region selector, two centred allcaps filter toggles, a day strip flanked
-   by square arrow buttons, a two-column event card grid, and the iCal/CSV
-   button row below the box. Split out of pages.css (WP 3.19) so the events
-   route can be edited without touching other routes' rules.
+/* /events, Final design "2 Events index". The box is the card grid: each day's
+   list goes display: contents, so the cards run on with no seam at each day. */
 
-   The content box is core's [data-scope="event-index"][data-part="browser"] turbo frame. Partner show
-   (app/tailwind/partner-show.css) reuses the same [data-scope="event-index"][data-part="browser"] id and
-   [data-scope="event-index"][data-part="paginator"] markup for its own event browser, so every selector below is
-   scoped through :has([data-scope="event-index"][data-part="context"]) (the wrapper class only
-   Views::Events::Index's paginator renders; the partner page's Timeline has
-   no such wrapper), to keep this file's rules off that page.
---------------------------------------------------------------------------- */
-
-/* ---------------------------------------------------------------------------
-   Content box (Events.elm contentContainerStyle: 28px 32px 100px at desktop).
-   The box becomes the grid the event cards sit in directly: EventList prints
-   one <ol class="events"> per calendar day, and flattening each with
-   `display: contents` lets every <li> (across day boundaries) line up in
-   one continuous two-column flow, exactly as Events.elm draws it, instead of
-   restarting a grid (and a visual seam) at each day heading.
---------------------------------------------------------------------------- */
-
-/* pages.css joins the content box to the intro panel with a
-   `main > [hero root]:has([hero standfirst]) + * [data-scope="event-index"][data-part="browser"]:has([data-scope="event-index"][data-part="paginator"])`
-   rule that sets display: flow-root; it outranks a bare id selector, so the
-   grid is declared at the same specificity to win. */
-[data-scope="event-index"][data-part="browser"]:has([data-scope="event-index"][data-part="context"]),
-main > [data-scope="hero"][data-part="root"]:has([data-scope="hero"][data-part="standfirst"]) + * [data-scope="event-index"][data-part="browser"]:has([data-scope="event-index"][data-part="context"]) {
-	display: grid;
-}
-
-/* Only display rides on the strong selector above: the column count has to
-   stay at id-plus-class specificity so the two-column rule in the 900px
-   media query below can take over. */
-[data-scope="event-index"][data-part="browser"]:has([data-scope="event-index"][data-part="context"]) {
+[data-scope="event-index"][data-part="browser"] {
 	box-sizing: border-box;
 	column-gap: 0;
+	display: grid;
 	grid-template-columns: minmax(0, 1fr);
 	padding: 1rem 1rem 2rem;
-	/* The gap between card rows lives on the grid, not on the cards: with
-	   one <ol> per day flattened into the frame, a per-card margin-top that
-	   zeroes itself on each list's first item would give every day boundary
-	   a different gap and stagger the two columns. */
+	/* On the grid, not the cards, so a day boundary keeps the same gap */
 	row-gap: 2rem;
 }
 
-[data-scope="event-index"][data-part="browser"]:has([data-scope="event-index"][data-part="context"]) [data-scope="event-list"][data-part="day"] [data-scope="event"][data-part="root"],
-[data-scope="event-index"][data-part="browser"]:has([data-scope="event-index"][data-part="context"]) .events [data-scope="event"][data-part="root"] {
+[data-scope="event-index"][data-part="browser"] [data-scope="event-list"][data-part="day"] [data-scope="event"][data-part="root"] {
 	margin-top: 0;
 }
 
-/* Core rules the list off from the filters; the design runs straight from
-   the day strip into the cards (40px), so the rule goes. */
-[data-scope="event-index"][data-part="browser"]:has([data-scope="event-index"][data-part="context"]) > hr {
+/* The design runs straight from the day strip into the cards */
+[data-scope="event-index"][data-part="browser"] > hr {
 	display: none;
 }
 
 /* From 600px the 24px above the region row is the row's own margin */
 @media only screen and (min-width: 600px) {
-	[data-scope="event-index"][data-part="browser"]:has([data-scope="event-index"][data-part="context"]) {
+	[data-scope="event-index"][data-part="browser"] {
 		padding: 0 1.5rem 3rem;
 		row-gap: 2.5rem;
 	}
 }
 
 @media only screen and (min-width: 900px) {
-	[data-scope="event-index"][data-part="browser"]:has([data-scope="event-index"][data-part="context"]) {
+	[data-scope="event-index"][data-part="browser"] {
 		column-gap: 1.75rem;
 		grid-template-columns: repeat(2, minmax(0, 1fr));
 		padding: 0 2rem 6.25rem;
 	}
 }
 
-/* [data-scope="event-index"][data-part="paginator"] (filters + day strip) and the day heading/empty-state paragraphs
-   are direct children of the frame alongside the day-group <ol>s; they take
-   the full row rather than being squeezed into one card column. */
-[data-scope="event-index"][data-part="browser"]:has([data-scope="event-index"][data-part="context"]) > [data-scope="event-index"][data-part="paginator"],
-[data-scope="event-index"][data-part="browser"]:has([data-scope="event-index"][data-part="context"]) > hr,
-[data-scope="event-index"][data-part="browser"]:has([data-scope="event-index"][data-part="context"]) > p {
+[data-scope="event-index"][data-part="browser"] > [data-scope="event-index"][data-part="paginator"],
+[data-scope="event-index"][data-part="browser"] > p {
 	grid-column: 1 / -1;
 }
 
-[data-scope="event-index"][data-part="browser"]:has([data-scope="event-index"][data-part="context"]) > [data-scope="event-list"][data-part="day"],
-[data-scope="event-index"][data-part="browser"]:has([data-scope="event-index"][data-part="context"]) > .events {
+[data-scope="event-index"][data-part="browser"] > [data-scope="event-list"][data-part="day"] {
 	display: contents;
 }
 
-/* Components::EventList prints a day heading above each list. TD's own
-   listing has none (Events.elm renders one flat list) and every card already
-   carries its date, so the heading stays in the accessibility tree as the
-   group label core intends while being taken out of the picture visually. */
-[data-scope="event-index"][data-part="browser"]:has([data-scope="event-index"][data-part="context"]) > h2.ruled-heading {
-	border: 0;
-	clip-path: inset(50%);
-	height: 1px;
-	margin: 0;
-	overflow: hidden;
-	padding: 0;
-	position: absolute;
-	white-space: nowrap;
-	width: 1px;
-}
-
-[data-scope="event-index"][data-part="browser"]:has([data-scope="event-index"][data-part="context"]) hr {
+[data-scope="event-index"][data-part="browser"] hr {
 	border: 0;
 	border-top: 1px solid var(--color-primary);
 	margin: 0;
 }
 
-/* ---------------------------------------------------------------------------
-   Paginator row (Events.elm: FILTER EVENTS / PICK A DATE toggles, then the
-   day strip flanked by its arrows).
+/* The paginator: core's wrappers go display: contents, so it is one flex row
+   and `order` places the region pills, the day strip and the filter toggles. */
 
-   event_filter_style :day_strip_with_date_picker (event_filter.rb) groups
-   the sort ("Filter events") and date ("Pick a date") toggles together in
-   one [data-scope="event-filter"][data-part="toggles"] wrapper, renders the day strip after it, then the
-   neighbourhood Filter (Location) as a third, separate widget. Core nests
-   all of that, plus the paginator arrows (Components::Timeline, a separate
-   list entirely), three levels deep inside Components::Breadcrumb.
-   `display: contents` on every wrapper between them and [data-scope="event-index"][data-part="paginator"] flattens
-   the whole thing into one flex row, so `order` alone can put the day strip
-   on one line and the toggles on their own centred line
-   below it (2026-10-19 review), regardless of the source order core renders
-   them in.
---------------------------------------------------------------------------- */
-
-[data-scope="event-index"][data-part="context"],
-[data-scope="event-index"][data-part="context"] [data-scope="breadcrumb"][data-part="root"],
-[data-scope="event-index"][data-part="context"] [data-scope="breadcrumb"][data-part="controls"],
-[data-scope="event-index"][data-part="context"] [data-scope="event-index"][data-part="filter-bar"],
-[data-scope="timeline"][data-part="root"] {
-	display: contents;
-}
-
-[data-scope="event-index"][data-part="paginator"]:has([data-scope="event-index"][data-part="context"]) {
+[data-scope="event-index"][data-part="paginator"] {
 	align-items: center;
 	column-gap: 0.5rem;
 	display: flex;
@@ -144,427 +64,347 @@ main > [data-scope="hero"][data-part="root"]:has([data-scope="hero"][data-part="
 	   core's 12px block margin would put the first row 28px, not 16, from the top */
 	margin: 0;
 	row-gap: 0;
-}
 
-@media only screen and (min-width: 600px) {
-	[data-scope="event-index"][data-part="paginator"]:has([data-scope="event-index"][data-part="context"]) {
+	@media only screen and (min-width: 600px) {
 		margin-inline: 2rem;
 	}
-}
 
-/* Region selector (Everywhere / London / Manchester): its own full-width row
-   above the day strip, as on the Elm site.
-
-   Every selector below is a descendant (not child) combinator: display:
-   contents removes [data-scope="event-index"][data-part="context"], [data-scope="breadcrumb"][data-part="root"] etc. from the box tree
-   for layout purposes, but the region filter, day strip, filters and arrows
-   are still several levels deep in the *DOM* tree those wrappers are part
-   of, so `>` off #paginator would never match them. */
-/* max-width: none overrides pages.css [data-scope="region-filter"][data-part="root"] { max-width: fit-content }:
-   a flex item's used main size is clamped by its
-   max-width even when flex-basis is 100%, so without this the region row only
-   ever claimed its own content width and the next item kept sharing that
-   first line instead of wrapping onto its own row below it. */
-[data-scope="event-index"][data-part="paginator"]:has([data-scope="event-index"][data-part="context"]) [data-scope="region-filter"][data-part="root"] {
-	flex-basis: 100%;
-	max-width: none;
-	order: 1;
-}
-
-/* The two toggles share a line, centred, with the design's 28px gap between
-   them (Events.elm: FILTER EVENTS + / PICK A DATE +). flex-basis: 100%
-   (rather than leaving this flex item to shrink-to-fit its own two narrow
-   buttons) makes it span the whole box width, same as the region row above:
-   the sort dropdown's own flex-basis: 100% below is a share of *this* box,
-   so without it the opened dropdown would only ever be as wide as the two
-   toggle buttons instead of stretching across the box like the design's
-   Select.jsx row. */
-[data-scope="event-index"][data-part="paginator"]:has([data-scope="event-index"][data-part="context"]) [data-scope="event-filter"][data-part="toggles"] {
-	column-gap: 2rem;
-	display: flex;
-	flex-basis: 100%;
-	flex-wrap: wrap;
-	justify-content: center;
-	order: 6;
-	row-gap: 0;
-}
-
-[data-scope="event-index"][data-part="paginator"]:has([data-scope="event-index"][data-part="context"]) [data-scope="event-filter"][data-part="toggles"] [data-scope="event-filter"][data-part="filter"],
-[data-scope="event-index"][data-part="paginator"]:has([data-scope="event-index"][data-part="context"]) [data-scope="event-filter"][data-part="toggles"] [data-scope="event-filter"][data-part="form"] {
-	display: contents;
-}
-
-/* Both wrappers share the plain :is([data-scope="filter"][data-part="toggle"], [data-scope="event-filter"][data-part="toggle"]) class; the date one is
-   told apart by the button class core gives it for this style
-   (event_filter.rb render_date_toggle button_class) and ordered second so
-   "Filter events" reads first, matching source order. */
-[data-scope="event-index"][data-part="paginator"]:has([data-scope="event-index"][data-part="context"]) [data-scope="event-filter"][data-part="toggles"] :is([data-scope="filter"][data-part="toggle"], [data-scope="event-filter"][data-part="toggle"]):has([data-scope="event-filter"][data-part="toggle-button"][data-variant="date"]) {
-	order: 2;
-}
-
-/* Forces the sort dropdown onto its own full-width line under both toggles
-   once opened, rather than squeezed into the "Filter events" toggle's own
-   half of the row (the same zero-content flex-basis break used below for
-   the arrow/strip row). */
-[data-scope="event-index"][data-part="paginator"]:has([data-scope="event-index"][data-part="context"]) [data-scope="event-filter"][data-part="toggles"] :is([data-scope="filter"][data-part="dropdown"], [data-scope="event-filter"][data-part="dropdown"]) {
-	flex-basis: 100%;
-	order: 3;
-}
-
-/* "Showing Wed 21 Oct, Sorted by name. Reset filters": its own centred line
-   under the toggles. */
-[data-scope="event-index"][data-part="paginator"]:has([data-scope="event-index"][data-part="context"]) [data-scope="event-filter"][data-part="applied"] {
-	color: var(--color-primary-light);
-	flex-basis: 100%;
-	font-size: 1rem;
-	margin-top: 0.5rem;
-	order: 7;
-	text-align: center;
-}
-
-[data-scope="event-index"][data-part="paginator"]:has([data-scope="event-index"][data-part="context"]) [data-scope="event-filter"][data-part="applied-reset"] {
-	/* core's Breadcrumb link draws a border-bottom as well: one underline, not two */
-	border-bottom: 0;
-	color: var(--color-foreground);
-	margin-left: 0.75rem;
-	text-decoration: underline;
-}
-
-/* Zero-content flex break: keeps the toggles off the arrow/strip line. */
-[data-scope="event-index"][data-part="paginator"]:has([data-scope="event-index"][data-part="context"])::after {
-	content: "";
-	flex-basis: 100%;
-	order: 5;
-}
-
-[data-scope="event-index"][data-part="paginator"]:has([data-scope="event-index"][data-part="context"]) [data-scope="event-filter"][data-part="day-strip"] {
-	order: 3;
-}
-
-/* Components::Timeline also renders a row of day/week/month buttons
-   duplicating the day strip's own links (same dates, same destinations);
-   only its two arrows are part of this design, so the rest are hidden.
-   Equivalent navigation stays reachable through the day strip, which
-   carries the same labels and aria-current. */
-[data-scope="event-index"][data-part="paginator"]:has([data-scope="event-index"][data-part="context"]) li[data-paginator-target="button"] {
-	display: none;
-}
-
-/* ---------------------------------------------------------------------------
-   Filter toggles ("FILTER EVENTS +" / "PICK A DATE +" / neighbourhood
-   Filter's own toggle). FilterToggle.jsx: centred allcaps label, pink + that
-   becomes − when open.
---------------------------------------------------------------------------- */
-
-[data-scope="event-index"][data-part="paginator"]:has([data-scope="event-index"][data-part="context"]) :is([data-scope="filter"][data-part="toggle"], [data-scope="event-filter"][data-part="toggle"]) {
-	display: flex;
-	justify-content: center;
-}
-
-[data-scope="event-index"][data-part="paginator"]:has([data-scope="event-index"][data-part="context"]) :is([data-scope="filter"][data-part="toggle"], [data-scope="event-filter"][data-part="toggle"]) button {
-	align-items: center;
-	background: none;
-	border: 0;
-	color: var(--color-foreground);
-	cursor: pointer;
-	display: inline-flex;
-	font-family: inherit;
-	font-size: 0.9rem;
-	font-weight: 700;
-	gap: 0.5rem;
-	letter-spacing: 1.9px;
-	padding: 0.5rem 0;
-	text-transform: uppercase;
-}
-
-/* A non-default sort, view or repeats setting: the closed toggle goes pink */
-[data-scope="event-index"][data-part="paginator"]:has([data-scope="event-index"][data-part="context"]) :is([data-scope="filter"][data-part="toggle"], [data-scope="event-filter"][data-part="toggle"]) button[data-scope="event-filter"][data-part="toggle-button"][data-state="active"] {
-	color: var(--color-primary);
-}
-
-[data-scope="event-index"][data-part="paginator"]:has([data-scope="event-index"][data-part="context"]) :is([data-scope="filter"][data-part="toggle"], [data-scope="event-filter"][data-part="toggle"]) button:focus-visible {
-	outline: 2px solid var(--color-foreground);
-	outline-offset: 2px;
-}
-
-/* The triangle icon core draws on every toggle is dropped for the pink +/−
-   FilterToggle.jsx carries instead; the visible label text is still the
-   button's accessible name, so the glyph below is decorative only. */
-[data-scope="event-index"][data-part="paginator"]:has([data-scope="event-index"][data-part="context"]) :is([data-scope="filter"][data-part="toggle"], [data-scope="event-filter"][data-part="toggle"]) button svg {
-	display: none;
-}
-
-/* Core's [data-scope="event-filter"][data-part="link"] carries its own border-bottom (a 2px underline
-   under the idle caption); FilterToggle.jsx draws no rule under the label. */
-[data-scope="event-index"][data-part="paginator"]:has([data-scope="event-index"][data-part="context"]) :is([data-scope="filter"][data-part="toggle"], [data-scope="event-filter"][data-part="toggle"]) [data-scope="event-filter"][data-part="link"] {
-	border-bottom: 0;
-}
-
-[data-scope="event-index"][data-part="paginator"]:has([data-scope="event-index"][data-part="context"]) :is([data-scope="filter"][data-part="toggle"], [data-scope="event-filter"][data-part="toggle"]) button::after {
-	color: var(--color-primary);
-	content: "+";
-	font-size: 1.6rem;
-	font-weight: 400;
-	line-height: 0.8;
-}
-
-/* Toggle and dropdown are adjacent siblings (event_filter.rb build_sort_toggle
-   / build_sort_dropdown, and Components::Filter#render_toggle /
-   #render_dropdown); the sibling combinator reads the dropdown's own
-   JS-driven --hidden class to flip the glyph, no extra state needed. */
-[data-scope="event-index"][data-part="paginator"]:has([data-scope="event-index"][data-part="context"])
-	:is([data-scope="filter"][data-part="toggle"], [data-scope="event-filter"][data-part="toggle"]):has(+ :is([data-scope="filter"][data-part="dropdown"], [data-scope="event-filter"][data-part="dropdown"]):not([data-state="closed"]))
-	button::after {
-	content: "\2212";
-}
-
-/* ---------------------------------------------------------------------------
-   Filter dropdown (Select.jsx, arranged Events.elm's way: up to four controls
-   - neighbourhood, sort, period, repeating - in a row with 28px gap). Core's
-   radio groups have no <select> chrome or group heading of their own
-   (doc/core-slots-needed.md); each group gets the dark-blue/pink-border box
-   Select.jsx draws around a real select instead.
-
-   Core splits these across two independently toggled dropdowns rather than
-   one (the sort dropdown holding sort/period/repeating, the neighbourhood
-   Filter's own dropdown holding just neighbourhood, see the order: 7/8 rule
-   above); there is no core slot to open both together (doc/core-slots-
-   needed.md). This grid is shared by both dropdowns so each reads as the
-   same pink/dark-blue box the design draws, up to four columns wide.
---------------------------------------------------------------------------- */
-
-/* position: static overrides core's own :is([data-scope="filter"][data-part="dropdown"], [data-scope="event-filter"][data-part="dropdown"]) { position:
-   absolute; top: 2rem; left: 0 }: left in place,
-   the dropdown pins to the top-left of its nearest positioned ancestor (this
-   page has none, so the whole viewport) instead of taking its flex-item
-   order/flex-basis: 100% place in the toggles row below the two buttons.
-   background/box-shadow/white-space/overflow-x all undo the rest of that
-   same core rule (a cream card with a drop shadow, sized to its unwrapped
-   content) now that this is a plain in-flow block on the dark box. */
-[data-scope="event-index"][data-part="paginator"]:has([data-scope="event-index"][data-part="context"]) :is([data-scope="filter"][data-part="dropdown"], [data-scope="event-filter"][data-part="dropdown"]) {
-	background: none;
-	box-shadow: none;
-	display: grid;
-	gap: 1.75rem;
-	grid-template-columns: minmax(0, 1fr);
-	margin: 0.5rem auto 0;
-	max-width: 32rem;
-	overflow-x: visible;
-	padding: 0.75rem 0;
-	position: static;
-	text-align: left;
-	white-space: normal;
-}
-
-@media only screen and (min-width: 600px) {
-	[data-scope="event-index"][data-part="paginator"]:has([data-scope="event-index"][data-part="context"]) :is([data-scope="filter"][data-part="dropdown"], [data-scope="event-filter"][data-part="dropdown"]) {
-		grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr));
-		max-width: none;
+	& [data-scope="event-index"][data-part="context"],
+	& [data-scope="event-index"][data-part="context"] [data-scope="breadcrumb"][data-part="root"],
+	& [data-scope="event-index"][data-part="context"] [data-scope="breadcrumb"][data-part="controls"],
+	& [data-scope="event-index"][data-part="context"] [data-scope="event-index"][data-part="filter-bar"] {
+		display: contents;
 	}
-}
 
-/* Same specificity family as the display: grid rule above (id + :has() +
-   class vs. id + :has() + two classes), so this wins on the extra class
-   regardless of source order and the Stimulus toggle really hides the
-   dropdown instead of the pink grid box winning outright. */
-[data-scope="event-index"][data-part="paginator"]:has([data-scope="event-index"][data-part="context"]) :is([data-scope="filter"][data-part="dropdown"], [data-scope="event-filter"][data-part="dropdown"])[data-state="closed"] {
-	display: none;
-}
+	/* The timeline's tabs repeat the day strip and its arrows are not in the design */
+	& [data-scope="timeline"][data-part="root"] {
+		display: none;
+	}
 
-[data-scope="event-index"][data-part="paginator"]:has([data-scope="event-index"][data-part="context"]) :is([data-scope="filter"][data-part="dropdown"], [data-scope="event-filter"][data-part="dropdown"]) hr {
-	display: none;
-}
+	/* The region pills take a row of their own; a flex item's max-width caps it even at flex-basis 100% */
+	& [data-scope="region-filter"][data-part="root"] {
+		flex-basis: 100%;
+		max-width: none;
+		order: 1;
+	}
 
-[data-scope="event-index"][data-part="paginator"]:has([data-scope="event-index"][data-part="context"]) :is([data-scope="filter"][data-part="group"], [data-scope="event-filter"][data-part="group"]) {
-	background-color: var(--color-background);
-	border: 2px solid var(--color-primary);
-	border-radius: 0.3rem;
-	box-sizing: border-box;
-	padding: 0.5rem 0.75rem;
-}
+	/* The two toggles share a centred line, 28px apart; full width so an opened dropdown spans the box */
+	& [data-scope="event-filter"][data-part="toggles"] {
+		column-gap: 2rem;
+		display: flex;
+		flex-basis: 100%;
+		flex-wrap: wrap;
+		justify-content: center;
+		order: 6;
+		row-gap: 0;
+	}
 
-/* Phones: one box, the groups divided by core's own <hr>s, not three boxes
-   with 28px between them. */
-@media only screen and (max-width: 599px) {
-	[data-scope="event-index"][data-part="paginator"]:has([data-scope="event-index"][data-part="context"]) :is([data-scope="filter"][data-part="dropdown"], [data-scope="event-filter"][data-part="dropdown"]) {
+	& [data-scope="event-filter"][data-part="toggles"] [data-scope="event-filter"][data-part="filter"],
+	& [data-scope="event-filter"][data-part="toggles"] [data-scope="event-filter"][data-part="form"] {
+		display: contents;
+	}
+
+	/* "Filter events" first, then "Pick a date" */
+	& [data-scope="event-filter"][data-part="toggles"] :is([data-scope="filter"][data-part="toggle"], [data-scope="event-filter"][data-part="toggle"]):has([data-scope="event-filter"][data-part="toggle-button"][data-variant="date"]) {
+		order: 2;
+	}
+
+	/* An opened dropdown takes its own full-width line under both toggles */
+	& [data-scope="event-filter"][data-part="toggles"] :is([data-scope="filter"][data-part="dropdown"], [data-scope="event-filter"][data-part="dropdown"]) {
+		flex-basis: 100%;
+		order: 3;
+	}
+
+	/* "Showing Wed 21 Oct, Sorted by name. Reset filters": its own centred line
+	   under the toggles. */
+	& [data-scope="event-filter"][data-part="applied"] {
+		color: var(--color-primary-light);
+		flex-basis: 100%;
+		font-size: 1rem;
+		margin-top: 0.5rem;
+		order: 7;
+		text-align: center;
+	}
+
+	& [data-scope="event-filter"][data-part="applied-reset"] {
+		/* core's Breadcrumb link draws a border-bottom as well: one underline, not two */
+		border-bottom: 0;
+		color: var(--color-foreground);
+		margin-left: 0.75rem;
+		text-decoration: underline;
+	}
+
+	/* Zero-content flex break: keeps the toggles off the day strip's line */
+	&::after {
+		content: "";
+		flex-basis: 100%;
+		order: 5;
+	}
+
+	/* ---------------------------------------------------------------------------
+	   Filter toggles ("FILTER EVENTS +" / "PICK A DATE +" / neighbourhood
+	   Filter's own toggle). FilterToggle.jsx: centred allcaps label, pink + that
+	   becomes − when open.
+	--------------------------------------------------------------------------- */
+
+	& :is([data-scope="filter"][data-part="toggle"], [data-scope="event-filter"][data-part="toggle"]) {
+		display: flex;
+		justify-content: center;
+	}
+
+	& :is([data-scope="filter"][data-part="toggle"], [data-scope="event-filter"][data-part="toggle"]) button {
+		align-items: center;
+		background: none;
+		border: 0;
+		color: var(--color-foreground);
+		cursor: pointer;
+		display: inline-flex;
+		font-family: inherit;
+		font-size: 0.9rem;
+		font-weight: 700;
+		gap: 0.5rem;
+		letter-spacing: 1.9px;
+		padding: 0.5rem 0;
+		text-transform: uppercase;
+	}
+
+	/* A non-default sort, view or repeats setting: the closed toggle goes pink */
+	& :is([data-scope="filter"][data-part="toggle"], [data-scope="event-filter"][data-part="toggle"]) button[data-scope="event-filter"][data-part="toggle-button"][data-state="active"] {
+		color: var(--color-primary);
+	}
+
+	& :is([data-scope="filter"][data-part="toggle"], [data-scope="event-filter"][data-part="toggle"]) button:focus-visible {
+		outline: 2px solid var(--color-foreground);
+		outline-offset: 2px;
+	}
+
+	/* Swaps core's triangle for FilterToggle.jsx's pink +/−; the label stays the
+	   accessible name, so the glyph is decorative. */
+	& :is([data-scope="filter"][data-part="toggle"], [data-scope="event-filter"][data-part="toggle"]) button svg {
+		display: none;
+	}
+
+	/* Core's [data-scope="event-filter"][data-part="link"] carries its own border-bottom (a 2px underline
+	   under the idle caption); FilterToggle.jsx draws no rule under the label. */
+	& :is([data-scope="filter"][data-part="toggle"], [data-scope="event-filter"][data-part="toggle"]) [data-scope="event-filter"][data-part="link"] {
+		border-bottom: 0;
+	}
+
+	& :is([data-scope="filter"][data-part="toggle"], [data-scope="event-filter"][data-part="toggle"]) button::after {
+		color: var(--color-primary);
+		content: "+";
+		font-size: 1.6rem;
+		font-weight: 400;
+		line-height: 0.8;
+	}
+
+	/* The glyph reads the open state off the dropdown that follows the toggle */
+	& :is([data-scope="filter"][data-part="toggle"], [data-scope="event-filter"][data-part="toggle"]):has(+ :is([data-scope="filter"][data-part="dropdown"], [data-scope="event-filter"][data-part="dropdown"]):not([data-state="closed"])) button::after {
+		content: "\2212";
+	}
+
+	/* Filter dropdown, Select.jsx arranged Events.elm's way: the radio groups in
+	   a row 28px apart, each in the box Select.jsx draws round a select. */
+
+	/* In flow under the toggles rather than core's absolutely placed card */
+	& :is([data-scope="filter"][data-part="dropdown"], [data-scope="event-filter"][data-part="dropdown"]) {
+		background: none;
+		box-shadow: none;
+		display: grid;
+		gap: 1.75rem;
+		grid-template-columns: minmax(0, 1fr);
+		margin: 0.5rem auto 0;
+		max-width: 32rem;
+		overflow-x: visible;
+		padding: 0.75rem 0;
+		position: static;
+		text-align: left;
+		white-space: normal;
+	}
+
+	@media only screen and (min-width: 600px) {
+		& :is([data-scope="filter"][data-part="dropdown"], [data-scope="event-filter"][data-part="dropdown"]) {
+			grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr));
+			max-width: none;
+		}
+	}
+
+	/* The state attribute outranks the display: grid above */
+	& :is([data-scope="filter"][data-part="dropdown"], [data-scope="event-filter"][data-part="dropdown"])[data-state="closed"] {
+		display: none;
+	}
+
+	& :is([data-scope="filter"][data-part="dropdown"], [data-scope="event-filter"][data-part="dropdown"]) hr {
+		display: none;
+	}
+
+	& :is([data-scope="filter"][data-part="group"], [data-scope="event-filter"][data-part="group"]) {
+		background-color: var(--color-background);
 		border: 2px solid var(--color-primary);
 		border-radius: 0.3rem;
-		gap: 0;
-		padding: 0;
-	}
-
-	[data-scope="event-index"][data-part="paginator"]:has([data-scope="event-index"][data-part="context"]) :is([data-scope="filter"][data-part="group"], [data-scope="event-filter"][data-part="group"]) {
-		border: 0;
-		border-radius: 0;
+		box-sizing: border-box;
 		padding: 0.5rem 0.75rem;
 	}
 
-	[data-scope="event-index"][data-part="paginator"]:has([data-scope="event-index"][data-part="context"]) :is([data-scope="filter"][data-part="dropdown"], [data-scope="event-filter"][data-part="dropdown"]) hr {
-		border: 0;
-		border-top: 1px solid var(--color-primary);
-		display: block;
+	/* Phones: one box, the groups divided by core's own <hr>s, not three boxes
+	   with 28px between them. */
+	@media only screen and (max-width: 599px) {
+		& :is([data-scope="filter"][data-part="dropdown"], [data-scope="event-filter"][data-part="dropdown"]) {
+			border: 2px solid var(--color-primary);
+			border-radius: 0.3rem;
+			gap: 0;
+			padding: 0;
+		}
+
+		& :is([data-scope="filter"][data-part="group"], [data-scope="event-filter"][data-part="group"]) {
+			border: 0;
+			border-radius: 0;
+			padding: 0.5rem 0.75rem;
+		}
+
+		& :is([data-scope="filter"][data-part="dropdown"], [data-scope="event-filter"][data-part="dropdown"]) hr {
+			border: 0;
+			border-top: 1px solid var(--color-primary);
+			display: block;
+			margin: 0;
+		}
+	}
+
+	& :is([data-scope="filter"][data-part="option"], [data-scope="event-filter"][data-part="option"]) {
+		align-items: center;
+		display: flex;
+		gap: 0.5rem;
+		padding: 0.2rem 0;
+	}
+
+	& :is([data-scope="filter"][data-part="option"], [data-scope="event-filter"][data-part="option"]) input[type="radio"] {
+		accent-color: var(--color-primary);
+		flex: none;
 		margin: 0;
 	}
-}
 
-[data-scope="event-index"][data-part="paginator"]:has([data-scope="event-index"][data-part="context"]) :is([data-scope="filter"][data-part="option"], [data-scope="event-filter"][data-part="option"]) {
-	align-items: center;
-	display: flex;
-	gap: 0.5rem;
-	padding: 0.2rem 0;
-}
-
-[data-scope="event-index"][data-part="paginator"]:has([data-scope="event-index"][data-part="context"]) :is([data-scope="filter"][data-part="option"], [data-scope="event-filter"][data-part="option"]) input[type="radio"] {
-	accent-color: var(--color-primary);
-	flex: none;
-	margin: 0;
-}
-
-[data-scope="event-index"][data-part="paginator"]:has([data-scope="event-index"][data-part="context"]) :is([data-scope="filter"][data-part="option"], [data-scope="event-filter"][data-part="option"]) label,
-[data-scope="event-index"][data-part="paginator"]:has([data-scope="event-index"][data-part="context"]) [data-scope="filter"][data-part="label"] {
-	color: var(--color-foreground);
-	cursor: pointer;
-	font-size: 1rem;
-	font-weight: 400;
-}
-
-[data-scope="event-index"][data-part="paginator"]:has([data-scope="event-index"][data-part="context"]) :is([data-scope="filter"][data-part="option"], [data-scope="event-filter"][data-part="option"]):has(input:checked) label {
-	color: var(--color-primary);
-}
-
-/* ---------------------------------------------------------------------------
-   Day strip (DayStrip.jsx): Today, Tomorrow, five day names, one row, equal
-   widths. 14px above / 40px below; selected day fills pink, hover fills
-   purple with a white border.
---------------------------------------------------------------------------- */
-
-/* flex-basis: 0, not auto: flex-wrap decides whether an item fits its line
-   using its hypothetical (basis) size before any shrinking, so an auto basis
-   sized to the strip's full unscrolled content (all seven-plus pills) only
-   "happened" to fit next to the two 36px arrows at wide viewports and wrapped
-   itself (and the forward arrow after it) onto their own lines around 900-
-   1150px. A zero basis always fits, then flex-grow fills the row and
-   overflow-x carries whatever still does not fit as a scroll. */
-[data-scope="event-index"][data-part="paginator"]:has([data-scope="event-index"][data-part="context"]) [data-scope="event-filter"][data-part="day-strip"] {
-	flex: 1 1 0;
-	margin: 0 0 0.5rem;
-	min-width: 0;
-	overflow-x: auto;
-}
-
-/* Phones: a cut-off fourth button and a fade at the edge say "this scrolls" */
-@media only screen and (max-width: 599px) {
-	[data-scope="event-index"][data-part="paginator"]:has([data-scope="event-index"][data-part="context"]) [data-scope="event-filter"][data-part="day-strip"] {
-		mask-image: linear-gradient(to right, #000 calc(100% - 2.5rem), transparent);
-		scrollbar-width: none;
-	}
-
-}
-
-@media only screen and (min-width: 600px) {
-	/* 0.5rem plus the toggles' own 0.5rem padding reads as the 1rem above the strip */
-	[data-scope="event-index"][data-part="paginator"]:has([data-scope="event-index"][data-part="context"]) [data-scope="event-filter"][data-part="day-strip"] {
-		margin-bottom: 0.5rem;
-	}
-
-	[data-scope="event-index"][data-part="paginator"]:has([data-scope="event-index"][data-part="context"]) [data-scope="event-filter"][data-part="day-strip"] li {
-		min-width: 100px;
-	}
-}
-
-[data-scope="event-index"][data-part="paginator"]:has([data-scope="event-index"][data-part="context"]) [data-scope="event-filter"][data-part="day-strip"] ul {
-	display: flex;
-	flex-wrap: nowrap;
-	gap: 0.5rem;
-	justify-content: stretch;
-}
-
-[data-scope="event-index"][data-part="paginator"]:has([data-scope="event-index"][data-part="context"]) [data-scope="event-filter"][data-part="day-strip"] li {
-	flex: 1 1 0;
-	list-style-type: none;
-	margin: 0;
-	/* 88px on phones shows a cut-off fourth button, 100px (live) from 600px */
-	min-width: 88px;
-}
-
-[data-scope="event-index"][data-part="paginator"]:has([data-scope="event-index"][data-part="context"]) [data-scope="event-filter"][data-part="day-strip"] [data-scope="pill"][data-part="root"] {
-	background-color: var(--color-background);
-	border: 2px solid var(--color-primary);
-	border-radius: 0.3rem;
-	box-sizing: border-box;
-	color: var(--color-primary);
-	display: block;
-	font-size: 0.875rem;
-	font-weight: 600;
-	padding: 0.2rem 0.2rem 0.3rem;
-	text-align: center;
-	text-decoration: none;
-	transition:
-		color 300ms,
-		border-color 300ms,
-		background-color 300ms;
-	white-space: nowrap;
-	width: auto;
-}
-
-[data-scope="event-index"][data-part="paginator"]:has([data-scope="event-index"][data-part="context"]) [data-scope="event-filter"][data-part="day-strip"] [data-scope="pill"][data-part="root"][aria-current="date"] {
-	background-color: var(--color-primary);
-	border-color: var(--color-primary);
-	color: var(--color-foreground-dark);
-}
-
-/* The day strip's own "All upcoming" entry (D22, labelled "Future events" by
-   filters.day_strip.all_upcoming) has no place in the design's seven-day
-   row: hidden entirely, rather than kept as an eighth button, so the strip
-   reads as exactly the seven equal-width day buttons between the arrows. */
-[data-scope="event-index"][data-part="paginator"]:has([data-scope="event-index"][data-part="context"]) [data-scope="event-filter"][data-part="day-strip"] li[data-scope="event-filter"][data-part="day-strip-all"] {
-	display: none;
-}
-
-/* With the eighth button gone, the seven day buttons never need to wrap or
-   scroll from tablet landscape up; core's overflow-x-auto would otherwise
-   paint a scrollbar under the row whenever they ran wider than the strip. */
-@media only screen and (min-width: 900px) {
-	[data-scope="event-index"][data-part="paginator"]:has([data-scope="event-index"][data-part="context"]) [data-scope="event-filter"][data-part="day-strip"] {
-		overflow-x: visible;
-	}
-}
-
-@media only screen and (hover: hover) and (pointer: fine) {
-	[data-scope="event-index"][data-part="paginator"]:has([data-scope="event-index"][data-part="context"]) [data-scope="event-filter"][data-part="day-strip"] [data-scope="pill"][data-part="root"]:hover {
-		background-color: var(--color-tertiary);
-		border-color: var(--color-foreground);
+	& :is([data-scope="filter"][data-part="option"], [data-scope="event-filter"][data-part="option"]) label,
+	& [data-scope="filter"][data-part="label"] {
 		color: var(--color-foreground);
-	}
-}
-
-[data-scope="event-index"][data-part="paginator"]:has([data-scope="event-index"][data-part="context"]) [data-scope="event-filter"][data-part="day-strip"] [data-scope="pill"][data-part="root"]:focus-visible {
-	outline: 2px solid var(--color-foreground);
-	outline-offset: 2px;
-}
-
-@media only screen and (min-width: 600px) {
-	[data-scope="event-index"][data-part="paginator"]:has([data-scope="event-index"][data-part="context"]) [data-scope="event-filter"][data-part="day-strip"] [data-scope="pill"][data-part="root"] {
+		cursor: pointer;
 		font-size: 1rem;
+		font-weight: 400;
 	}
-}
 
-/* Live's day buttons at tablet landscape: 1.2rem on a 1.5 line, 41px tall */
-@media only screen and (min-width: 900px) {
-	[data-scope="event-index"][data-part="paginator"]:has([data-scope="event-index"][data-part="context"]) [data-scope="event-filter"][data-part="day-strip"] [data-scope="pill"][data-part="root"] {
-		font-size: 1.2rem;
-		line-height: 1.5;
+	& :is([data-scope="filter"][data-part="option"], [data-scope="event-filter"][data-part="option"]):has(input:checked) label {
+		color: var(--color-primary);
+	}
+
+	/* ---------------------------------------------------------------------------
+	   Day strip (DayStrip.jsx): Today, Tomorrow, five day names, one row, equal
+	   widths. 14px above / 40px below; selected day fills pink, hover fills
+	   purple with a white border.
+	--------------------------------------------------------------------------- */
+
+	/* A zero flex-basis always fits the line; whatever does not fit scrolls */
+	& [data-scope="event-filter"][data-part="day-strip"] {
+		flex: 1 1 0;
+		margin: 0 0 0.5rem;
+		min-width: 0;
+		order: 3;
+		overflow-x: auto;
+	}
+
+	/* Phones: a cut-off fourth button and a fade at the edge say "this scrolls" */
+	@media only screen and (max-width: 599px) {
+		& [data-scope="event-filter"][data-part="day-strip"] {
+			mask-image: linear-gradient(to right, #000 calc(100% - 2.5rem), transparent);
+			scrollbar-width: none;
+		}
+	}
+
+	@media only screen and (min-width: 600px) {
+		/* 0.5rem plus the toggles' own 0.5rem padding reads as the 1rem above the strip */
+		& [data-scope="event-filter"][data-part="day-strip"] {
+			margin-bottom: 0.5rem;
+		}
+	}
+
+	& [data-scope="event-filter"][data-part="day-strip"] ul {
+		display: flex;
+		flex-wrap: nowrap;
+		gap: 0.5rem;
+		justify-content: stretch;
+	}
+
+	& [data-scope="event-filter"][data-part="day-strip"] li {
+		flex: 1 1 0;
+		list-style-type: none;
+		margin: 0;
+		/* 88px on phones shows a cut-off fourth button */
+		min-width: 88px;
+	}
+
+	& [data-scope="event-filter"][data-part="day-strip"] [data-scope="pill"][data-part="root"] {
+		background-color: var(--color-background);
+		border: 2px solid var(--color-primary);
+		border-radius: 0.3rem;
+		box-sizing: border-box;
+		color: var(--color-primary);
+		display: block;
+		font-size: 0.875rem;
+		font-weight: 600;
 		padding: 0.2rem 0.2rem 0.3rem;
+		text-align: center;
+		text-decoration: none;
+		transition:
+			color 300ms,
+			border-color 300ms,
+			background-color 300ms;
+		white-space: nowrap;
+		width: auto;
 	}
-}
 
-/* ---------------------------------------------------------------------------
-   Paginator arrows: core's day-by-day arrows have no place in the design
-   (the day strip and the date picker move through time), so they are cut.
---------------------------------------------------------------------------- */
+	& [data-scope="event-filter"][data-part="day-strip"] [data-scope="pill"][data-part="root"][aria-current="date"] {
+		background-color: var(--color-primary);
+		border-color: var(--color-primary);
+		color: var(--color-foreground-dark);
+	}
 
-[data-scope="event-index"][data-part="paginator"]:has([data-scope="event-index"][data-part="context"]) [data-scope="timeline"][data-part="arrow"] {
-	display: none;
+	/* The design's strip is seven days, with no "Future events" button */
+	& [data-scope="event-filter"][data-part="day-strip"] li[data-scope="event-filter"][data-part="day-strip-all"] {
+		display: none;
+	}
+
+	/* The seven buttons fit from 900px, so no scrollbar */
+	@media only screen and (min-width: 900px) {
+		& [data-scope="event-filter"][data-part="day-strip"] {
+			overflow-x: visible;
+		}
+	}
+
+	@media only screen and (hover: hover) and (pointer: fine) {
+		& [data-scope="event-filter"][data-part="day-strip"] [data-scope="pill"][data-part="root"]:hover {
+			background-color: var(--color-tertiary);
+			border-color: var(--color-foreground);
+			color: var(--color-foreground);
+		}
+	}
+
+	& [data-scope="event-filter"][data-part="day-strip"] [data-scope="pill"][data-part="root"]:focus-visible {
+		outline: 2px solid var(--color-foreground);
+		outline-offset: 2px;
+	}
+
+	@media only screen and (min-width: 600px) {
+		& [data-scope="event-filter"][data-part="day-strip"] [data-scope="pill"][data-part="root"] {
+			font-size: 1rem;
+		}
+	}
+
+	/* Live's day buttons at tablet landscape: 1.2rem on a 1.5 line, 41px tall */
+	@media only screen and (min-width: 900px) {
+		& [data-scope="event-filter"][data-part="day-strip"] [data-scope="pill"][data-part="root"] {
+			font-size: 1.2rem;
+			line-height: 1.5;
+			padding: 0.2rem 0.2rem 0.3rem;
+		}
+	}
 }
 
 /* ---------------------------------------------------------------------------
@@ -574,8 +414,7 @@ main > [data-scope="hero"][data-part="root"]:has([data-scope="hero"][data-part="
 --------------------------------------------------------------------------- */
 
 /* Live site's card geometry kept over EventCard.jsx's (review 2026-10-19): 56px date column, 1rem gap. */
-[data-scope="event-list"][data-part="day"] [data-scope="event"][data-part="root"],
-.events [data-scope="event"][data-part="root"] {
+[data-scope="event-list"][data-part="day"] [data-scope="event"][data-part="root"] {
 	column-gap: 1rem;
 	display: grid;
 	grid-auto-rows: min-content;
@@ -585,50 +424,37 @@ main > [data-scope="hero"][data-part="root"]:has([data-scope="hero"][data-part="
 	margin-bottom: 0;
 }
 
-/* First row of the grid carries no top gap: Events.elm's viewEvent list has
-   none above its first card, at one or two columns alike.
-   Scoped to the <li> (the actual grid item and `[data-scope="event-list"][data-part="day"]`' direct child), not
-   the event root itself: the root is always the *only* child of its own <li>, so
-   a :first-child on the root matched every card (each is "first child" of
-   its own li) and zeroed this margin everywhere, not just on the first
-   card - the actual cause of the cards reading tighter than the design's
-   48px rows. */
-[data-scope="event-list"][data-part="day"] > li:first-child [data-scope="event"][data-part="root"],
-.events > li:first-child [data-scope="event"][data-part="root"] {
+/* No gap above the first row, at one or two columns */
+[data-scope="event-list"][data-part="day"] > li:first-child [data-scope="event"][data-part="root"] {
 	margin-top: 0;
 }
 
 @media only screen and (min-width: 900px) {
-	[data-scope="event-list"][data-part="day"] > li:nth-child(2) [data-scope="event"][data-part="root"],
-	.events > li:nth-child(2) [data-scope="event"][data-part="root"] {
+	[data-scope="event-list"][data-part="day"] > li:nth-child(2) [data-scope="event"][data-part="root"] {
 		margin-top: 0;
 	}
 }
 
-[data-scope="event-list"][data-part="day"] [data-scope="event"][data-part="details"],
-.events [data-scope="event"][data-part="details"] {
+[data-scope="event-list"][data-part="day"] [data-scope="event"][data-part="details"] {
 	border-width: 0;
 	display: contents;
 	font-size: inherit;
 	padding: 0;
 }
 
-[data-scope="event-list"][data-part="day"] [data-scope="event"][data-part="detail"],
-.events [data-scope="event"][data-part="detail"] {
+[data-scope="event-list"][data-part="day"] [data-scope="event"][data-part="detail"] {
 	grid-column: 2;
 	margin: 0;
 	min-width: 0;
 	overflow-wrap: anywhere;
 }
 
-[data-scope="event-list"][data-part="day"] [data-scope="event"][data-part="icon"],
-.events [data-scope="event"][data-part="icon"] {
+[data-scope="event-list"][data-part="day"] [data-scope="event"][data-part="icon"] {
 	display: none;
 }
 
 /* The header part wraps the title and core's neighbourhood badge, which is hidden below */
-[data-scope="event-list"][data-part="day"] [data-scope="event"][data-part="header"],
-.events [data-scope="event"][data-part="header"] {
+[data-scope="event-list"][data-part="day"] [data-scope="event"][data-part="header"] {
 	align-items: flex-end;
 	border-bottom: 2px solid var(--color-primary);
 	column-gap: 0.75rem;
@@ -643,15 +469,13 @@ main > [data-scope="hero"][data-part="root"]:has([data-scope="hero"][data-part="
 	transition: border-color 500ms linear;
 }
 
-[data-scope="event-list"][data-part="day"] [data-scope="event"][data-part="title"],
-.events [data-scope="event"][data-part="title"] {
+[data-scope="event-list"][data-part="day"] [data-scope="event"][data-part="title"] {
 	margin: 0;
 	min-width: 0;
 	overflow-wrap: anywhere;
 }
 
-[data-scope="event-list"][data-part="day"] [data-scope="event"][data-part="title"] a,
-.events [data-scope="event"][data-part="title"] a {
+[data-scope="event-list"][data-part="day"] [data-scope="event"][data-part="title"] a {
 	color: var(--color-foreground);
 	display: block;
 	font-size: 1.2rem;
@@ -664,95 +488,68 @@ main > [data-scope="hero"][data-part="root"]:has([data-scope="hero"][data-part="
 
 /* Live site's card type steps (Events.elm): title and day number grow from tablet up. */
 @media only screen and (min-width: 600px) {
-	[data-scope="event-list"][data-part="day"] [data-scope="event"][data-part="root"],
-	.events [data-scope="event"][data-part="root"] {
+	[data-scope="event-list"][data-part="day"] [data-scope="event"][data-part="root"] {
 		margin-top: 2.5rem;
 	}
 
-	[data-scope="event-list"][data-part="day"] [data-scope="event"][data-part="title"] a,
-	.events [data-scope="event"][data-part="title"] a {
+	[data-scope="event-list"][data-part="day"] [data-scope="event"][data-part="title"] a {
 		font-size: 1.5rem;
 		line-height: 1.877rem;
 	}
 
 	/* -0.25rem puts the day number's glyph top level with the title's (checked
 	   in WebKit and Chromium screenshots; element boxes mislead here) */
-	[data-scope="event-list"][data-part="day"] [data-scope="event"][data-part="detail"][data-variant="date"],
-	.events [data-scope="event"][data-part="detail"][data-variant="date"] {
+	[data-scope="event-list"][data-part="day"] [data-scope="event"][data-part="detail"][data-variant="date"] {
 		margin-top: -0.25rem;
 	}
 
-	[data-scope="event-list"][data-part="day"] [data-scope="event"][data-part="detail"][data-variant="date"]::first-line,
-	.events [data-scope="event"][data-part="detail"][data-variant="date"]::first-line {
+	[data-scope="event-list"][data-part="day"] [data-scope="event"][data-part="detail"][data-variant="date"]::first-line {
 		font-size: 3.1222rem;
 	}
 }
 
 /* The live site's cards carry no neighbourhood badge */
-[data-scope="event-list"][data-part="day"] [data-scope="event"][data-part="neighbourhood"],
-.events [data-scope="event"][data-part="neighbourhood"] {
+[data-scope="event-list"][data-part="day"] [data-scope="event"][data-part="neighbourhood"] {
 	display: none;
 }
 
-[data-scope="event-list"][data-part="day"] [data-scope="event"][data-part="detail"][data-variant="time"],
-.events [data-scope="event"][data-part="detail"][data-variant="time"] {
+[data-scope="event-list"][data-part="day"] [data-scope="event"][data-part="detail"][data-variant="time"] {
 	grid-row: 2;
 }
 
-/* EventCard.jsx's one detail line is time and repeat comma-joined
-   ("11:00am to 1:00pm, weekly"); core prints the duration ("1 hour 30 mins")
-   as a third, separate paragraph with no such line to join into, and it
-   shared the time's row here uncorrected, overlapping the two. Core
-   has no way to suppress just the duration string short of hiding the
-   element (doc/core-slots-needed.md), so it is hidden rather than given a
-   row the design has no line for. */
-[data-scope="event-list"][data-part="day"] [data-scope="event"][data-part="detail"][data-variant="duration"],
-.events [data-scope="event"][data-part="detail"][data-variant="duration"] {
+/* EventCard.jsx has no duration line */
+[data-scope="event-list"][data-part="day"] [data-scope="event"][data-part="detail"][data-variant="duration"] {
 	display: none;
 }
 
-/* The date part is the big day/month badge in column 1 (grid-row:
-   1 / span 6, set below, which wins on
-   specificity over any row assigned here) not a column-2 detail line, so no
-   row is reserved for it in this stack.
-
-   Final design (screens/02-events-index-full.png, EventCard.jsx): time, repeat
-   and online (each only when core renders one), then location, then "By
-   Organiser" - swapped from core's own order (organiser before location).
-   Absent lines leave empty min-content rows, which collapse to zero height. */
-[data-scope="event-list"][data-part="day"] [data-scope="event"][data-part="detail"][data-variant="repeats"],
-.events [data-scope="event"][data-part="detail"][data-variant="repeats"] {
+/* EventCard.jsx's line order: time, repeat, online, place, then organiser.
+   An absent line leaves an empty min-content row, which collapses. */
+[data-scope="event-list"][data-part="day"] [data-scope="event"][data-part="detail"][data-variant="repeats"] {
 	grid-row: 3;
 }
 
-[data-scope="event-list"][data-part="day"] [data-scope="event"][data-part="detail"][data-variant="online"],
-.events [data-scope="event"][data-part="detail"][data-variant="online"] {
+[data-scope="event-list"][data-part="day"] [data-scope="event"][data-part="detail"][data-variant="online"] {
 	grid-row: 4;
 }
 
-[data-scope="event-list"][data-part="day"] [data-scope="event"][data-part="detail"][data-variant="place"],
-.events [data-scope="event"][data-part="detail"][data-variant="place"] {
+[data-scope="event-list"][data-part="day"] [data-scope="event"][data-part="detail"][data-variant="place"] {
 	grid-row: 5;
 }
 
-[data-scope="event-list"][data-part="day"] [data-scope="event"][data-part="detail"][data-variant="organiser"],
-.events [data-scope="event"][data-part="detail"][data-variant="organiser"] {
+[data-scope="event-list"][data-part="day"] [data-scope="event"][data-part="detail"][data-variant="organiser"] {
 	grid-row: 6;
 }
 
 /* Live site's 1.2rem detail lines kept over the design's 1rem for readability (review 2026-10-19). */
 [data-scope="event-list"][data-part="day"] [data-scope="event"][data-part="detail"],
-.events [data-scope="event"][data-part="detail"],
-[data-scope="event-list"][data-part="day"] [data-scope="event"][data-part="detail"] a,
-.events [data-scope="event"][data-part="detail"] a {
+[data-scope="event-list"][data-part="day"] [data-scope="event"][data-part="detail"] a {
 	color: var(--color-foreground);
 	font-size: 1.2rem;
 	line-height: 28px;
 	text-decoration: none;
 }
 
-[data-scope="event-list"][data-part="day"] [data-scope="event"][data-part="detail"] a:hover,
-.events [data-scope="event"][data-part="detail"] a:hover {
+[data-scope="event-list"][data-part="day"] [data-scope="event"][data-part="detail"] a:hover {
 	color: var(--color-primary-light);
 }
 
@@ -761,8 +558,7 @@ main > [data-scope="hero"][data-part="root"]:has([data-scope="hero"][data-part="
    month wraps onto its own line and ::first-line gives the day number its own
    size and colour. A real day/month split is the core slot this approximates
    (doc/core-slots-needed.md). */
-[data-scope="event-list"][data-part="day"] [data-scope="event"][data-part="detail"][data-variant="date"],
-.events [data-scope="event"][data-part="detail"][data-variant="date"] {
+[data-scope="event-list"][data-part="day"] [data-scope="event"][data-part="detail"][data-variant="date"] {
 	align-self: start;
 	color: var(--color-primary);
 	display: block;
@@ -777,8 +573,7 @@ main > [data-scope="hero"][data-part="root"]:has([data-scope="hero"][data-part="
 	transition: color 500ms linear;
 }
 
-[data-scope="event-list"][data-part="day"] [data-scope="event"][data-part="detail"][data-variant="date"]::first-line,
-.events [data-scope="event"][data-part="detail"][data-variant="date"]::first-line {
+[data-scope="event-list"][data-part="day"] [data-scope="event"][data-part="detail"][data-variant="date"]::first-line {
 	color: var(--color-foreground);
 	font-size: 2.5rem;
 	font-weight: 400;
@@ -791,18 +586,15 @@ main > [data-scope="hero"][data-part="root"]:has([data-scope="hero"][data-part="
 }
 
 @media only screen and (hover: hover) and (pointer: fine) {
-	[data-scope="event-list"][data-part="day"] [data-scope="event"][data-part="root"]:hover [data-scope="event"][data-part="header"],
-	.events [data-scope="event"][data-part="root"]:hover [data-scope="event"][data-part="header"] {
+	[data-scope="event-list"][data-part="day"] [data-scope="event"][data-part="root"]:hover [data-scope="event"][data-part="header"] {
 		border-bottom-color: var(--color-foreground);
 	}
 
-	[data-scope="event-list"][data-part="day"] [data-scope="event"][data-part="root"]:hover [data-scope="event"][data-part="title"] a,
-	.events [data-scope="event"][data-part="root"]:hover [data-scope="event"][data-part="title"] a {
+	[data-scope="event-list"][data-part="day"] [data-scope="event"][data-part="root"]:hover [data-scope="event"][data-part="title"] a {
 		color: var(--color-primary);
 	}
 
-	[data-scope="event-list"][data-part="day"] [data-scope="event"][data-part="root"]:hover [data-scope="event"][data-part="detail"][data-variant="date"],
-	.events [data-scope="event"][data-part="root"]:hover [data-scope="event"][data-part="detail"][data-variant="date"] {
+	[data-scope="event-list"][data-part="day"] [data-scope="event"][data-part="root"]:hover [data-scope="event"][data-part="detail"][data-variant="date"] {
 		color: var(--color-foreground);
 	}
 }
@@ -813,35 +605,25 @@ main > [data-scope="hero"][data-part="root"]:has([data-scope="hero"][data-part="
    fine against the dark box without a bespoke treatment.
 --------------------------------------------------------------------------- */
 
-[data-scope="event-index"][data-part="browser"]:has([data-scope="event-index"][data-part="context"]) > p {
+[data-scope="event-index"][data-part="browser"] > p {
 	color: var(--color-foreground);
 	font-size: 1rem;
 	margin: 0 0 1rem;
 	text-align: center;
 }
 
-[data-scope="event-index"][data-part="browser"]:has([data-scope="event-index"][data-part="context"]) > p a {
+[data-scope="event-index"][data-part="browser"] > p a {
 	color: var(--color-primary);
 }
 
-/* ---------------------------------------------------------------------------
-   Button row below the box (Button.jsx "dark" / size sm): Subscribe with
-   iCal, and Download as CSV once core renders it here (doc/core-slots-needed.
-   md, Components::Meta only prints the iCal link and a Permalink on this
-   view today). The Permalink is a directory-only link with no place in this
-   design and is hidden.
---------------------------------------------------------------------------- */
+/* The iCal and CSV links below the box, as small dark buttons (Button.jsx) */
 
-/* Core marks the box's own wrapper `mb-32` (an 8rem bottom margin, meant for
-   pages with no button row of their own to space themselves from whatever
-   follows). Adjoining vertical margins collapse to the larger one, so that
-   8rem was winning over the 2.5rem below regardless, landing the iCal button
-   about 90px under the box instead of the design's 40px. */
-.container-public:has([data-scope="event-index"][data-part="browser"] [data-scope="event-index"][data-part="context"]) {
+/* Core's bottom margin on the box's wrapper would collapse with the row's 2.5rem and win */
+.container-public:has([data-scope="event-index"][data-part="browser"]) {
 	margin-bottom: 0;
 }
 
-.container-public:has([data-scope="event-index"][data-part="browser"] [data-scope="event-index"][data-part="context"]) + [data-scope="meta"][data-part="root"] {
+.container-public:has([data-scope="event-index"][data-part="browser"]) + [data-scope="meta"][data-part="root"] {
 	background: none;
 	display: flex;
 	flex-wrap: wrap;
@@ -853,11 +635,11 @@ main > [data-scope="hero"][data-part="root"]:has([data-scope="hero"][data-part="
 
 /* contents, not a nested flex box: core sizes this wrapper narrower than the
    two buttons, which then wrapped under each other */
-.container-public:has([data-scope="event-index"][data-part="browser"] [data-scope="event-index"][data-part="context"]) + [data-scope="meta"][data-part="root"] .container-public {
+.container-public:has([data-scope="event-index"][data-part="browser"]) + [data-scope="meta"][data-part="root"] .container-public {
 	display: contents;
 }
 
-.container-public:has([data-scope="event-index"][data-part="browser"] [data-scope="event-index"][data-part="context"]) + [data-scope="meta"][data-part="root"] a {
+.container-public:has([data-scope="event-index"][data-part="browser"]) + [data-scope="meta"][data-part="root"] a {
 	background-color: var(--color-background);
 	border: 2px solid var(--color-primary);
 	border-radius: 0.3rem;
@@ -876,14 +658,14 @@ main > [data-scope="hero"][data-part="root"]:has([data-scope="hero"][data-part="
 }
 
 @media only screen and (hover: hover) and (pointer: fine) {
-	.container-public:has([data-scope="event-index"][data-part="browser"] [data-scope="event-index"][data-part="context"]) + [data-scope="meta"][data-part="root"] a:hover {
+	.container-public:has([data-scope="event-index"][data-part="browser"]) + [data-scope="meta"][data-part="root"] a:hover {
 		background-color: var(--color-tertiary);
 		border-color: var(--color-foreground);
 		color: var(--color-foreground);
 	}
 }
 
-.container-public:has([data-scope="event-index"][data-part="browser"] [data-scope="event-index"][data-part="context"]) + [data-scope="meta"][data-part="root"] a:focus-visible {
+.container-public:has([data-scope="event-index"][data-part="browser"]) + [data-scope="meta"][data-part="root"] a:focus-visible {
 	outline: 2px solid var(--color-foreground);
 	outline-offset: 2px;
 }

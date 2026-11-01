@@ -1,9 +1,5 @@
-/* /news/:slug: Views::News::Show
-   ArticleF: one dark box (48px 32px 56px inset) holding the kicker, the pink
-   title, the "Partner • date" byline, the image, and the prose. Split out of
-   pages.css (WP 3.19), redrawn for the Final designs
-   (screens/07-article-show-full.png).
---------------------------------------------------------------------------- */
+/* /news/:slug, ArticleF: one dark box holding the pink title, the
+   "Partner • date" byline, the image and the prose. */
 
 /* The article title, byline, image and body are all inside one content box on
    TD, so the box goes on the wrapper that holds both the hero and the body
@@ -49,13 +45,8 @@ main > div[vocab] > .container-public > hr {
 	display: none;
 }
 
-/* No floating section name above the article, as on the other show pages. */
-main > div[vocab][typeof="Article"] > [data-scope="hero"][data-part="root"] [data-scope="hero"][data-part="kicker"] {
-	display: none;
-}
-
 /* ArticleF title: pink, 2.1rem italic 500, line-height 1.3, centred, 760px
-   measure. No kicker above it now, so the hero's own top padding goes too. */
+   measure, with no top padding. */
 main > div[vocab] > [data-scope="hero"][data-part="root"] [data-scope="hero"][data-part="title"] {
 	color: var(--color-primary);
 	font-size: 1.6rem;

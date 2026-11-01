@@ -1,24 +1,11 @@
-/* /partners/:slug: Views::Partners::Show
-   Partner.elm: name panel, description and contact columns, then the
-   partner's own event list. Split out of pages.css (WP 3.19). */
+/* /partners/:slug, Partner.elm: the name in the pink panel, the description
+   and contact columns, then the partner's own event cards. */
 
-/* ---------------------------------------------------------------------------
-   /partners/:slug: Views::Partners::Show
-   Partner.elm: the name in the pink panel, the description and contact columns
-   below it, then the partner's own event list in TD's card layout (which the
-   /events rules above already cover, since core reuses Components::Event).
-   The panel treatment comes from the show-page rules in the /events/:id block.
---------------------------------------------------------------------------- */
-
-main > div:not([vocab]):has(> .container-public [data-scope="partner-details"][data-part="root"]) {
+main > div:has(> .container-public [data-scope="partner-details"][data-part="root"]) {
 	background-color: var(--color-background);
 	border: 1px solid var(--color-primary);
 	border-radius: 0.3rem;
 	box-sizing: border-box;
-}
-
-main > div:not([vocab]):has(> .container-public [data-scope="partner-details"][data-part="root"]) [data-scope="hero"][data-part="kicker"] {
-	display: none;
 }
 
 /* Title ink 37px from the panel's top and bottom edges on phones, 40 from 900px, as on the event page */
@@ -67,11 +54,8 @@ main > div > .container-public:has(> [data-scope="partner-details"][data-part="r
 }
 
 [data-scope="partner-details"][data-part="root"] [data-scope="partner-details"][data-part="description"] p {
-	margin-top: 0;
-}
-
-[data-scope="partner-details"][data-part="root"] [data-scope="partner-details"][data-part="description"] p {
 	font-size: 1.2rem;
+	margin-top: 0;
 	max-width: 636px;
 	text-align: left;
 }
@@ -83,61 +67,21 @@ main > div > .container-public:has(> [data-scope="partner-details"][data-part="r
 	}
 }
 
-/* Get in touch and Address in the event page's format: centred plain 16px lines, no icons,
-   socials as one "Facebook · Twitter · Instagram" row, directions as one row. */
+/* The service area reads like the address under it; the blocks' own top margins go. */
 [data-scope="partner-details"][data-part="root"] [data-scope="contact-details"][data-part="root"],
 [data-scope="partner-details"][data-part="root"] [data-scope="partner-details"][data-part="service-area"],
-[data-scope="partner-details"][data-part="root"] [data-scope="address"][data-part="postal-address"],
-[data-scope="partner-details"][data-part="root"] [data-scope="address"][data-part="directions"] {
+[data-scope="partner-details"][data-part="root"] [data-scope="address"][data-part="postal-address"] {
+	margin-top: 0;
+}
+
+[data-scope="partner-details"][data-part="root"] [data-scope="partner-details"][data-part="service-area"] {
 	font-size: 1rem;
 	line-height: 1.5;
-	margin-top: 0;
 	text-align: center;
 }
 
-[data-scope="partner-details"][data-part="root"] [data-scope="contact-details"][data-part="root"] {
-	display: block;
-}
-
-[data-scope="partner-details"][data-part="root"] [data-scope="contact-details"][data-part="root"] svg {
-	display: none;
-}
-
-[data-scope="partner-details"][data-part="root"] [data-scope="contact-details"][data-part="item"]:not([data-scope="contact-details"][data-part="item"][data-variant="social"]) a {
-	display: block;
-	margin: 0;
-	overflow-wrap: anywhere;
-	text-decoration: none;
-}
-
-@media only screen and (hover: hover) and (pointer: fine) {
-	[data-scope="partner-details"][data-part="root"] [data-scope="contact-details"][data-part="item"]:not([data-scope="contact-details"][data-part="item"][data-variant="social"]) a:hover {
-		text-decoration: underline;
-	}
-}
-
-[data-scope="partner-details"][data-part="root"] [data-scope="contact-details"][data-part="item"][data-variant="social"] {
-	display: inline-block;
-	margin-top: 0.5rem;
-}
-
-[data-scope="partner-details"][data-part="root"] [data-scope="contact-details"][data-part="item"][data-variant="social"] + [data-scope="contact-details"][data-part="item"][data-variant="social"]::before {
-	color: var(--color-primary-light);
-	content: "\00b7";
-	content: "\00b7" / "";
-	display: inline-block;
-	padding-inline: 0.5rem;
-}
-
-[data-scope="partner-details"][data-part="root"] [data-scope="address"][data-part="directions"] {
-	margin-top: 0.5rem;
-}
-
-/* WP 2.14: core's two-column partner body (copy and contacts on the left,
-   image, map and opening times on the right) is the layout TD keeps; only
-   the gutter narrows so the right column has room for the map at TD's box
-   width. */
-/* From 900px the sidebar is as wide as the opening times. */
+/* Core's two-column body, copy and contacts on the left, image and opening
+   times on the right; from 900px the sidebar is as wide as the opening times. */
 @media only screen and (min-width: 900px) {
 	[data-scope="partner-details"][data-part="root"] {
 		column-gap: 2.5rem;
@@ -146,24 +90,16 @@ main > div > .container-public:has(> [data-scope="partner-details"][data-part="r
 	}
 }
 
-/* The partner page's section headings: pink caps, no rule. */
-[data-scope="partner-details"][data-part="root"] h2.ruled-heading {
-	border-bottom: 0;
-	color: var(--color-primary);
-	display: block;
-	font-size: 1rem;
-	font-weight: 700;
-	letter-spacing: 1.9px;
+/* Live's spacing for the partner page's section headings */
+[data-scope="partner-details"][data-part="root"] [data-scope="ruled-heading"][data-part="root"] {
 	line-height: 1.5;
 	margin-block: 1.5rem 0.75rem;
-	padding: 0;
-	text-align: left;
-	text-transform: uppercase;
+	padding-bottom: 0;
 }
 
 /* Live: a rule 32px under the description, the headings 32px under it, the lines 25px under them.
    Phones stack the two blocks 32px apart. */
-[data-scope="partner-details"][data-part="main"] > h2.ruled-heading {
+[data-scope="partner-details"][data-part="main"] > [data-scope="ruled-heading"][data-part="root"] {
 	margin-block: 2rem 1.5625rem;
 	text-align: center;
 }
@@ -190,12 +126,14 @@ main > div > .container-public:has(> [data-scope="partner-details"][data-part="r
 	}
 
 	/* A grid item's margin does not collapse with the paragraph's above it */
-	[data-scope="partner-details"][data-part="main"] > h2.ruled-heading {
+	[data-scope="partner-details"][data-part="main"] > [data-scope="ruled-heading"][data-part="root"] {
 		margin-top: 1rem;
 	}
 
 	[data-scope="partner-details"][data-part="main"] > h2:has(+ [data-scope="partner-details"][data-part="service-area"], + [data-scope="address"][data-part="postal-address"]) {
 		border-top: 1px solid var(--color-primary);
+		grid-column: 2;
+		grid-row: 3;
 		padding-top: 2rem;
 	}
 
@@ -207,11 +145,6 @@ main > div > .container-public:has(> [data-scope="partner-details"][data-part="r
 	[data-scope="partner-details"][data-part="main"] > [data-scope="contact-details"][data-part="root"] {
 		grid-column: 1;
 		grid-row: 4 / span 4;
-	}
-
-	[data-scope="partner-details"][data-part="main"] > h2:has(+ [data-scope="partner-details"][data-part="service-area"], + [data-scope="address"][data-part="postal-address"]) {
-		grid-column: 2;
-		grid-row: 3;
 	}
 
 	/* Service area, address and directions stack in rows 4 to 6; a missing one leaves an empty auto row */
@@ -238,18 +171,12 @@ main > div > .container-public:has(> [data-scope="partner-details"][data-part="r
 	width: 100%;
 }
 
-/* render_opening_times prints a bare <br> before its heading as a spacer;
-   the heading's own margin (above) already opens that gap. */
-[data-scope="partner-details"][data-part="aside"] > br {
-	display: none;
-}
-
 [data-scope="partner-details"][data-part="root"] [data-scope="partner-details"][data-part="opening-times"] {
 	max-width: 24rem;
 }
 
-/* The partner's events frame flattens into one two-column grid. The guard keeps these rules level with pages.css's box rules, which a busy partner's frame also matches, so they win on source order. */
-[data-scope="partner-details"][data-part="events-browser"]:not(:has([data-scope="event-index"][data-part])) {
+/* The partner's events frame flattens into one two-column grid, without the listing box a paginated frame gets. */
+[data-scope="partner-details"][data-part="events-browser"] {
 	border: 0;
 	display: grid;
 	gap: 2rem 0;
@@ -258,57 +185,32 @@ main > div > .container-public:has(> [data-scope="partner-details"][data-part="r
 }
 
 @media only screen and (min-width: 600px) {
-	[data-scope="partner-details"][data-part="events-browser"]:not(:has([data-scope="event-index"][data-part])) {
+	[data-scope="partner-details"][data-part="events-browser"] {
 		row-gap: 2.5rem;
 	}
 }
 
 @media only screen and (min-width: 900px) {
-	[data-scope="partner-details"][data-part="events-browser"]:not(:has([data-scope="event-index"][data-part])) {
+	[data-scope="partner-details"][data-part="events-browser"] {
 		column-gap: 1.75rem;
 		grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
 	}
 }
 
 /* Each day is its own <ol>, so every card is a first child; the grid's gap spaces them */
-[data-scope="partner-details"][data-part="events-browser"]:not(:has([data-scope="event-index"][data-part])) [data-scope="event-list"][data-part="day"] [data-scope="event"][data-part="root"] {
+[data-scope="partner-details"][data-part="events-browser"] [data-scope="event-list"][data-part="day"] [data-scope="event"][data-part="root"] {
 	margin-top: 0;
 }
 
-[data-scope="partner-details"][data-part="events-browser"]:not(:has([data-scope="event-index"][data-part])) [data-scope="event-list"][data-part="day"],
-[data-scope="partner-details"][data-part="events-browser"]:not(:has([data-scope="event-index"][data-part])) [data-scope="event-list"][data-part="day"] > li {
+[data-scope="partner-details"][data-part="events-browser"] [data-scope="event-list"][data-part="day"],
+[data-scope="partner-details"][data-part="events-browser"] [data-scope="event-list"][data-part="day"] > li {
 	display: contents;
 }
 
-/* render_events_header and render_show_more_days sit in the same turbo frame
-   as the flattened event grid above, so without this they are grid items
-   too, each auto-placed into a single (half-width, once 2-up) column rather
-   than the full frame width the design's header row and centred button need. */
-[data-scope="partner-details"][data-part="events-browser"]:not(:has([data-scope="event-index"][data-part])) > [data-scope="partner-details"][data-part="events-header"],
-[data-scope="partner-details"][data-part="events-browser"]:not(:has([data-scope="event-index"][data-part])) > [data-scope="partner-details"][data-part="events-actions"],
-[data-scope="partner-details"][data-part="events-browser"]:not(:has([data-scope="event-index"][data-part])) > [data-scope="partner-details"][data-part="events-more"] {
+/* The header row and the show-more row span the grid */
+[data-scope="partner-details"][data-part="events-browser"] > [data-scope="partner-details"][data-part="events-header"],
+[data-scope="partner-details"][data-part="events-browser"] > [data-scope="partner-details"][data-part="events-actions"] {
 	grid-column: 1 / -1;
-}
-
-/* Design (§5): "one continuous 2-col event list in date order (no day
-   headings)": every card already carries its own date. events.css already
-   takes Components::EventList's per-day h2 out of the picture the same way,
-   but only when the frame's paginator is wrapped in Components::Breadcrumb's
-   [data-scope="event-index"][data-part="context"] (Views::Events::Index); the partner page's own
-   Components::Timeline has no such wrapper and slips through that selector, so it
-   is repeated here, scoped off [data-scope="event-index"][data-part="context"] to stay off the events
-   route. The heading stays in the accessibility tree as the group label core
-   intends. */
-[data-scope="partner-details"][data-part="events-browser"]:not(:has([data-scope="event-index"][data-part])) > h2.ruled-heading {
-	border: 0;
-	clip-path: inset(50%);
-	height: 1px;
-	margin: 0;
-	overflow: hidden;
-	padding: 0;
-	position: absolute;
-	white-space: nowrap;
-	width: 1px;
 }
 
 /* The design's rule above the events; after the flatten rule, whose `border: 0` would wipe it */
@@ -322,6 +224,11 @@ main > div > .container-public:has(> [data-scope="partner-details"][data-part="r
 	display: none;
 }
 
+/* Child places come between the details and the frame, so the paginator above shows; its tabs run inline */
+[data-scope="partner-details"][data-part="paginator"] [data-scope="timeline"][data-part="root"] {
+	display: contents;
+}
+
 /* ---------------------------------------------------------------------------
    Partner event browser header: only the "Show" select shows, on the right. The heading stays
    for assistive tech as the section's label; the count is dropped (2026-10-20 review). */
@@ -333,26 +240,14 @@ main > div > .container-public:has(> [data-scope="partner-details"][data-part="r
 }
 
 /* The header is a grid item, so this pulls the first cards to 24px under it rather than a full row gap */
-[data-scope="partner-details"][data-part="events-browser"]:not(:has([data-scope="event-index"][data-part])) > [data-scope="partner-details"][data-part="events-header"] {
+[data-scope="partner-details"][data-part="events-browser"] > [data-scope="partner-details"][data-part="events-header"] {
 	margin-bottom: -0.5rem;
 }
 
 @media only screen and (min-width: 600px) {
-	[data-scope="partner-details"][data-part="events-browser"]:not(:has([data-scope="event-index"][data-part])) > [data-scope="partner-details"][data-part="events-header"] {
+	[data-scope="partner-details"][data-part="events-browser"] > [data-scope="partner-details"][data-part="events-header"] {
 		margin-bottom: -1rem;
 	}
-}
-
-[data-scope="partner-details"][data-part="events-heading"] {
-	border: 0;
-	clip-path: inset(50%);
-	height: 1px;
-	margin: 0;
-	overflow: hidden;
-	padding: 0;
-	position: absolute;
-	white-space: nowrap;
-	width: 1px;
 }
 
 [data-scope="partner-details"][data-part="events-count"] {
@@ -454,26 +349,13 @@ main > div > .container-public:has(> [data-scope="partner-details"][data-part="r
 }
 
 /* Components::Meta is permalink-only here and the design has no place for it */
-main > div:not([vocab]):has(> .container-public [data-scope="partner-details"][data-part="root"]) ~ [data-scope="meta"][data-part="root"] {
+main > div:has(> .container-public [data-scope="partner-details"][data-part="root"]) ~ [data-scope="meta"][data-part="root"] {
 	display: none;
 }
 
-/* The partner's map closes the box full width, at the event page's heights */
-main > div:has(> .container-public [data-scope="partner-details"][data-part="root"]) > [data-controller="leaflet"] {
-	background-color: var(--color-primary);
+/* The box's own border runs round the map, so core's single-map border goes */
+main > div:has(> .container-public [data-scope="partner-details"][data-part="root"]) > [data-scope="map"][data-part="root"] {
 	border: 0;
-	border-radius: 0 0 0.3rem 0.3rem;
-	box-shadow: none;
-	height: 318px;
-	min-height: 318px;
-	overflow: hidden;
-}
-
-@media only screen and (min-width: 900px) {
-	main > div:has(> .container-public [data-scope="partner-details"][data-part="root"]) > [data-controller="leaflet"] {
-		height: 400px;
-		min-height: 400px;
-	}
 }
 
 main:has([data-scope="partner-details"][data-part="root"]) > nav[data-scope="page-actions"][data-part="root"] {
