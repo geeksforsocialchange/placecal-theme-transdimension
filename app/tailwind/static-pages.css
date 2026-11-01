@@ -26,7 +26,7 @@ main > section.bg-foreground nav {
 }
 
 main > section.bg-foreground .hero-title,
-main > .container-public > h1.h1 {
+main > .container-public > h1[data-scope="content-page"][data-part="title"] {
 	color: var(--color-foreground);
 	font-size: 2.1rem;
 	font-style: italic;
@@ -41,14 +41,14 @@ main > .container-public > h1.h1 {
 
 @media only screen and (min-width: 600px) {
 	main > section.bg-foreground .hero-title,
-	main > .container-public > h1.h1 {
+	main > .container-public > h1[data-scope="content-page"][data-part="title"] {
 		font-size: 2.5rem;
 	}
 }
 
 @media only screen and (min-width: 900px) {
 	main > section.bg-foreground .hero-title,
-	main > .container-public > h1.h1 {
+	main > .container-public > h1[data-scope="content-page"][data-part="title"] {
 		font-size: 3.1rem;
 	}
 }
@@ -288,8 +288,8 @@ main > .container-editorial {
 	text-transform: uppercase;
 }
 
-[data-scope="contact-form"][data-part="label"] .opt,
-[data-scope="contact-form"][data-part="label"] .req {
+[data-scope="contact-form"][data-part="label"] [data-scope="field"][data-part="optional"],
+[data-scope="contact-form"][data-part="label"] [data-scope="field"][data-part="required"] {
 	color: var(--color-primary);
 	letter-spacing: normal;
 	margin-left: 0.35rem;

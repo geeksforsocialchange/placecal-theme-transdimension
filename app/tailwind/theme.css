@@ -163,9 +163,9 @@ body {
 	}
 }
 
-/* The layout's .page wrapper is a centred, cream, bordered column. TD runs the
+/* The layout's [data-scope="layout"][data-part="page"] wrapper is a centred, cream, bordered column. TD runs the
    starfield edge to edge and puts the border on the content boxes instead. */
-.page {
+[data-scope="layout"][data-part="page"] {
 	max-width: none;
 	margin-inline: auto;
 	background-color: transparent;
