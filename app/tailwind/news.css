@@ -12,9 +12,8 @@
 	max-width: 800px;
 }
 
-/* NewsCard: the image is a column of its own on the left with the title,
-   byline, summary and button stacked beside it; core's aside, main and content
-   wrappers go display:contents so the card grid places every part itself. */
+/* NewsCard: the image in its own left column, the rest stacked beside it. Core's
+   aside, main and content wrappers go display: contents so the grid places every part. */
 [data-scope="news-index"][data-part="card"] {
 	background-color: var(--color-background);
 	border: 1px solid var(--color-primary);

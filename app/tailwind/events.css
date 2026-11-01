@@ -1,12 +1,5 @@
-/* /events, Final design "2 Events index": the region pills, the day strip, two
-   centred filter toggles, a two-column card grid, and the iCal/CSV buttons
-   below the box. */
-
-/* ---------------------------------------------------------------------------
-   Content box (Events.elm contentContainerStyle). The box is the card grid:
-   each day's list goes display: contents, so the cards run on in one
-   two-column flow with no seam at each day.
---------------------------------------------------------------------------- */
+/* /events, Final design "2 Events index". The box is the card grid: each day's
+   list goes display: contents, so the cards run on with no seam at each day. */
 
 [data-scope="event-index"][data-part="browser"] {
 	box-sizing: border-box;
@@ -58,12 +51,8 @@
 	margin: 0;
 }
 
-/* ---------------------------------------------------------------------------
-   Paginator (Events.elm): the region pills, the day strip, then the FILTER
-   EVENTS / PICK A DATE toggles on their own centred line. The wrappers core
-   nests them in go display: contents, so the paginator is one flex row and
-   `order` places each piece.
---------------------------------------------------------------------------- */
+/* The paginator: core's wrappers go display: contents, so it is one flex row
+   and `order` places the region pills, the day strip and the filter toggles. */
 
 [data-scope="event-index"][data-part="paginator"] {
 	align-items: center;
@@ -215,14 +204,8 @@
 		content: "\2212";
 	}
 
-	/* ---------------------------------------------------------------------------
-	   Filter dropdown (Select.jsx, arranged Events.elm's way: up to four controls
-	   - neighbourhood, sort, period, repeating - in a row with 28px gap). Core's
-	   radio groups have no <select> chrome or group heading of their own
-	   (doc/core-slots-needed.md); each group gets the dark-blue/pink-border box
-	   Select.jsx draws around a real select instead.
-
-	--------------------------------------------------------------------------- */
+	/* Filter dropdown, Select.jsx arranged Events.elm's way: the radio groups in
+	   a row 28px apart, each in the box Select.jsx draws round a select. */
 
 	/* In flow under the toggles rather than core's absolutely placed card */
 	& :is([data-scope="filter"][data-part="dropdown"], [data-scope="event-filter"][data-part="dropdown"]) {
@@ -634,9 +617,7 @@
 	color: var(--color-primary);
 }
 
-/* ---------------------------------------------------------------------------
-   Button row below the box (Button.jsx "dark" / size sm): the iCal and CSV links.
---------------------------------------------------------------------------- */
+/* The iCal and CSV links below the box, as small dark buttons (Button.jsx) */
 
 /* Core's bottom margin on the box's wrapper would collapse with the row's 2.5rem and win */
 .container-public:has([data-scope="event-index"][data-part="browser"]) {

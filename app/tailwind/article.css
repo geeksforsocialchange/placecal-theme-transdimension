@@ -1,9 +1,5 @@
-/* /news/:slug: Views::News::Show
-   ArticleF: one dark box (48px 32px 56px inset) holding the kicker, the pink
-   title, the "Partner • date" byline, the image, and the prose. Split out of
-   pages.css (WP 3.19), redrawn for the Final designs
-   (screens/07-article-show-full.png).
---------------------------------------------------------------------------- */
+/* /news/:slug, ArticleF: one dark box holding the pink title, the
+   "Partner • date" byline, the image and the prose. */
 
 /* The article title, byline, image and body are all inside one content box on
    TD, so the box goes on the wrapper that holds both the hero and the body

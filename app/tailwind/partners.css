@@ -66,12 +66,8 @@
 	display: none;
 }
 
-/* ---------------------------------------------------------------------------
-   Filter rows (Final.jsx FilterRow / Select.jsx / SearchInput.jsx): the region
-   pills, then "TYPE [Show all v] ... [search]". Each filter toggle's label
-   reads as plain allcaps text and its value as the select, with core's
-   chevron moved on top of it.
---------------------------------------------------------------------------- */
+/* Filter rows (Final.jsx FilterRow): the region pills, then "TYPE [Show all v] ... [search]",
+   each toggle's label as plain caps and its value as the select, core's chevron on top. */
 /* The region pills sit outside the form, so the form and its controls row are
    flattened to lay out the pills, selects and search in one flex box. */
 [data-scope="partner-index"][data-part="root"] [data-scope="partner-filter"][data-part="root"] {
@@ -485,9 +481,7 @@
 	white-space: nowrap;
 }
 
-/* ---------------------------------------------------------------------------
-   Map: full-bleed, 40px under the list, closing the box (Final.jsx `.td-map`).
---------------------------------------------------------------------------- */
+/* Map: full-bleed, 40px under the list, closing the box (Final.jsx `.td-map`) */
 [data-scope="partner-index"][data-part="root"] > [data-scope="partner-index"][data-part="map"] {
 	margin: 40px 0 0;
 	padding-inline: 0;

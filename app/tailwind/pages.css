@@ -103,10 +103,8 @@ main > .container-public {
 	display: none;
 }
 
-/* Global.elm screenReaderOnly. TD draws the strapline as part of the wordmark
-   artwork above, so core's text kicker would repeat it. It is moved off screen
-   rather than removed: it is the only copy of the strapline a screen reader can
-   reach, since the lockup is a background image. */
+/* Global.elm screenReaderOnly: the wordmark artwork draws the strapline, so this
+   is moved off screen but kept, as the only copy a screen reader can reach. */
 [data-scope="hero"][data-part="subtitle"] {
 	height: 1px;
 	left: -10000px;
@@ -116,9 +114,8 @@ main > .container-public {
 	width: 1px;
 }
 
-/* Cut from the picture but kept for assistive tech: the listing pages' h1
-   (only a listing hero has a standfirst), "All partners", the events'
-   day headings (every card carries its date) and the partner events heading. */
+/* Kept for assistive tech only: the listing pages' h1 (only a listing hero has a
+   standfirst), "All partners", the event lists' day headings and the partner events heading. */
 main > [data-scope="hero"][data-part="root"]:has([data-scope="hero"][data-part="standfirst"]) [data-scope="hero"][data-part="title"],
 [data-scope="partner-index"][data-part="root"] [data-scope="partner-index"][data-part="list-heading"],
 [data-scope="event-index"][data-part="browser"] > [data-scope="ruled-heading"][data-part="root"],
@@ -246,9 +243,8 @@ main > [data-scope="hero"][data-part="root"]:has([data-scope="hero"][data-part="
 	}
 }
 
-/* Global.elm contentWrapperStyle: the pink-bordered dark box every listing's
-   content sits in. flow-root keeps a first or last child's margin inside the border.
-   The paginator test adds no specificity, so the partner page's frame rules can undo the box. */
+/* Global.elm contentWrapperStyle. The paginator test adds no specificity, so the
+   partner page's frame rules can undo the box; flow-root keeps child margins inside. */
 [data-scope="event-index"][data-part="browser"],
 [data-scope="partner-details"][data-part="events-browser"]:where(:has([data-scope="partner-details"][data-part="paginator"])),
 [data-scope="partner-index"][data-part="root"] {
@@ -624,10 +620,8 @@ main > [data-scope="hero"][data-part="root"]:has([data-scope="hero"][data-part="
 	}
 }
 
-/* ---------------------------------------------------------------------------
-   Page actions (Final designs: the centred button row below the box on the
-   event, partner and article pages), each link a dark button.
---------------------------------------------------------------------------- */
+/* Page actions: the centred row of dark buttons below the box on the event,
+   partner and article pages (Final designs). */
 
 [data-scope="page-actions"][data-part="root"] {
 	margin-top: 40px;

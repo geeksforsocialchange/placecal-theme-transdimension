@@ -1,7 +1,5 @@
-/* /events/:id, Event.elm: the name in a pink panel at the top of the content
-   box, then the date stack, the description, the info columns and the map.
-   Core splits the box between the event's page variant and the event-details
-   block, so it is drawn as two halves that meet with no gap. */
+/* /events/:id, Event.elm. Core splits the content box between the event's page
+   variant and the event-details block, so it is drawn as two halves that meet. */
 
 [data-scope="event"][data-variant="page"] {
 	background-color: var(--color-background);
