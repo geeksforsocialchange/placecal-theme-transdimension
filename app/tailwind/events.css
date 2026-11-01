@@ -46,8 +46,7 @@ main > [data-scope="hero"][data-part="root"]:has([data-scope="hero"][data-part="
 	row-gap: 2rem;
 }
 
-[data-scope="event-index"][data-part="browser"]:has([data-scope="event-index"][data-part="context"]) [data-scope="event-list"][data-part="day"] [data-scope="event"][data-part="root"],
-[data-scope="event-index"][data-part="browser"]:has([data-scope="event-index"][data-part="context"]) .events [data-scope="event"][data-part="root"] {
+[data-scope="event-index"][data-part="browser"]:has([data-scope="event-index"][data-part="context"]) [data-scope="event-list"][data-part="day"] [data-scope="event"][data-part="root"] {
 	margin-top: 0;
 }
 
@@ -77,13 +76,11 @@ main > [data-scope="hero"][data-part="root"]:has([data-scope="hero"][data-part="
    are direct children of the frame alongside the day-group <ol>s; they take
    the full row rather than being squeezed into one card column. */
 [data-scope="event-index"][data-part="browser"]:has([data-scope="event-index"][data-part="context"]) > [data-scope="event-index"][data-part="paginator"],
-[data-scope="event-index"][data-part="browser"]:has([data-scope="event-index"][data-part="context"]) > hr,
 [data-scope="event-index"][data-part="browser"]:has([data-scope="event-index"][data-part="context"]) > p {
 	grid-column: 1 / -1;
 }
 
-[data-scope="event-index"][data-part="browser"]:has([data-scope="event-index"][data-part="context"]) > [data-scope="event-list"][data-part="day"],
-[data-scope="event-index"][data-part="browser"]:has([data-scope="event-index"][data-part="context"]) > .events {
+[data-scope="event-index"][data-part="browser"]:has([data-scope="event-index"][data-part="context"]) > [data-scope="event-list"][data-part="day"] {
 	display: contents;
 }
 
@@ -91,7 +88,7 @@ main > [data-scope="hero"][data-part="root"]:has([data-scope="hero"][data-part="
    listing has none (Events.elm renders one flat list) and every card already
    carries its date, so the heading stays in the accessibility tree as the
    group label core intends while being taken out of the picture visually. */
-[data-scope="event-index"][data-part="browser"]:has([data-scope="event-index"][data-part="context"]) > h2.ruled-heading {
+[data-scope="event-index"][data-part="browser"]:has([data-scope="event-index"][data-part="context"]) > [data-scope="ruled-heading"][data-part="root"] {
 	border: 0;
 	clip-path: inset(50%);
 	height: 1px;

@@ -49,13 +49,8 @@ main > div[vocab] > .container-public > hr {
 	display: none;
 }
 
-/* No floating section name above the article, as on the other show pages. */
-main > div[vocab][typeof="Article"] > [data-scope="hero"][data-part="root"] [data-scope="hero"][data-part="kicker"] {
-	display: none;
-}
-
 /* ArticleF title: pink, 2.1rem italic 500, line-height 1.3, centred, 760px
-   measure. No kicker above it now, so the hero's own top padding goes too. */
+   measure, with no top padding. */
 main > div[vocab] > [data-scope="hero"][data-part="root"] [data-scope="hero"][data-part="title"] {
 	color: var(--color-primary);
 	font-size: 1.6rem;
