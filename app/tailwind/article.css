@@ -73,23 +73,23 @@ main > div[vocab] > [data-scope="hero"][data-part="root"] [data-scope="hero"][da
 
 /* Core lays the date out in a column beside the body; TD puts the partner and
    the date on one line under the title, centred, partner first even though
-   core renders the date first (.article__aside before .article__main). The
+   core renders the date first ([data-scope="article"][data-part="aside"] before [data-scope="article"][data-part="main"]). The
    wrappers go display:contents so the grid below can place the two byline
    paragraphs itself. Below 600px it is one column; flow-root keeps the byline
    and body margins inside the box. */
-main > div[vocab] .article {
+main > div[vocab] [data-scope="article"][data-part="root"] {
 	display: flow-root;
 }
 
-main > div[vocab] .article__aside,
-main > div[vocab] .article__main {
+main > div[vocab] [data-scope="article"][data-part="aside"],
+main > div[vocab] [data-scope="article"][data-part="main"] {
 	max-width: none;
 	width: 100%;
 }
 
-.article__published,
-.article__author,
-.article__partners {
+[data-scope="article"][data-part="published"],
+[data-scope="article"][data-part="author"],
+[data-scope="article"][data-part="partners"] {
 	font-size: 0.8777rem;
 	font-weight: 700;
 	margin: 0.25rem 0;
@@ -97,10 +97,10 @@ main > div[vocab] .article__main {
 }
 
 @media only screen and (min-width: 600px) {
-	main > div[vocab] .article {
+	main > div[vocab] [data-scope="article"][data-part="root"] {
 		column-gap: 0.35em;
 		display: grid;
-		/* .article__image/.article__content also span these two columns
+		/* [data-scope="article"][data-part="image"]/[data-scope="article"][data-part="content"] also span these two columns
 		   (1/-1) to reach full width; a spanning item wider than the columns
 		   it spans grows them to help fit it, which would push the date away
 		   from the partner name. justify-self on the two byline items below
@@ -112,19 +112,19 @@ main > div[vocab] .article__main {
 		row-gap: 0;
 	}
 
-	main > div[vocab] .article__aside,
-	main > div[vocab] .article__main {
+	main > div[vocab] [data-scope="article"][data-part="aside"],
+	main > div[vocab] [data-scope="article"][data-part="main"] {
 		display: contents;
 	}
 
-	.article__partners {
+	[data-scope="article"][data-part="partners"] {
 		grid-column: 1;
 		grid-row: 1;
 		justify-self: end;
 		margin: 0.25rem 0 2rem;
 	}
 
-	.article__published {
+	[data-scope="article"][data-part="published"] {
 		grid-column: 2;
 		grid-row: 1;
 		justify-self: start;
@@ -132,27 +132,27 @@ main > div[vocab] .article__main {
 	}
 
 	/* the bullet between them */
-	.article__published::before {
+	[data-scope="article"][data-part="published"]::before {
 		content: "\2022";
 		padding-inline: 0.35em;
 	}
 
-	.article__image {
+	[data-scope="article"][data-part="image"] {
 		grid-column: 1 / -1;
 	}
 
-	.article__content {
+	[data-scope="article"][data-part="content"] {
 		grid-column: 1 / -1;
 	}
 }
 
 /* NewsItem.elm: no author byline, just partner and date. */
-main > div[vocab] .article__author {
+main > div[vocab] [data-scope="article"][data-part="author"] {
 	display: none;
 }
 
 /* ArticleF image: 636px wide, 16:9, cover, centred. */
-.article__image img {
+[data-scope="article"][data-part="image"] img {
 	aspect-ratio: 16 / 9;
 	border-radius: 0.3rem;
 	display: block;
@@ -166,14 +166,14 @@ main > div[vocab] .article__author {
    0.5rem top margin, not the image's usual 1rem: shrinking the image's
    bottom margin here avoids the two margins collapsing into whichever is
    larger. */
-.article__image img:has(+ .article__image-credit) {
+[data-scope="article"][data-part="image"] img:has(+ [data-scope="article"][data-part="image-credit"]) {
 	margin-bottom: 0;
 }
 
 /* ArticleF image credit: 0.78rem italic light pink, centred, 0.5rem under
    the image and 2rem above whatever follows (article.image_credit, only
    rendered when set). */
-.article__image-credit {
+[data-scope="article"][data-part="image-credit"] {
 	color: var(--color-primary-light);
 	font-size: 0.78rem;
 	font-style: italic;
@@ -183,19 +183,19 @@ main > div[vocab] .article__author {
 
 /* ArticleF: first paragraph 1.4rem/1.4, the rest 16px prose in a 560px
    measure (narrower than the 636px image above it). */
-main > div[vocab] .article__content {
+main > div[vocab] [data-scope="article"][data-part="content"] {
 	margin-inline: auto;
 	max-width: 560px;
 	text-align: left;
 }
 
-.article__content > p:first-child {
+[data-scope="article"][data-part="content"] > p:first-child {
 	font-size: 1.4rem;
 	line-height: 1.4;
 	margin-block-end: 2em;
 }
 
-.article__content p {
+[data-scope="article"][data-part="content"] p {
 	font-size: 1rem;
 }
 
@@ -236,9 +236,9 @@ main > div[vocab] .article__content {
 }
 
 /* Core still renders the article's own "Go back" link inside the box
-   (.article__back, news.show.back) as well as the page-actions row below it
+   ([data-scope="article"][data-part="back"], news.show.back) as well as the page-actions row below it
    (Previous / Go back / Next, pages.css "Page actions"); the Final design
    shows only the one row under the box, so the inline duplicate is hidden. */
-.article__back {
+[data-scope="article"][data-part="back"] {
 	display: none;
 }

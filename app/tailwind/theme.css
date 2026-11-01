@@ -244,50 +244,6 @@ hr {
 	padding: 2rem 0;
 }
 
-/* Global.elm darkBlueButtonStyle: dark blue fill, white label, pink border, and
-   the 0.3rem corner every TD box has.
-   Only the painting is ported. baseButtonStyle's 1.2rem type and 0.2rem border
-   belong to TD's full-size buttons; applying them to every .btn inflates the
-   day strip and the filter pills past the viewport, and those components are
-   restyled properly in their own work packages. */
-.btn {
-	background-color: var(--color-background);
-	border-color: var(--color-primary);
-	border-radius: 0.3rem;
-	color: var(--color-foreground);
-	font-weight: 600;
-}
-
-.btn:hover {
-	background-color: var(--color-tertiary);
-	color: var(--color-foreground);
-}
-
-/* Global.elm textInputStyle */
-input[type="text"],
-input[type="email"],
-input[type="search"],
-input[type="tel"],
-input[type="url"],
-textarea,
-select {
-	background-color: var(--color-background);
-	border: 2px solid var(--color-primary);
-	border-radius: 0.3rem;
-	color: var(--color-foreground);
-	outline: none;
-}
-
-/* ---------------------------------------------------------------------------
-   Header (PageHeader.elm)
-   Below 600px: the title bar, a small logo on the left and the menu button on
-   the right, with the navigation collapsed. From 600px up the title bar is
-   display:none and the navigation becomes the full-width pink bar.
-   Core's Components::Navigation already lays the mobile case out as a grid with
-   branding and toggle on row 1 and the menu on row 2, and already reveals the
-   menu at the same 600px breakpoint, so only the painting changes.
---------------------------------------------------------------------------- */
-
 /* PageHeader.elm lays the header out with flexbox, and so does this: the
    wordmark and the menu button share the first line and the menu takes a
    wrapped line of its own. Core's two-column grid renders the same thing, but
