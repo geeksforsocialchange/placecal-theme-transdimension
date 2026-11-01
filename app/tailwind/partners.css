@@ -7,7 +7,7 @@
 /* ---------------------------------------------------------------------------
    Layout order
    Core's view (Views::Partners::Index) renders, in this order: the
-   `.list-heading` h2, Components::Breadcrumb (region pills + the category /
+   `[data-scope="partner-index"][data-part="list-heading"]` h2, Components::Breadcrumb (region pills + the category /
    neighbourhood filter form), an `hr`, then `ul[data-scope="partner-index"][data-part="list"]`. The heading is
    hidden visually (below), so `.container-public` becomes a flex column with
    the filters 40px above the list (32px on phones).
@@ -58,7 +58,7 @@
 }
 
 /* "All partners" is cut from the picture like the page titles, kept for assistive tech. */
-[data-scope="partner-index"][data-part="root"] .list-heading {
+[data-scope="partner-index"][data-part="root"] [data-scope="partner-index"][data-part="list-heading"] {
 	border: 0;
 	clip-path: inset(50%);
 	height: 1px;
@@ -470,7 +470,7 @@
    (design tokens: mauve #7b4a6e, used for badges and the search field), pink
    600 label, 0.3rem radius. */
 [data-scope="partner-preview"][data-part="neighbourhood"] span,
-.neighbourhood span,
+[data-scope="partner-preview"][data-part="neighbourhood"] span,
 [data-scope="event"][data-part="neighbourhood"] [data-scope="pill"][data-part="root"] {
 	background-color: #7b4a6e; /* mauve (design tokens: badges, search field) */
 	border-radius: 0.3rem;

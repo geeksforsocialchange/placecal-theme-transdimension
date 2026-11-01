@@ -204,26 +204,26 @@ main > div[vocab] [data-scope="article"][data-part="content"] {
    already lays the icon/text/icon out as a row
    from tablet-portrait-up with the quote centred between them, so only the
    Final designs' own numbers go here. Selectors go one level deeper than
-   core's own (.pullquote blockquote svg, not .pullquote svg) to match its
-   "blockquote svg" / "blockquote .alt-title-small" specificity, since core's
+   core's own ([data-scope="pull-quote"][data-part="root"] blockquote svg, not [data-scope="pull-quote"][data-part="root"] svg) to match its
+   "blockquote svg" / "blockquote [data-scope="pull-quote"][data-part="quote"]" specificity, since core's
    lime placeholder colour and 860px measure would otherwise win the tie.
    `PullQuote(source: '', quote_context: '')` always renders <cite>, empty
    for a news article (neither field has an Article column); hidden rather
    than left as a blank flex gap. */
-.pullquote {
+[data-scope="pull-quote"][data-part="root"] {
 	margin-block: 2.5rem;
 }
 
-.pullquote blockquote {
+[data-scope="pull-quote"][data-part="root"] blockquote {
 	gap: 2.5rem;
 }
 
-.pullquote blockquote svg {
+[data-scope="pull-quote"][data-part="root"] blockquote svg {
 	height: 3rem;
 	width: 3rem;
 }
 
-.pullquote blockquote .alt-title-small {
+[data-scope="pull-quote"][data-part="root"] blockquote [data-scope="pull-quote"][data-part="quote"] {
 	font-size: 1.6rem;
 	font-style: italic;
 	font-weight: 500;
@@ -231,7 +231,7 @@ main > div[vocab] [data-scope="article"][data-part="content"] {
 	max-width: 320px;
 }
 
-.pullquote cite:empty {
+[data-scope="pull-quote"][data-part="root"] cite:empty {
 	display: none;
 }
 

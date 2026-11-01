@@ -3,31 +3,31 @@
 
 /* Live's reset sets this on body for every page; it turns kerning off, which
    is what moves live's line breaks. */
-.page--about {
+[data-scope="content-page"][data-part="root"][data-page-slug="about"] {
 	text-rendering: optimizeSpeed;
 }
 
 /* main is 12px narrower than live's 1150px column from here up. */
 @media only screen and (min-width: 1200px) {
-	.page--about {
+	[data-scope="content-page"][data-part="root"][data-page-slug="about"] {
 		margin-inline: -6px;
 	}
 }
 
-main > .page--about > h1.h1 {
+main > [data-scope="content-page"][data-part="root"][data-page-slug="about"] > h1[data-scope="content-page"][data-part="title"] {
 	padding-bottom: 0.5rem;
 	position: relative;
 }
 
 @media only screen and (min-width: 900px) {
-	main > .page--about > h1.h1 {
+	main > [data-scope="content-page"][data-part="root"][data-page-slug="about"] > h1[data-scope="content-page"][data-part="title"] {
 		padding-bottom: 1rem;
 	}
 }
 
 /* The girl with the afro hangs off the title, over the intro box. */
 @media only screen and (min-width: 900px) {
-	main > .page--about > h1.h1::after {
+	main > [data-scope="content-page"][data-part="root"][data-page-slug="about"] > h1[data-scope="content-page"][data-part="title"]::after {
 		background: url("characters/girl_with_afro.png") center / 162px no-repeat;
 		bottom: -90px;
 		content: "";
@@ -41,7 +41,7 @@ main > .page--about > h1.h1 {
 }
 
 @media only screen and (min-width: 1200px) {
-	main > .page--about > h1.h1::after {
+	main > [data-scope="content-page"][data-part="root"][data-page-slug="about"] > h1[data-scope="content-page"][data-part="title"]::after {
 		background-size: 231px;
 		bottom: -250px;
 		height: 434px;
@@ -83,7 +83,7 @@ main > .page--about > h1.h1 {
 	}
 }
 
-.page--about .about-lead {
+[data-scope="content-page"][data-part="root"][data-page-slug="about"] .about-lead {
 	color: var(--color-foreground-dark);
 	font-size: 1.6rem;
 	font-style: italic;
@@ -94,7 +94,7 @@ main > .page--about > h1.h1 {
 }
 
 @media only screen and (min-width: 600px) {
-	.page--about .about-lead {
+	[data-scope="content-page"][data-part="root"][data-page-slug="about"] .about-lead {
 		font-size: 1.9rem;
 		line-height: 2.1rem;
 		margin: 1rem 1.5rem;
@@ -102,7 +102,7 @@ main > .page--about > h1.h1 {
 }
 
 @media only screen and (min-width: 900px) {
-	.page--about .about-lead {
+	[data-scope="content-page"][data-part="root"][data-page-slug="about"] .about-lead {
 		font-size: 2.5rem;
 		line-height: 3.1rem;
 		margin: 3rem auto;
@@ -511,7 +511,7 @@ main > .page--about > h1.h1 {
 	position: relative;
 }
 
-.page--about .about-maker__name {
+[data-scope="content-page"][data-part="root"][data-page-slug="about"] .about-maker__name {
 	color: var(--color-foreground-dark);
 	font-size: 1rem;
 	line-height: 1.5;
@@ -551,7 +551,7 @@ main > .page--about > h1.h1 {
 		padding-top: 2rem;
 	}
 
-	.page--about .about-maker__name {
+	[data-scope="content-page"][data-part="root"][data-page-slug="about"] .about-maker__name {
 		flex-shrink: 0;
 		padding: 0 3rem 0 1rem;
 	}
@@ -577,7 +577,7 @@ main > .page--about > h1.h1 {
 		width: 40%;
 	}
 
-	.page--about .about-maker__name {
+	[data-scope="content-page"][data-part="root"][data-page-slug="about"] .about-maker__name {
 		padding: 0;
 	}
 

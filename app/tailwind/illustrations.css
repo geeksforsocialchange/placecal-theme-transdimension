@@ -173,11 +173,11 @@ main:not(:has(.td-home))::after {
 }
 
 /* pageHeadingGenericStyle's padding-top: the hero on the listing pages (its
-   h1 is visually hidden, pages.css), h1.h1 on the static markdown pages and
+   h1 is visually hidden, pages.css), h1[data-scope="content-page"][data-part="title"] on the static markdown pages and
    .hero-title on the directory pages. */
 main:not(:has(.td-home)) > [data-scope="hero"][data-part="root"],
 main:not(:has(.td-home)) > section.bg-foreground .hero-title,
-main:not(:has(.td-home)) > .container-public > h1.h1 {
+main:not(:has(.td-home)) > .container-public > h1[data-scope="content-page"][data-part="title"] {
 	padding-top: var(--td-title-padding-top);
 }
 
@@ -188,30 +188,30 @@ main:not(:has(.td-home)) > div:has(> [data-scope="hero"][data-part="root"]) {
 
 /* pageHeadingAboutStyle: the About page's own header band. The girl with the
    afro is a separate image, drawn in about.css. */
-body main:has(.page--about) {
+body main:has([data-scope="content-page"][data-part="root"][data-page-slug="about"]) {
 	--td-band-header: url("illustrations/320px/about_1_header.png");
 }
 
 @media only screen and (min-width: 600px) {
-	body main:has(.page--about) {
+	body main:has([data-scope="content-page"][data-part="root"][data-page-slug="about"]) {
 		--td-band-header: url("illustrations/768px/about_1_header.png");
 	}
 }
 
 @media only screen and (min-width: 900px) {
-	body main:has(.page--about) {
+	body main:has([data-scope="content-page"][data-part="root"][data-page-slug="about"]) {
 		--td-band-header: url("illustrations/1024px/about_1_header.png");
 	}
 }
 
 @media only screen and (min-width: 1200px) {
-	body main:has(.page--about) {
+	body main:has([data-scope="content-page"][data-part="root"][data-page-slug="about"]) {
 		--td-band-header: url("illustrations/1366px/about_1_header.png");
 	}
 }
 
 @media only screen and (min-width: 1500px) {
-	body main:has(.page--about) {
+	body main:has([data-scope="content-page"][data-part="root"][data-page-slug="about"]) {
 		--td-band-header: url("illustrations/1920px/about_1_header.png");
 		--td-band-header-height: 1150px;
 		--td-band-header-top: -130px;
