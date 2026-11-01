@@ -5,10 +5,10 @@
    button row below the box. Split out of pages.css (WP 3.19) so the events
    route can be edited without touching other routes' rules.
 
-   The content box is core's #events-browser turbo frame. Partner show
-   (app/tailwind/partner-show.css) reuses the same #events-browser id and
-   .paginator markup for its own event browser, so every selector below is
-   scoped through :has(.paginator__context) (the wrapper class only
+   The content box is core's [data-scope="event-index"][data-part="browser"] turbo frame. Partner show
+   (app/tailwind/partner-show.css) reuses the same [data-scope="event-index"][data-part="browser"] id and
+   [data-scope="event-index"][data-part="paginator"] markup for its own event browser, so every selector below is
+   scoped through :has([data-scope="event-index"][data-part="context"]) (the wrapper class only
    Views::Events::Index's paginator renders; the partner page's Timeline has
    no such wrapper), to keep this file's rules off that page.
 --------------------------------------------------------------------------- */
@@ -23,18 +23,18 @@
 --------------------------------------------------------------------------- */
 
 /* pages.css joins the content box to the intro panel with a
-   `main > [hero root]:has([hero standfirst]) + * #events-browser:has(.paginator)`
+   `main > [hero root]:has([hero standfirst]) + * [data-scope="event-index"][data-part="browser"]:has([data-scope="event-index"][data-part="paginator"])`
    rule that sets display: flow-root; it outranks a bare id selector, so the
    grid is declared at the same specificity to win. */
-#events-browser:has(.paginator__context),
-main > [data-scope="hero"][data-part="root"]:has([data-scope="hero"][data-part="standfirst"]) + * #events-browser:has(.paginator__context) {
+[data-scope="event-index"][data-part="browser"]:has([data-scope="event-index"][data-part="context"]),
+main > [data-scope="hero"][data-part="root"]:has([data-scope="hero"][data-part="standfirst"]) + * [data-scope="event-index"][data-part="browser"]:has([data-scope="event-index"][data-part="context"]) {
 	display: grid;
 }
 
 /* Only display rides on the strong selector above: the column count has to
    stay at id-plus-class specificity so the two-column rule in the 900px
    media query below can take over. */
-#events-browser:has(.paginator__context) {
+[data-scope="event-index"][data-part="browser"]:has([data-scope="event-index"][data-part="context"]) {
 	box-sizing: border-box;
 	column-gap: 0;
 	grid-template-columns: minmax(0, 1fr);
@@ -46,42 +46,44 @@ main > [data-scope="hero"][data-part="root"]:has([data-scope="hero"][data-part="
 	row-gap: 2rem;
 }
 
-#events-browser:has(.paginator__context) .events [data-scope="event"][data-part="root"] {
+[data-scope="event-index"][data-part="browser"]:has([data-scope="event-index"][data-part="context"]) [data-scope="event-list"][data-part="day"] [data-scope="event"][data-part="root"],
+[data-scope="event-index"][data-part="browser"]:has([data-scope="event-index"][data-part="context"]) .events [data-scope="event"][data-part="root"] {
 	margin-top: 0;
 }
 
 /* Core rules the list off from the filters; the design runs straight from
    the day strip into the cards (40px), so the rule goes. */
-#events-browser:has(.paginator__context) > hr {
+[data-scope="event-index"][data-part="browser"]:has([data-scope="event-index"][data-part="context"]) > hr {
 	display: none;
 }
 
 /* From 600px the 24px above the region row is the row's own margin */
 @media only screen and (min-width: 600px) {
-	#events-browser:has(.paginator__context) {
+	[data-scope="event-index"][data-part="browser"]:has([data-scope="event-index"][data-part="context"]) {
 		padding: 0 1.5rem 3rem;
 		row-gap: 2.5rem;
 	}
 }
 
 @media only screen and (min-width: 900px) {
-	#events-browser:has(.paginator__context) {
+	[data-scope="event-index"][data-part="browser"]:has([data-scope="event-index"][data-part="context"]) {
 		column-gap: 1.75rem;
 		grid-template-columns: repeat(2, minmax(0, 1fr));
 		padding: 0 2rem 6.25rem;
 	}
 }
 
-/* .paginator (filters + day strip) and the day heading/empty-state paragraphs
+/* [data-scope="event-index"][data-part="paginator"] (filters + day strip) and the day heading/empty-state paragraphs
    are direct children of the frame alongside the day-group <ol>s; they take
    the full row rather than being squeezed into one card column. */
-#events-browser:has(.paginator__context) > .paginator,
-#events-browser:has(.paginator__context) > hr,
-#events-browser:has(.paginator__context) > p {
+[data-scope="event-index"][data-part="browser"]:has([data-scope="event-index"][data-part="context"]) > [data-scope="event-index"][data-part="paginator"],
+[data-scope="event-index"][data-part="browser"]:has([data-scope="event-index"][data-part="context"]) > hr,
+[data-scope="event-index"][data-part="browser"]:has([data-scope="event-index"][data-part="context"]) > p {
 	grid-column: 1 / -1;
 }
 
-#events-browser:has(.paginator__context) > .events {
+[data-scope="event-index"][data-part="browser"]:has([data-scope="event-index"][data-part="context"]) > [data-scope="event-list"][data-part="day"],
+[data-scope="event-index"][data-part="browser"]:has([data-scope="event-index"][data-part="context"]) > .events {
 	display: contents;
 }
 
@@ -89,7 +91,7 @@ main > [data-scope="hero"][data-part="root"]:has([data-scope="hero"][data-part="
    listing has none (Events.elm renders one flat list) and every card already
    carries its date, so the heading stays in the accessibility tree as the
    group label core intends while being taken out of the picture visually. */
-#events-browser:has(.paginator__context) > h2.ruled-heading {
+[data-scope="event-index"][data-part="browser"]:has([data-scope="event-index"][data-part="context"]) > h2.ruled-heading {
 	border: 0;
 	clip-path: inset(50%);
 	height: 1px;
@@ -101,7 +103,7 @@ main > [data-scope="hero"][data-part="root"]:has([data-scope="hero"][data-part="
 	width: 1px;
 }
 
-#events-browser:has(.paginator__context) hr {
+[data-scope="event-index"][data-part="browser"]:has([data-scope="event-index"][data-part="context"]) hr {
 	border: 0;
 	border-top: 1px solid var(--color-primary);
 	margin: 0;
@@ -117,22 +119,22 @@ main > [data-scope="hero"][data-part="root"]:has([data-scope="hero"][data-part="
    neighbourhood Filter (Location) as a third, separate widget. Core nests
    all of that, plus the paginator arrows (Components::Timeline, a separate
    list entirely), three levels deep inside Components::Breadcrumb.
-   `display: contents` on every wrapper between them and .paginator flattens
+   `display: contents` on every wrapper between them and [data-scope="event-index"][data-part="paginator"] flattens
    the whole thing into one flex row, so `order` alone can put the day strip
    on one line and the toggles on their own centred line
    below it (2026-10-19 review), regardless of the source order core renders
    them in.
 --------------------------------------------------------------------------- */
 
-.paginator__context,
-.paginator__context [data-scope="breadcrumb"][data-part="root"],
-.paginator__context [data-scope="breadcrumb"][data-part="controls"],
-.paginator__context .filter-bar,
+[data-scope="event-index"][data-part="context"],
+[data-scope="event-index"][data-part="context"] [data-scope="breadcrumb"][data-part="root"],
+[data-scope="event-index"][data-part="context"] [data-scope="breadcrumb"][data-part="controls"],
+[data-scope="event-index"][data-part="context"] [data-scope="event-index"][data-part="filter-bar"],
 [data-scope="timeline"][data-part="root"] {
 	display: contents;
 }
 
-#paginator:has(.paginator__context) {
+[data-scope="event-index"][data-part="paginator"]:has([data-scope="event-index"][data-part="context"]) {
 	align-items: center;
 	column-gap: 0.5rem;
 	display: flex;
@@ -145,7 +147,7 @@ main > [data-scope="hero"][data-part="root"]:has([data-scope="hero"][data-part="
 }
 
 @media only screen and (min-width: 600px) {
-	#paginator:has(.paginator__context) {
+	[data-scope="event-index"][data-part="paginator"]:has([data-scope="event-index"][data-part="context"]) {
 		margin-inline: 2rem;
 	}
 }
@@ -154,7 +156,7 @@ main > [data-scope="hero"][data-part="root"]:has([data-scope="hero"][data-part="
    above the day strip, as on the Elm site.
 
    Every selector below is a descendant (not child) combinator: display:
-   contents removes .paginator__context, [data-scope="breadcrumb"][data-part="root"] etc. from the box tree
+   contents removes [data-scope="event-index"][data-part="context"], [data-scope="breadcrumb"][data-part="root"] etc. from the box tree
    for layout purposes, but the region filter, day strip, filters and arrows
    are still several levels deep in the *DOM* tree those wrappers are part
    of, so `>` off #paginator would never match them. */
@@ -163,7 +165,7 @@ main > [data-scope="hero"][data-part="root"]:has([data-scope="hero"][data-part="
    max-width even when flex-basis is 100%, so without this the region row only
    ever claimed its own content width and the next item kept sharing that
    first line instead of wrapping onto its own row below it. */
-#paginator:has(.paginator__context) [data-scope="region-filter"][data-part="root"] {
+[data-scope="event-index"][data-part="paginator"]:has([data-scope="event-index"][data-part="context"]) [data-scope="region-filter"][data-part="root"] {
 	flex-basis: 100%;
 	max-width: none;
 	order: 1;
@@ -177,7 +179,7 @@ main > [data-scope="hero"][data-part="root"]:has([data-scope="hero"][data-part="
    so without it the opened dropdown would only ever be as wide as the two
    toggle buttons instead of stretching across the box like the design's
    Select.jsx row. */
-#paginator:has(.paginator__context) [data-scope="event-filter"][data-part="toggles"] {
+[data-scope="event-index"][data-part="paginator"]:has([data-scope="event-index"][data-part="context"]) [data-scope="event-filter"][data-part="toggles"] {
 	column-gap: 2rem;
 	display: flex;
 	flex-basis: 100%;
@@ -187,8 +189,8 @@ main > [data-scope="hero"][data-part="root"]:has([data-scope="hero"][data-part="
 	row-gap: 0;
 }
 
-#paginator:has(.paginator__context) [data-scope="event-filter"][data-part="toggles"] [data-scope="event-filter"][data-part="filter"],
-#paginator:has(.paginator__context) [data-scope="event-filter"][data-part="toggles"] [data-scope="event-filter"][data-part="form"] {
+[data-scope="event-index"][data-part="paginator"]:has([data-scope="event-index"][data-part="context"]) [data-scope="event-filter"][data-part="toggles"] [data-scope="event-filter"][data-part="filter"],
+[data-scope="event-index"][data-part="paginator"]:has([data-scope="event-index"][data-part="context"]) [data-scope="event-filter"][data-part="toggles"] [data-scope="event-filter"][data-part="form"] {
 	display: contents;
 }
 
@@ -196,7 +198,7 @@ main > [data-scope="hero"][data-part="root"]:has([data-scope="hero"][data-part="
    told apart by the button class core gives it for this style
    (event_filter.rb render_date_toggle button_class) and ordered second so
    "Filter events" reads first, matching source order. */
-#paginator:has(.paginator__context) [data-scope="event-filter"][data-part="toggles"] :is([data-scope="filter"][data-part="toggle"], [data-scope="event-filter"][data-part="toggle"]):has([data-scope="event-filter"][data-part="toggle-button"][data-variant="date"]) {
+[data-scope="event-index"][data-part="paginator"]:has([data-scope="event-index"][data-part="context"]) [data-scope="event-filter"][data-part="toggles"] :is([data-scope="filter"][data-part="toggle"], [data-scope="event-filter"][data-part="toggle"]):has([data-scope="event-filter"][data-part="toggle-button"][data-variant="date"]) {
 	order: 2;
 }
 
@@ -204,14 +206,14 @@ main > [data-scope="hero"][data-part="root"]:has([data-scope="hero"][data-part="
    once opened, rather than squeezed into the "Filter events" toggle's own
    half of the row (the same zero-content flex-basis break used below for
    the arrow/strip row). */
-#paginator:has(.paginator__context) [data-scope="event-filter"][data-part="toggles"] :is([data-scope="filter"][data-part="dropdown"], [data-scope="event-filter"][data-part="dropdown"]) {
+[data-scope="event-index"][data-part="paginator"]:has([data-scope="event-index"][data-part="context"]) [data-scope="event-filter"][data-part="toggles"] :is([data-scope="filter"][data-part="dropdown"], [data-scope="event-filter"][data-part="dropdown"]) {
 	flex-basis: 100%;
 	order: 3;
 }
 
 /* "Showing Wed 21 Oct, Sorted by name. Reset filters": its own centred line
    under the toggles. */
-#paginator:has(.paginator__context) [data-scope="event-filter"][data-part="applied"] {
+[data-scope="event-index"][data-part="paginator"]:has([data-scope="event-index"][data-part="context"]) [data-scope="event-filter"][data-part="applied"] {
 	color: var(--color-primary-light);
 	flex-basis: 100%;
 	font-size: 1rem;
@@ -220,7 +222,7 @@ main > [data-scope="hero"][data-part="root"]:has([data-scope="hero"][data-part="
 	text-align: center;
 }
 
-#paginator:has(.paginator__context) [data-scope="event-filter"][data-part="applied-reset"] {
+[data-scope="event-index"][data-part="paginator"]:has([data-scope="event-index"][data-part="context"]) [data-scope="event-filter"][data-part="applied-reset"] {
 	/* core's Breadcrumb link draws a border-bottom as well: one underline, not two */
 	border-bottom: 0;
 	color: var(--color-foreground);
@@ -229,13 +231,13 @@ main > [data-scope="hero"][data-part="root"]:has([data-scope="hero"][data-part="
 }
 
 /* Zero-content flex break: keeps the toggles off the arrow/strip line. */
-#paginator:has(.paginator__context)::after {
+[data-scope="event-index"][data-part="paginator"]:has([data-scope="event-index"][data-part="context"])::after {
 	content: "";
 	flex-basis: 100%;
 	order: 5;
 }
 
-#paginator:has(.paginator__context) [data-scope="event-filter"][data-part="day-strip"] {
+[data-scope="event-index"][data-part="paginator"]:has([data-scope="event-index"][data-part="context"]) [data-scope="event-filter"][data-part="day-strip"] {
 	order: 3;
 }
 
@@ -244,7 +246,7 @@ main > [data-scope="hero"][data-part="root"]:has([data-scope="hero"][data-part="
    only its two arrows are part of this design, so the rest are hidden.
    Equivalent navigation stays reachable through the day strip, which
    carries the same labels and aria-current. */
-#paginator:has(.paginator__context) li[data-paginator-target="button"] {
+[data-scope="event-index"][data-part="paginator"]:has([data-scope="event-index"][data-part="context"]) li[data-paginator-target="button"] {
 	display: none;
 }
 
@@ -254,12 +256,12 @@ main > [data-scope="hero"][data-part="root"]:has([data-scope="hero"][data-part="
    becomes − when open.
 --------------------------------------------------------------------------- */
 
-#paginator:has(.paginator__context) :is([data-scope="filter"][data-part="toggle"], [data-scope="event-filter"][data-part="toggle"]) {
+[data-scope="event-index"][data-part="paginator"]:has([data-scope="event-index"][data-part="context"]) :is([data-scope="filter"][data-part="toggle"], [data-scope="event-filter"][data-part="toggle"]) {
 	display: flex;
 	justify-content: center;
 }
 
-#paginator:has(.paginator__context) :is([data-scope="filter"][data-part="toggle"], [data-scope="event-filter"][data-part="toggle"]) button {
+[data-scope="event-index"][data-part="paginator"]:has([data-scope="event-index"][data-part="context"]) :is([data-scope="filter"][data-part="toggle"], [data-scope="event-filter"][data-part="toggle"]) button {
 	align-items: center;
 	background: none;
 	border: 0;
@@ -276,11 +278,11 @@ main > [data-scope="hero"][data-part="root"]:has([data-scope="hero"][data-part="
 }
 
 /* A non-default sort, view or repeats setting: the closed toggle goes pink */
-#paginator:has(.paginator__context) :is([data-scope="filter"][data-part="toggle"], [data-scope="event-filter"][data-part="toggle"]) button[data-scope="event-filter"][data-part="toggle-button"][data-state="active"] {
+[data-scope="event-index"][data-part="paginator"]:has([data-scope="event-index"][data-part="context"]) :is([data-scope="filter"][data-part="toggle"], [data-scope="event-filter"][data-part="toggle"]) button[data-scope="event-filter"][data-part="toggle-button"][data-state="active"] {
 	color: var(--color-primary);
 }
 
-#paginator:has(.paginator__context) :is([data-scope="filter"][data-part="toggle"], [data-scope="event-filter"][data-part="toggle"]) button:focus-visible {
+[data-scope="event-index"][data-part="paginator"]:has([data-scope="event-index"][data-part="context"]) :is([data-scope="filter"][data-part="toggle"], [data-scope="event-filter"][data-part="toggle"]) button:focus-visible {
 	outline: 2px solid var(--color-foreground);
 	outline-offset: 2px;
 }
@@ -288,17 +290,17 @@ main > [data-scope="hero"][data-part="root"]:has([data-scope="hero"][data-part="
 /* The triangle icon core draws on every toggle is dropped for the pink +/−
    FilterToggle.jsx carries instead; the visible label text is still the
    button's accessible name, so the glyph below is decorative only. */
-#paginator:has(.paginator__context) :is([data-scope="filter"][data-part="toggle"], [data-scope="event-filter"][data-part="toggle"]) button svg {
+[data-scope="event-index"][data-part="paginator"]:has([data-scope="event-index"][data-part="context"]) :is([data-scope="filter"][data-part="toggle"], [data-scope="event-filter"][data-part="toggle"]) button svg {
 	display: none;
 }
 
 /* Core's [data-scope="event-filter"][data-part="link"] carries its own border-bottom (a 2px underline
    under the idle caption); FilterToggle.jsx draws no rule under the label. */
-#paginator:has(.paginator__context) :is([data-scope="filter"][data-part="toggle"], [data-scope="event-filter"][data-part="toggle"]) [data-scope="event-filter"][data-part="link"] {
+[data-scope="event-index"][data-part="paginator"]:has([data-scope="event-index"][data-part="context"]) :is([data-scope="filter"][data-part="toggle"], [data-scope="event-filter"][data-part="toggle"]) [data-scope="event-filter"][data-part="link"] {
 	border-bottom: 0;
 }
 
-#paginator:has(.paginator__context) :is([data-scope="filter"][data-part="toggle"], [data-scope="event-filter"][data-part="toggle"]) button::after {
+[data-scope="event-index"][data-part="paginator"]:has([data-scope="event-index"][data-part="context"]) :is([data-scope="filter"][data-part="toggle"], [data-scope="event-filter"][data-part="toggle"]) button::after {
 	color: var(--color-primary);
 	content: "+";
 	font-size: 1.6rem;
@@ -310,7 +312,7 @@ main > [data-scope="hero"][data-part="root"]:has([data-scope="hero"][data-part="
    / build_sort_dropdown, and Components::Filter#render_toggle /
    #render_dropdown); the sibling combinator reads the dropdown's own
    JS-driven --hidden class to flip the glyph, no extra state needed. */
-#paginator:has(.paginator__context)
+[data-scope="event-index"][data-part="paginator"]:has([data-scope="event-index"][data-part="context"])
 	:is([data-scope="filter"][data-part="toggle"], [data-scope="event-filter"][data-part="toggle"]):has(+ :is([data-scope="filter"][data-part="dropdown"], [data-scope="event-filter"][data-part="dropdown"]):not([data-state="closed"]))
 	button::after {
 	content: "\2212";
@@ -339,7 +341,7 @@ main > [data-scope="hero"][data-part="root"]:has([data-scope="hero"][data-part="
    background/box-shadow/white-space/overflow-x all undo the rest of that
    same core rule (a cream card with a drop shadow, sized to its unwrapped
    content) now that this is a plain in-flow block on the dark box. */
-#paginator:has(.paginator__context) :is([data-scope="filter"][data-part="dropdown"], [data-scope="event-filter"][data-part="dropdown"]) {
+[data-scope="event-index"][data-part="paginator"]:has([data-scope="event-index"][data-part="context"]) :is([data-scope="filter"][data-part="dropdown"], [data-scope="event-filter"][data-part="dropdown"]) {
 	background: none;
 	box-shadow: none;
 	display: grid;
@@ -355,7 +357,7 @@ main > [data-scope="hero"][data-part="root"]:has([data-scope="hero"][data-part="
 }
 
 @media only screen and (min-width: 600px) {
-	#paginator:has(.paginator__context) :is([data-scope="filter"][data-part="dropdown"], [data-scope="event-filter"][data-part="dropdown"]) {
+	[data-scope="event-index"][data-part="paginator"]:has([data-scope="event-index"][data-part="context"]) :is([data-scope="filter"][data-part="dropdown"], [data-scope="event-filter"][data-part="dropdown"]) {
 		grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr));
 		max-width: none;
 	}
@@ -365,15 +367,15 @@ main > [data-scope="hero"][data-part="root"]:has([data-scope="hero"][data-part="
    class vs. id + :has() + two classes), so this wins on the extra class
    regardless of source order and the Stimulus toggle really hides the
    dropdown instead of the pink grid box winning outright. */
-#paginator:has(.paginator__context) :is([data-scope="filter"][data-part="dropdown"], [data-scope="event-filter"][data-part="dropdown"])[data-state="closed"] {
+[data-scope="event-index"][data-part="paginator"]:has([data-scope="event-index"][data-part="context"]) :is([data-scope="filter"][data-part="dropdown"], [data-scope="event-filter"][data-part="dropdown"])[data-state="closed"] {
 	display: none;
 }
 
-#paginator:has(.paginator__context) :is([data-scope="filter"][data-part="dropdown"], [data-scope="event-filter"][data-part="dropdown"]) hr {
+[data-scope="event-index"][data-part="paginator"]:has([data-scope="event-index"][data-part="context"]) :is([data-scope="filter"][data-part="dropdown"], [data-scope="event-filter"][data-part="dropdown"]) hr {
 	display: none;
 }
 
-#paginator:has(.paginator__context) :is([data-scope="filter"][data-part="group"], [data-scope="event-filter"][data-part="group"]) {
+[data-scope="event-index"][data-part="paginator"]:has([data-scope="event-index"][data-part="context"]) :is([data-scope="filter"][data-part="group"], [data-scope="event-filter"][data-part="group"]) {
 	background-color: var(--color-background);
 	border: 2px solid var(--color-primary);
 	border-radius: 0.3rem;
@@ -384,20 +386,20 @@ main > [data-scope="hero"][data-part="root"]:has([data-scope="hero"][data-part="
 /* Phones: one box, the groups divided by core's own <hr>s, not three boxes
    with 28px between them. */
 @media only screen and (max-width: 599px) {
-	#paginator:has(.paginator__context) :is([data-scope="filter"][data-part="dropdown"], [data-scope="event-filter"][data-part="dropdown"]) {
+	[data-scope="event-index"][data-part="paginator"]:has([data-scope="event-index"][data-part="context"]) :is([data-scope="filter"][data-part="dropdown"], [data-scope="event-filter"][data-part="dropdown"]) {
 		border: 2px solid var(--color-primary);
 		border-radius: 0.3rem;
 		gap: 0;
 		padding: 0;
 	}
 
-	#paginator:has(.paginator__context) :is([data-scope="filter"][data-part="group"], [data-scope="event-filter"][data-part="group"]) {
+	[data-scope="event-index"][data-part="paginator"]:has([data-scope="event-index"][data-part="context"]) :is([data-scope="filter"][data-part="group"], [data-scope="event-filter"][data-part="group"]) {
 		border: 0;
 		border-radius: 0;
 		padding: 0.5rem 0.75rem;
 	}
 
-	#paginator:has(.paginator__context) :is([data-scope="filter"][data-part="dropdown"], [data-scope="event-filter"][data-part="dropdown"]) hr {
+	[data-scope="event-index"][data-part="paginator"]:has([data-scope="event-index"][data-part="context"]) :is([data-scope="filter"][data-part="dropdown"], [data-scope="event-filter"][data-part="dropdown"]) hr {
 		border: 0;
 		border-top: 1px solid var(--color-primary);
 		display: block;
@@ -405,28 +407,28 @@ main > [data-scope="hero"][data-part="root"]:has([data-scope="hero"][data-part="
 	}
 }
 
-#paginator:has(.paginator__context) :is([data-scope="filter"][data-part="option"], [data-scope="event-filter"][data-part="option"]) {
+[data-scope="event-index"][data-part="paginator"]:has([data-scope="event-index"][data-part="context"]) :is([data-scope="filter"][data-part="option"], [data-scope="event-filter"][data-part="option"]) {
 	align-items: center;
 	display: flex;
 	gap: 0.5rem;
 	padding: 0.2rem 0;
 }
 
-#paginator:has(.paginator__context) :is([data-scope="filter"][data-part="option"], [data-scope="event-filter"][data-part="option"]) input[type="radio"] {
+[data-scope="event-index"][data-part="paginator"]:has([data-scope="event-index"][data-part="context"]) :is([data-scope="filter"][data-part="option"], [data-scope="event-filter"][data-part="option"]) input[type="radio"] {
 	accent-color: var(--color-primary);
 	flex: none;
 	margin: 0;
 }
 
-#paginator:has(.paginator__context) :is([data-scope="filter"][data-part="option"], [data-scope="event-filter"][data-part="option"]) label,
-#paginator:has(.paginator__context) [data-scope="filter"][data-part="label"] {
+[data-scope="event-index"][data-part="paginator"]:has([data-scope="event-index"][data-part="context"]) :is([data-scope="filter"][data-part="option"], [data-scope="event-filter"][data-part="option"]) label,
+[data-scope="event-index"][data-part="paginator"]:has([data-scope="event-index"][data-part="context"]) [data-scope="filter"][data-part="label"] {
 	color: var(--color-foreground);
 	cursor: pointer;
 	font-size: 1rem;
 	font-weight: 400;
 }
 
-#paginator:has(.paginator__context) :is([data-scope="filter"][data-part="option"], [data-scope="event-filter"][data-part="option"]):has(input:checked) label {
+[data-scope="event-index"][data-part="paginator"]:has([data-scope="event-index"][data-part="context"]) :is([data-scope="filter"][data-part="option"], [data-scope="event-filter"][data-part="option"]):has(input:checked) label {
 	color: var(--color-primary);
 }
 
@@ -443,7 +445,7 @@ main > [data-scope="hero"][data-part="root"]:has([data-scope="hero"][data-part="
    itself (and the forward arrow after it) onto their own lines around 900-
    1150px. A zero basis always fits, then flex-grow fills the row and
    overflow-x carries whatever still does not fit as a scroll. */
-#paginator:has(.paginator__context) [data-scope="event-filter"][data-part="day-strip"] {
+[data-scope="event-index"][data-part="paginator"]:has([data-scope="event-index"][data-part="context"]) [data-scope="event-filter"][data-part="day-strip"] {
 	flex: 1 1 0;
 	margin: 0 0 0.5rem;
 	min-width: 0;
@@ -452,7 +454,7 @@ main > [data-scope="hero"][data-part="root"]:has([data-scope="hero"][data-part="
 
 /* Phones: a cut-off fourth button and a fade at the edge say "this scrolls" */
 @media only screen and (max-width: 599px) {
-	#paginator:has(.paginator__context) [data-scope="event-filter"][data-part="day-strip"] {
+	[data-scope="event-index"][data-part="paginator"]:has([data-scope="event-index"][data-part="context"]) [data-scope="event-filter"][data-part="day-strip"] {
 		mask-image: linear-gradient(to right, #000 calc(100% - 2.5rem), transparent);
 		scrollbar-width: none;
 	}
@@ -461,23 +463,23 @@ main > [data-scope="hero"][data-part="root"]:has([data-scope="hero"][data-part="
 
 @media only screen and (min-width: 600px) {
 	/* 0.5rem plus the toggles' own 0.5rem padding reads as the 1rem above the strip */
-	#paginator:has(.paginator__context) [data-scope="event-filter"][data-part="day-strip"] {
+	[data-scope="event-index"][data-part="paginator"]:has([data-scope="event-index"][data-part="context"]) [data-scope="event-filter"][data-part="day-strip"] {
 		margin-bottom: 0.5rem;
 	}
 
-	#paginator:has(.paginator__context) [data-scope="event-filter"][data-part="day-strip"] li {
+	[data-scope="event-index"][data-part="paginator"]:has([data-scope="event-index"][data-part="context"]) [data-scope="event-filter"][data-part="day-strip"] li {
 		min-width: 100px;
 	}
 }
 
-#paginator:has(.paginator__context) [data-scope="event-filter"][data-part="day-strip"] ul {
+[data-scope="event-index"][data-part="paginator"]:has([data-scope="event-index"][data-part="context"]) [data-scope="event-filter"][data-part="day-strip"] ul {
 	display: flex;
 	flex-wrap: nowrap;
 	gap: 0.5rem;
 	justify-content: stretch;
 }
 
-#paginator:has(.paginator__context) [data-scope="event-filter"][data-part="day-strip"] li {
+[data-scope="event-index"][data-part="paginator"]:has([data-scope="event-index"][data-part="context"]) [data-scope="event-filter"][data-part="day-strip"] li {
 	flex: 1 1 0;
 	list-style-type: none;
 	margin: 0;
@@ -485,7 +487,7 @@ main > [data-scope="hero"][data-part="root"]:has([data-scope="hero"][data-part="
 	min-width: 88px;
 }
 
-#paginator:has(.paginator__context) [data-scope="event-filter"][data-part="day-strip"] [data-scope="pill"][data-part="root"] {
+[data-scope="event-index"][data-part="paginator"]:has([data-scope="event-index"][data-part="context"]) [data-scope="event-filter"][data-part="day-strip"] [data-scope="pill"][data-part="root"] {
 	background-color: var(--color-background);
 	border: 2px solid var(--color-primary);
 	border-radius: 0.3rem;
@@ -505,7 +507,7 @@ main > [data-scope="hero"][data-part="root"]:has([data-scope="hero"][data-part="
 	width: auto;
 }
 
-#paginator:has(.paginator__context) [data-scope="event-filter"][data-part="day-strip"] [data-scope="pill"][data-part="root"][aria-current="date"] {
+[data-scope="event-index"][data-part="paginator"]:has([data-scope="event-index"][data-part="context"]) [data-scope="event-filter"][data-part="day-strip"] [data-scope="pill"][data-part="root"][aria-current="date"] {
 	background-color: var(--color-primary);
 	border-color: var(--color-primary);
 	color: var(--color-foreground-dark);
@@ -515,7 +517,7 @@ main > [data-scope="hero"][data-part="root"]:has([data-scope="hero"][data-part="
    filters.day_strip.all_upcoming) has no place in the design's seven-day
    row: hidden entirely, rather than kept as an eighth button, so the strip
    reads as exactly the seven equal-width day buttons between the arrows. */
-#paginator:has(.paginator__context) [data-scope="event-filter"][data-part="day-strip"] li[data-scope="event-filter"][data-part="day-strip-all"] {
+[data-scope="event-index"][data-part="paginator"]:has([data-scope="event-index"][data-part="context"]) [data-scope="event-filter"][data-part="day-strip"] li[data-scope="event-filter"][data-part="day-strip-all"] {
 	display: none;
 }
 
@@ -523,33 +525,33 @@ main > [data-scope="hero"][data-part="root"]:has([data-scope="hero"][data-part="
    scroll from tablet landscape up; core's overflow-x-auto would otherwise
    paint a scrollbar under the row whenever they ran wider than the strip. */
 @media only screen and (min-width: 900px) {
-	#paginator:has(.paginator__context) [data-scope="event-filter"][data-part="day-strip"] {
+	[data-scope="event-index"][data-part="paginator"]:has([data-scope="event-index"][data-part="context"]) [data-scope="event-filter"][data-part="day-strip"] {
 		overflow-x: visible;
 	}
 }
 
 @media only screen and (hover: hover) and (pointer: fine) {
-	#paginator:has(.paginator__context) [data-scope="event-filter"][data-part="day-strip"] [data-scope="pill"][data-part="root"]:hover {
+	[data-scope="event-index"][data-part="paginator"]:has([data-scope="event-index"][data-part="context"]) [data-scope="event-filter"][data-part="day-strip"] [data-scope="pill"][data-part="root"]:hover {
 		background-color: var(--color-tertiary);
 		border-color: var(--color-foreground);
 		color: var(--color-foreground);
 	}
 }
 
-#paginator:has(.paginator__context) [data-scope="event-filter"][data-part="day-strip"] [data-scope="pill"][data-part="root"]:focus-visible {
+[data-scope="event-index"][data-part="paginator"]:has([data-scope="event-index"][data-part="context"]) [data-scope="event-filter"][data-part="day-strip"] [data-scope="pill"][data-part="root"]:focus-visible {
 	outline: 2px solid var(--color-foreground);
 	outline-offset: 2px;
 }
 
 @media only screen and (min-width: 600px) {
-	#paginator:has(.paginator__context) [data-scope="event-filter"][data-part="day-strip"] [data-scope="pill"][data-part="root"] {
+	[data-scope="event-index"][data-part="paginator"]:has([data-scope="event-index"][data-part="context"]) [data-scope="event-filter"][data-part="day-strip"] [data-scope="pill"][data-part="root"] {
 		font-size: 1rem;
 	}
 }
 
 /* Live's day buttons at tablet landscape: 1.2rem on a 1.5 line, 41px tall */
 @media only screen and (min-width: 900px) {
-	#paginator:has(.paginator__context) [data-scope="event-filter"][data-part="day-strip"] [data-scope="pill"][data-part="root"] {
+	[data-scope="event-index"][data-part="paginator"]:has([data-scope="event-index"][data-part="context"]) [data-scope="event-filter"][data-part="day-strip"] [data-scope="pill"][data-part="root"] {
 		font-size: 1.2rem;
 		line-height: 1.5;
 		padding: 0.2rem 0.2rem 0.3rem;
@@ -561,7 +563,7 @@ main > [data-scope="hero"][data-part="root"]:has([data-scope="hero"][data-part="
    (the day strip and the date picker move through time), so they are cut.
 --------------------------------------------------------------------------- */
 
-#paginator:has(.paginator__context) [data-scope="timeline"][data-part="arrow"] {
+[data-scope="event-index"][data-part="paginator"]:has([data-scope="event-index"][data-part="context"]) [data-scope="timeline"][data-part="arrow"] {
 	display: none;
 }
 
@@ -572,6 +574,7 @@ main > [data-scope="hero"][data-part="root"]:has([data-scope="hero"][data-part="
 --------------------------------------------------------------------------- */
 
 /* Live site's card geometry kept over EventCard.jsx's (review 2026-10-19): 56px date column, 1rem gap. */
+[data-scope="event-list"][data-part="day"] [data-scope="event"][data-part="root"],
 .events [data-scope="event"][data-part="root"] {
 	column-gap: 1rem;
 	display: grid;
@@ -584,22 +587,25 @@ main > [data-scope="hero"][data-part="root"]:has([data-scope="hero"][data-part="
 
 /* First row of the grid carries no top gap: Events.elm's viewEvent list has
    none above its first card, at one or two columns alike.
-   Scoped to the <li> (the actual grid item and `.events`' direct child), not
+   Scoped to the <li> (the actual grid item and `[data-scope="event-list"][data-part="day"]`' direct child), not
    the event root itself: the root is always the *only* child of its own <li>, so
    a :first-child on the root matched every card (each is "first child" of
    its own li) and zeroed this margin everywhere, not just on the first
    card - the actual cause of the cards reading tighter than the design's
    48px rows. */
+[data-scope="event-list"][data-part="day"] > li:first-child [data-scope="event"][data-part="root"],
 .events > li:first-child [data-scope="event"][data-part="root"] {
 	margin-top: 0;
 }
 
 @media only screen and (min-width: 900px) {
+	[data-scope="event-list"][data-part="day"] > li:nth-child(2) [data-scope="event"][data-part="root"],
 	.events > li:nth-child(2) [data-scope="event"][data-part="root"] {
 		margin-top: 0;
 	}
 }
 
+[data-scope="event-list"][data-part="day"] [data-scope="event"][data-part="details"],
 .events [data-scope="event"][data-part="details"] {
 	border-width: 0;
 	display: contents;
@@ -607,6 +613,7 @@ main > [data-scope="hero"][data-part="root"]:has([data-scope="hero"][data-part="
 	padding: 0;
 }
 
+[data-scope="event-list"][data-part="day"] [data-scope="event"][data-part="detail"],
 .events [data-scope="event"][data-part="detail"] {
 	grid-column: 2;
 	margin: 0;
@@ -614,11 +621,13 @@ main > [data-scope="hero"][data-part="root"]:has([data-scope="hero"][data-part="
 	overflow-wrap: anywhere;
 }
 
+[data-scope="event-list"][data-part="day"] [data-scope="event"][data-part="icon"],
 .events [data-scope="event"][data-part="icon"] {
 	display: none;
 }
 
 /* The header part wraps the title and core's neighbourhood badge, which is hidden below */
+[data-scope="event-list"][data-part="day"] [data-scope="event"][data-part="header"],
 .events [data-scope="event"][data-part="header"] {
 	align-items: flex-end;
 	border-bottom: 2px solid var(--color-primary);
@@ -634,12 +643,14 @@ main > [data-scope="hero"][data-part="root"]:has([data-scope="hero"][data-part="
 	transition: border-color 500ms linear;
 }
 
+[data-scope="event-list"][data-part="day"] [data-scope="event"][data-part="title"],
 .events [data-scope="event"][data-part="title"] {
 	margin: 0;
 	min-width: 0;
 	overflow-wrap: anywhere;
 }
 
+[data-scope="event-list"][data-part="day"] [data-scope="event"][data-part="title"] a,
 .events [data-scope="event"][data-part="title"] a {
 	color: var(--color-foreground);
 	display: block;
@@ -653,10 +664,12 @@ main > [data-scope="hero"][data-part="root"]:has([data-scope="hero"][data-part="
 
 /* Live site's card type steps (Events.elm): title and day number grow from tablet up. */
 @media only screen and (min-width: 600px) {
+	[data-scope="event-list"][data-part="day"] [data-scope="event"][data-part="root"],
 	.events [data-scope="event"][data-part="root"] {
 		margin-top: 2.5rem;
 	}
 
+	[data-scope="event-list"][data-part="day"] [data-scope="event"][data-part="title"] a,
 	.events [data-scope="event"][data-part="title"] a {
 		font-size: 1.5rem;
 		line-height: 1.877rem;
@@ -664,20 +677,24 @@ main > [data-scope="hero"][data-part="root"]:has([data-scope="hero"][data-part="
 
 	/* -0.25rem puts the day number's glyph top level with the title's (checked
 	   in WebKit and Chromium screenshots; element boxes mislead here) */
+	[data-scope="event-list"][data-part="day"] [data-scope="event"][data-part="detail"][data-variant="date"],
 	.events [data-scope="event"][data-part="detail"][data-variant="date"] {
 		margin-top: -0.25rem;
 	}
 
+	[data-scope="event-list"][data-part="day"] [data-scope="event"][data-part="detail"][data-variant="date"]::first-line,
 	.events [data-scope="event"][data-part="detail"][data-variant="date"]::first-line {
 		font-size: 3.1222rem;
 	}
 }
 
 /* The live site's cards carry no neighbourhood badge */
+[data-scope="event-list"][data-part="day"] [data-scope="event"][data-part="neighbourhood"],
 .events [data-scope="event"][data-part="neighbourhood"] {
 	display: none;
 }
 
+[data-scope="event-list"][data-part="day"] [data-scope="event"][data-part="detail"][data-variant="time"],
 .events [data-scope="event"][data-part="detail"][data-variant="time"] {
 	grid-row: 2;
 }
@@ -689,6 +706,7 @@ main > [data-scope="hero"][data-part="root"]:has([data-scope="hero"][data-part="
    has no way to suppress just the duration string short of hiding the
    element (doc/core-slots-needed.md), so it is hidden rather than given a
    row the design has no line for. */
+[data-scope="event-list"][data-part="day"] [data-scope="event"][data-part="detail"][data-variant="duration"],
 .events [data-scope="event"][data-part="detail"][data-variant="duration"] {
 	display: none;
 }
@@ -702,24 +720,30 @@ main > [data-scope="hero"][data-part="root"]:has([data-scope="hero"][data-part="
    and online (each only when core renders one), then location, then "By
    Organiser" - swapped from core's own order (organiser before location).
    Absent lines leave empty min-content rows, which collapse to zero height. */
+[data-scope="event-list"][data-part="day"] [data-scope="event"][data-part="detail"][data-variant="repeats"],
 .events [data-scope="event"][data-part="detail"][data-variant="repeats"] {
 	grid-row: 3;
 }
 
+[data-scope="event-list"][data-part="day"] [data-scope="event"][data-part="detail"][data-variant="online"],
 .events [data-scope="event"][data-part="detail"][data-variant="online"] {
 	grid-row: 4;
 }
 
+[data-scope="event-list"][data-part="day"] [data-scope="event"][data-part="detail"][data-variant="place"],
 .events [data-scope="event"][data-part="detail"][data-variant="place"] {
 	grid-row: 5;
 }
 
+[data-scope="event-list"][data-part="day"] [data-scope="event"][data-part="detail"][data-variant="organiser"],
 .events [data-scope="event"][data-part="detail"][data-variant="organiser"] {
 	grid-row: 6;
 }
 
 /* Live site's 1.2rem detail lines kept over the design's 1rem for readability (review 2026-10-19). */
+[data-scope="event-list"][data-part="day"] [data-scope="event"][data-part="detail"],
 .events [data-scope="event"][data-part="detail"],
+[data-scope="event-list"][data-part="day"] [data-scope="event"][data-part="detail"] a,
 .events [data-scope="event"][data-part="detail"] a {
 	color: var(--color-foreground);
 	font-size: 1.2rem;
@@ -727,6 +751,7 @@ main > [data-scope="hero"][data-part="root"]:has([data-scope="hero"][data-part="
 	text-decoration: none;
 }
 
+[data-scope="event-list"][data-part="day"] [data-scope="event"][data-part="detail"] a:hover,
 .events [data-scope="event"][data-part="detail"] a:hover {
 	color: var(--color-primary-light);
 }
@@ -736,6 +761,7 @@ main > [data-scope="hero"][data-part="root"]:has([data-scope="hero"][data-part="
    month wraps onto its own line and ::first-line gives the day number its own
    size and colour. A real day/month split is the core slot this approximates
    (doc/core-slots-needed.md). */
+[data-scope="event-list"][data-part="day"] [data-scope="event"][data-part="detail"][data-variant="date"],
 .events [data-scope="event"][data-part="detail"][data-variant="date"] {
 	align-self: start;
 	color: var(--color-primary);
@@ -751,6 +777,7 @@ main > [data-scope="hero"][data-part="root"]:has([data-scope="hero"][data-part="
 	transition: color 500ms linear;
 }
 
+[data-scope="event-list"][data-part="day"] [data-scope="event"][data-part="detail"][data-variant="date"]::first-line,
 .events [data-scope="event"][data-part="detail"][data-variant="date"]::first-line {
 	color: var(--color-foreground);
 	font-size: 2.5rem;
@@ -764,14 +791,17 @@ main > [data-scope="hero"][data-part="root"]:has([data-scope="hero"][data-part="
 }
 
 @media only screen and (hover: hover) and (pointer: fine) {
+	[data-scope="event-list"][data-part="day"] [data-scope="event"][data-part="root"]:hover [data-scope="event"][data-part="header"],
 	.events [data-scope="event"][data-part="root"]:hover [data-scope="event"][data-part="header"] {
 		border-bottom-color: var(--color-foreground);
 	}
 
+	[data-scope="event-list"][data-part="day"] [data-scope="event"][data-part="root"]:hover [data-scope="event"][data-part="title"] a,
 	.events [data-scope="event"][data-part="root"]:hover [data-scope="event"][data-part="title"] a {
 		color: var(--color-primary);
 	}
 
+	[data-scope="event-list"][data-part="day"] [data-scope="event"][data-part="root"]:hover [data-scope="event"][data-part="detail"][data-variant="date"],
 	.events [data-scope="event"][data-part="root"]:hover [data-scope="event"][data-part="detail"][data-variant="date"] {
 		color: var(--color-foreground);
 	}
@@ -783,14 +813,14 @@ main > [data-scope="hero"][data-part="root"]:has([data-scope="hero"][data-part="
    fine against the dark box without a bespoke treatment.
 --------------------------------------------------------------------------- */
 
-#events-browser:has(.paginator__context) > p {
+[data-scope="event-index"][data-part="browser"]:has([data-scope="event-index"][data-part="context"]) > p {
 	color: var(--color-foreground);
 	font-size: 1rem;
 	margin: 0 0 1rem;
 	text-align: center;
 }
 
-#events-browser:has(.paginator__context) > p a {
+[data-scope="event-index"][data-part="browser"]:has([data-scope="event-index"][data-part="context"]) > p a {
 	color: var(--color-primary);
 }
 
@@ -807,11 +837,11 @@ main > [data-scope="hero"][data-part="root"]:has([data-scope="hero"][data-part="
    follows). Adjoining vertical margins collapse to the larger one, so that
    8rem was winning over the 2.5rem below regardless, landing the iCal button
    about 90px under the box instead of the design's 40px. */
-.container-public:has(#events-browser .paginator__context) {
+.container-public:has([data-scope="event-index"][data-part="browser"] [data-scope="event-index"][data-part="context"]) {
 	margin-bottom: 0;
 }
 
-.container-public:has(#events-browser .paginator__context) + [data-scope="meta"][data-part="root"] {
+.container-public:has([data-scope="event-index"][data-part="browser"] [data-scope="event-index"][data-part="context"]) + [data-scope="meta"][data-part="root"] {
 	background: none;
 	display: flex;
 	flex-wrap: wrap;
@@ -823,11 +853,11 @@ main > [data-scope="hero"][data-part="root"]:has([data-scope="hero"][data-part="
 
 /* contents, not a nested flex box: core sizes this wrapper narrower than the
    two buttons, which then wrapped under each other */
-.container-public:has(#events-browser .paginator__context) + [data-scope="meta"][data-part="root"] .container-public {
+.container-public:has([data-scope="event-index"][data-part="browser"] [data-scope="event-index"][data-part="context"]) + [data-scope="meta"][data-part="root"] .container-public {
 	display: contents;
 }
 
-.container-public:has(#events-browser .paginator__context) + [data-scope="meta"][data-part="root"] a {
+.container-public:has([data-scope="event-index"][data-part="browser"] [data-scope="event-index"][data-part="context"]) + [data-scope="meta"][data-part="root"] a {
 	background-color: var(--color-background);
 	border: 2px solid var(--color-primary);
 	border-radius: 0.3rem;
@@ -846,14 +876,14 @@ main > [data-scope="hero"][data-part="root"]:has([data-scope="hero"][data-part="
 }
 
 @media only screen and (hover: hover) and (pointer: fine) {
-	.container-public:has(#events-browser .paginator__context) + [data-scope="meta"][data-part="root"] a:hover {
+	.container-public:has([data-scope="event-index"][data-part="browser"] [data-scope="event-index"][data-part="context"]) + [data-scope="meta"][data-part="root"] a:hover {
 		background-color: var(--color-tertiary);
 		border-color: var(--color-foreground);
 		color: var(--color-foreground);
 	}
 }
 
-.container-public:has(#events-browser .paginator__context) + [data-scope="meta"][data-part="root"] a:focus-visible {
+.container-public:has([data-scope="event-index"][data-part="browser"] [data-scope="event-index"][data-part="context"]) + [data-scope="meta"][data-part="root"] a:focus-visible {
 	outline: 2px solid var(--color-foreground);
 	outline-offset: 2px;
 }

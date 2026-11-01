@@ -249,8 +249,8 @@ main > div > .container-public:has(> [data-scope="partner-details"][data-part="r
 }
 
 /* The partner's events frame (core: one <ol> per day) flattens into one two-column grid.
-   Keyed off .paginator__context, which only /events has: busy partners get a .paginator too. */
-#events-browser:not(:has(.paginator__context)) {
+   Keyed off [data-scope="event-index"][data-part="context"], which only /events has: busy partners get a [data-scope="partner-details"][data-part="paginator"] too. */
+[data-scope="partner-details"][data-part="events-browser"]:not(:has([data-scope="event-index"])) {
 	border: 0;
 	display: grid;
 	gap: 2rem 0;
@@ -259,25 +259,25 @@ main > div > .container-public:has(> [data-scope="partner-details"][data-part="r
 }
 
 @media only screen and (min-width: 600px) {
-	#events-browser:not(:has(.paginator__context)) {
+	[data-scope="partner-details"][data-part="events-browser"]:not(:has([data-scope="event-index"])) {
 		row-gap: 2.5rem;
 	}
 }
 
 @media only screen and (min-width: 900px) {
-	#events-browser:not(:has(.paginator__context)) {
+	[data-scope="partner-details"][data-part="events-browser"]:not(:has([data-scope="event-index"])) {
 		column-gap: 1.75rem;
 		grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
 	}
 }
 
 /* Each day is its own <ol>, so every card is a first child; the grid's gap spaces them */
-#events-browser:not(:has(.paginator__context)) .events [data-scope="event"][data-part="root"] {
+[data-scope="partner-details"][data-part="events-browser"]:not(:has([data-scope="event-index"])) [data-scope="event-list"][data-part="day"] [data-scope="event"][data-part="root"] {
 	margin-top: 0;
 }
 
-#events-browser:not(:has(.paginator__context)) .events,
-#events-browser:not(:has(.paginator__context)) .events > li {
+[data-scope="partner-details"][data-part="events-browser"]:not(:has([data-scope="event-index"])) [data-scope="event-list"][data-part="day"],
+[data-scope="partner-details"][data-part="events-browser"]:not(:has([data-scope="event-index"])) [data-scope="event-list"][data-part="day"] > li {
 	display: contents;
 }
 
@@ -285,9 +285,9 @@ main > div > .container-public:has(> [data-scope="partner-details"][data-part="r
    as the flattened event grid above, so without this they are grid items
    too, each auto-placed into a single (half-width, once 2-up) column rather
    than the full frame width the design's header row and centred button need. */
-#events-browser:not(:has(.paginator__context)) > .partner-events__header,
-#events-browser:not(:has(.paginator__context)) > .partner-events__actions,
-#events-browser:not(:has(.paginator__context)) > .partner-events__more {
+[data-scope="partner-details"][data-part="events-browser"]:not(:has([data-scope="event-index"])) > [data-scope="partner-details"][data-part="events-header"],
+[data-scope="partner-details"][data-part="events-browser"]:not(:has([data-scope="event-index"])) > [data-scope="partner-details"][data-part="events-actions"],
+[data-scope="partner-details"][data-part="events-browser"]:not(:has([data-scope="event-index"])) > [data-scope="partner-details"][data-part="events-more"] {
 	grid-column: 1 / -1;
 }
 
@@ -295,12 +295,12 @@ main > div > .container-public:has(> [data-scope="partner-details"][data-part="r
    headings)": every card already carries its own date. events.css already
    takes Components::EventList's per-day h2 out of the picture the same way,
    but only when the frame's paginator is wrapped in Components::Breadcrumb's
-   .paginator__context (Views::Events::Index); the partner page's own
+   [data-scope="event-index"][data-part="context"] (Views::Events::Index); the partner page's own
    Components::Timeline has no such wrapper and slips through that selector, so it
-   is repeated here, scoped off .paginator__context to stay off the events
+   is repeated here, scoped off [data-scope="event-index"][data-part="context"] to stay off the events
    route. The heading stays in the accessibility tree as the group label core
    intends. */
-#events-browser:not(:has(.paginator__context)) > h2.ruled-heading {
+[data-scope="partner-details"][data-part="events-browser"]:not(:has([data-scope="event-index"])) > h2.ruled-heading {
 	border: 0;
 	clip-path: inset(50%);
 	height: 1px;
@@ -313,13 +313,13 @@ main > div > .container-public:has(> [data-scope="partner-details"][data-part="r
 }
 
 /* The design's rule above the events; after the flatten rule, whose `border: 0` would wipe it */
-[data-scope="partner-details"][data-part="root"] + #events-browser {
+[data-scope="partner-details"][data-part="root"] + [data-scope="partner-details"][data-part="events-browser"] {
 	border-top: 1px solid var(--color-primary);
 	padding-top: 2rem;
 }
 
 /* Core's day strip for busy partners; "Show N more days" does the browsing here. */
-[data-scope="partner-details"][data-part="root"] + #events-browser .paginator {
+[data-scope="partner-details"][data-part="root"] + [data-scope="partner-details"][data-part="events-browser"] [data-scope="partner-details"][data-part="paginator"] {
 	display: none;
 }
 
@@ -327,24 +327,24 @@ main > div > .container-public:has(> [data-scope="partner-details"][data-part="r
    Partner event browser header: only the "Show" select shows, on the right. The heading stays
    for assistive tech as the section's label; the count is dropped (2026-10-20 review). */
 
-.partner-events__header {
+[data-scope="partner-details"][data-part="events-header"] {
 	align-items: center;
 	display: flex;
 	flex-wrap: wrap;
 }
 
 /* The header is a grid item, so this pulls the first cards to 24px under it rather than a full row gap */
-#events-browser:not(:has(.paginator__context)) > .partner-events__header {
+[data-scope="partner-details"][data-part="events-browser"]:not(:has([data-scope="event-index"])) > [data-scope="partner-details"][data-part="events-header"] {
 	margin-bottom: -0.5rem;
 }
 
 @media only screen and (min-width: 600px) {
-	#events-browser:not(:has(.paginator__context)) > .partner-events__header {
+	[data-scope="partner-details"][data-part="events-browser"]:not(:has([data-scope="event-index"])) > [data-scope="partner-details"][data-part="events-header"] {
 		margin-bottom: -1rem;
 	}
 }
 
-.partner-events__heading {
+[data-scope="partner-details"][data-part="events-heading"] {
 	border: 0;
 	clip-path: inset(50%);
 	height: 1px;
@@ -356,15 +356,15 @@ main > div > .container-public:has(> [data-scope="partner-details"][data-part="r
 	width: 1px;
 }
 
-.partner-events__count {
+[data-scope="partner-details"][data-part="events-count"] {
 	display: none;
 }
 
-.partner-events__repeating-filter {
+[data-scope="partner-details"][data-part="events-repeating-filter"] {
 	margin-left: auto;
 }
 
-.partner-events__repeating-filter label {
+[data-scope="partner-details"][data-part="events-repeating-filter"] label {
 	align-items: center;
 	color: var(--color-foreground);
 	display: inline-flex;
@@ -380,7 +380,7 @@ main > div > .container-public:has(> [data-scope="partner-details"][data-part="r
    plain <select> with no wrapper span to hang a pseudo-element triangle off,
    so the chevron is a background-image instead of the reference's bordered
    span. */
-.partner-events__repeating {
+[data-scope="partner-details"][data-part="events-repeating"] {
 	appearance: none;
 	background-color: var(--color-background);
 	background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='9'%3E%3Cpolygon points='0,0 14,0 7,9' fill='%23ff7aa7'/%3E%3C/svg%3E");
@@ -401,19 +401,19 @@ main > div > .container-public:has(> [data-scope="partner-details"][data-part="r
 	text-transform: none;
 }
 
-.partner-events__repeating:focus-visible {
+[data-scope="partner-details"][data-part="events-repeating"]:focus-visible {
 	outline: 2px solid var(--color-foreground);
 	outline-offset: 2px;
 }
 
 /* "Show N more days", centred under the cards */
-.partner-events__actions {
+[data-scope="partner-details"][data-part="events-actions"] {
 	display: flex;
 	justify-content: center;
 }
 
 /* "Show N more days": a small pink button. */
-.partner-events__more {
+[data-scope="partner-details"][data-part="events-more"] {
 	background-color: var(--color-primary);
 	border: 2px solid var(--color-primary);
 	border-radius: 0.3rem;
@@ -430,7 +430,7 @@ main > div > .container-public:has(> [data-scope="partner-details"][data-part="r
 }
 
 @media only screen and (hover: hover) and (pointer: fine) {
-	.partner-events__more:hover {
+	[data-scope="partner-details"][data-part="events-more"]:hover {
 		background-color: var(--color-primary-light);
 		border-color: var(--color-primary-light);
 		color: var(--color-foreground-dark);
