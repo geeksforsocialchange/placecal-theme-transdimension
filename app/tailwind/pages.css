@@ -461,6 +461,50 @@ main > [data-scope="hero"][data-part="root"]:has([data-scope="hero"][data-part="
 	text-decoration: none;
 }
 
+/* Final.jsx.txt's contact and address columns on the event and partner pages:
+   centred plain lines with no icons, the social networks as one row of names. */
+:is([data-scope="event-details"][data-part="root"], [data-scope="partner-details"][data-part="root"]) [data-scope="contact-details"][data-part="root"],
+:is([data-scope="event-details"][data-part="root"], [data-scope="partner-details"][data-part="root"]) [data-scope="address"][data-part="postal-address"],
+:is([data-scope="event-details"][data-part="root"], [data-scope="partner-details"][data-part="root"]) [data-scope="address"][data-part="directions"] {
+	font-size: 1rem;
+	line-height: 1.5;
+	text-align: center;
+}
+
+:is([data-scope="event-details"][data-part="root"], [data-scope="partner-details"][data-part="root"]) [data-scope="contact-details"][data-part="root"] {
+	display: block;
+}
+
+:is([data-scope="event-details"][data-part="root"], [data-scope="partner-details"][data-part="root"]) [data-scope="contact-details"][data-part="root"] svg {
+	display: none;
+}
+
+:is([data-scope="event-details"][data-part="root"], [data-scope="partner-details"][data-part="root"]) [data-scope="contact-details"][data-part="item"]:not([data-scope="contact-details"][data-part="item"][data-variant="social"]) a {
+	display: block;
+	margin: 0;
+	overflow-wrap: anywhere;
+	text-decoration: none;
+}
+
+@media only screen and (hover: hover) and (pointer: fine) {
+	:is([data-scope="event-details"][data-part="root"], [data-scope="partner-details"][data-part="root"]) [data-scope="contact-details"][data-part="item"]:not([data-scope="contact-details"][data-part="item"][data-variant="social"]) a:hover {
+		text-decoration: underline;
+	}
+}
+
+:is([data-scope="event-details"][data-part="root"], [data-scope="partner-details"][data-part="root"]) [data-scope="contact-details"][data-part="item"][data-variant="social"] {
+	display: inline-block;
+	margin-top: 0.5rem;
+}
+
+:is([data-scope="event-details"][data-part="root"], [data-scope="partner-details"][data-part="root"]) [data-scope="contact-details"][data-part="item"][data-variant="social"] + [data-scope="contact-details"][data-part="item"][data-variant="social"]::before {
+	color: var(--color-primary-light);
+	content: "\00b7";
+	content: "\00b7" / "";
+	display: inline-block;
+	padding-inline: 0.5rem;
+}
+
 [data-scope="map"][data-part="root"][data-variant="single"],
 [data-scope="partner-details"][data-part="image"] img {
 	border-radius: 0.3rem;

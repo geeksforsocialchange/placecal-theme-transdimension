@@ -359,14 +359,8 @@ main > div:not([vocab]) > [data-scope="hero"][data-part="root"] [data-scope="her
 	}
 }
 
-/* Event.elm: the two columns' content is centred (Final.jsx.txt EventF wraps
-   the whole box in textAlign: center and never overrides it here, unlike the
-   partner page's left-aligned equivalent), so it reads as a stack under each
-   FloatingTitle rather than a left-aligned block. */
-[data-scope="event-details"][data-part="section-body"],
-[data-scope="event-details"][data-part="root"] [data-scope="contact-details"][data-part="root"],
-[data-scope="event-details"][data-part="root"] [data-scope="address"][data-part="postal-address"],
-[data-scope="event-details"][data-part="root"] [data-scope="address"][data-part="directions"] {
+/* Event.elm: each column's content is a centred stack under its heading. */
+[data-scope="event-details"][data-part="section-body"] {
 	font-size: 1rem;
 	text-align: center;
 }
@@ -409,16 +403,6 @@ main > div:not([vocab]) > [data-scope="hero"][data-part="root"] [data-scope="her
 	text-align: center;
 }
 
-/* Final.jsx.txt EventF's column: plain stacked lines, no icons. */
-[data-scope="event-details"][data-part="root"] [data-scope="contact-details"][data-part="root"] {
-	display: block;
-	line-height: 1.5;
-}
-
-[data-scope="event-details"][data-part="root"] [data-scope="contact-details"][data-part="root"] svg {
-	display: none;
-}
-
 /* The organiser's name heads the column, in the same plain line as the rest */
 [data-scope="event-details"][data-part="contact-name"] {
 	margin: 0;
@@ -432,39 +416,6 @@ main > div:not([vocab]) > [data-scope="hero"][data-part="root"] [data-scope="her
 
 [data-scope="event-details"][data-part="contact-name"] a:hover {
 	text-decoration: underline;
-}
-
-[data-scope="event-details"][data-part="root"] [data-scope="contact-details"][data-part="item"]:not([data-scope="contact-details"][data-part="item"][data-variant="social"]) a {
-	display: block;
-	margin: 0;
-	overflow-wrap: anywhere;
-	text-decoration: none;
-}
-
-@media only screen and (hover: hover) and (pointer: fine) {
-	[data-scope="event-details"][data-part="root"] [data-scope="contact-details"][data-part="item"]:not([data-scope="contact-details"][data-part="item"][data-variant="social"]) a:hover {
-		text-decoration: underline;
-	}
-}
-
-/* Option B: the social networks run on as one row of names under the lines. */
-[data-scope="event-details"][data-part="root"] [data-scope="contact-details"][data-part="item"][data-variant="social"] {
-	display: inline-block;
-	margin-top: 0.5rem;
-}
-
-[data-scope="event-details"][data-part="root"] [data-scope="contact-details"][data-part="item"][data-variant="social"] + [data-scope="contact-details"][data-part="item"][data-variant="social"]::before {
-	color: var(--color-primary-light);
-	content: "\00b7";
-	content: "\00b7" / "";
-	display: inline-block;
-	padding-inline: 0.5rem;
-}
-
-/* The address block sits under a kicker of its own and takes the same rhythm
-   as a contact row, so the two columns read as one pair. */
-[data-scope="event-details"][data-part="root"] [data-scope="address"][data-part="postal-address"] {
-	line-height: 1.5;
 }
 
 /* The "More from {organiser}" section is cut from TD's event page. */

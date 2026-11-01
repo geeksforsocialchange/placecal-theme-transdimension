@@ -67,54 +67,17 @@ main > div > .container-public:has(> [data-scope="partner-details"][data-part="r
 	}
 }
 
-/* Get in touch and Address in the event page's format: centred plain 16px lines, no icons,
-   socials as one "Facebook · Twitter · Instagram" row, directions as one row. */
+/* The service area reads like the address under it; the blocks' own top margins go. */
 [data-scope="partner-details"][data-part="root"] [data-scope="contact-details"][data-part="root"],
 [data-scope="partner-details"][data-part="root"] [data-scope="partner-details"][data-part="service-area"],
-[data-scope="partner-details"][data-part="root"] [data-scope="address"][data-part="postal-address"],
-[data-scope="partner-details"][data-part="root"] [data-scope="address"][data-part="directions"] {
+[data-scope="partner-details"][data-part="root"] [data-scope="address"][data-part="postal-address"] {
+	margin-top: 0;
+}
+
+[data-scope="partner-details"][data-part="root"] [data-scope="partner-details"][data-part="service-area"] {
 	font-size: 1rem;
 	line-height: 1.5;
-	margin-top: 0;
 	text-align: center;
-}
-
-[data-scope="partner-details"][data-part="root"] [data-scope="contact-details"][data-part="root"] {
-	display: block;
-}
-
-[data-scope="partner-details"][data-part="root"] [data-scope="contact-details"][data-part="root"] svg {
-	display: none;
-}
-
-[data-scope="partner-details"][data-part="root"] [data-scope="contact-details"][data-part="item"]:not([data-scope="contact-details"][data-part="item"][data-variant="social"]) a {
-	display: block;
-	margin: 0;
-	overflow-wrap: anywhere;
-	text-decoration: none;
-}
-
-@media only screen and (hover: hover) and (pointer: fine) {
-	[data-scope="partner-details"][data-part="root"] [data-scope="contact-details"][data-part="item"]:not([data-scope="contact-details"][data-part="item"][data-variant="social"]) a:hover {
-		text-decoration: underline;
-	}
-}
-
-[data-scope="partner-details"][data-part="root"] [data-scope="contact-details"][data-part="item"][data-variant="social"] {
-	display: inline-block;
-	margin-top: 0.5rem;
-}
-
-[data-scope="partner-details"][data-part="root"] [data-scope="contact-details"][data-part="item"][data-variant="social"] + [data-scope="contact-details"][data-part="item"][data-variant="social"]::before {
-	color: var(--color-primary-light);
-	content: "\00b7";
-	content: "\00b7" / "";
-	display: inline-block;
-	padding-inline: 0.5rem;
-}
-
-[data-scope="partner-details"][data-part="root"] [data-scope="address"][data-part="directions"] {
-	margin-top: 0.5rem;
 }
 
 /* Core's two-column body, copy and contacts on the left, image and opening
