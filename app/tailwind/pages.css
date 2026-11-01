@@ -322,54 +322,54 @@ main > [data-scope="hero"][data-part="root"]:has([data-scope="hero"][data-part="
    pills inside the breadcrumb, so the utilities are overridden here.
 --------------------------------------------------------------------------- */
 
-.region-filter {
+[data-scope="region-filter"][data-part="root"] {
 	margin: 0 auto 0.5rem;
 	max-width: fit-content;
 }
 
 /* Live's pill geometry: 3.2px 3.2px 4.8px, not core's px-4 py-1.5 */
-.region-filter li a {
+[data-scope="region-filter"][data-part="root"] li a {
 	padding: 0.2rem 0.2rem 0.3rem;
 }
 
 /* Phones: the three pills share the row edge to edge, level with the strip
    and the cards below. */
 @media only screen and (max-width: 599px) {
-	.paginator .region-filter {
+	.paginator [data-scope="region-filter"][data-part="root"] {
 		margin-bottom: 0.75rem;
 	}
 
-	.region-filter ul,
-	.paginator .region-filter ul {
+	[data-scope="region-filter"][data-part="root"] ul,
+	.paginator [data-scope="region-filter"][data-part="root"] ul {
 		gap: 0.5rem;
 		width: 100%;
 	}
 
-	.region-filter li,
-	.paginator .region-filter li {
+	[data-scope="region-filter"][data-part="root"] li,
+	.paginator [data-scope="region-filter"][data-part="root"] li {
 		flex: 1 1 0;
 		margin: 0;
 		min-width: 0;
 	}
 
-	.region-filter li a {
+	[data-scope="region-filter"][data-part="root"] li a {
 		width: 100%;
 	}
 }
 
-.region-filter ul {
+[data-scope="region-filter"][data-part="root"] ul {
 	display: flex;
 	flex-wrap: wrap;
 	gap: 0;
 	justify-content: center;
 }
 
-.region-filter li {
+[data-scope="region-filter"][data-part="root"] li {
 	list-style-type: none;
 	margin: 0.25rem 4px;
 }
 
-.region-filter a {
+[data-scope="region-filter"][data-part="root"] a {
 	background-color: var(--color-background);
 	border: 2px solid var(--color-foreground);
 	border-radius: 0.3rem;
@@ -388,13 +388,13 @@ main > [data-scope="hero"][data-part="root"]:has([data-scope="hero"][data-part="
 	width: 100px;
 }
 
-.region-filter a[aria-current="page"] {
+[data-scope="region-filter"][data-part="root"] a[aria-current="page"] {
 	background-color: var(--color-foreground);
 	color: var(--color-background);
 }
 
 @media only screen and (hover: hover) and (pointer: fine) {
-	.region-filter a:hover {
+	[data-scope="region-filter"][data-part="root"] a:hover {
 		background-color: var(--color-tertiary);
 		border-color: var(--color-foreground);
 		color: var(--color-foreground);
@@ -402,11 +402,11 @@ main > [data-scope="hero"][data-part="root"]:has([data-scope="hero"][data-part="
 }
 
 @media only screen and (min-width: 600px) {
-	.region-filter li {
+	[data-scope="region-filter"][data-part="root"] li {
 		margin: 0.25rem;
 	}
 
-	.region-filter a {
+	[data-scope="region-filter"][data-part="root"] a {
 		font-size: 1rem;
 		width: 110px;
 	}
@@ -414,7 +414,7 @@ main > [data-scope="hero"][data-part="root"]:has([data-scope="hero"][data-part="
 
 /* From 600px the row's own margin is the 24px under the intro panel */
 @media only screen and (min-width: 600px) {
-	.region-filter {
+	[data-scope="region-filter"][data-part="root"] {
 		margin: 1.5rem auto 1rem;
 	}
 }
@@ -422,11 +422,11 @@ main > [data-scope="hero"][data-part="root"]:has([data-scope="hero"][data-part="
 @media only screen and (min-width: 900px) {
 
 	/* 8px between pills, the day strip's gap */
-	.region-filter li {
+	[data-scope="region-filter"][data-part="root"] li {
 		margin: 0.25rem;
 	}
 
-	.region-filter a {
+	[data-scope="region-filter"][data-part="root"] a {
 		font-size: 1.2rem;
 		line-height: 1.5;
 		width: 140px;
