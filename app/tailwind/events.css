@@ -178,9 +178,8 @@
 		outline-offset: 2px;
 	}
 
-	/* The triangle icon core draws on every toggle is dropped for the pink +/−
-	   FilterToggle.jsx carries instead; the visible label text is still the
-	   button's accessible name, so the glyph below is decorative only. */
+	/* Swaps core's triangle for FilterToggle.jsx's pink +/−; the label stays the
+	   accessible name, so the glyph is decorative. */
 	& :is([data-scope="filter"][data-part="toggle"], [data-scope="event-filter"][data-part="toggle"]) button svg {
 		display: none;
 	}

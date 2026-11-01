@@ -74,10 +74,8 @@ class Transdimension::Views::Home < Views::Base
     RegionFilter(tags: region_tags, selected: current_region)
   end
 
-  # Index.elm reuses viewEvent from Events.elm, so the cards are core's
-  # Components::Event in an event-list day part, styled as on the listing page.
-  # Core's EventList prints a heading per day, which the homepage has no room
-  # for, so the list and its items are emitted here.
+  # Core's EventList prints a heading per day, which the homepage has no room for,
+  # so this renders its day part directly to pick up the listing page's card styles.
   def render_event_list
     if events.any?
       ul(data: { scope: 'event-list', part: 'day' }) do
