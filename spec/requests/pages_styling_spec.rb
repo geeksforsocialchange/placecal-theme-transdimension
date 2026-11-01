@@ -40,14 +40,14 @@ RSpec.describe 'Trans Dimension page templates', type: :request do
       expect(response.parsed_body.at_css('#events-browser')).to be_present
     end
 
-    it 'keeps .articles__article-card on the news index' do
+    it 'keeps the news card part on the news index' do
       create(:article, title: 'Greater Manchester Trans Organisers Fund',
                        is_draft: false, published_at: 1.day.ago, tags: [london])
 
       get 'http://transdimension.lvh.me/news'
 
       expect(response).to have_http_status(:ok)
-      expect(response.parsed_body.at_css('.articles__article-card')).to be_present
+      expect(response.parsed_body.at_css('[data-scope="news-index"][data-part="card"]')).to be_present
     end
 
     it 'keeps main > div[vocab] on a news article' do
