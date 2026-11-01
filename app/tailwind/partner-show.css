@@ -212,8 +212,8 @@ main > div > .container-public:has(> [data-scope="partner-details"][data-part="r
 	max-width: 24rem;
 }
 
-/* The partner's events frame flattens into one two-column grid. The guard keeps these rules level with the listing box rules, which a busy partner's frame also matches, so they win on source order. */
-[data-scope="partner-details"][data-part="events-browser"]:not(:has([data-scope="event-index"][data-part])) {
+/* The partner's events frame flattens into one two-column grid, without the listing box a paginated frame gets. */
+[data-scope="partner-details"][data-part="events-browser"] {
 	border: 0;
 	display: grid;
 	gap: 2rem 0;
@@ -222,37 +222,36 @@ main > div > .container-public:has(> [data-scope="partner-details"][data-part="r
 }
 
 @media only screen and (min-width: 600px) {
-	[data-scope="partner-details"][data-part="events-browser"]:not(:has([data-scope="event-index"][data-part])) {
+	[data-scope="partner-details"][data-part="events-browser"] {
 		row-gap: 2.5rem;
 	}
 }
 
 @media only screen and (min-width: 900px) {
-	[data-scope="partner-details"][data-part="events-browser"]:not(:has([data-scope="event-index"][data-part])) {
+	[data-scope="partner-details"][data-part="events-browser"] {
 		column-gap: 1.75rem;
 		grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
 	}
 }
 
 /* Each day is its own <ol>, so every card is a first child; the grid's gap spaces them */
-[data-scope="partner-details"][data-part="events-browser"]:not(:has([data-scope="event-index"][data-part])) [data-scope="event-list"][data-part="day"] [data-scope="event"][data-part="root"] {
+[data-scope="partner-details"][data-part="events-browser"] [data-scope="event-list"][data-part="day"] [data-scope="event"][data-part="root"] {
 	margin-top: 0;
 }
 
-[data-scope="partner-details"][data-part="events-browser"]:not(:has([data-scope="event-index"][data-part])) [data-scope="event-list"][data-part="day"],
-[data-scope="partner-details"][data-part="events-browser"]:not(:has([data-scope="event-index"][data-part])) [data-scope="event-list"][data-part="day"] > li {
+[data-scope="partner-details"][data-part="events-browser"] [data-scope="event-list"][data-part="day"],
+[data-scope="partner-details"][data-part="events-browser"] [data-scope="event-list"][data-part="day"] > li {
 	display: contents;
 }
 
 /* The header row and the show-more row span the grid */
-[data-scope="partner-details"][data-part="events-browser"]:not(:has([data-scope="event-index"][data-part])) > [data-scope="partner-details"][data-part="events-header"],
-[data-scope="partner-details"][data-part="events-browser"]:not(:has([data-scope="event-index"][data-part])) > [data-scope="partner-details"][data-part="events-actions"],
-[data-scope="partner-details"][data-part="events-browser"]:not(:has([data-scope="event-index"][data-part])) > [data-scope="partner-details"][data-part="events-more"] {
+[data-scope="partner-details"][data-part="events-browser"] > [data-scope="partner-details"][data-part="events-header"],
+[data-scope="partner-details"][data-part="events-browser"] > [data-scope="partner-details"][data-part="events-actions"] {
 	grid-column: 1 / -1;
 }
 
 /* Design §5: one continuous list with no day headings; they stay as group labels for assistive tech */
-[data-scope="partner-details"][data-part="events-browser"]:not(:has([data-scope="event-index"][data-part])) > [data-scope="ruled-heading"][data-part="root"] {
+[data-scope="partner-details"][data-part="events-browser"] > [data-scope="ruled-heading"][data-part="root"] {
 	border: 0;
 	clip-path: inset(50%);
 	height: 1px;
@@ -275,6 +274,11 @@ main > div > .container-public:has(> [data-scope="partner-details"][data-part="r
 	display: none;
 }
 
+/* Child places come between the details and the frame, so the paginator above shows; its tabs run inline */
+[data-scope="partner-details"][data-part="paginator"] [data-scope="timeline"][data-part="root"] {
+	display: contents;
+}
+
 /* ---------------------------------------------------------------------------
    Partner event browser header: only the "Show" select shows, on the right. The heading stays
    for assistive tech as the section's label; the count is dropped (2026-10-20 review). */
@@ -286,12 +290,12 @@ main > div > .container-public:has(> [data-scope="partner-details"][data-part="r
 }
 
 /* The header is a grid item, so this pulls the first cards to 24px under it rather than a full row gap */
-[data-scope="partner-details"][data-part="events-browser"]:not(:has([data-scope="event-index"][data-part])) > [data-scope="partner-details"][data-part="events-header"] {
+[data-scope="partner-details"][data-part="events-browser"] > [data-scope="partner-details"][data-part="events-header"] {
 	margin-bottom: -0.5rem;
 }
 
 @media only screen and (min-width: 600px) {
-	[data-scope="partner-details"][data-part="events-browser"]:not(:has([data-scope="event-index"][data-part])) > [data-scope="partner-details"][data-part="events-header"] {
+	[data-scope="partner-details"][data-part="events-browser"] > [data-scope="partner-details"][data-part="events-header"] {
 		margin-bottom: -1rem;
 	}
 }
