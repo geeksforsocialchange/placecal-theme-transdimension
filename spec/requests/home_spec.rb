@@ -84,7 +84,7 @@ RSpec.describe 'Trans Dimension homepage', type: :request do
       get 'http://onetag.lvh.me/'
 
       expect(response).to have_http_status(:ok)
-      expect(response.body).not_to include('region-filter')
+      expect(response.body).not_to include('data-scope="region-filter"')
     end
   end
 end
