@@ -248,9 +248,8 @@ main > div > .container-public:has(> [data-scope="partner-details"][data-part="r
 	max-width: 24rem;
 }
 
-/* The partner's events frame (core: one <ol> per day) flattens into one two-column grid.
-   Keyed off [data-scope="event-index"][data-part="context"], which only /events has: busy partners get a [data-scope="partner-details"][data-part="paginator"] too. */
-[data-scope="partner-details"][data-part="events-browser"]:not(:has([data-scope="event-index"])) {
+/* The partner's events frame flattens into one two-column grid. The guard keeps these rules level with pages.css's box rules, which a busy partner's frame also matches, so they win on source order. */
+[data-scope="partner-details"][data-part="events-browser"]:not(:has([data-scope="event-index"][data-part])) {
 	border: 0;
 	display: grid;
 	gap: 2rem 0;
@@ -259,25 +258,25 @@ main > div > .container-public:has(> [data-scope="partner-details"][data-part="r
 }
 
 @media only screen and (min-width: 600px) {
-	[data-scope="partner-details"][data-part="events-browser"]:not(:has([data-scope="event-index"])) {
+	[data-scope="partner-details"][data-part="events-browser"]:not(:has([data-scope="event-index"][data-part])) {
 		row-gap: 2.5rem;
 	}
 }
 
 @media only screen and (min-width: 900px) {
-	[data-scope="partner-details"][data-part="events-browser"]:not(:has([data-scope="event-index"])) {
+	[data-scope="partner-details"][data-part="events-browser"]:not(:has([data-scope="event-index"][data-part])) {
 		column-gap: 1.75rem;
 		grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
 	}
 }
 
 /* Each day is its own <ol>, so every card is a first child; the grid's gap spaces them */
-[data-scope="partner-details"][data-part="events-browser"]:not(:has([data-scope="event-index"])) [data-scope="event-list"][data-part="day"] [data-scope="event"][data-part="root"] {
+[data-scope="partner-details"][data-part="events-browser"]:not(:has([data-scope="event-index"][data-part])) [data-scope="event-list"][data-part="day"] [data-scope="event"][data-part="root"] {
 	margin-top: 0;
 }
 
-[data-scope="partner-details"][data-part="events-browser"]:not(:has([data-scope="event-index"])) [data-scope="event-list"][data-part="day"],
-[data-scope="partner-details"][data-part="events-browser"]:not(:has([data-scope="event-index"])) [data-scope="event-list"][data-part="day"] > li {
+[data-scope="partner-details"][data-part="events-browser"]:not(:has([data-scope="event-index"][data-part])) [data-scope="event-list"][data-part="day"],
+[data-scope="partner-details"][data-part="events-browser"]:not(:has([data-scope="event-index"][data-part])) [data-scope="event-list"][data-part="day"] > li {
 	display: contents;
 }
 
@@ -285,9 +284,9 @@ main > div > .container-public:has(> [data-scope="partner-details"][data-part="r
    as the flattened event grid above, so without this they are grid items
    too, each auto-placed into a single (half-width, once 2-up) column rather
    than the full frame width the design's header row and centred button need. */
-[data-scope="partner-details"][data-part="events-browser"]:not(:has([data-scope="event-index"])) > [data-scope="partner-details"][data-part="events-header"],
-[data-scope="partner-details"][data-part="events-browser"]:not(:has([data-scope="event-index"])) > [data-scope="partner-details"][data-part="events-actions"],
-[data-scope="partner-details"][data-part="events-browser"]:not(:has([data-scope="event-index"])) > [data-scope="partner-details"][data-part="events-more"] {
+[data-scope="partner-details"][data-part="events-browser"]:not(:has([data-scope="event-index"][data-part])) > [data-scope="partner-details"][data-part="events-header"],
+[data-scope="partner-details"][data-part="events-browser"]:not(:has([data-scope="event-index"][data-part])) > [data-scope="partner-details"][data-part="events-actions"],
+[data-scope="partner-details"][data-part="events-browser"]:not(:has([data-scope="event-index"][data-part])) > [data-scope="partner-details"][data-part="events-more"] {
 	grid-column: 1 / -1;
 }
 
@@ -300,7 +299,7 @@ main > div > .container-public:has(> [data-scope="partner-details"][data-part="r
    is repeated here, scoped off [data-scope="event-index"][data-part="context"] to stay off the events
    route. The heading stays in the accessibility tree as the group label core
    intends. */
-[data-scope="partner-details"][data-part="events-browser"]:not(:has([data-scope="event-index"])) > h2.ruled-heading {
+[data-scope="partner-details"][data-part="events-browser"]:not(:has([data-scope="event-index"][data-part])) > h2.ruled-heading {
 	border: 0;
 	clip-path: inset(50%);
 	height: 1px;
@@ -334,12 +333,12 @@ main > div > .container-public:has(> [data-scope="partner-details"][data-part="r
 }
 
 /* The header is a grid item, so this pulls the first cards to 24px under it rather than a full row gap */
-[data-scope="partner-details"][data-part="events-browser"]:not(:has([data-scope="event-index"])) > [data-scope="partner-details"][data-part="events-header"] {
+[data-scope="partner-details"][data-part="events-browser"]:not(:has([data-scope="event-index"][data-part])) > [data-scope="partner-details"][data-part="events-header"] {
 	margin-bottom: -0.5rem;
 }
 
 @media only screen and (min-width: 600px) {
-	[data-scope="partner-details"][data-part="events-browser"]:not(:has([data-scope="event-index"])) > [data-scope="partner-details"][data-part="events-header"] {
+	[data-scope="partner-details"][data-part="events-browser"]:not(:has([data-scope="event-index"][data-part])) > [data-scope="partner-details"][data-part="events-header"] {
 		margin-bottom: -1rem;
 	}
 }
