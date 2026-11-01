@@ -648,7 +648,7 @@ main:has(.td-home) {
 
 /* The cards are the listing page's; only the list's spacing is the homepage's
    (Home.jsx td-grid2: two-up from 900px, 28px column gap). */
-.td-events .events {
+.td-events [data-scope="event-list"][data-part="day"] {
 	display: grid;
 	grid-template-columns: minmax(0, 1fr);
 	column-gap: 1.75rem;
@@ -659,14 +659,14 @@ main:has(.td-home) {
 
 
 @media only screen and (min-width: 900px) {
-	.td-events .events {
+	.td-events [data-scope="event-list"][data-part="day"] {
 		grid-template-columns: repeat(2, minmax(0, 1fr));
 		margin-top: 1rem;
 	}
 }
 
 @media only screen and (min-width: 1200px) {
-	.td-events .events {
+	.td-events [data-scope="event-list"][data-part="day"] {
 		margin-top: 2rem;
 	}
 }

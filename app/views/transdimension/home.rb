@@ -75,12 +75,12 @@ class Transdimension::Views::Home < Views::Base
   end
 
   # Index.elm reuses viewEvent from Events.elm, so the cards are core's
-  # Components::Event under the `.events` rules the listing page uses. Core's
-  # EventList groups by day and prints a heading per day, which the homepage
-  # has no room for, so the grid and its items are emitted here.
+  # Components::Event in an event-list day part, styled as on the listing page.
+  # Core's EventList prints a heading per day, which the homepage has no room
+  # for, so the list and its items are emitted here.
   def render_event_list
     if events.any?
-      ul(class: 'events') do
+      ul(data: { scope: 'event-list', part: 'day' }) do
         events.each { |event| li { Event(event: event) } }
       end
     else
