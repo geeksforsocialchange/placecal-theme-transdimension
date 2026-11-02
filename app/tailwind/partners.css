@@ -18,32 +18,26 @@
    the events box's side insets (16/24/32px) in place of core's container padding. */
 [data-scope="partner-index"][data-part="root"] > * {
 	margin: 16px 16px 0;
-}
 
-[data-scope="partner-index"][data-part="content"] {
-	padding-inline: 0;
-}
-
-@media only screen and (min-width: 600px) {
-	[data-scope="partner-index"][data-part="root"] > * {
+	@media only screen and (min-width: 600px) {
 		margin: 24px 24px 0;
 	}
-}
 
-@media only screen and (min-width: 900px) {
-	[data-scope="partner-index"][data-part="root"] > * {
+	@media only screen and (min-width: 900px) {
 		margin-inline: 32px;
 	}
 }
 
-[data-scope="partner-index"][data-part="content"] [data-scope="breadcrumb"][data-part="root"] {
-	margin: 0 0 32px;
-	order: 1;
-}
+[data-scope="partner-index"][data-part="content"] {
+	padding-inline: 0;
 
-@media only screen and (min-width: 600px) {
-	[data-scope="partner-index"][data-part="content"] [data-scope="breadcrumb"][data-part="root"] {
-		margin-bottom: 40px;
+	[data-scope="breadcrumb"][data-part="root"] {
+		margin: 0 0 32px;
+		order: 1;
+
+		@media only screen and (min-width: 600px) {
+			margin-bottom: 40px;
+		}
 	}
 }
 
@@ -52,304 +46,302 @@
 	order: 3;
 }
 
-/* Core's no-match copy, styled like the events index's empty copy. */
-[data-scope="partner-index"][data-part="root"] [data-scope="partner-index"][data-part="empty"] {
-	color: var(--color-foreground);
-	font-size: 1rem;
-	margin: 0;
-	text-align: center;
-}
-
-/* The design has no rule between the filters and the heading; the spacing
-   above does that job instead. */
-[data-scope="partner-index"][data-part="root"] hr {
-	display: none;
-}
-
-/* Filter rows (Final.jsx FilterRow): the region pills, then "TYPE [Show all v] ... [search]",
-   each toggle's label as plain caps and its value as the select, core's chevron on top. */
-/* The region pills sit outside the form, so the form and its controls row are
-   flattened to lay out the pills, selects and search in one flex box. */
-[data-scope="partner-index"][data-part="root"] [data-scope="partner-filter"][data-part="root"] {
-	align-items: center;
-	column-gap: 28px;
-	display: flex;
-	flex-wrap: wrap;
-	justify-content: center;
-	row-gap: 8px;
-}
-
-@media only screen and (min-width: 600px) {
-	[data-scope="partner-index"][data-part="root"] [data-scope="partner-filter"][data-part="root"] {
-		row-gap: 16px;
-	}
-}
-
-[data-scope="partner-index"][data-part="root"] form[data-scope="partner-filter"][data-part="form"],
-[data-scope="partner-index"][data-part="root"] [data-scope="partner-filter"][data-part="controls"] {
-	display: contents;
-}
-
-/* The pills take the first row on their own, centred as on the events index. */
-[data-scope="partner-index"][data-part="root"] [data-scope="region-filter"][data-part="root"] {
-	flex-basis: 100%;
-	margin: 0;
-	max-width: none;
-}
-
-@media only screen and (max-width: 899px) {
-	[data-scope="partner-index"][data-part="root"] [data-scope="region-filter"][data-part="root"] [data-scope="pill"][data-part="root"] {
-		line-height: 1.3;
-	}
-}
-
-/* Phones: extra padding brings the pills (WebKit lays their 18.2px line out at 18px) to the selects' 39.2px. */
-@media only screen and (max-width: 599px) {
-	[data-scope="partner-index"][data-part="root"] [data-scope="region-filter"][data-part="root"] [data-scope="region-filter"][data-part="item"] [data-scope="pill"][data-part="root"] {
-		padding: calc(0.2rem + 4.5px) 0.2rem calc(0.3rem + 4.7px);
-	}
-}
-
-/* "Filter by:" is redundant once each control carries its own Location/Type
-   label (below); hidden visually, kept for assistive tech. */
-[data-scope="partner-index"][data-part="root"] [data-scope="partner-filter"][data-part="label"] {
-	clip-path: inset(50%);
-	height: 1px;
-	margin: -1px;
-	overflow: hidden;
-	position: absolute;
-	white-space: nowrap;
-	width: 1px;
-}
-
-/* Second row: Type, the neighbourhood select (only shown when the site has more
-   than one neighbourhood), the reset link, then search on the right. */
-[data-scope="partner-index"][data-part="root"] [data-scope="partner-filter"][data-part="filter"][data-variant="category"],
-[data-scope="partner-index"][data-part="root"] [data-scope="partner-filter"][data-part="filter"][data-variant="neighbourhood"] {
-	position: relative;
-}
-
-/* SearchInput.jsx: mauve fill, no border, white 600 text, white 400 placeholder.
-   Full width on phones, 220px from 600px. */
-[data-scope="partner-index"][data-part="root"] [data-scope="partner-filter"][data-part="filter"][data-variant="search"] {
-	flex-basis: 100%;
-}
-
-@media only screen and (min-width: 600px) {
-	[data-scope="partner-index"][data-part="root"] [data-scope="partner-filter"][data-part="filter"][data-variant="search"] {
-		flex: 0 0 220px;
-		margin-left: auto;
-	}
-}
-
-/* Phones: Type and Location share one line, half each, 8px apart, search below. */
-@media only screen and (max-width: 599px) {
-	[data-scope="partner-index"][data-part="root"] [data-scope="partner-filter"][data-part="root"] {
-		column-gap: 8px;
-	}
-
-	[data-scope="partner-index"][data-part="root"] [data-scope="partner-filter"][data-part="filter"][data-variant="category"],
-	[data-scope="partner-index"][data-part="root"] [data-scope="partner-filter"][data-part="filter"][data-variant="neighbourhood"] {
-		flex: 1 1 0;
-		min-width: 0;
-	}
-
-	[data-scope="partner-index"][data-part="root"] [data-scope="filter"][data-part="toggle"],
-	[data-scope="partner-index"][data-part="root"] [data-scope="filter"][data-part="toggle-button"] {
-		width: 100%;
-	}
-}
-
-[data-scope="partner-index"][data-part="root"] input[data-scope="partner-filter"][data-part="search"] {
-	background-color: var(--td-mauve);
-	border: 0;
-	border-radius: 0.3rem;
-	color: var(--color-foreground);
-	font-family: inherit;
-	font-size: 1rem;
-	font-weight: 600;
-	line-height: 1.5;
-	padding: 0.35rem 0.75rem 0.45rem;
-	width: 100%;
-}
-
-/* WebKit's native clear button, redrawn as a 16px white cross that turns pink on hover. */
-[data-scope="partner-index"][data-part="root"] input[data-scope="partner-filter"][data-part="search"]::-webkit-search-cancel-button {
-	-webkit-appearance: none;
-	appearance: none;
-	background-color: var(--color-foreground);
-	cursor: pointer;
-	height: 16px;
-	-webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M3 3l10 10M13 3L3 13' stroke='black' stroke-width='2.5' stroke-linecap='round'/%3E%3C/svg%3E") center / contain no-repeat;
-	mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M3 3l10 10M13 3L3 13' stroke='black' stroke-width='2.5' stroke-linecap='round'/%3E%3C/svg%3E") center / contain no-repeat;
-	width: 16px;
-}
-
-/* WebKit ignores :hover on the button itself, so it follows the field's hover. */
-[data-scope="partner-index"][data-part="root"] input[data-scope="partner-filter"][data-part="search"]::-webkit-search-cancel-button:hover,
-[data-scope="partner-index"][data-part="root"] input[data-scope="partner-filter"][data-part="search"]:hover::-webkit-search-cancel-button {
-	background-color: var(--color-primary);
-}
-
-/* Pink on mauve is 2.82:1, so the placeholder is white and told apart from typed text by weight. */
-[data-scope="partner-index"][data-part="root"] input[data-scope="partner-filter"][data-part="search"]::placeholder {
-	color: var(--color-foreground);
-	font-weight: 400;
-	opacity: 1;
-}
-
-[data-scope="partner-index"][data-part="root"] input[data-scope="partner-filter"][data-part="search"]:focus-visible {
-	outline: 2px solid var(--color-foreground);
-	outline-offset: 2px;
-}
-
-[data-scope="partner-index"][data-part="root"] [data-scope="filter"][data-part="toggle"] {
-	display: inline-flex;
-	justify-content: flex-start;
-}
-
-/* The toggle button itself carries no box: the label reads as plain text and
-   the value is the only element styled as a select (below). */
-[data-scope="partner-index"][data-part="root"] [data-scope="filter"][data-part="toggle-button"] {
-	align-items: center;
-	background: none;
-	border: 0;
-	color: inherit;
-	cursor: pointer;
-	display: inline-flex;
-	font-family: inherit;
-	gap: 0.5rem;
-	line-height: 1.5;
-	padding: 0;
-	position: relative;
-}
-
-/* Select.jsx's outer label: allcaps 0.78rem 700, letter-spacing 1.9px,
-   white, reading beside the select, not inside it. */
-[data-scope="partner-index"][data-part="root"] [data-scope="filter"][data-part="toggle-label"] {
-	color: var(--color-foreground);
-	font-size: 0.78rem;
-	font-weight: 700;
-	letter-spacing: 1.9px;
-	text-transform: uppercase;
-}
-
-/* Select.jsx's <select>: dark fill, 2px pink border, pink 600 text, 0.3rem
-   radius, right padding reserved for the chevron below. */
-[data-scope="partner-index"][data-part="root"] [data-scope="filter"][data-part="toggle-value"] {
-	background-color: var(--color-background);
-	border: 2px solid var(--color-primary);
-	border-radius: 0.3rem;
-	color: var(--color-primary);
-	display: inline-block;
-	font-size: 1rem;
-	font-weight: 600;
-	padding: 0.3rem 2.2rem 0.4rem 0.75rem;
-	transition:
-		border-color 300ms linear,
-		background-color 300ms linear;
-}
-
-/* Core's triangle_down svg is the button's first child, drawn before the
-   label; repositioned here as the value box's chevron. The button has no
-   other trailing content once the svg is taken out of flow, so its right
-   edge lines up with the value box's right edge. */
-[data-scope="partner-index"][data-part="root"] [data-scope="filter"][data-part="toggle-button"] svg {
-	color: var(--color-primary);
-	height: 0.5rem;
-	position: absolute;
-	right: 0.75rem;
-	top: 50%;
-	transform: translateY(-50%);
-	width: 0.75rem;
-}
-
-@media only screen and (hover: hover) and (pointer: fine) {
-	[data-scope="partner-index"][data-part="root"] [data-scope="filter"][data-part="toggle-button"]:hover [data-scope="filter"][data-part="toggle-value"] {
-		border-color: var(--color-foreground);
-	}
-}
-
-/* Phones drop the separate label: with nothing chosen the box reads "Type" or
-   "Location" instead of "Show all", and the text not shown stays for screen readers. */
-@media only screen and (max-width: 599px) {
-	/* Read off the checked radio, not the button's state, so the swap is instant; :where keeps the old weight */
-	[data-scope="partner-index"][data-part="root"] [data-scope="filter"][data-part="toggle-value"],
-	[data-scope="partner-index"][data-part="root"] [data-scope="partner-filter"][data-part="filter"]:not(:has(:where([data-scope="filter"][data-part="option"]) input:checked)) [data-scope="filter"][data-part="toggle-label"] {
-		background-color: var(--color-background);
-		border: 2px solid var(--color-primary);
-		border-radius: 0.3rem;
-		box-sizing: border-box;
-		color: var(--color-primary);
-		display: block;
+[data-scope="partner-index"][data-part="root"] {
+	/* Core's no-match copy, styled like the events index's empty copy. */
+	[data-scope="partner-index"][data-part="empty"] {
+		color: var(--color-foreground);
 		font-size: 1rem;
-		font-weight: 600;
-		letter-spacing: normal;
-		overflow: hidden;
-		padding: 0.3rem 2.2rem 0.4rem 0.75rem;
-		text-align: left;
-		text-overflow: ellipsis;
-		text-transform: none;
-		white-space: nowrap;
-		width: 100%;
+		margin: 0;
+		text-align: center;
 	}
 
-	[data-scope="partner-index"][data-part="root"] [data-scope="partner-filter"][data-part="filter"]:has(:where([data-scope="filter"][data-part="option"]) input:checked) [data-scope="filter"][data-part="toggle-label"],
-	[data-scope="partner-index"][data-part="root"] [data-scope="partner-filter"][data-part="filter"]:not(:has(:where([data-scope="filter"][data-part="option"]) input:checked)) [data-scope="filter"][data-part="toggle-value"] {
-		border: 0;
+	/* The design has no rule between the filters and the heading; the spacing
+	   above does that job instead. */
+	hr {
+		display: none;
+	}
+
+	/* Filter rows (Final.jsx FilterRow): the region pills, then "TYPE [Show all v] ... [search]",
+	   each toggle's label as plain caps and its value as the select, core's chevron on top. */
+	/* The region pills sit outside the form, so the form and its controls row are
+	   flattened to lay out the pills, selects and search in one flex box. */
+	[data-scope="partner-filter"][data-part="root"] {
+		align-items: center;
+		column-gap: 28px;
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: center;
+		row-gap: 8px;
+
+		@media only screen and (min-width: 600px) {
+			row-gap: 16px;
+		}
+	}
+
+	form[data-scope="partner-filter"][data-part="form"],
+	[data-scope="partner-filter"][data-part="controls"] {
+		display: contents;
+	}
+
+	/* The pills take the first row on their own, centred as on the events index. */
+	[data-scope="region-filter"][data-part="root"] {
+		flex-basis: 100%;
+		margin: 0;
+		max-width: none;
+
+		[data-scope="pill"][data-part="root"] {
+			@media only screen and (max-width: 899px) {
+				line-height: 1.3;
+			}
+		}
+
+		/* Phones: extra padding brings the pills (WebKit lays their 18.2px line out at 18px) to the selects' 39.2px. */
+		[data-scope="region-filter"][data-part="item"] [data-scope="pill"][data-part="root"] {
+			@media only screen and (max-width: 599px) {
+				padding: calc(0.2rem + 4.5px) 0.2rem calc(0.3rem + 4.7px);
+			}
+		}
+	}
+
+	/* "Filter by:" is redundant once each control carries its own Location/Type
+	   label (below); hidden visually, kept for assistive tech. */
+	[data-scope="partner-filter"][data-part="label"] {
 		clip-path: inset(50%);
 		height: 1px;
 		margin: -1px;
 		overflow: hidden;
-		padding: 0;
 		position: absolute;
 		white-space: nowrap;
 		width: 1px;
 	}
-}
 
-[data-scope="partner-index"][data-part="root"] [data-scope="filter"][data-part="toggle-button"]:focus-visible {
-	outline: 2px solid var(--color-foreground);
-	outline-offset: 2px;
-}
+	/* Second row: Type, the neighbourhood select (only shown when the site has more
+	   than one neighbourhood), the reset link, then search on the right. */
+	[data-scope="partner-filter"][data-part="filter"][data-variant="category"],
+	[data-scope="partner-filter"][data-part="filter"][data-variant="neighbourhood"] {
+		position: relative;
+	}
 
-/* Popover, not inline block: the closest a toggle and list get to a native
-   select's dropdown. Layout only; core's state attribute still hides it. */
-[data-scope="partner-index"][data-part="root"] [data-scope="filter"][data-part="dropdown"] {
-	background-color: var(--color-background);
-	border: 1px solid var(--color-primary);
-	border-radius: 0.3rem;
-	box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
-	margin-top: 0.35rem;
-	min-width: 12rem;
-	padding: 0.5rem;
-	position: absolute;
-	text-align: left;
-	top: 100%;
-	z-index: 20;
-}
+	/* SearchInput.jsx: mauve fill, no border, white 600 text, white 400 placeholder.
+	   Full width on phones, 220px from 600px. */
+	[data-scope="partner-filter"][data-part="filter"][data-variant="search"] {
+		flex-basis: 100%;
 
-[data-scope="partner-index"][data-part="root"] [data-scope="filter"][data-part="option"] {
-	padding: 0.15rem 0;
-}
+		@media only screen and (min-width: 600px) {
+			flex: 0 0 220px;
+			margin-left: auto;
+		}
+	}
 
-[data-scope="partner-index"][data-part="root"] [data-scope="filter"][data-part="label"] {
-	cursor: pointer;
-}
+	/* Phones: Type and Location share one line, half each, 8px apart, search below. */
+	@media only screen and (max-width: 599px) {
+		[data-scope="partner-filter"][data-part="root"] {
+			column-gap: 8px;
+		}
 
-/* The reset link renders as its own trailing element once a filter is
-   active; keep it inline with the two selects. */
-[data-scope="partner-index"][data-part="root"] [data-scope="partner-filter"][data-part="reset"] {
-	align-items: center;
-	display: inline-flex;
-}
+		[data-scope="partner-filter"][data-part="filter"][data-variant="category"],
+		[data-scope="partner-filter"][data-part="filter"][data-variant="neighbourhood"] {
+			flex: 1 1 0;
+			min-width: 0;
+		}
 
-[data-scope="partner-index"][data-part="root"] a[data-scope="partner-filter"][data-part="link"] {
-	/* core's Breadcrumb link draws a border-bottom as well: one underline, not two */
-	border-bottom: 0;
-	color: var(--color-primary);
-	font-weight: 600;
-	text-decoration: underline;
+		[data-scope="filter"][data-part="toggle"],
+		[data-scope="filter"][data-part="toggle-button"] {
+			width: 100%;
+		}
+	}
+
+	input[data-scope="partner-filter"][data-part="search"] {
+		background-color: var(--td-mauve);
+		border: 0;
+		border-radius: 0.3rem;
+		color: var(--color-foreground);
+		font-family: inherit;
+		font-size: 1rem;
+		font-weight: 600;
+		line-height: 1.5;
+		padding: 0.35rem 0.75rem 0.45rem;
+		width: 100%;
+
+		/* WebKit's native clear button, redrawn as a 16px white cross that turns pink on hover. */
+		&::-webkit-search-cancel-button {
+			-webkit-appearance: none;
+			appearance: none;
+			background-color: var(--color-foreground);
+			cursor: pointer;
+			height: 16px;
+			-webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M3 3l10 10M13 3L3 13' stroke='black' stroke-width='2.5' stroke-linecap='round'/%3E%3C/svg%3E") center / contain no-repeat;
+			mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M3 3l10 10M13 3L3 13' stroke='black' stroke-width='2.5' stroke-linecap='round'/%3E%3C/svg%3E") center / contain no-repeat;
+			width: 16px;
+		}
+
+		/* WebKit ignores :hover on the button itself, so it follows the field's hover. */
+		&::-webkit-search-cancel-button:hover,
+		&:hover::-webkit-search-cancel-button {
+			background-color: var(--color-primary);
+		}
+
+		/* Pink on mauve is 2.82:1, so the placeholder is white and told apart from typed text by weight. */
+		&::placeholder {
+			color: var(--color-foreground);
+			font-weight: 400;
+			opacity: 1;
+		}
+
+		&:focus-visible {
+			outline: 2px solid var(--color-foreground);
+			outline-offset: 2px;
+		}
+	}
+
+	[data-scope="filter"][data-part="toggle"] {
+		display: inline-flex;
+		justify-content: flex-start;
+	}
+
+	/* The toggle button itself carries no box: the label reads as plain text and
+	   the value is the only element styled as a select (below). */
+	[data-scope="filter"][data-part="toggle-button"] {
+		align-items: center;
+		background: none;
+		border: 0;
+		color: inherit;
+		cursor: pointer;
+		display: inline-flex;
+		font-family: inherit;
+		gap: 0.5rem;
+		line-height: 1.5;
+		padding: 0;
+		position: relative;
+	}
+
+	/* Select.jsx's outer label: allcaps 0.78rem 700, letter-spacing 1.9px,
+	   white, reading beside the select, not inside it. */
+	[data-scope="filter"][data-part="toggle-label"] {
+		color: var(--color-foreground);
+		font-size: 0.78rem;
+		font-weight: 700;
+		letter-spacing: 1.9px;
+		text-transform: uppercase;
+	}
+
+	/* Select.jsx's <select>: dark fill, 2px pink border, pink 600 text, 0.3rem
+	   radius, right padding reserved for the chevron below. */
+	[data-scope="filter"][data-part="toggle-value"] {
+		background-color: var(--color-background);
+		border: 2px solid var(--color-primary);
+		border-radius: 0.3rem;
+		color: var(--color-primary);
+		display: inline-block;
+		font-size: 1rem;
+		font-weight: 600;
+		padding: 0.3rem 2.2rem 0.4rem 0.75rem;
+		transition:
+			border-color 300ms linear,
+			background-color 300ms linear;
+	}
+
+	/* Core's triangle_down svg is the button's first child, drawn before the
+	   label; repositioned here as the value box's chevron. The button has no
+	   other trailing content once the svg is taken out of flow, so its right
+	   edge lines up with the value box's right edge. */
+	[data-scope="filter"][data-part="toggle-button"] svg {
+		color: var(--color-primary);
+		height: 0.5rem;
+		position: absolute;
+		right: 0.75rem;
+		top: 50%;
+		transform: translateY(-50%);
+		width: 0.75rem;
+	}
+
+	@media only screen and (hover: hover) and (pointer: fine) {
+		[data-scope="filter"][data-part="toggle-button"]:hover [data-scope="filter"][data-part="toggle-value"] {
+			border-color: var(--color-foreground);
+		}
+	}
+
+	/* Phones drop the separate label: with nothing chosen the box reads "Type" or
+	   "Location" instead of "Show all", and the text not shown stays for screen readers. */
+	@media only screen and (max-width: 599px) {
+		/* Read off the checked radio, not the button's state, so the swap is instant; :where keeps the old weight */
+		[data-scope="filter"][data-part="toggle-value"],
+		[data-scope="partner-filter"][data-part="filter"]:not(:has(:where([data-scope="filter"][data-part="option"]) input:checked)) [data-scope="filter"][data-part="toggle-label"] {
+			background-color: var(--color-background);
+			border: 2px solid var(--color-primary);
+			border-radius: 0.3rem;
+			box-sizing: border-box;
+			color: var(--color-primary);
+			display: block;
+			font-size: 1rem;
+			font-weight: 600;
+			letter-spacing: normal;
+			overflow: hidden;
+			padding: 0.3rem 2.2rem 0.4rem 0.75rem;
+			text-align: left;
+			text-overflow: ellipsis;
+			text-transform: none;
+			white-space: nowrap;
+			width: 100%;
+		}
+
+		[data-scope="partner-filter"][data-part="filter"]:has(:where([data-scope="filter"][data-part="option"]) input:checked) [data-scope="filter"][data-part="toggle-label"],
+		[data-scope="partner-filter"][data-part="filter"]:not(:has(:where([data-scope="filter"][data-part="option"]) input:checked)) [data-scope="filter"][data-part="toggle-value"] {
+			border: 0;
+			clip-path: inset(50%);
+			height: 1px;
+			margin: -1px;
+			overflow: hidden;
+			padding: 0;
+			position: absolute;
+			white-space: nowrap;
+			width: 1px;
+		}
+	}
+
+	[data-scope="filter"][data-part="toggle-button"]:focus-visible {
+		outline: 2px solid var(--color-foreground);
+		outline-offset: 2px;
+	}
+
+	/* Popover, not inline block: the closest a toggle and list get to a native
+	   select's dropdown. Layout only; core's state attribute still hides it. */
+	[data-scope="filter"][data-part="dropdown"] {
+		background-color: var(--color-background);
+		border: 1px solid var(--color-primary);
+		border-radius: 0.3rem;
+		box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+		margin-top: 0.35rem;
+		min-width: 12rem;
+		padding: 0.5rem;
+		position: absolute;
+		text-align: left;
+		top: 100%;
+		z-index: 20;
+	}
+
+	[data-scope="filter"][data-part="option"] {
+		padding: 0.15rem 0;
+	}
+
+	[data-scope="filter"][data-part="label"] {
+		cursor: pointer;
+	}
+
+	/* The reset link renders as its own trailing element once a filter is
+	   active; keep it inline with the two selects. */
+	[data-scope="partner-filter"][data-part="reset"] {
+		align-items: center;
+		display: inline-flex;
+	}
+
+	a[data-scope="partner-filter"][data-part="link"] {
+		/* core's Breadcrumb link draws a border-bottom as well: one underline, not two */
+		border-bottom: 0;
+		color: var(--color-primary);
+		font-weight: 600;
+		text-decoration: underline;
+	}
 }
 
 /* ---------------------------------------------------------------------------
@@ -364,60 +356,54 @@
 	grid-template-columns: minmax(0, 1fr);
 	margin: 0;
 	padding: 0;
-}
 
-@media only screen and (min-width: 600px) {
-	[data-scope="partner-index"][data-part="list"] {
+	@media only screen and (min-width: 600px) {
 		row-gap: 40px;
 	}
-}
 
-@media only screen and (min-width: 900px) {
-	[data-scope="partner-index"][data-part="list"] {
+	@media only screen and (min-width: 900px) {
 		grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
 	}
-}
 
-[data-scope="partner-index"][data-part="list"] [data-scope="partner-preview"][data-part="root"],
-[data-scope="partner-index"][data-part="list"] [data-scope="partner-preview"][data-part="header"],
-[data-scope="partner-index"][data-part="list"] [data-scope="partner-preview"][data-part="details"] {
-	min-width: 0;
-	overflow-wrap: anywhere;
-}
-
-/* Partners.elm partnerTopRowStyle: a flex row, the badge pushed right of a
-   name that may wrap and level with its foot. */
-[data-scope="partner-index"][data-part="list"] [data-scope="partner-preview"][data-part="header"] {
-	align-items: flex-end;
-	border-bottom: 2px solid var(--color-primary);
-	border-width: 0 0 2px;
-	display: flex;
-	gap: 0.75rem;
-	justify-content: space-between;
-	padding: 8px 0;
-	transition: border-color 300ms linear;
-}
-
-/* Live's card type: name 1.2rem bold italic on phones, 1.5rem from 600px. */
-[data-scope="partner-index"][data-part="list"] [data-scope="partner-preview"][data-part="title"] {
-	font-size: 1.2rem;
-	font-style: italic;
-	font-weight: 700;
-	line-height: 1.5;
-	margin: 0;
-	padding: 0;
-}
-
-@media only screen and (min-width: 600px) {
-	[data-scope="partner-index"][data-part="list"] [data-scope="partner-preview"][data-part="title"] {
-		font-size: 1.5rem;
+	[data-scope="partner-preview"][data-part="root"],
+	[data-scope="partner-preview"][data-part="header"],
+	[data-scope="partner-preview"][data-part="details"] {
+		min-width: 0;
+		overflow-wrap: anywhere;
 	}
-}
 
-[data-scope="partner-index"][data-part="list"] [data-scope="partner-preview"][data-part="title"] a {
-	color: var(--color-foreground);
-	text-decoration: none;
-	transition: color 300ms linear;
+	/* Partners.elm partnerTopRowStyle: a flex row, the badge pushed right of a
+	   name that may wrap and level with its foot. */
+	[data-scope="partner-preview"][data-part="header"] {
+		align-items: flex-end;
+		border-bottom: 2px solid var(--color-primary);
+		border-width: 0 0 2px;
+		display: flex;
+		gap: 0.75rem;
+		justify-content: space-between;
+		padding: 8px 0;
+		transition: border-color 300ms linear;
+	}
+
+	/* Live's card type: name 1.2rem bold italic on phones, 1.5rem from 600px. */
+	[data-scope="partner-preview"][data-part="title"] {
+		font-size: 1.2rem;
+		font-style: italic;
+		font-weight: 700;
+		line-height: 1.5;
+		margin: 0;
+		padding: 0;
+
+		@media only screen and (min-width: 600px) {
+			font-size: 1.5rem;
+		}
+
+		a {
+			color: var(--color-foreground);
+			text-decoration: none;
+			transition: color 300ms linear;
+		}
+	}
 }
 
 /* Badge.jsx in TD's mauve; white label, as pink on mauve is only 2.82:1. */
@@ -435,71 +421,71 @@
 	text-transform: none;
 }
 
-/* Summary: 1rem on phones (the event page's phone body size), live's 1.2rem from 600px, on a 1.5 line. */
-[data-scope="partner-index"][data-part="list"] [data-scope="partner-preview"][data-part="details"] {
-	padding: 8px 0;
-}
+[data-scope="partner-index"][data-part="list"] {
+	/* Summary: 1rem on phones (the event page's phone body size), live's 1.2rem from 600px, on a 1.5 line. */
+	[data-scope="partner-preview"][data-part="details"] {
+		padding: 8px 0;
 
-[data-scope="partner-index"][data-part="list"] [data-scope="partner-preview"][data-part="details"] p {
-	font-size: 1rem;
-	line-height: 1.5;
-	margin: 0 1rem 0 0;
-}
+		p {
+			font-size: 1rem;
+			line-height: 1.5;
+			margin: 0 1rem 0 0;
 
-@media only screen and (min-width: 600px) {
-	[data-scope="partner-index"][data-part="list"] [data-scope="partner-preview"][data-part="details"] p {
-		font-size: 1.2rem;
-	}
-}
-
-/* Live widens the card's inner padding from 8px to 12px at 900px. */
-@media only screen and (min-width: 900px) {
-	[data-scope="partner-index"][data-part="list"] [data-scope="partner-preview"][data-part="header"],
-	[data-scope="partner-index"][data-part="list"] [data-scope="partner-preview"][data-part="details"] {
-		padding-block: 12px;
-	}
-}
-
-/* Live's badge: 14.04px 600 on a 1.5 line, 4px 8px padding. */
-[data-scope="partner-index"][data-part="list"] [data-scope="partner-preview"][data-part="neighbourhood"] [data-scope="pill"][data-part="root"] {
-	font-size: 0.8778rem;
-	font-weight: 600;
-	line-height: 1.5;
-	padding: 4px 8px;
-}
-
-@media only screen and (hover: hover) and (pointer: fine) {
-	[data-scope="partner-index"][data-part="list"] [data-scope="partner-preview"][data-part="root"]:hover [data-scope="partner-preview"][data-part="title"] a {
-		color: var(--color-primary);
+			@media only screen and (min-width: 600px) {
+				font-size: 1.2rem;
+			}
+		}
 	}
 
-	[data-scope="partner-index"][data-part="list"] [data-scope="partner-preview"][data-part="root"]:hover [data-scope="partner-preview"][data-part="header"] {
-		border-bottom-color: var(--color-foreground);
+	/* Live widens the card's inner padding from 8px to 12px at 900px. */
+	@media only screen and (min-width: 900px) {
+		[data-scope="partner-preview"][data-part="header"],
+		[data-scope="partner-preview"][data-part="details"] {
+			padding-block: 12px;
+		}
 	}
-}
 
-/* The badge never wraps; the name wraps instead. */
-[data-scope="partner-index"][data-part="list"] [data-scope="partner-preview"][data-part="root"] [data-scope="partner-preview"][data-part="neighbourhood"] {
-	flex-shrink: 0;
-	white-space: nowrap;
+	/* Live's badge: 14.04px 600 on a 1.5 line, 4px 8px padding. */
+	[data-scope="partner-preview"][data-part="neighbourhood"] [data-scope="pill"][data-part="root"] {
+		font-size: 0.8778rem;
+		font-weight: 600;
+		line-height: 1.5;
+		padding: 4px 8px;
+	}
+
+	@media only screen and (hover: hover) and (pointer: fine) {
+		[data-scope="partner-preview"][data-part="root"]:hover {
+			[data-scope="partner-preview"][data-part="title"] a {
+				color: var(--color-primary);
+			}
+
+			[data-scope="partner-preview"][data-part="header"] {
+				border-bottom-color: var(--color-foreground);
+			}
+		}
+	}
+
+	/* The badge never wraps; the name wraps instead. */
+	[data-scope="partner-preview"][data-part="root"] [data-scope="partner-preview"][data-part="neighbourhood"] {
+		flex-shrink: 0;
+		white-space: nowrap;
+	}
 }
 
 /* Map: full-bleed, 40px under the list, closing the box (Final.jsx `.td-map`) */
 [data-scope="partner-index"][data-part="root"] > [data-scope="partner-index"][data-part="map"] {
 	margin: 40px 0 0;
 	padding-inline: 0;
-}
 
-/* A 1px pink rule above the map; 1.5x the phone height from 600px */
-[data-scope="partner-index"][data-part="root"] > [data-scope="partner-index"][data-part="map"] > [data-scope="map"][data-part="root"] {
-	border-top: 1px solid var(--color-primary);
-	height: 330px;
-	min-height: 330px;
-}
+	/* A 1px pink rule above the map; 1.5x the phone height from 600px */
+	> [data-scope="map"][data-part="root"] {
+		border-top: 1px solid var(--color-primary);
+		height: 330px;
+		min-height: 330px;
 
-@media only screen and (min-width: 600px) {
-	[data-scope="partner-index"][data-part="root"] > [data-scope="partner-index"][data-part="map"] > [data-scope="map"][data-part="root"] {
-		height: 495px;
-		min-height: 495px;
+		@media only screen and (min-width: 600px) {
+			height: 495px;
+			min-height: 495px;
+		}
 	}
 }
