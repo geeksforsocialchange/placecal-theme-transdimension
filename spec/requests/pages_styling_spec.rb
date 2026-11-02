@@ -40,14 +40,14 @@ RSpec.describe 'Trans Dimension page templates', type: :request do
       expect(response.parsed_body.at_css('#events-browser')).to be_present
     end
 
-    it 'keeps .articles__article-card on the news index' do
+    it 'keeps the news card part on the news index' do
       create(:article, title: 'Greater Manchester Trans Organisers Fund',
                        is_draft: false, published_at: 1.day.ago, tags: [london])
 
       get 'http://transdimension.lvh.me/news'
 
       expect(response).to have_http_status(:ok)
-      expect(response.parsed_body.at_css('.articles__article-card')).to be_present
+      expect(response.parsed_body.at_css('[data-scope="news-index"][data-part="card"]')).to be_present
     end
 
     it 'keeps main > div[vocab] on a news article' do
@@ -60,20 +60,20 @@ RSpec.describe 'Trans Dimension page templates', type: :request do
       expect(response.parsed_body.at_css('main > div[vocab]')).to be_present
     end
 
-    it 'keeps .partners .preview__details on the partners index' do
+    it 'keeps the partner list and preview details parts on the partners index' do
       partner
 
       get 'http://transdimension.lvh.me/partners'
 
       expect(response).to have_http_status(:ok)
-      expect(response.parsed_body.at_css('.partners .preview__details')).to be_present
+      expect(response.parsed_body.at_css('[data-scope="partner-index"][data-part="list"] [data-scope="partner-preview"][data-part="details"]')).to be_present
     end
 
-    it 'keeps .partner-details .place_info__address on a partner page' do
+    it 'keeps the partner details and postal address parts on a partner page' do
       get "http://transdimension.lvh.me#{partner_path(partner)}"
 
       expect(response).to have_http_status(:ok)
-      expect(response.parsed_body.at_css('.partner-details .place_info__address')).to be_present
+      expect(response.parsed_body.at_css('[data-scope="partner-details"][data-part="root"] [data-scope="address"][data-part="postal-address"]')).to be_present
     end
   end
 

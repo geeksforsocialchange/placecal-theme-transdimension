@@ -45,7 +45,7 @@ class Transdimension::Views::Home < Views::Base
       p(class: 'td-section__text') { t('transdimension.home.intro_message') }
       p(class: 'td-button-floating') do
         link_to t('transdimension.home.intro_button'), events_path,
-                class: 'with-no-sass td-button td-button--white'
+                class: 'td-button td-button--white'
       end
     end
   end
@@ -61,7 +61,7 @@ class Transdimension::Views::Home < Views::Base
         div(class: 'td-events') { render_event_list }
         p(class: 'td-button-floating') do
           link_to t('transdimension.home.events_button'), events_path(**region_param),
-                  class: 'with-no-sass td-button td-button--pink', data: { turbo_frame: '_top' }
+                  class: 'td-button td-button--pink', data: { turbo_frame: '_top' }
         end
       end
     end
@@ -74,13 +74,11 @@ class Transdimension::Views::Home < Views::Base
     RegionFilter(tags: region_tags, selected: current_region)
   end
 
-  # Index.elm reuses viewEvent from Events.elm, so the cards are core's
-  # Components::Event under the `.events` rules the listing page uses. Core's
-  # EventList groups by day and prints a heading per day, which the homepage
-  # has no room for, so the grid and its items are emitted here.
+  # Core's EventList prints a heading per day, which the homepage has no room for,
+  # so this renders its day part directly to pick up the listing page's card styles.
   def render_event_list
     if events.any?
-      ul(class: 'events') do
+      ul(data: { scope: 'event-list', part: 'day' }) do
         events.each { |event| li { Event(event: event) } }
       end
     else
@@ -98,7 +96,7 @@ class Transdimension::Views::Home < Views::Base
       NewsCard(article: latest_article) if latest_article
       p(class: 'td-news__all') do
         link_to t('transdimension.home.news_button'), news_index_path,
-                class: 'with-no-sass td-button td-button--dark'
+                class: 'td-button td-button--dark'
       end
     end
   end

@@ -52,17 +52,15 @@
 	line-height: 1.5;
 }
 
-/* Core's a:not(.with-no-sass) rule paints every link white with a pink
-   underline; on the pink band that is invisible, so match its specificity. */
-.td-footer__nav a,
-.td-footer__nav a:not(.with-no-sass) {
+/* The theme's white link with a pink underline is invisible on the pink band. */
+.td-footer__nav a {
 	color: var(--color-background);
 	text-decoration: none;
 	transition: color 300ms;
 }
 
 @media only screen and (hover: hover) and (pointer: fine) {
-	.td-footer__nav a:not(.with-no-sass):hover {
+	.td-footer__nav a:hover {
 		color: var(--color-foreground);
 	}
 }
@@ -402,15 +400,14 @@
 	margin-block: 0;
 }
 
-.td-footer__legal a,
-.td-footer__legal a:not(.with-no-sass) {
+.td-footer__legal a {
 	color: var(--color-background);
 	text-decoration-color: var(--color-background);
 	transition: color 300ms;
 }
 
 @media only screen and (hover: hover) and (pointer: fine) {
-	.td-footer__legal a:not(.with-no-sass):hover {
+	.td-footer__legal a:hover {
 		color: var(--color-tertiary);
 	}
 }
@@ -437,8 +434,7 @@
 	text-align: center;
 }
 
-.td-footer__login a,
-.td-footer__login a:not(.with-no-sass) {
+.td-footer__login a {
 	text-decoration-line: underline;
 }
 

@@ -70,8 +70,8 @@ RSpec.describe 'Trans Dimension accessibility', type: :system do
 
     colours = page.evaluate_script(<<~JS)
       (() => {
-        const badge = getComputedStyle(document.querySelector('.preview__neighbourhood span'));
-        const search = document.querySelector('input.filters__search');
+        const badge = getComputedStyle(document.querySelector('[data-scope="partner-preview"][data-part="neighbourhood"] span'));
+        const search = document.querySelector('input[data-scope="partner-filter"][data-part="search"]');
         return {
           badge: [badge.color, badge.backgroundColor],
           placeholder: [getComputedStyle(search, '::placeholder').color, getComputedStyle(search).backgroundColor]

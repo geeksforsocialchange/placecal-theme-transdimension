@@ -54,7 +54,7 @@ RSpec.describe 'Trans Dimension footer', type: :request do
 
   it 'puts the intro standfirst on the events listing' do
     get 'http://transdimension.lvh.me/events'
-    expect(response.body).to include('class="hero__standfirst"')
-    expect(response.body).to include('Upcoming events &amp; activities')
+    standfirst = response.parsed_body.at_css('[data-scope="hero"][data-part="standfirst"]')
+    expect(standfirst&.text).to include('Upcoming events & activities')
   end
 end

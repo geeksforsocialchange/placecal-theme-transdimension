@@ -21,7 +21,7 @@ RSpec.describe 'Trans Dimension theme pages', type: :request do
     end
 
     it 'renders the page wrapper the theme CSS selects on' do
-      wrapper = response.parsed_body.at_css('.page.page--about')
+      wrapper = response.parsed_body.at_css('[data-scope="content-page"][data-page-slug="about"]')
 
       expect(wrapper).to be_present
       expect(wrapper['data-page-slug']).to eq('about')
@@ -35,7 +35,7 @@ RSpec.describe 'Trans Dimension theme pages', type: :request do
     end
 
     it 'renders every About section in live order' do
-      headings = response.parsed_body.css('.page--about h2, .page--about h3').map { |h| h.text.presence || h.at_css('img')['alt'] }
+      headings = response.parsed_body.css('[data-page-slug="about"] h2, [data-page-slug="about"] h3').map { |h| h.text.presence || h.at_css('img')['alt'] }
 
       expect(headings).to eq(
         [
@@ -74,7 +74,7 @@ RSpec.describe 'Trans Dimension theme pages', type: :request do
     end
 
     it 'renders the theme page wrapper rather than core markdown chrome' do
-      wrapper = response.parsed_body.at_css('.page.page--privacy')
+      wrapper = response.parsed_body.at_css('[data-scope="content-page"][data-page-slug="privacy"]')
 
       expect(wrapper).to be_present
       expect(wrapper['data-page-slug']).to eq('privacy')

@@ -1,23 +1,11 @@
-/* Static pages: Views::Sites::Pages::Show, Views::Directory::MarkdownPage and
-   /get-in-touch (Views::Sites::Join). Split out of pages.css (WP 3.19). */
-
-/* ---------------------------------------------------------------------------
-   Static pages: Views::Sites::Pages::Show and Views::Directory::MarkdownPage
-   TextHeavyPage.elm: an "invisible" (dark) intro panel with the page's opening
-   line in pink intro type, then the body in a 636px measure inside the content
-   box. Both core views and the theme's /privacy use the same .markdown-content
-   wrapper; /about has its own markup, styled in about.css.
---------------------------------------------------------------------------- */
+/* Markdown pages (TextHeavyPage.elm): the opening line in pink intro type, then
+   the body in a 636px measure inside the content box. */
 
 /* The directory hero is a light band with a breadcrumb; TD's is the same
    starfield title as everywhere else. */
 main > section.bg-foreground {
 	background-color: transparent;
-	/* !important: core renders an inline style="color: var(--color-background)"
-	   on this section, which no ordinary rule can beat. The background needs no
-	   such help: core's .bg-foreground is inside @layer utilities and this file
-	   is unlayered. */
-	color: var(--color-foreground) !important;
+	color: var(--color-foreground);
 	padding: 0;
 }
 
@@ -26,7 +14,7 @@ main > section.bg-foreground nav {
 }
 
 main > section.bg-foreground .hero-title,
-main > .container-public > h1.h1 {
+main > .container-public > h1[data-scope="content-page"][data-part="title"] {
 	color: var(--color-foreground);
 	font-size: 2.1rem;
 	font-style: italic;
@@ -41,14 +29,14 @@ main > .container-public > h1.h1 {
 
 @media only screen and (min-width: 600px) {
 	main > section.bg-foreground .hero-title,
-	main > .container-public > h1.h1 {
+	main > .container-public > h1[data-scope="content-page"][data-part="title"] {
 		font-size: 2.5rem;
 	}
 }
 
 @media only screen and (min-width: 900px) {
 	main > section.bg-foreground .hero-title,
-	main > .container-public > h1.h1 {
+	main > .container-public > h1[data-scope="content-page"][data-part="title"] {
 		font-size: 3.1rem;
 	}
 }
@@ -181,7 +169,7 @@ main > .container-public > h1.h1 {
 
 /* Global.elm textBoxPinkStyle. Core's opening paragraph is the copy TD puts in
    the panel; TD's heading above it has no core equivalent. */
-main > .container-editorial > .join-note {
+main > .container-editorial > [data-scope="get-in-touch"][data-part="intro"] {
 	background-color: var(--color-primary);
 	/* The panel sits flush on top of the form box, so its own bottom corners
 	   are square and it carries no gap. */
@@ -198,7 +186,7 @@ main > .container-editorial > .join-note {
 }
 
 @media only screen and (min-width: 600px) {
-	main > .container-editorial > .join-note {
+	main > .container-editorial > [data-scope="get-in-touch"][data-part="intro"] {
 		font-size: 1.9rem;
 		line-height: 2.1rem;
 		padding-inline: 1.5rem;
@@ -206,7 +194,7 @@ main > .container-editorial > .join-note {
 }
 
 @media only screen and (min-width: 900px) {
-	main > .container-editorial > .join-note {
+	main > .container-editorial > [data-scope="get-in-touch"][data-part="intro"] {
 		font-size: 2.5rem;
 		line-height: 3.1rem;
 		/* JoinUs.elm: the panel sits flush under the page title, with rem 3
@@ -223,7 +211,7 @@ main > .container-editorial {
 	padding-block: 0;
 }
 
-.join-card {
+[data-scope="contact-form"][data-part="card"] {
 	background-color: var(--color-background);
 	border: 1px solid var(--color-primary);
 	border-radius: 0.3rem;
@@ -232,19 +220,24 @@ main > .container-editorial {
 }
 
 @media only screen and (min-width: 600px) {
-	.join-card {
+	[data-scope="contact-form"][data-part="card"] {
 		padding: 2rem 1.5rem;
 	}
 }
 
+/* Core lays the card's blocks out in a gapped flex column; TD spaces them with margins, so it goes back to plain blocks. */
+[data-scope="contact-form"][data-part="card"] > div {
+	display: block;
+}
+
 /* JoinUs.elm formStyle and formItemStyle */
-.join-grid {
+[data-scope="contact-form"][data-part="grid"] {
 	display: block;
 	margin: 2rem 0;
 }
 
 @media only screen and (min-width: 600px) {
-	.join-grid {
+	[data-scope="contact-form"][data-part="grid"] {
 		display: flex;
 		flex-wrap: wrap;
 		gap: 0;
@@ -253,27 +246,27 @@ main > .container-editorial {
 }
 
 @media only screen and (min-width: 1200px) {
-	.join-grid {
+	[data-scope="contact-form"][data-part="grid"] {
 		margin: 2rem auto;
 		max-width: 900px;
 	}
 }
 
-.join-field {
+[data-scope="contact-form"][data-part="field"] {
 	display: flex;
 	flex-direction: column;
 	margin: 1.5rem 0;
 }
 
 @media only screen and (min-width: 600px) {
-	.join-grid .join-field {
+	[data-scope="contact-form"][data-part="grid"] [data-scope="contact-form"][data-part="field"] {
 		margin: 0.75rem;
 		width: calc(50% - 1.5rem);
 	}
 }
 
 /* JoinUs.elm formLabelStyle */
-.join-label {
+[data-scope="contact-form"][data-part="label"] {
 	color: var(--color-foreground);
 	display: block;
 	font-weight: 700;
@@ -283,8 +276,8 @@ main > .container-editorial {
 	text-transform: uppercase;
 }
 
-.join-label .opt,
-.join-label .req {
+[data-scope="contact-form"][data-part="label"] [data-scope="field"][data-part="optional"],
+[data-scope="contact-form"][data-part="label"] [data-scope="field"][data-part="required"] {
 	color: var(--color-primary);
 	letter-spacing: normal;
 	margin-left: 0.35rem;
@@ -292,7 +285,7 @@ main > .container-editorial {
 }
 
 /* Global.elm textInputStyle */
-.join-control {
+[data-scope="contact-form"][data-part="control"] {
 	background-color: var(--color-background);
 	border: 2px solid var(--color-primary);
 	border-radius: 0.3rem;
@@ -302,41 +295,41 @@ main > .container-editorial {
 	width: 100%;
 }
 
-.join-control::placeholder {
+[data-scope="contact-form"][data-part="control"]::placeholder {
 	color: var(--color-foreground);
 	opacity: 0.7;
 }
 
 /* JoinUs.elm textAreaStyle */
-textarea.join-control {
+textarea[data-scope="contact-form"][data-part="control"] {
 	height: 140px;
 	padding: 1rem 1.5rem;
 }
 
 @media only screen and (min-width: 600px) {
-	textarea.join-control {
+	textarea[data-scope="contact-form"][data-part="control"] {
 		height: 100px;
 	}
 }
 
 /* JoinUs.elm formCheckboxWrapperStyle */
-.join-block {
+:is([data-scope="contact-form"][data-part="field"][data-variant="wide"], [data-scope="contact-form"][data-part="choice-group"]) {
 	margin: 1.5rem 0;
 	width: 100%;
 }
 
 @media only screen and (min-width: 600px) {
-	.join-block .join-choices {
+	:is([data-scope="contact-form"][data-part="field"][data-variant="wide"], [data-scope="contact-form"][data-part="choice-group"]) [data-scope="contact-form"][data-part="choices"] {
 		display: flex;
 		justify-content: center;
 	}
 }
 
-.join-choices {
+[data-scope="contact-form"][data-part="choices"] {
 	text-align: center;
 }
 
-.join-choice {
+[data-scope="contact-form"][data-part="choice"] {
 	align-items: center;
 	color: var(--color-primary);
 	display: inline-flex;
@@ -345,7 +338,7 @@ textarea.join-control {
 	margin: 0.5rem 1rem;
 }
 
-.join-choice__box {
+[data-scope="contact-form"][data-part="choice-box"] {
 	border: 2px solid var(--color-primary);
 	border-radius: 0.3rem;
 	display: inline-block;
@@ -356,13 +349,13 @@ textarea.join-control {
 /* JoinUs.elm buttonWrapperStyle and formButtonStyle */
 /* Core sets the submit and its helper line side by side; JoinUs.elm centres the
    button with the helper underneath. */
-.join-actions {
+[data-scope="contact-form"][data-part="actions"] {
 	display: block;
 	text-align: center;
 	width: 100%;
 }
 
-.join-submit {
+[data-scope="contact-form"][data-part="actions"] [data-scope="button"][data-part="root"] {
 	background-color: var(--color-primary);
 	border: 0.2rem solid var(--color-primary);
 	border-radius: 0.3rem;
@@ -378,25 +371,25 @@ textarea.join-control {
 }
 
 @media only screen and (hover: hover) and (pointer: fine) {
-	.join-submit:hover {
+	[data-scope="contact-form"][data-part="actions"] [data-scope="button"][data-part="root"]:hover {
 		background-color: var(--color-primary-light);
 		border-color: var(--color-primary-light);
 	}
 }
 
 /* JoinUs.elm formHelperStyle */
-.join-actions .join-note {
+[data-scope="contact-form"][data-part="actions"] [data-scope="contact-form"][data-part="note"] {
 	color: var(--color-primary);
 	font-size: 0.875rem;
 	font-weight: 600;
 	line-height: 1.3em;
-	margin: 1rem auto 0;
-	max-width: 34ch;
+	margin: 1rem 0 0;
+	max-width: none;
 	text-align: center;
 }
 
 @media only screen and (min-width: 600px) {
-	.join-actions .join-note {
+	[data-scope="contact-form"][data-part="actions"] [data-scope="contact-form"][data-part="note"] {
 		font-size: 1rem;
 	}
 }
@@ -404,22 +397,27 @@ textarea.join-control {
 /* Core's "rather just email?" block has no TD counterpart; it takes the plain
    dark treatment so it does not read as a second panel. Core paints it as a
    salmon card with a pill link, both of which are undone here. */
-.join-email-cta {
-	align-items: center;
+[data-scope="email-cta"][data-part="root"] {
 	background: none;
-	flex-direction: column;
-	gap: 0.25rem;
-	justify-content: center;
-	margin-top: 2rem;
+	/* plus the 1rem gap of the Stack core puts it in */
+	margin-top: 1rem;
 	padding: 0;
 	text-align: center;
 }
 
-.join-email-cta__body {
+/* The Cluster inside the card */
+[data-scope="email-cta"][data-part="content"] {
+	align-items: center;
+	flex-direction: column;
+	gap: 0.25rem;
+	justify-content: center;
+}
+
+[data-scope="email-cta"][data-part="body"] {
 	color: var(--color-foreground);
 }
 
-.join-email-cta__heading {
+[data-scope="email-cta"][data-part="heading"] {
 	color: var(--color-primary);
 	font-size: 1rem;
 	font-weight: 700;
@@ -427,17 +425,19 @@ textarea.join-control {
 	text-transform: uppercase;
 }
 
-.join-email-link {
+[data-scope="email-cta"][data-part="root"] [data-scope="button"][data-part="root"] {
 	background: none;
+	border: 0;
 	box-shadow: none;
 	color: var(--color-foreground);
 	font-weight: 600;
+	gap: 0.5625rem;
 	padding: 0;
 	text-decoration: underline;
 	text-decoration-color: var(--color-primary);
 }
 
-.join-email-link:hover {
+[data-scope="email-cta"][data-part="root"] [data-scope="button"][data-part="root"]:hover {
 	background: none;
 	color: var(--color-primary);
 }
@@ -461,21 +461,19 @@ textarea.join-control {
 
 /* JoinUs.elm: the intro panel spans the content width, flush above the
    form box. */
-main > .container-editorial .join-note,
-.join-note {
+main > .container-editorial [data-scope="get-in-touch"][data-part="intro"] {
 	margin-inline: 0;
 	max-width: none;
 }
 
 /* JoinUs.elm: the intro panel and the form box run the full content width
    and sit flush against each other. */
-main > .container-editorial:has(> .join-note) {
+main > .container-editorial:has(> [data-scope="get-in-touch"][data-part="intro"]) {
 	max-width: none;
 	padding-inline: 0;
 }
 
-main > .container-editorial > .join-note + .join-card,
-main > .container-editorial > .join-note + * {
+main > .container-editorial > [data-scope="get-in-touch"][data-part="intro"] + * {
 	border-top-left-radius: 0;
 	border-top-right-radius: 0;
 	margin-top: 0;
@@ -483,7 +481,7 @@ main > .container-editorial > .join-note + * {
 
 /* JoinUs.elm: form labels are 1.1rem allcaps. */
 @media only screen and (min-width: 900px) {
-	.join-card label {
+	[data-scope="contact-form"][data-part="card"] label {
 		font-size: 1.1rem;
 		letter-spacing: 0.05em;
 	}
@@ -493,7 +491,7 @@ main > .container-editorial > .join-note + * {
    closing element is styled further up this file (the rule here has to come
    after it to win). */
 @media only screen and (min-width: 1500px) {
-	main > .container-editorial > .join-note {
+	main > .container-editorial > [data-scope="get-in-touch"][data-part="intro"] {
 		padding-bottom: 5rem;
 	}
 }
