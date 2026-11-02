@@ -82,13 +82,13 @@ RSpec.describe 'Trans Dimension theme pages', type: :request do
     end
 
     it 'renders the Trans Dimension privacy policy' do
-      expect(response.parsed_body.at_css('.markdown-content > p').text)
+      expect(response.parsed_body.at_css('[data-scope="markdown"][data-part="root"] > p').text)
         .to eq(I18n.t('transdimension.privacy.subtitle'))
       expect(response.body).to include('This page explains how we collect information')
     end
 
     it 'names the analytics and font services the site actually uses' do
-      text = response.parsed_body.at_css('.markdown-content').text
+      text = response.parsed_body.at_css('[data-scope="markdown"][data-part="root"]').text
 
       expect(text).to include('Matomo', 'stats.gfsc.community', 'Adobe Typekit')
       expect(text).not_to include('Plausible')

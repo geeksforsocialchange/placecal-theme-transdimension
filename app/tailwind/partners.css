@@ -2,7 +2,7 @@
    search, a two-column partner list, and a full-bleed map closing the box. */
 
 /* A flex column, so `order` can put the filters 40px above the list (32px on phones) */
-[data-scope="partner-index"][data-part="root"] .container-public {
+[data-scope="partner-index"][data-part="content"] {
 	display: flex;
 	flex-direction: column;
 }
@@ -20,7 +20,7 @@
 	margin: 16px 16px 0;
 }
 
-[data-scope="partner-index"][data-part="root"] > .container-public {
+[data-scope="partner-index"][data-part="content"] {
 	padding-inline: 0;
 }
 
@@ -36,19 +36,19 @@
 	}
 }
 
-[data-scope="partner-index"][data-part="root"] .container-public > [data-scope="breadcrumb"][data-part="root"] {
+[data-scope="partner-index"][data-part="content"] [data-scope="breadcrumb"][data-part="root"] {
 	margin: 0 0 32px;
 	order: 1;
 }
 
 @media only screen and (min-width: 600px) {
-	[data-scope="partner-index"][data-part="root"] .container-public > [data-scope="breadcrumb"][data-part="root"] {
+	[data-scope="partner-index"][data-part="content"] [data-scope="breadcrumb"][data-part="root"] {
 		margin-bottom: 40px;
 	}
 }
 
-[data-scope="partner-index"][data-part="root"] .container-public > ul[data-scope="partner-index"][data-part="list"],
-[data-scope="partner-index"][data-part="root"] .container-public > [data-scope="partner-index"][data-part="empty"] {
+[data-scope="partner-index"][data-part="list"],
+[data-scope="partner-index"][data-part="empty"] {
 	order: 3;
 }
 

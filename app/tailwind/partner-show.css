@@ -1,7 +1,7 @@
 /* /partners/:slug, Partner.elm: the name in the pink panel, the description
    and contact columns, then the partner's own event cards. */
 
-main > div:has(> .container-public [data-scope="partner-details"][data-part="root"]) {
+main > div:has(> [data-scope="partner-details"][data-part="content"]) {
 	background-color: var(--color-background);
 	border: 1px solid var(--color-primary);
 	border-radius: 0.3rem;
@@ -9,31 +9,31 @@ main > div:has(> .container-public [data-scope="partner-details"][data-part="roo
 }
 
 /* Title ink 37px from the panel's top and bottom edges on phones, 40 from 900px, as on the event page */
-main > div:has(> .container-public [data-scope="partner-details"][data-part="root"]) > [data-scope="hero"][data-part="root"] [data-scope="hero"][data-part="title"] {
+main > div:has(> [data-scope="partner-details"][data-part="content"]) > [data-scope="hero"][data-part="root"] [data-scope="hero"][data-part="title"] {
 	margin-block: calc(0.875rem + 0.5px) calc(1.125rem + 0.5px);
 }
 
 @media only screen and (min-width: 900px) {
-	main > div:has(> .container-public [data-scope="partner-details"][data-part="root"]) > [data-scope="hero"][data-part="root"] [data-scope="hero"][data-part="title"] {
+	main > div:has(> [data-scope="partner-details"][data-part="content"]) > [data-scope="hero"][data-part="root"] [data-scope="hero"][data-part="title"] {
 		margin-block: 0.8125rem 1.25rem;
 	}
 }
 
 /* Undoes event-show.css's wider bottom padding from 1500px, which the partner title does not want */
 @media only screen and (min-width: 1500px) {
-	main > div:has(> .container-public [data-scope="partner-details"][data-part="root"]) > [data-scope="hero"][data-part="root"] {
+	main > div:has(> [data-scope="partner-details"][data-part="content"]) > [data-scope="hero"][data-part="root"] {
 		padding-bottom: 1rem;
 	}
 }
 
 /* The box closes 48px under its last block, map or not (live) */
-main > div > .container-public:has(> [data-scope="partner-details"][data-part="root"]) {
+[data-scope="partner-details"][data-part="content"] {
 	margin-bottom: 0;
 	padding-bottom: 3rem;
 }
 
 /* Hidden breadcrumb: its margins would still open the gap above the body */
-.container-public > [data-scope="breadcrumb"][data-part="root"]:has(~ [data-scope="partner-details"][data-part="root"]) {
+[data-scope="partner-details"][data-part="content"] [data-scope="breadcrumb"][data-part="root"] {
 	margin-block: 0;
 }
 
@@ -349,12 +349,12 @@ main > div > .container-public:has(> [data-scope="partner-details"][data-part="r
 }
 
 /* Components::Meta is permalink-only here and the design has no place for it */
-main > div:has(> .container-public [data-scope="partner-details"][data-part="root"]) ~ [data-scope="meta"][data-part="root"] {
+main:has([data-scope="partner-details"][data-part="content"]) [data-scope="meta"][data-part="root"] {
 	display: none;
 }
 
 /* The box's own border runs round the map, so core's single-map border goes */
-main > div:has(> .container-public [data-scope="partner-details"][data-part="root"]) > [data-scope="map"][data-part="root"] {
+main:has([data-scope="partner-details"][data-part="content"]) [data-scope="map"][data-part="root"] {
 	border: 0;
 }
 

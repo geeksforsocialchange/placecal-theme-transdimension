@@ -40,7 +40,7 @@ main:has([data-scope="event"][data-variant="page"]) > nav[data-scope="page-actio
    the small centred treatment rather than sitting in the corner of the page;
    the permalink is TD's own canonical link (in <head>) doubled up, so it is
    dropped rather than styled. */
-[data-scope="meta"][data-part="root"] > .container-public {
+[data-scope="meta"][data-part="content"] {
 	align-items: center;
 	display: flex;
 	flex-direction: column;

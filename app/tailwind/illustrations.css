@@ -173,11 +173,11 @@ main:not(:has(.td-home))::after {
 }
 
 /* pageHeadingGenericStyle's padding-top: the hero on the listing pages (its
-   h1 is visually hidden, pages.css), h1[data-scope="content-page"][data-part="title"] on the static markdown pages and
-   .hero-title on the directory pages. */
+   h1 is visually hidden, pages.css), the theme's content pages' title and the
+   directory pages' title. */
 main:not(:has(.td-home)) > [data-scope="hero"][data-part="root"],
-main:not(:has(.td-home)) > section.bg-foreground .hero-title,
-main:not(:has(.td-home)) > .container-public > h1[data-scope="content-page"][data-part="title"] {
+main:not(:has(.td-home)) [data-scope="page-hero"][data-part="title"],
+main:not(:has(.td-home)) [data-scope="content-page"][data-part="title"] {
 	padding-top: var(--td-title-padding-top);
 }
 
