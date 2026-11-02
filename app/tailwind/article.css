@@ -1,6 +1,11 @@
 /* /news/:slug, ArticleF: one dark box holding the pink title, the
    "Partner • date" byline, the image and the prose. */
 
+/* Core rules off the breadcrumb before the article; TD does not draw one. */
+[data-scope="article"][data-part="divider"] {
+	display: none;
+}
+
 /* The article title, byline, image and body are all inside one content box on
    TD, so the box goes on the wrapper that holds both the hero and the body
    rather than on the body alone. */
@@ -13,69 +18,78 @@ main > div[vocab] {
 	margin-bottom: 6.5rem;
 	padding: 2rem 1.25rem 2.5rem;
 	position: relative;
-}
 
-@media only screen and (min-width: 600px) {
-	main > div[vocab] {
+	@media only screen and (min-width: 600px) {
 		margin-inline: 2rem;
 		padding: 3rem 2rem 3.5rem;
 	}
-}
 
-@media only screen and (min-width: 900px) {
-	main > div[vocab] {
+	@media only screen and (min-width: 900px) {
 		margin-inline: 1.5rem;
 	}
-}
 
-@media only screen and (min-width: 1200px) {
-	main > div[vocab] {
+	@media only screen and (min-width: 1200px) {
 		margin-inline: auto;
 	}
-}
 
-@media only screen and (min-width: 1500px) {
-	main > div[vocab] {
+	@media only screen and (min-width: 1500px) {
 		margin-inline: 1.5rem;
 	}
-}
 
-/* Core rules off the breadcrumb before the article; TD does not draw one. */
-[data-scope="article"][data-part="divider"] {
-	display: none;
-}
+	/* ArticleF title: pink, 2.1rem italic 500, line-height 1.3, centred, 760px
+	   measure, with no top padding. */
+	> [data-scope="hero"][data-part="root"] [data-scope="hero"][data-part="title"] {
+		color: var(--color-primary);
+		font-size: 1.6rem;
+		line-height: 1.3;
+		margin: 0 auto 0.5rem;
+		max-width: 760px;
+		padding: 0;
 
-/* ArticleF title: pink, 2.1rem italic 500, line-height 1.3, centred, 760px
-   measure, with no top padding. */
-main > div[vocab] > [data-scope="hero"][data-part="root"] [data-scope="hero"][data-part="title"] {
-	color: var(--color-primary);
-	font-size: 1.6rem;
-	line-height: 1.3;
-	margin: 0 auto 0.5rem;
-	max-width: 760px;
-	padding: 0;
-}
-
-@media only screen and (min-width: 900px) {
-	main > div[vocab] > [data-scope="hero"][data-part="root"] [data-scope="hero"][data-part="title"] {
-		font-size: 2.1rem;
+		@media only screen and (min-width: 900px) {
+			font-size: 2.1rem;
+		}
 	}
-}
 
-/* Core lays the date out in a column beside the body; TD puts the partner and
-   the date on one line under the title, centred, partner first even though
-   core renders the date first ([data-scope="article"][data-part="aside"] before [data-scope="article"][data-part="main"]). The
-   wrappers go display:contents so the grid below can place the two byline
-   paragraphs itself. Below 600px it is one column; flow-root keeps the byline
-   and body margins inside the box. */
-main > div[vocab] [data-scope="article"][data-part="root"] {
-	display: flow-root;
-}
+	/* Core lays the date out in a column beside the body; TD puts the partner and
+	   the date on one line under the title, centred, partner first even though
+	   core renders the date first ([data-scope="article"][data-part="aside"] before [data-scope="article"][data-part="main"]). The
+	   wrappers go display:contents so the grid below can place the two byline
+	   paragraphs itself. Below 600px it is one column; flow-root keeps the byline
+	   and body margins inside the box. */
+	[data-scope="article"][data-part="root"] {
+		display: flow-root;
 
-main > div[vocab] [data-scope="article"][data-part="aside"],
-main > div[vocab] [data-scope="article"][data-part="main"] {
-	max-width: none;
-	width: 100%;
+		@media only screen and (min-width: 600px) {
+			column-gap: 0.35em;
+			display: grid;
+			/* [data-scope="article"][data-part="image"]/[data-scope="article"][data-part="content"] also span these two columns
+			   (1/-1) to reach full width; a spanning item wider than the columns
+			   it spans grows them to help fit it, which would push the date away
+			   from the partner name. justify-self on the two byline items below
+			   pins their text to the shared boundary regardless of how wide the
+			   grid ends up sizing either column, so the visible gap is only ever
+			   the column-gap plus the bullet's own 0.35em padding. */
+			grid-template-columns: max-content max-content;
+			justify-content: center;
+			row-gap: 0;
+		}
+	}
+
+	[data-scope="article"][data-part="aside"],
+	[data-scope="article"][data-part="main"] {
+		max-width: none;
+		width: 100%;
+
+		@media only screen and (min-width: 600px) {
+			display: contents;
+		}
+	}
+
+	/* NewsItem.elm: no author byline, just partner and date. */
+	[data-scope="article"][data-part="author"] {
+		display: none;
+	}
 }
 
 [data-scope="article"][data-part="published"],
@@ -88,26 +102,6 @@ main > div[vocab] [data-scope="article"][data-part="main"] {
 }
 
 @media only screen and (min-width: 600px) {
-	main > div[vocab] [data-scope="article"][data-part="root"] {
-		column-gap: 0.35em;
-		display: grid;
-		/* [data-scope="article"][data-part="image"]/[data-scope="article"][data-part="content"] also span these two columns
-		   (1/-1) to reach full width; a spanning item wider than the columns
-		   it spans grows them to help fit it, which would push the date away
-		   from the partner name. justify-self on the two byline items below
-		   pins their text to the shared boundary regardless of how wide the
-		   grid ends up sizing either column, so the visible gap is only ever
-		   the column-gap plus the bullet's own 0.35em padding. */
-		grid-template-columns: max-content max-content;
-		justify-content: center;
-		row-gap: 0;
-	}
-
-	main > div[vocab] [data-scope="article"][data-part="aside"],
-	main > div[vocab] [data-scope="article"][data-part="main"] {
-		display: contents;
-	}
-
 	[data-scope="article"][data-part="partners"] {
 		grid-column: 1;
 		grid-row: 1;
@@ -120,12 +114,12 @@ main > div[vocab] [data-scope="article"][data-part="main"] {
 		grid-row: 1;
 		justify-self: start;
 		margin: 0.25rem 0 2rem;
-	}
 
-	/* the bullet between them */
-	[data-scope="article"][data-part="published"]::before {
-		content: "\2022";
-		padding-inline: 0.35em;
+		/* the bullet between them */
+		&::before {
+			content: "\2022";
+			padding-inline: 0.35em;
+		}
 	}
 
 	[data-scope="article"][data-part="image"] {
@@ -137,11 +131,6 @@ main > div[vocab] [data-scope="article"][data-part="main"] {
 	}
 }
 
-/* NewsItem.elm: no author byline, just partner and date. */
-main > div[vocab] [data-scope="article"][data-part="author"] {
-	display: none;
-}
-
 /* ArticleF image: 636px wide, 16:9, cover, centred. */
 [data-scope="article"][data-part="image"] img {
 	aspect-ratio: 16 / 9;
@@ -151,14 +140,14 @@ main > div[vocab] [data-scope="article"][data-part="author"] {
 	max-width: 100%;
 	object-fit: cover;
 	width: 636px;
-}
 
-/* When a credit line follows, the gap below the image is the credit's own
-   0.5rem top margin, not the image's usual 1rem: shrinking the image's
-   bottom margin here avoids the two margins collapsing into whichever is
-   larger. */
-[data-scope="article"][data-part="image"] img:has(+ [data-scope="article"][data-part="image-credit"]) {
-	margin-bottom: 0;
+	/* When a credit line follows, the gap below the image is the credit's own
+	   0.5rem top margin, not the image's usual 1rem: shrinking the image's
+	   bottom margin here avoids the two margins collapsing into whichever is
+	   larger. */
+	&:has(+ [data-scope="article"][data-part="image-credit"]) {
+		margin-bottom: 0;
+	}
 }
 
 /* ArticleF image credit: 0.78rem italic light pink, centred, 0.5rem under
@@ -180,37 +169,39 @@ main > div[vocab] [data-scope="article"][data-part="content"] {
 	text-align: left;
 }
 
-[data-scope="article"][data-part="content"] > p:first-child {
-	font-size: 1.4rem;
-	line-height: 1.4;
-	margin-block-end: 2em;
-}
+[data-scope="article"][data-part="content"] {
+	> p:first-child {
+		font-size: 1.4rem;
+		line-height: 1.4;
+		margin-block-end: 2em;
+	}
 
-[data-scope="article"][data-part="content"] p {
-	font-size: 1rem;
+	p {
+		font-size: 1rem;
+	}
 }
 
 /* Components::PullQuote (article.pull_quote, after the third paragraph or at the end):
    core already lays the marks and quote out as a row from tablet up, so only the Final designs' numbers go here. */
 [data-scope="pull-quote"][data-part="root"] {
 	margin-block: 2.5rem;
-}
 
-[data-scope="pull-quote"][data-part="root"] blockquote {
-	gap: 2.5rem;
-}
+	blockquote {
+		gap: 2.5rem;
+	}
 
-[data-scope="pull-quote"][data-part="root"] [data-scope="pull-quote"][data-part="mark"] {
-	height: 3rem;
-	width: 3rem;
-}
+	[data-scope="pull-quote"][data-part="mark"] {
+		height: 3rem;
+		width: 3rem;
+	}
 
-[data-scope="pull-quote"][data-part="root"] [data-scope="pull-quote"][data-part="quote"] {
-	font-size: 1.6rem;
-	font-style: italic;
-	font-weight: 500;
-	line-height: 1.3;
-	max-width: 320px;
+	[data-scope="pull-quote"][data-part="quote"] {
+		font-size: 1.6rem;
+		font-style: italic;
+		font-weight: 500;
+		line-height: 1.3;
+		max-width: 320px;
+	}
 }
 
 /* Core still renders the article's own "Go back" link inside the box
