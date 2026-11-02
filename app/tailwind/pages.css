@@ -319,7 +319,7 @@ main > [data-scope="hero"][data-part="root"]:has([data-scope="hero"][data-part="
 }
 
 /* Live's pill geometry: 3.2px 3.2px 4.8px, not core's px-4 py-1.5 */
-[data-scope="region-filter"][data-part="root"] li a {
+[data-scope="region-filter"][data-part="root"] [data-scope="region-filter"][data-part="item"] [data-scope="pill"][data-part="root"] {
 	padding: 0.2rem 0.2rem 0.3rem;
 }
 
@@ -329,41 +329,41 @@ main > [data-scope="hero"][data-part="root"]:has([data-scope="hero"][data-part="
 		margin-bottom: 0.75rem;
 	}
 
-	[data-scope="region-filter"][data-part="root"] ul {
+	[data-scope="region-filter"][data-part="root"] [data-scope="region-filter"][data-part="list"] {
 		width: 100%;
 	}
 
-	[data-scope="region-filter"][data-part="root"] li {
+	[data-scope="region-filter"][data-part="root"] [data-scope="region-filter"][data-part="item"] {
 		flex: 1 1 0;
 		min-width: 0;
 	}
 
-	[data-scope="region-filter"][data-part="root"] li a {
+	[data-scope="region-filter"][data-part="root"] [data-scope="region-filter"][data-part="item"] [data-scope="pill"][data-part="root"] {
 		width: 100%;
 	}
 
-	:is([data-scope="event-index"][data-part="paginator"], [data-scope="partner-index"][data-part="root"]) [data-scope="region-filter"][data-part="root"] ul {
+	:is([data-scope="event-index"][data-part="paginator"], [data-scope="partner-index"][data-part="root"]) [data-scope="region-filter"][data-part="root"] [data-scope="region-filter"][data-part="list"] {
 		gap: 0.5rem;
 	}
 
-	:is([data-scope="event-index"][data-part="paginator"], [data-scope="partner-index"][data-part="root"]) [data-scope="region-filter"][data-part="root"] li {
+	:is([data-scope="event-index"][data-part="paginator"], [data-scope="partner-index"][data-part="root"]) [data-scope="region-filter"][data-part="root"] [data-scope="region-filter"][data-part="item"] {
 		margin: 0;
 	}
 }
 
-[data-scope="region-filter"][data-part="root"] ul {
+[data-scope="region-filter"][data-part="root"] [data-scope="region-filter"][data-part="list"] {
 	display: flex;
 	flex-wrap: wrap;
 	gap: 0;
 	justify-content: center;
 }
 
-[data-scope="region-filter"][data-part="root"] li {
+[data-scope="region-filter"][data-part="root"] [data-scope="region-filter"][data-part="item"] {
 	list-style-type: none;
 	margin: 0.25rem 4px;
 }
 
-[data-scope="region-filter"][data-part="root"] a {
+[data-scope="region-filter"][data-part="root"] [data-scope="pill"][data-part="root"] {
 	background-color: var(--color-background);
 	border: 2px solid var(--color-foreground);
 	border-radius: 0.3rem;
@@ -382,13 +382,13 @@ main > [data-scope="hero"][data-part="root"]:has([data-scope="hero"][data-part="
 	width: 100px;
 }
 
-[data-scope="region-filter"][data-part="root"] a[aria-current="page"] {
+[data-scope="region-filter"][data-part="root"] [data-scope="pill"][data-part="root"][aria-current="page"] {
 	background-color: var(--color-foreground);
 	color: var(--color-background);
 }
 
 @media only screen and (hover: hover) and (pointer: fine) {
-	[data-scope="region-filter"][data-part="root"] a:hover {
+	[data-scope="region-filter"][data-part="root"] [data-scope="pill"][data-part="root"]:hover {
 		background-color: var(--color-tertiary);
 		border-color: var(--color-foreground);
 		color: var(--color-foreground);
@@ -396,11 +396,11 @@ main > [data-scope="hero"][data-part="root"]:has([data-scope="hero"][data-part="
 }
 
 @media only screen and (min-width: 600px) {
-	[data-scope="region-filter"][data-part="root"] li {
+	[data-scope="region-filter"][data-part="root"] [data-scope="region-filter"][data-part="item"] {
 		margin: 0.25rem;
 	}
 
-	[data-scope="region-filter"][data-part="root"] a {
+	[data-scope="region-filter"][data-part="root"] [data-scope="pill"][data-part="root"] {
 		font-size: 1rem;
 		width: 110px;
 	}
@@ -416,11 +416,11 @@ main > [data-scope="hero"][data-part="root"]:has([data-scope="hero"][data-part="
 @media only screen and (min-width: 900px) {
 
 	/* 8px between pills, the day strip's gap */
-	[data-scope="region-filter"][data-part="root"] li {
+	[data-scope="region-filter"][data-part="root"] [data-scope="region-filter"][data-part="item"] {
 		margin: 0.25rem;
 	}
 
-	[data-scope="region-filter"][data-part="root"] a {
+	[data-scope="region-filter"][data-part="root"] [data-scope="pill"][data-part="root"] {
 		font-size: 1.2rem;
 		line-height: 1.5;
 		width: 140px;
@@ -429,9 +429,12 @@ main > [data-scope="hero"][data-part="root"]:has([data-scope="hero"][data-part="
 
 
 /* Global.elm smallInlineTitleStyle: the pink allcaps section headings on the
-   event and partner pages, without the ruled heading's 3px rule. */
-[data-scope="event-details"][data-part="root"] h2,
-[data-scope="partner-details"][data-part="root"] h2 {
+   event and partner pages, without the ruled heading's 3px rule, and the headings in their own text. */
+[data-scope="event-details"][data-part="root"] [data-scope="ruled-heading"][data-part="root"],
+[data-scope="partner-details"][data-part="details"] [data-scope="ruled-heading"][data-part="root"],
+[data-scope="event-details"][data-part="description"] h2,
+[data-scope="partner-details"][data-part="description"] h2,
+[data-scope="partner-details"][data-part="aside"] h2 {
 	border-bottom: 0;
 	color: var(--color-primary);
 	display: block;
@@ -467,23 +470,23 @@ main > [data-scope="hero"][data-part="root"]:has([data-scope="hero"][data-part="
 
 /* Final.jsx.txt's contact and address columns on the event and partner pages:
    centred plain lines with no icons, the social networks as one row of names. */
-:is([data-scope="event-details"][data-part="root"], [data-scope="partner-details"][data-part="root"]) [data-scope="contact-details"][data-part="root"],
-:is([data-scope="event-details"][data-part="root"], [data-scope="partner-details"][data-part="root"]) [data-scope="address"][data-part="postal-address"],
-:is([data-scope="event-details"][data-part="root"], [data-scope="partner-details"][data-part="root"]) [data-scope="address"][data-part="directions"] {
+:is([data-scope="event-details"][data-part="root"], [data-scope="partner-details"][data-part="details"]) [data-scope="contact-details"][data-part="root"],
+:is([data-scope="event-details"][data-part="root"], [data-scope="partner-details"][data-part="details"]) [data-scope="address"][data-part="postal-address"],
+:is([data-scope="event-details"][data-part="root"], [data-scope="partner-details"][data-part="details"]) [data-scope="address"][data-part="directions"] {
 	font-size: 1rem;
 	line-height: 1.5;
 	text-align: center;
 }
 
-:is([data-scope="event-details"][data-part="root"], [data-scope="partner-details"][data-part="root"]) [data-scope="contact-details"][data-part="root"] {
+:is([data-scope="event-details"][data-part="root"], [data-scope="partner-details"][data-part="details"]) [data-scope="contact-details"][data-part="root"] {
 	display: block;
 }
 
-:is([data-scope="event-details"][data-part="root"], [data-scope="partner-details"][data-part="root"]) [data-scope="contact-details"][data-part="root"] svg {
+:is([data-scope="event-details"][data-part="root"], [data-scope="partner-details"][data-part="details"]) [data-scope="contact-details"][data-part="root"] svg {
 	display: none;
 }
 
-:is([data-scope="event-details"][data-part="root"], [data-scope="partner-details"][data-part="root"]) [data-scope="contact-details"][data-part="item"]:not([data-scope="contact-details"][data-part="item"][data-variant="social"]) a {
+:is([data-scope="event-details"][data-part="root"], [data-scope="partner-details"][data-part="details"]) [data-scope="contact-details"][data-part="item"]:not([data-scope="contact-details"][data-part="item"][data-variant="social"]) a {
 	display: block;
 	margin: 0;
 	overflow-wrap: anywhere;
@@ -491,17 +494,17 @@ main > [data-scope="hero"][data-part="root"]:has([data-scope="hero"][data-part="
 }
 
 @media only screen and (hover: hover) and (pointer: fine) {
-	:is([data-scope="event-details"][data-part="root"], [data-scope="partner-details"][data-part="root"]) [data-scope="contact-details"][data-part="item"]:not([data-scope="contact-details"][data-part="item"][data-variant="social"]) a:hover {
+	:is([data-scope="event-details"][data-part="root"], [data-scope="partner-details"][data-part="details"]) [data-scope="contact-details"][data-part="item"]:not([data-scope="contact-details"][data-part="item"][data-variant="social"]) a:hover {
 		text-decoration: underline;
 	}
 }
 
-:is([data-scope="event-details"][data-part="root"], [data-scope="partner-details"][data-part="root"]) [data-scope="contact-details"][data-part="item"][data-variant="social"] {
+:is([data-scope="event-details"][data-part="root"], [data-scope="partner-details"][data-part="details"]) [data-scope="contact-details"][data-part="item"][data-variant="social"] {
 	display: inline-block;
 	margin-top: 0.5rem;
 }
 
-:is([data-scope="event-details"][data-part="root"], [data-scope="partner-details"][data-part="root"]) [data-scope="contact-details"][data-part="item"][data-variant="social"] + [data-scope="contact-details"][data-part="item"][data-variant="social"]::before {
+:is([data-scope="event-details"][data-part="root"], [data-scope="partner-details"][data-part="details"]) [data-scope="contact-details"][data-part="item"][data-variant="social"] + [data-scope="contact-details"][data-part="item"][data-variant="social"]::before {
 	color: var(--color-primary-light);
 	content: "\00b7";
 	content: "\00b7" / "";

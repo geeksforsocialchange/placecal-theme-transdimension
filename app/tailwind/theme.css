@@ -280,8 +280,7 @@ hr {
 	height: 3.9rem;
 }
 
-[data-scope="navigation"][data-part="branding"] > svg,
-[data-scope="navigation"][data-part="branding"] > img {
+[data-scope="navigation"][data-part="logo"] {
 	display: none;
 }
 
@@ -290,7 +289,8 @@ hr {
 	color: var(--color-foreground);
 }
 
-[data-scope="navigation"][data-part="root"][data-variant="site"] [data-scope="navigation"][data-part="menu"] li {
+[data-scope="navigation"][data-part="root"][data-variant="site"] [data-scope="navigation"][data-part="menu"] [data-scope="navigation"][data-part="item"],
+[data-scope="navigation"][data-part="root"][data-variant="site"] [data-scope="navigation"][data-part="menu"] [data-scope="navigation"][data-part="cta"] {
 	background-color: var(--color-primary);
 	padding: 1rem;
 	margin: 0.1rem 0;
@@ -298,7 +298,8 @@ hr {
 	text-align: center;
 }
 
-[data-scope="navigation"][data-part="root"][data-variant="site"] [data-scope="navigation"][data-part="menu"] a {
+[data-scope="navigation"][data-part="root"][data-variant="site"] [data-scope="navigation"][data-part="menu"] [data-scope="navigation"][data-part="link"],
+[data-scope="navigation"][data-part="root"][data-variant="site"] [data-scope="navigation"][data-part="menu"] [data-scope="navigation"][data-part="cta"] [data-scope="button"][data-part="root"] {
 	color: var(--color-background);
 	font-weight: 600;
 	font-size: 1.2rem;
@@ -315,18 +316,18 @@ hr {
 /* Core draws the current-page marker with an ::after bar of its own width; TD
    underlines the link itself, so the bar goes and the border does the work.
    Core marks the current link with aria-current, not a class. */
-[data-scope="navigation"][data-part="root"][data-variant="site"] [data-scope="navigation"][data-part="menu"] a::after {
+[data-scope="navigation"][data-part="root"][data-variant="site"] [data-scope="navigation"][data-part="menu"] [data-scope="navigation"][data-part="link"]::after {
 	display: none;
 }
 
 /* The current-page rule is a desktop thing: live's phone menu has none. */
 @media only screen and (min-width: 600px) {
-	[data-scope="navigation"][data-part="root"][data-variant="site"] [data-scope="navigation"][data-part="menu"] a[aria-current] {
+	[data-scope="navigation"][data-part="root"][data-variant="site"] [data-scope="navigation"][data-part="menu"] [data-scope="navigation"][data-part="link"][aria-current] {
 		border-bottom-color: var(--color-background);
 	}
 
 	/* PageHeader.elm shows no current-page rule on the homepage. */
-	[data-scope="navigation"][data-part="root"][data-variant="site"] [data-scope="navigation"][data-part="menu"] a[aria-current][href="/"] {
+	[data-scope="navigation"][data-part="root"][data-variant="site"] [data-scope="navigation"][data-part="menu"] [data-scope="navigation"][data-part="link"][aria-current][href="/"] {
 		border-bottom-color: transparent;
 	}
 }
@@ -341,11 +342,11 @@ hr {
 	}
 
 	/* Current page: the row inverts, like a selected day or region pill */
-	[data-scope="navigation"][data-part="root"][data-variant="site"] [data-scope="navigation"][data-part="menu"] li:has(> a[aria-current]) {
+	[data-scope="navigation"][data-part="root"][data-variant="site"] [data-scope="navigation"][data-part="menu"] [data-scope="navigation"][data-part="item"]:has([data-scope="navigation"][data-part="link"][aria-current]) {
 		background-color: var(--color-background);
 	}
 
-	[data-scope="navigation"][data-part="root"][data-variant="site"] [data-scope="navigation"][data-part="menu"] a[aria-current] {
+	[data-scope="navigation"][data-part="root"][data-variant="site"] [data-scope="navigation"][data-part="menu"] [data-scope="navigation"][data-part="link"][aria-current] {
 		/* the pink border every link carries would show on the dark row */
 		border-bottom-color: transparent;
 		color: var(--color-primary);
@@ -367,7 +368,7 @@ hr {
 }
 
 @media only screen and (hover: hover) and (pointer: fine) {
-	[data-scope="navigation"][data-part="root"][data-variant="site"] [data-scope="navigation"][data-part="menu"] a:hover {
+	[data-scope="navigation"][data-part="root"][data-variant="site"] [data-scope="navigation"][data-part="menu"] [data-scope="navigation"][data-part="link"]:hover {
 		color: var(--color-foreground);
 	}
 }
@@ -405,7 +406,8 @@ hr {
 	   rem-1 vertical padding Global.elm's spec implies: halving it to 8px
 	   is what actually lands the bar at that height once the link's own
 	   line-height and current-page border are added in. */
-	[data-scope="navigation"][data-part="root"][data-variant="site"] [data-scope="navigation"][data-part="menu"] li {
+	[data-scope="navigation"][data-part="root"][data-variant="site"] [data-scope="navigation"][data-part="menu"] [data-scope="navigation"][data-part="item"],
+	[data-scope="navigation"][data-part="root"][data-variant="site"] [data-scope="navigation"][data-part="menu"] [data-scope="navigation"][data-part="cta"] {
 		padding: 8px 12px;
 		margin: 0;
 		align-self: center;
@@ -413,14 +415,15 @@ hr {
 		font-size: 1.2rem;
 	}
 
-	[data-scope="navigation"][data-part="root"][data-variant="site"] [data-scope="navigation"][data-part="menu"] a {
+	[data-scope="navigation"][data-part="root"][data-variant="site"] [data-scope="navigation"][data-part="menu"] [data-scope="navigation"][data-part="link"],
+	[data-scope="navigation"][data-part="root"][data-variant="site"] [data-scope="navigation"][data-part="menu"] [data-scope="navigation"][data-part="cta"] [data-scope="button"][data-part="root"] {
 		line-height: 1.5;
 		padding-bottom: 0;
 	}
 }
 
 @media only screen and (min-width: 600px) and (hover: hover) and (pointer: fine) {
-	[data-scope="navigation"][data-part="root"][data-variant="site"] [data-scope="navigation"][data-part="menu"] a:hover {
+	[data-scope="navigation"][data-part="root"][data-variant="site"] [data-scope="navigation"][data-part="menu"] [data-scope="navigation"][data-part="link"]:hover {
 		border-bottom-color: var(--color-background);
 		color: var(--color-foreground);
 	}
