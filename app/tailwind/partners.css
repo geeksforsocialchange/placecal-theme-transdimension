@@ -98,14 +98,14 @@
 }
 
 @media only screen and (max-width: 899px) {
-	[data-scope="partner-index"][data-part="root"] [data-scope="region-filter"][data-part="root"] a {
+	[data-scope="partner-index"][data-part="root"] [data-scope="region-filter"][data-part="root"] [data-scope="pill"][data-part="root"] {
 		line-height: 1.3;
 	}
 }
 
 /* Phones: extra padding brings the pills (WebKit lays their 18.2px line out at 18px) to the selects' 39.2px. */
 @media only screen and (max-width: 599px) {
-	[data-scope="partner-index"][data-part="root"] [data-scope="region-filter"][data-part="root"] li a {
+	[data-scope="partner-index"][data-part="root"] [data-scope="region-filter"][data-part="root"] [data-scope="region-filter"][data-part="item"] [data-scope="pill"][data-part="root"] {
 		padding: calc(0.2rem + 4.5px) 0.2rem calc(0.3rem + 4.7px);
 	}
 }
