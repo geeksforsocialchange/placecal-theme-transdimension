@@ -1,7 +1,7 @@
 /* /partners/:slug, Partner.elm: the name in the pink panel, the description
    and contact columns, then the partner's own event cards. */
 
-main > div:has(> [data-scope="partner-details"][data-part="content"]) {
+main > div:has(> [data-scope="partner-details"][data-part="root"]) {
 	background-color: var(--color-background);
 	border: 1px solid var(--color-primary);
 	border-radius: 0.3rem;
@@ -9,51 +9,51 @@ main > div:has(> [data-scope="partner-details"][data-part="content"]) {
 }
 
 /* Title ink 37px from the panel's top and bottom edges on phones, 40 from 900px, as on the event page */
-main > div:has(> [data-scope="partner-details"][data-part="content"]) > [data-scope="hero"][data-part="root"] [data-scope="hero"][data-part="title"] {
+main > div:has(> [data-scope="partner-details"][data-part="root"]) > [data-scope="hero"][data-part="root"] [data-scope="hero"][data-part="title"] {
 	margin-block: calc(0.875rem + 0.5px) calc(1.125rem + 0.5px);
 }
 
 @media only screen and (min-width: 900px) {
-	main > div:has(> [data-scope="partner-details"][data-part="content"]) > [data-scope="hero"][data-part="root"] [data-scope="hero"][data-part="title"] {
+	main > div:has(> [data-scope="partner-details"][data-part="root"]) > [data-scope="hero"][data-part="root"] [data-scope="hero"][data-part="title"] {
 		margin-block: 0.8125rem 1.25rem;
 	}
 }
 
 /* Undoes event-show.css's wider bottom padding from 1500px, which the partner title does not want */
 @media only screen and (min-width: 1500px) {
-	main > div:has(> [data-scope="partner-details"][data-part="content"]) > [data-scope="hero"][data-part="root"] {
+	main > div:has(> [data-scope="partner-details"][data-part="root"]) > [data-scope="hero"][data-part="root"] {
 		padding-bottom: 1rem;
 	}
 }
 
 /* The box closes 48px under its last block, map or not (live) */
-[data-scope="partner-details"][data-part="content"] {
+[data-scope="partner-details"][data-part="root"] {
 	margin-bottom: 0;
 	padding-bottom: 3rem;
 }
 
 /* Hidden breadcrumb: its margins would still open the gap above the body */
-[data-scope="partner-details"][data-part="content"] [data-scope="breadcrumb"][data-part="root"] {
+[data-scope="partner-details"][data-part="root"] [data-scope="breadcrumb"][data-part="root"] {
 	margin-block: 0;
 }
 
 /* Live's first description line: 22px under the panel on phones, 39 from 900px (ink) */
-[data-scope="partner-details"][data-part="root"] {
+[data-scope="partner-details"][data-part="details"] {
 	padding-bottom: 2rem;
 	padding-top: 1.125rem;
 }
 
 @media only screen and (min-width: 900px) {
-	[data-scope="partner-details"][data-part="root"] {
+	[data-scope="partner-details"][data-part="details"] {
 		padding-top: 1.875rem;
 	}
 }
 
-[data-scope="partner-details"][data-part="root"] > * {
+:is([data-scope="partner-details"][data-part="main"], [data-scope="partner-details"][data-part="aside"]) {
 	margin: 0;
 }
 
-[data-scope="partner-details"][data-part="root"] [data-scope="partner-details"][data-part="description"] p {
+[data-scope="partner-details"][data-part="details"] [data-scope="partner-details"][data-part="summary"] p {
 	font-size: 1.2rem;
 	margin-top: 0;
 	max-width: 636px;
@@ -61,20 +61,20 @@ main > div:has(> [data-scope="partner-details"][data-part="content"]) > [data-sc
 }
 
 @media only screen and (min-width: 900px) {
-	[data-scope="partner-details"][data-part="root"] [data-scope="partner-details"][data-part="description"] p {
+	[data-scope="partner-details"][data-part="details"] [data-scope="partner-details"][data-part="summary"] p {
 		font-size: 1.825rem;
 		line-height: 1.35em;
 	}
 }
 
 /* The service area reads like the address under it; the blocks' own top margins go. */
-[data-scope="partner-details"][data-part="root"] [data-scope="contact-details"][data-part="root"],
-[data-scope="partner-details"][data-part="root"] [data-scope="partner-details"][data-part="service-area"],
-[data-scope="partner-details"][data-part="root"] [data-scope="address"][data-part="postal-address"] {
+[data-scope="partner-details"][data-part="details"] [data-scope="contact-details"][data-part="root"],
+[data-scope="partner-details"][data-part="details"] [data-scope="partner-details"][data-part="service-area"],
+[data-scope="partner-details"][data-part="details"] [data-scope="address"][data-part="postal-address"] {
 	margin-top: 0;
 }
 
-[data-scope="partner-details"][data-part="root"] [data-scope="partner-details"][data-part="service-area"] {
+[data-scope="partner-details"][data-part="details"] [data-scope="partner-details"][data-part="service-area"] {
 	font-size: 1rem;
 	line-height: 1.5;
 	text-align: center;
@@ -83,7 +83,7 @@ main > div:has(> [data-scope="partner-details"][data-part="content"]) > [data-sc
 /* Core's two-column body, copy and contacts on the left, image and opening
    times on the right; from 900px the sidebar is as wide as the opening times. */
 @media only screen and (min-width: 900px) {
-	[data-scope="partner-details"][data-part="root"] {
+	[data-scope="partner-details"][data-part="details"] {
 		column-gap: 2.5rem;
 		grid-template-areas: "main right";
 		grid-template-columns: minmax(0, 1fr) 24rem;
@@ -91,25 +91,31 @@ main > div:has(> [data-scope="partner-details"][data-part="content"]) > [data-sc
 }
 
 /* Live's spacing for the partner page's section headings */
-[data-scope="partner-details"][data-part="root"] [data-scope="ruled-heading"][data-part="root"] {
+[data-scope="partner-details"][data-part="details"] [data-scope="ruled-heading"][data-part="root"] {
 	line-height: 1.5;
 	margin-block: 1.5rem 0.75rem;
 	padding-bottom: 0;
 }
 
+/* The contact and address sections' headings and contents stay children of the main column, a grid from 900px. */
+[data-scope="partner-details"][data-part="contact"],
+[data-scope="partner-details"][data-part="address"] {
+	display: contents;
+}
+
 /* Live: a rule 32px under the description, the headings 32px under it, the lines 25px under them.
    Phones stack the two blocks 32px apart. */
-[data-scope="partner-details"][data-part="main"] > [data-scope="ruled-heading"][data-part="root"] {
+[data-scope="partner-details"][data-part="main"] [data-scope="ruled-heading"][data-part="root"] {
 	margin-block: 2rem 1.5625rem;
 	text-align: center;
 }
 
-[data-scope="partner-details"][data-part="main"] > h2:has(+ [data-scope="contact-details"][data-part="root"]) {
+[data-scope="partner-details"][data-part="contact"] [data-scope="ruled-heading"][data-part="root"] {
 	border-top: 1px solid var(--color-primary);
 	padding-top: 2rem;
 }
 
-/* Side by side from 900px, heading and content matched by adjacency since core has no wrapper */
+/* Side by side from 900px: contact on the left, address on the right */
 @media only screen and (min-width: 900px) {
 	/* The flexible last row takes the contacts' extra height, so the directions sit right under the address */
 	[data-scope="partner-details"][data-part="main"] {
@@ -120,58 +126,56 @@ main > div:has(> [data-scope="partner-details"][data-part="content"]) > [data-sc
 		grid-template-rows: repeat(6, auto) 1fr;
 	}
 
-	[data-scope="partner-details"][data-part="main"] > [data-scope="partner-details"][data-part="description"],
-	[data-scope="partner-details"][data-part="main"] > div:not([data-scope="partner-details"][data-part="description"]) {
+	[data-scope="partner-details"][data-part="main"] :is([data-scope="partner-details"][data-part="summary"], [data-scope="partner-details"][data-part="description"], [data-scope="partner-details"][data-part="family"]) {
 		grid-column: 1 / -1;
 	}
 
 	/* A grid item's margin does not collapse with the paragraph's above it */
-	[data-scope="partner-details"][data-part="main"] > [data-scope="ruled-heading"][data-part="root"] {
+	[data-scope="partner-details"][data-part="main"] [data-scope="ruled-heading"][data-part="root"] {
 		margin-top: 1rem;
 	}
 
-	[data-scope="partner-details"][data-part="main"] > h2:has(+ [data-scope="partner-details"][data-part="service-area"], + [data-scope="address"][data-part="postal-address"]) {
+	[data-scope="partner-details"][data-part="address"] [data-scope="ruled-heading"][data-part="root"] {
 		border-top: 1px solid var(--color-primary);
 		grid-column: 2;
 		grid-row: 3;
 		padding-top: 2rem;
 	}
 
-	[data-scope="partner-details"][data-part="main"] > h2:has(+ [data-scope="contact-details"][data-part="root"]) {
+	[data-scope="partner-details"][data-part="contact"] [data-scope="ruled-heading"][data-part="root"] {
 		grid-column: 1;
 		grid-row: 3;
 	}
 
-	[data-scope="partner-details"][data-part="main"] > [data-scope="contact-details"][data-part="root"] {
+	[data-scope="partner-details"][data-part="contact"] [data-scope="contact-details"][data-part="root"] {
 		grid-column: 1;
 		grid-row: 4 / span 4;
 	}
 
 	/* Service area, address and directions stack in rows 4 to 6; a missing one leaves an empty auto row */
-	[data-scope="partner-details"][data-part="main"] > [data-scope="partner-details"][data-part="service-area"] {
+	[data-scope="partner-details"][data-part="address"] [data-scope="partner-details"][data-part="service-area"] {
 		grid-column: 2;
 		grid-row: 4;
 	}
 
-	[data-scope="partner-details"][data-part="main"] > [data-scope="address"][data-part="postal-address"] {
+	[data-scope="partner-details"][data-part="address"] [data-scope="address"][data-part="postal-address"] {
 		grid-column: 2;
 		grid-row: 5;
 	}
 
-	/* div in the selector outranks the full-width div rule above */
-	[data-scope="partner-details"][data-part="main"] > div[data-scope="address"][data-part="directions"] {
+	[data-scope="partner-details"][data-part="address"] [data-scope="address"][data-part="directions"] {
 		grid-column: 2;
 		grid-row: 6;
 	}
 }
 
-[data-scope="partner-details"][data-part="root"] [data-scope="partner-details"][data-part="image"] img {
+[data-scope="partner-details"][data-part="details"] [data-scope="partner-details"][data-part="image"] img {
 	display: block;
 	height: auto;
 	width: 100%;
 }
 
-[data-scope="partner-details"][data-part="root"] [data-scope="partner-details"][data-part="opening-times"] {
+[data-scope="partner-details"][data-part="details"] [data-scope="partner-details"][data-part="opening-times"] {
 	max-width: 24rem;
 }
 
@@ -203,7 +207,7 @@ main > div:has(> [data-scope="partner-details"][data-part="content"]) > [data-sc
 }
 
 [data-scope="partner-details"][data-part="events-browser"] [data-scope="event-list"][data-part="day"],
-[data-scope="partner-details"][data-part="events-browser"] [data-scope="event-list"][data-part="day"] > li {
+[data-scope="partner-details"][data-part="events-browser"] [data-scope="event-list"][data-part="item"] {
 	display: contents;
 }
 
@@ -214,13 +218,13 @@ main > div:has(> [data-scope="partner-details"][data-part="content"]) > [data-sc
 }
 
 /* The design's rule above the events; after the flatten rule, whose `border: 0` would wipe it */
-[data-scope="partner-details"][data-part="root"] + [data-scope="partner-details"][data-part="events-browser"] {
+[data-scope="partner-details"][data-part="details"] + [data-scope="partner-details"][data-part="events-browser"] {
 	border-top: 1px solid var(--color-primary);
 	padding-top: 2rem;
 }
 
 /* Core's day strip for busy partners; "Show N more days" does the browsing here. */
-[data-scope="partner-details"][data-part="root"] + [data-scope="partner-details"][data-part="events-browser"] [data-scope="partner-details"][data-part="paginator"] {
+[data-scope="partner-details"][data-part="details"] + [data-scope="partner-details"][data-part="events-browser"] [data-scope="partner-details"][data-part="paginator"] {
 	display: none;
 }
 
@@ -258,7 +262,7 @@ main > div:has(> [data-scope="partner-details"][data-part="content"]) > [data-sc
 	margin-left: auto;
 }
 
-[data-scope="partner-details"][data-part="events-repeating-filter"] label {
+[data-scope="partner-details"][data-part="events-repeating-label"] {
 	align-items: center;
 	color: var(--color-foreground);
 	display: inline-flex;
@@ -332,14 +336,14 @@ main > div:has(> [data-scope="partner-details"][data-part="content"]) > [data-sc
 }
 
 /* Partner.elm opening times: a two-column row per day, pink day labels. */
-[data-scope="partner-details"][data-part="opening-times"] li {
+[data-scope="partner-details"][data-part="opening-times"] [data-scope="opening-time"][data-part="root"] {
 	border-bottom: 1px solid var(--color-primary);
 	display: flex;
 	justify-content: space-between;
 	padding: 0.4rem 0;
 }
 
-[data-scope="partner-details"][data-part="root"] [data-scope="partner-details"][data-part="opening-times"] li:last-child {
+[data-scope="partner-details"][data-part="details"] [data-scope="partner-details"][data-part="opening-times"] [data-scope="opening-time"][data-part="root"]:last-child {
 	border-bottom: 0;
 }
 
@@ -349,15 +353,15 @@ main > div:has(> [data-scope="partner-details"][data-part="content"]) > [data-sc
 }
 
 /* Components::Meta is permalink-only here and the design has no place for it */
-main:has([data-scope="partner-details"][data-part="content"]) [data-scope="meta"][data-part="root"] {
+main:has([data-scope="partner-details"][data-part="root"]) [data-scope="meta"][data-part="root"] {
 	display: none;
 }
 
 /* The box's own border runs round the map, so core's single-map border goes */
-main:has([data-scope="partner-details"][data-part="content"]) [data-scope="map"][data-part="root"] {
+main:has([data-scope="partner-details"][data-part="root"]) [data-scope="map"][data-part="root"] {
 	border: 0;
 }
 
-main:has([data-scope="partner-details"][data-part="root"]) > nav[data-scope="page-actions"][data-part="root"] {
+main:has([data-scope="partner-details"][data-part="details"]) > nav[data-scope="page-actions"][data-part="root"] {
 	margin-top: 3rem;
 }
