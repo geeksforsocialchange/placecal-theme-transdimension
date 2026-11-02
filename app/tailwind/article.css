@@ -190,17 +190,8 @@ main > div[vocab] [data-scope="article"][data-part="content"] {
 	font-size: 1rem;
 }
 
-/* Components::PullQuote (article.pull_quote, rendered after the third
-   paragraph, or at the end when the body has fewer): core's PullQuote
-   already lays the icon/text/icon out as a row
-   from tablet-portrait-up with the quote centred between them, so only the
-   Final designs' own numbers go here. Selectors go one level deeper than
-   core's own ([data-scope="pull-quote"][data-part="root"] blockquote svg, not [data-scope="pull-quote"][data-part="root"] svg) to match its
-   "blockquote svg" / "blockquote [data-scope="pull-quote"][data-part="quote"]" specificity, since core's
-   lime placeholder colour and 860px measure would otherwise win the tie.
-   `PullQuote(source: '', quote_context: '')` always renders <cite>, empty
-   for a news article (neither field has an Article column); hidden rather
-   than left as a blank flex gap. */
+/* Components::PullQuote (article.pull_quote, after the third paragraph or at the end):
+   core already lays the marks and quote out as a row from tablet up, so only the Final designs' numbers go here. */
 [data-scope="pull-quote"][data-part="root"] {
 	margin-block: 2.5rem;
 }
@@ -209,21 +200,17 @@ main > div[vocab] [data-scope="article"][data-part="content"] {
 	gap: 2.5rem;
 }
 
-[data-scope="pull-quote"][data-part="root"] blockquote svg {
+[data-scope="pull-quote"][data-part="root"] [data-scope="pull-quote"][data-part="mark"] {
 	height: 3rem;
 	width: 3rem;
 }
 
-[data-scope="pull-quote"][data-part="root"] blockquote [data-scope="pull-quote"][data-part="quote"] {
+[data-scope="pull-quote"][data-part="root"] [data-scope="pull-quote"][data-part="quote"] {
 	font-size: 1.6rem;
 	font-style: italic;
 	font-weight: 500;
 	line-height: 1.3;
 	max-width: 320px;
-}
-
-[data-scope="pull-quote"][data-part="root"] cite:empty {
-	display: none;
 }
 
 /* Core still renders the article's own "Go back" link inside the box

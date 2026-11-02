@@ -226,7 +226,7 @@
 }
 
 /* Core lays the card's blocks out in a gapped flex column; TD spaces them with margins, so it goes back to plain blocks. */
-[data-scope="contact-form"][data-part="card"] > div {
+[data-scope="contact-form"][data-part="body"] {
 	display: block;
 }
 
@@ -475,7 +475,7 @@ textarea[data-scope="contact-form"][data-part="control"] {
 
 /* JoinUs.elm: form labels are 1.1rem allcaps. */
 @media only screen and (min-width: 900px) {
-	[data-scope="contact-form"][data-part="card"] label {
+	label:is([data-scope="contact-form"][data-part="label"], [data-scope="contact-form"][data-part="choice"]) {
 		font-size: 1.1rem;
 		letter-spacing: 0.05em;
 	}

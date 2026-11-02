@@ -398,7 +398,7 @@
 }
 
 /* Live's card type: name 1.2rem bold italic on phones, 1.5rem from 600px. */
-[data-scope="partner-index"][data-part="list"] [data-scope="partner-preview"][data-part="root"] h3 {
+[data-scope="partner-index"][data-part="list"] [data-scope="partner-preview"][data-part="title"] {
 	font-size: 1.2rem;
 	font-style: italic;
 	font-weight: 700;
@@ -408,19 +408,19 @@
 }
 
 @media only screen and (min-width: 600px) {
-	[data-scope="partner-index"][data-part="list"] [data-scope="partner-preview"][data-part="root"] h3 {
+	[data-scope="partner-index"][data-part="list"] [data-scope="partner-preview"][data-part="title"] {
 		font-size: 1.5rem;
 	}
 }
 
-[data-scope="partner-index"][data-part="list"] [data-scope="partner-preview"][data-part="root"] h3 a {
+[data-scope="partner-index"][data-part="list"] [data-scope="partner-preview"][data-part="title"] a {
 	color: var(--color-foreground);
 	text-decoration: none;
 	transition: color 300ms linear;
 }
 
 /* Badge.jsx in TD's mauve; white label, as pink on mauve is only 2.82:1. */
-[data-scope="partner-preview"][data-part="neighbourhood"] span {
+[data-scope="partner-preview"][data-part="neighbourhood"] [data-scope="pill"][data-part="root"] {
 	background-color: var(--td-mauve);
 	border-radius: 0.3rem;
 	color: var(--color-foreground);
@@ -460,7 +460,7 @@
 }
 
 /* Live's badge: 14.04px 600 on a 1.5 line, 4px 8px padding. */
-[data-scope="partner-index"][data-part="list"] [data-scope="partner-preview"][data-part="neighbourhood"] span {
+[data-scope="partner-index"][data-part="list"] [data-scope="partner-preview"][data-part="neighbourhood"] [data-scope="pill"][data-part="root"] {
 	font-size: 0.8778rem;
 	font-weight: 600;
 	line-height: 1.5;
@@ -468,7 +468,7 @@
 }
 
 @media only screen and (hover: hover) and (pointer: fine) {
-	[data-scope="partner-index"][data-part="list"] [data-scope="partner-preview"][data-part="root"]:hover h3 a {
+	[data-scope="partner-index"][data-part="list"] [data-scope="partner-preview"][data-part="root"]:hover [data-scope="partner-preview"][data-part="title"] a {
 		color: var(--color-primary);
 	}
 
