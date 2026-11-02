@@ -36,29 +36,21 @@ main {
 	   desktop-only reading of the 1366 XD refs. */
 	max-width: 1186px;
 	position: relative;
-}
 
-@media only screen and (min-width: 600px) {
-	main {
+	@media only screen and (min-width: 600px) {
 		margin: 1rem 2rem 150px 2rem;
 	}
-}
 
-@media only screen and (min-width: 900px) {
-	main {
+	@media only screen and (min-width: 900px) {
 		margin: 1rem 1.5rem 180px 1.5rem;
 	}
-}
 
-@media only screen and (min-width: 1200px) {
-	main {
+	@media only screen and (min-width: 1200px) {
 		margin: 1rem auto 180px auto;
 		padding-inline: 24px;
 	}
-}
 
-@media only screen and (min-width: 1500px) {
-	main {
+	@media only screen and (min-width: 1500px) {
 		margin: 1rem auto 250px auto;
 		padding-inline: 24px;
 	}
@@ -155,21 +147,17 @@ main > [data-scope="hero"][data-part="root"]:has([data-scope="hero"][data-part="
 	margin: 0;
 	padding: 1.5rem 1.25rem;
 	text-align: center;
-}
 
-@media only screen and (min-width: 600px) {
-	[data-scope="hero"][data-part="standfirst"] {
+	@media only screen and (min-width: 600px) {
 		font-size: 1.9rem;
 		line-height: 2.1rem;
 		padding: 2rem 3rem;
 	}
-}
 
-/* Live's intro panel at tablet landscape: 2.5rem italic 500 on a 1.24 line,
-   32px above and below (the Elm box's 1rem padding plus the copy's 1rem
-   margin), 838px measure. Kept over the design's 34px / 46px / 50px. */
-@media only screen and (min-width: 900px) {
-	[data-scope="hero"][data-part="standfirst"] {
+	/* Live's intro panel at tablet landscape: 2.5rem italic 500 on a 1.24 line,
+	   32px above and below (the Elm box's 1rem padding plus the copy's 1rem
+	   margin), 838px measure. Kept over the design's 34px / 46px / 50px. */
+	@media only screen and (min-width: 900px) {
 		font-size: 2.5rem;
 		line-height: 1.24;
 		padding-top: 2rem;
@@ -185,6 +173,14 @@ main > [data-scope="hero"][data-part="root"]:has([data-scope="hero"][data-part="
 	border-bottom-left-radius: 0;
 	border-bottom-right-radius: 0;
 	padding-bottom: 0.5rem;
+
+	/* Partners.elm introTextLargeStyle margin: rem 3 above the big line and rem
+	   1.5 between it and the smaller paragraph, on top of the panel's own
+	   padding. */
+	@media only screen and (min-width: 900px) {
+		padding-bottom: 1.5rem;
+		padding-top: 4.5rem;
+	}
 }
 
 /* PageTemplate.elm view: the intro panel and the content box are both inside
@@ -192,29 +188,21 @@ main > [data-scope="hero"][data-part="root"]:has([data-scope="hero"][data-part="
    and behind the panel. Core renders them as siblings, so the panel carries the
    top and sides of that border itself (pink on pink, so only the join shows)
    and the box below drops its own top edge. */
-main > [data-scope="hero"][data-part="root"] [data-scope="hero"][data-part="standfirst"],
-main > [data-scope="hero"][data-part="root"] [data-scope="hero"][data-part="standfirst-detail"] {
-	border-inline: 1px solid var(--color-primary);
-	border-radius: 0.3rem 0.3rem 0 0;
-	border-top: 1px solid var(--color-primary);
-}
+main > [data-scope="hero"][data-part="root"] {
+	[data-scope="hero"][data-part="standfirst"],
+	[data-scope="hero"][data-part="standfirst-detail"] {
+		border-inline: 1px solid var(--color-primary);
+		border-radius: 0.3rem 0.3rem 0 0;
+		border-top: 1px solid var(--color-primary);
+	}
 
-main > [data-scope="hero"][data-part="root"] [data-scope="hero"][data-part="standfirst-detail"] {
-	border-radius: 0;
-	border-top: 0;
-}
+	[data-scope="hero"][data-part="standfirst-detail"] {
+		border-radius: 0;
+		border-top: 0;
+	}
 
-main > [data-scope="hero"][data-part="root"]:has([data-scope="hero"][data-part="standfirst-detail"]) [data-scope="hero"][data-part="standfirst"] {
-	border-bottom: 0;
-}
-
-/* Partners.elm introTextLargeStyle margin: rem 3 above the big line and rem
-   1.5 between it and the smaller paragraph, on top of the panel's own
-   padding. */
-@media only screen and (min-width: 900px) {
-	[data-scope="hero"][data-part="root"]:has([data-scope="hero"][data-part="standfirst-detail"]) [data-scope="hero"][data-part="standfirst"] {
-		padding-bottom: 1.5rem;
-		padding-top: 4.5rem;
+	&:has([data-scope="hero"][data-part="standfirst-detail"]) [data-scope="hero"][data-part="standfirst"] {
+		border-bottom: 0;
 	}
 }
 
@@ -228,16 +216,12 @@ main > [data-scope="hero"][data-part="root"]:has([data-scope="hero"][data-part="
 	margin: 0;
 	padding: 0 1.25rem 1.5rem;
 	text-align: center;
-}
 
-@media only screen and (min-width: 600px) {
-	[data-scope="hero"][data-part="standfirst-detail"] {
+	@media only screen and (min-width: 600px) {
 		padding: 0 3rem 2rem;
 	}
-}
 
-@media only screen and (min-width: 900px) {
-	[data-scope="hero"][data-part="standfirst-detail"] {
+	@media only screen and (min-width: 900px) {
 		font-size: 1.2rem;
 		line-height: 1.8rem;
 		padding-inline: max(2rem, calc((100% - 892px) / 2));
@@ -270,18 +254,12 @@ main > [data-scope="hero"][data-part="root"]:has([data-scope="hero"][data-part="
 [data-scope="partner-details"][data-part="events-browser"]:where(:has([data-scope="partner-details"][data-part="paginator"])) > *,
 [data-scope="partner-index"][data-part="root"] > * {
 	margin: 0.75rem;
-}
 
-@media only screen and (min-width: 600px) {
-	[data-scope="partner-details"][data-part="events-browser"]:where(:has([data-scope="partner-details"][data-part="paginator"])) > *,
-	[data-scope="partner-index"][data-part="root"] > * {
+	@media only screen and (min-width: 600px) {
 		margin: 0 2rem;
 	}
-}
 
-@media only screen and (min-width: 1500px) {
-	[data-scope="partner-details"][data-part="events-browser"]:where(:has([data-scope="partner-details"][data-part="paginator"])) > *,
-	[data-scope="partner-index"][data-part="root"] > * {
+	@media only screen and (min-width: 1500px) {
 		margin: 1.5rem;
 	}
 }
@@ -316,11 +294,11 @@ main > [data-scope="hero"][data-part="root"]:has([data-scope="hero"][data-part="
 [data-scope="region-filter"][data-part="root"] {
 	margin: 0 auto 0.5rem;
 	max-width: fit-content;
-}
 
-/* Live's pill geometry: 3.2px 3.2px 4.8px, not core's px-4 py-1.5 */
-[data-scope="region-filter"][data-part="root"] [data-scope="region-filter"][data-part="item"] [data-scope="pill"][data-part="root"] {
-	padding: 0.2rem 0.2rem 0.3rem;
+	/* Live's pill geometry: 3.2px 3.2px 4.8px, not core's px-4 py-1.5 */
+	[data-scope="region-filter"][data-part="item"] [data-scope="pill"][data-part="root"] {
+		padding: 0.2rem 0.2rem 0.3rem;
+	}
 }
 
 /* Phones: the pills share the row edge to edge; the homepage keeps the base rules' gap and margin. */
@@ -329,104 +307,106 @@ main > [data-scope="hero"][data-part="root"]:has([data-scope="hero"][data-part="
 		margin-bottom: 0.75rem;
 	}
 
-	[data-scope="region-filter"][data-part="root"] [data-scope="region-filter"][data-part="list"] {
-		width: 100%;
-	}
-
-	[data-scope="region-filter"][data-part="root"] [data-scope="region-filter"][data-part="item"] {
-		flex: 1 1 0;
-		min-width: 0;
-	}
-
-	[data-scope="region-filter"][data-part="root"] [data-scope="region-filter"][data-part="item"] [data-scope="pill"][data-part="root"] {
-		width: 100%;
-	}
-
-	:is([data-scope="event-index"][data-part="paginator"], [data-scope="partner-index"][data-part="root"]) [data-scope="region-filter"][data-part="root"] [data-scope="region-filter"][data-part="list"] {
-		gap: 0.5rem;
-	}
-
-	:is([data-scope="event-index"][data-part="paginator"], [data-scope="partner-index"][data-part="root"]) [data-scope="region-filter"][data-part="root"] [data-scope="region-filter"][data-part="item"] {
-		margin: 0;
-	}
-}
-
-[data-scope="region-filter"][data-part="root"] [data-scope="region-filter"][data-part="list"] {
-	display: flex;
-	flex-wrap: wrap;
-	gap: 0;
-	justify-content: center;
-}
-
-[data-scope="region-filter"][data-part="root"] [data-scope="region-filter"][data-part="item"] {
-	list-style-type: none;
-	margin: 0.25rem 4px;
-}
-
-[data-scope="region-filter"][data-part="root"] [data-scope="pill"][data-part="root"] {
-	background-color: var(--color-background);
-	border: 2px solid var(--color-foreground);
-	border-radius: 0.3rem;
-	color: var(--color-foreground);
-	cursor: pointer;
-	display: block;
-	font-size: 0.875rem;
-	font-weight: 600;
-	padding: 0.2rem 0.2rem 0.3rem;
-	text-align: center;
-	text-decoration: none;
-	transition:
-		color 300ms linear,
-		border 500ms linear,
-		background-color 300ms linear;
-	width: 100px;
-}
-
-[data-scope="region-filter"][data-part="root"] [data-scope="pill"][data-part="root"][aria-current="page"] {
-	background-color: var(--color-foreground);
-	color: var(--color-background);
-}
-
-@media only screen and (hover: hover) and (pointer: fine) {
-	[data-scope="region-filter"][data-part="root"] [data-scope="pill"][data-part="root"]:hover {
-		background-color: var(--color-tertiary);
-		border-color: var(--color-foreground);
-		color: var(--color-foreground);
-	}
-}
-
-@media only screen and (min-width: 600px) {
-	[data-scope="region-filter"][data-part="root"] [data-scope="region-filter"][data-part="item"] {
-		margin: 0.25rem;
-	}
-
-	[data-scope="region-filter"][data-part="root"] [data-scope="pill"][data-part="root"] {
-		font-size: 1rem;
-		width: 110px;
-	}
-}
-
-/* From 600px the row's own margin is the 24px under the intro panel */
-@media only screen and (min-width: 600px) {
 	[data-scope="region-filter"][data-part="root"] {
+		[data-scope="region-filter"][data-part="list"] {
+			width: 100%;
+		}
+
+		[data-scope="region-filter"][data-part="item"] {
+			flex: 1 1 0;
+			min-width: 0;
+
+			[data-scope="pill"][data-part="root"] {
+				width: 100%;
+			}
+		}
+	}
+
+	:is([data-scope="event-index"][data-part="paginator"], [data-scope="partner-index"][data-part="root"]) [data-scope="region-filter"][data-part="root"] {
+		[data-scope="region-filter"][data-part="list"] {
+			gap: 0.5rem;
+		}
+
+		[data-scope="region-filter"][data-part="item"] {
+			margin: 0;
+		}
+	}
+}
+
+[data-scope="region-filter"][data-part="root"] {
+	[data-scope="region-filter"][data-part="list"] {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0;
+		justify-content: center;
+	}
+
+	[data-scope="region-filter"][data-part="item"] {
+		list-style-type: none;
+		margin: 0.25rem 4px;
+	}
+
+	[data-scope="pill"][data-part="root"] {
+		background-color: var(--color-background);
+		border: 2px solid var(--color-foreground);
+		border-radius: 0.3rem;
+		color: var(--color-foreground);
+		cursor: pointer;
+		display: block;
+		font-size: 0.875rem;
+		font-weight: 600;
+		padding: 0.2rem 0.2rem 0.3rem;
+		text-align: center;
+		text-decoration: none;
+		transition:
+			color 300ms linear,
+			border 500ms linear,
+			background-color 300ms linear;
+		width: 100px;
+
+		&[aria-current="page"] {
+			background-color: var(--color-foreground);
+			color: var(--color-background);
+		}
+
+		@media only screen and (hover: hover) and (pointer: fine) {
+			&:hover {
+				background-color: var(--color-tertiary);
+				border-color: var(--color-foreground);
+				color: var(--color-foreground);
+			}
+		}
+	}
+
+	@media only screen and (min-width: 600px) {
+		[data-scope="region-filter"][data-part="item"] {
+			margin: 0.25rem;
+		}
+
+		[data-scope="pill"][data-part="root"] {
+			font-size: 1rem;
+			width: 110px;
+		}
+	}
+
+	/* From 600px the row's own margin is the 24px under the intro panel */
+	@media only screen and (min-width: 600px) {
 		margin: 1.5rem auto 1rem;
 	}
-}
 
-@media only screen and (min-width: 900px) {
+	@media only screen and (min-width: 900px) {
+		/* 8px between pills, the day strip's gap */
+		[data-scope="region-filter"][data-part="item"] {
+			margin: 0.25rem;
+		}
 
-	/* 8px between pills, the day strip's gap */
-	[data-scope="region-filter"][data-part="root"] [data-scope="region-filter"][data-part="item"] {
-		margin: 0.25rem;
+		[data-scope="pill"][data-part="root"] {
+			font-size: 1.2rem;
+			line-height: 1.5;
+			width: 140px;
+		}
 	}
-
-	[data-scope="region-filter"][data-part="root"] [data-scope="pill"][data-part="root"] {
-		font-size: 1.2rem;
-		line-height: 1.5;
-		width: 140px;
-	}
 }
-
 
 /* Global.elm smallInlineTitleStyle: the pink allcaps section headings on the
    event and partner pages, without the ruled heading's 3px rule, and the headings in their own text. */
@@ -453,63 +433,65 @@ main > [data-scope="hero"][data-part="root"]:has([data-scope="hero"][data-part="
 [data-scope="address"][data-part="directions"] {
 	line-height: 1.5;
 	margin-top: 0.5rem;
+
+	> a + a::before {
+		color: var(--color-primary-light);
+		content: "\00b7";
+		content: "\00b7" / "";
+		display: inline-block;
+		padding-inline: 0.25rem 0.5rem;
+		text-decoration: none;
+	}
 }
 
 [data-scope="address"][data-part="postal-address"]:has(+ [data-scope="address"][data-part="directions"]) {
 	margin-bottom: 0;
 }
 
-[data-scope="address"][data-part="directions"] > a + a::before {
-	color: var(--color-primary-light);
-	content: "\00b7";
-	content: "\00b7" / "";
-	display: inline-block;
-	padding-inline: 0.25rem 0.5rem;
-	text-decoration: none;
-}
-
 /* Final.jsx.txt's contact and address columns on the event and partner pages:
    centred plain lines with no icons, the social networks as one row of names. */
-:is([data-scope="event-details"][data-part="root"], [data-scope="partner-details"][data-part="details"]) [data-scope="contact-details"][data-part="root"],
-:is([data-scope="event-details"][data-part="root"], [data-scope="partner-details"][data-part="details"]) [data-scope="address"][data-part="postal-address"],
-:is([data-scope="event-details"][data-part="root"], [data-scope="partner-details"][data-part="details"]) [data-scope="address"][data-part="directions"] {
-	font-size: 1rem;
-	line-height: 1.5;
-	text-align: center;
-}
-
-:is([data-scope="event-details"][data-part="root"], [data-scope="partner-details"][data-part="details"]) [data-scope="contact-details"][data-part="root"] {
-	display: block;
-}
-
-:is([data-scope="event-details"][data-part="root"], [data-scope="partner-details"][data-part="details"]) [data-scope="contact-details"][data-part="root"] svg {
-	display: none;
-}
-
-:is([data-scope="event-details"][data-part="root"], [data-scope="partner-details"][data-part="details"]) [data-scope="contact-details"][data-part="item"]:not([data-scope="contact-details"][data-part="item"][data-variant="social"]) a {
-	display: block;
-	margin: 0;
-	overflow-wrap: anywhere;
-	text-decoration: none;
-}
-
-@media only screen and (hover: hover) and (pointer: fine) {
-	:is([data-scope="event-details"][data-part="root"], [data-scope="partner-details"][data-part="details"]) [data-scope="contact-details"][data-part="item"]:not([data-scope="contact-details"][data-part="item"][data-variant="social"]) a:hover {
-		text-decoration: underline;
+:is([data-scope="event-details"][data-part="root"], [data-scope="partner-details"][data-part="details"]) {
+	[data-scope="contact-details"][data-part="root"],
+	[data-scope="address"][data-part="postal-address"],
+	[data-scope="address"][data-part="directions"] {
+		font-size: 1rem;
+		line-height: 1.5;
+		text-align: center;
 	}
-}
 
-:is([data-scope="event-details"][data-part="root"], [data-scope="partner-details"][data-part="details"]) [data-scope="contact-details"][data-part="item"][data-variant="social"] {
-	display: inline-block;
-	margin-top: 0.5rem;
-}
+	[data-scope="contact-details"][data-part="root"] {
+		display: block;
 
-:is([data-scope="event-details"][data-part="root"], [data-scope="partner-details"][data-part="details"]) [data-scope="contact-details"][data-part="item"][data-variant="social"] + [data-scope="contact-details"][data-part="item"][data-variant="social"]::before {
-	color: var(--color-primary-light);
-	content: "\00b7";
-	content: "\00b7" / "";
-	display: inline-block;
-	padding-inline: 0.5rem;
+		svg {
+			display: none;
+		}
+	}
+
+	[data-scope="contact-details"][data-part="item"]:not([data-scope="contact-details"][data-part="item"][data-variant="social"]) a {
+		display: block;
+		margin: 0;
+		overflow-wrap: anywhere;
+		text-decoration: none;
+
+		@media only screen and (hover: hover) and (pointer: fine) {
+			&:hover {
+				text-decoration: underline;
+			}
+		}
+	}
+
+	[data-scope="contact-details"][data-part="item"][data-variant="social"] {
+		display: inline-block;
+		margin-top: 0.5rem;
+
+		+ [data-scope="contact-details"][data-part="item"][data-variant="social"]::before {
+			color: var(--color-primary-light);
+			content: "\00b7";
+			content: "\00b7" / "";
+			display: inline-block;
+			padding-inline: 0.5rem;
+		}
+	}
 }
 
 /* Event.elm and Partner.elm close the content box with a full-bleed map. The
@@ -522,10 +504,8 @@ main > [data-scope="hero"][data-part="root"]:has([data-scope="hero"][data-part="
 	height: 318px;
 	min-height: 318px;
 	overflow: hidden;
-}
 
-@media only screen and (min-width: 900px) {
-	[data-scope="map"][data-part="root"] {
+	@media only screen and (min-width: 900px) {
 		height: 400px;
 		min-height: 400px;
 	}
@@ -542,41 +522,43 @@ main > [data-scope="hero"][data-part="root"]:has([data-scope="hero"][data-part="
 	color: var(--color-background);
 }
 
-/* Leaflet's marker popup on the page's dark ground instead of its white box. */
-.leaflet-container .leaflet-popup-content-wrapper,
-.leaflet-container .leaflet-popup-tip {
-	background-color: var(--color-background);
-	border: 1px solid var(--color-primary);
-	box-shadow: none;
-	color: var(--color-foreground);
-}
-
 /* Core binds the event page's marker to an empty popup; nothing to show. */
 .leaflet-popup:has(.leaflet-popup-content:empty) {
 	display: none;
 }
 
-.leaflet-container .leaflet-popup-content {
-	font-size: 1rem;
-	line-height: 1.5;
-}
+.leaflet-container {
+	/* Leaflet's marker popup on the page's dark ground instead of its white box. */
+	.leaflet-popup-content-wrapper,
+	.leaflet-popup-tip {
+		background-color: var(--color-background);
+		border: 1px solid var(--color-primary);
+		box-shadow: none;
+		color: var(--color-foreground);
+	}
 
-.leaflet-container .leaflet-popup-content a {
-	color: var(--color-primary);
-}
+	.leaflet-popup-content {
+		font-size: 1rem;
+		line-height: 1.5;
 
-.leaflet-container .leaflet-popup-close-button {
-	color: var(--color-foreground);
-}
+		a {
+			color: var(--color-primary);
+		}
+	}
 
-/* The credit line as a dark strip, readable over the pink tiles. */
-.leaflet-container .leaflet-control-attribution {
-	background-color: var(--color-background);
-	color: var(--color-foreground);
-}
+	.leaflet-popup-close-button {
+		color: var(--color-foreground);
+	}
 
-.leaflet-container .leaflet-control-attribution a {
-	color: var(--color-foreground);
+	/* The credit line as a dark strip, readable over the pink tiles. */
+	.leaflet-control-attribution {
+		background-color: var(--color-background);
+		color: var(--color-foreground);
+
+		a {
+			color: var(--color-foreground);
+		}
+	}
 }
 
 /* WP 3.8. The widest-screen rem 1 under the intro copy, for the panel whose
@@ -616,13 +598,13 @@ main > [data-scope="hero"][data-part="root"]:has([data-scope="hero"][data-part="
 	background-color: var(--color-primary);
 	border-color: var(--color-primary);
 	color: var(--color-foreground-dark);
-}
 
-@media only screen and (hover: hover) and (pointer: fine) {
-	.td-btn--pink:hover {
-		background-color: var(--color-primary-light);
-		border-color: var(--color-primary-light);
-		color: var(--color-foreground-dark);
+	@media only screen and (hover: hover) and (pointer: fine) {
+		&:hover {
+			background-color: var(--color-primary-light);
+			border-color: var(--color-primary-light);
+			color: var(--color-foreground-dark);
+		}
 	}
 }
 
@@ -631,24 +613,22 @@ main > [data-scope="hero"][data-part="root"]:has([data-scope="hero"][data-part="
 
 [data-scope="page-actions"][data-part="root"] {
 	margin-top: 40px;
-}
 
-[data-scope="page-actions"][data-part="root"] ul {
-	align-items: center;
-	display: flex;
-	flex-wrap: wrap;
-	gap: 3rem 4rem;
-	justify-content: center;
-	list-style: none;
-	margin: 0;
-	padding: 0;
-}
+	ul {
+		align-items: center;
+		display: flex;
+		flex-wrap: wrap;
+		gap: 3rem 4rem;
+		justify-content: center;
+		list-style: none;
+		margin: 0;
+		padding: 0;
 
-/* Live stacks the buttons one per row at phone width; 1rem apart, not live's 3rem. */
-@media only screen and (max-width: 599px) {
-	[data-scope="page-actions"][data-part="root"] ul {
-		flex-direction: column;
-		gap: 1rem;
+		/* Live stacks the buttons one per row at phone width; 1rem apart, not live's 3rem. */
+		@media only screen and (max-width: 599px) {
+			flex-direction: column;
+			gap: 1rem;
+		}
 	}
 }
 
@@ -669,12 +649,12 @@ main > [data-scope="hero"][data-part="root"]:has([data-scope="hero"][data-part="
 		background-color 300ms,
 		border-color 300ms,
 		color 300ms;
-}
 
-@media only screen and (hover: hover) and (pointer: fine) {
-	[data-scope="page-actions"][data-part="link"]:hover {
-		background-color: var(--color-tertiary);
-		border-color: var(--color-foreground);
-		color: var(--color-foreground);
+	@media only screen and (hover: hover) and (pointer: fine) {
+		&:hover {
+			background-color: var(--color-tertiary);
+			border-color: var(--color-foreground);
+			color: var(--color-foreground);
+		}
 	}
 }
