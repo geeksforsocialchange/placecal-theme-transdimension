@@ -5,11 +5,9 @@
    is what moves live's line breaks. */
 [data-scope="content-page"][data-part="root"][data-page-slug="about"] {
 	text-rendering: optimizeSpeed;
-}
 
-/* main is 12px narrower than live's 1150px column from here up. */
-@media only screen and (min-width: 1200px) {
-	[data-scope="content-page"][data-part="root"][data-page-slug="about"] {
+	/* main is 12px narrower than live's 1150px column from here up. */
+	@media only screen and (min-width: 1200px) {
 		margin-inline: -6px;
 	}
 }
@@ -17,36 +15,32 @@
 main > [data-scope="content-page"][data-part="root"][data-page-slug="about"] > h1[data-scope="content-page"][data-part="title"] {
 	padding-bottom: 0.5rem;
 	position: relative;
-}
 
-@media only screen and (min-width: 900px) {
-	main > [data-scope="content-page"][data-part="root"][data-page-slug="about"] > h1[data-scope="content-page"][data-part="title"] {
+	@media only screen and (min-width: 900px) {
 		padding-bottom: 1rem;
 	}
-}
 
-/* The girl with the afro hangs off the title, over the intro box. */
-@media only screen and (min-width: 900px) {
-	main > [data-scope="content-page"][data-part="root"][data-page-slug="about"] > h1[data-scope="content-page"][data-part="title"]::after {
-		background: url("characters/girl_with_afro.png") center / 162px no-repeat;
-		bottom: -90px;
-		content: "";
-		display: block;
-		height: 305px;
-		left: 0;
-		position: absolute;
-		width: 162px;
-		z-index: 2;
-	}
-}
+	/* The girl with the afro hangs off the title, over the intro box. */
+	&::after {
+		@media only screen and (min-width: 900px) {
+			background: url("characters/girl_with_afro.png") center / 162px no-repeat;
+			bottom: -90px;
+			content: "";
+			display: block;
+			height: 305px;
+			left: 0;
+			position: absolute;
+			width: 162px;
+			z-index: 2;
+		}
 
-@media only screen and (min-width: 1200px) {
-	main > [data-scope="content-page"][data-part="root"][data-page-slug="about"] > h1[data-scope="content-page"][data-part="title"]::after {
-		background-size: 231px;
-		bottom: -250px;
-		height: 434px;
-		left: -100px;
-		width: 231px;
+		@media only screen and (min-width: 1200px) {
+			background-size: 231px;
+			bottom: -250px;
+			height: 434px;
+			left: -100px;
+			width: 231px;
+		}
 	}
 }
 
@@ -68,11 +62,8 @@ main > [data-scope="content-page"][data-part="root"][data-page-slug="about"] > h
 	box-sizing: border-box;
 	color: var(--color-foreground-dark);
 	padding: 1rem 0.75rem;
-}
 
-@media only screen and (min-width: 600px) {
-	.about-panel,
-	.about-maker {
+	@media only screen and (min-width: 600px) {
 		padding-inline: 1.5rem;
 	}
 }
@@ -91,24 +82,22 @@ main > [data-scope="content-page"][data-part="root"][data-page-slug="about"] > h
 	line-height: 2rem;
 	margin: 1rem 0.5rem;
 	text-align: center;
-}
 
-@media only screen and (min-width: 600px) {
-	[data-scope="content-page"][data-part="root"][data-page-slug="about"] .about-lead {
+	@media only screen and (min-width: 600px) {
 		font-size: 1.9rem;
 		line-height: 2.1rem;
 		margin: 1rem 1.5rem;
 	}
-}
 
-@media only screen and (min-width: 900px) {
-	[data-scope="content-page"][data-part="root"][data-page-slug="about"] .about-lead {
+	@media only screen and (min-width: 900px) {
 		font-size: 2.5rem;
 		line-height: 3.1rem;
 		margin: 3rem auto;
 		max-width: 838px;
 	}
+}
 
+@media only screen and (min-width: 900px) {
 	.about-accessibility > .about-panel {
 		padding-inline: 10rem;
 		position: relative;
@@ -149,11 +138,11 @@ main > [data-scope="content-page"][data-part="root"][data-page-slug="about"] > h
 .about-body a {
 	border-bottom: 1px solid var(--color-primary);
 	text-decoration: none;
-}
 
-@media only screen and (hover: hover) and (pointer: fine) {
-	.about-body a:hover {
-		border-bottom-color: var(--color-foreground);
+	@media only screen and (hover: hover) and (pointer: fine) {
+		&:hover {
+			border-bottom-color: var(--color-foreground);
+		}
 	}
 }
 
@@ -161,11 +150,11 @@ main > [data-scope="content-page"][data-part="root"][data-page-slug="about"] > h
 	.about-body {
 		columns: 2;
 		margin: 3rem 2rem;
-	}
 
-	/* A paragraph split across the columns reads as an orphan */
-	.about-body > p {
-		break-inside: avoid;
+		/* A paragraph split across the columns reads as an orphan */
+		> p {
+			break-inside: avoid;
+		}
 	}
 
 	.about-placecal > .about-body {
@@ -424,51 +413,55 @@ main > [data-scope="content-page"][data-part="root"][data-page-slug="about"] > h
 --------------------------------------------------------------------------- */
 
 @media only screen and (min-width: 900px) {
-	.about-accessibility > .about-panel::before,
-	.about-accessibility > .about-panel::after {
-		background-position: center;
-		background-repeat: no-repeat;
-		content: "";
-		display: block;
-		position: absolute;
-		z-index: 2;
-	}
+	.about-accessibility > .about-panel {
+		&::before,
+		&::after {
+			background-position: center;
+			background-repeat: no-repeat;
+			content: "";
+			display: block;
+			position: absolute;
+			z-index: 2;
+		}
 
-	.about-accessibility > .about-panel::before {
-		background-image: url("characters/person_in_wheelchair.png");
-		background-size: 182px;
-		height: 267px;
-		left: 10px;
-		top: -190px;
-		width: 182px;
-	}
+		&::before {
+			background-image: url("characters/person_in_wheelchair.png");
+			background-size: 182px;
+			height: 267px;
+			left: 10px;
+			top: -190px;
+			width: 182px;
+		}
 
-	.about-accessibility > .about-panel::after {
-		background-image: url("characters/nb_helmet_person.png");
-		background-size: 347px;
-		bottom: -50px;
-		height: 386px;
-		right: -10px;
-		width: 347px;
+		&::after {
+			background-image: url("characters/nb_helmet_person.png");
+			background-size: 347px;
+			bottom: -50px;
+			height: 386px;
+			right: -10px;
+			width: 347px;
+		}
 	}
 }
 
 @media only screen and (min-width: 1200px) {
-	.about-accessibility > .about-panel::before {
-		background-size: 244px;
-		height: 357px;
-		left: -100px;
-		width: 244px;
-	}
+	.about-accessibility > .about-panel {
+		&::before {
+			background-size: 244px;
+			height: 357px;
+			left: -100px;
+			width: 244px;
+		}
 
-	.about-accessibility > .about-panel::after {
-		background-position: left center;
-		background-size: 429px;
-		bottom: -370px;
-		height: 478px;
-		left: calc(100% - 329px);
-		right: auto;
-		width: min(429px, calc(50vw - 245px));
+		&::after {
+			background-position: left center;
+			background-size: 429px;
+			bottom: -370px;
+			height: 478px;
+			left: calc(100% - 329px);
+			right: auto;
+			width: min(429px, calc(50vw - 245px));
+		}
 	}
 
 	.about-intro > .about-body::after,
@@ -532,10 +525,10 @@ main > [data-scope="content-page"][data-part="root"][data-page-slug="about"] > h
 	position: absolute;
 	text-align: center;
 	width: 100%;
-}
 
-.about-maker__more .td-button {
-	line-height: 1.5;
+	.td-button {
+		line-height: 1.5;
+	}
 }
 
 .about-placecal__logo {
