@@ -68,10 +68,8 @@ main:not(:has(.td-home)) {
 
 	/* pageHeadingGenericStyle's padding-top: where every page's title panel starts. */
 	--td-title-padding-top: 2rem;
-}
 
-@media only screen and (min-width: 600px) {
-	main:not(:has(.td-home)) {
+	@media only screen and (min-width: 600px) {
 		--td-band-header: url("illustrations/768px/generic_header.png");
 		--td-band-header-size: 900px;
 		--td-band-header-height: 432px;
@@ -86,10 +84,8 @@ main:not(:has(.td-home)) {
 		--td-wordmark-size: 268px auto;
 		--td-title-padding-top: 250px;
 	}
-}
 
-@media only screen and (min-width: 900px) {
-	main:not(:has(.td-home)) {
+	@media only screen and (min-width: 900px) {
 		--td-band-header: url("illustrations/1024px/generic_header.png");
 		--td-band-header-size: 1200px;
 		--td-band-header-height: 499px;
@@ -102,10 +98,8 @@ main:not(:has(.td-home)) {
 		--td-wordmark-size: 305px auto;
 		--td-title-padding-top: 275px;
 	}
-}
 
-@media only screen and (min-width: 1200px) {
-	main:not(:has(.td-home)) {
+	@media only screen and (min-width: 1200px) {
 		--td-band-header: url("illustrations/1366px/generic_header.png");
 		--td-band-header-size: 1366px;
 		--td-band-header-height: 486px;
@@ -117,10 +111,8 @@ main:not(:has(.td-home)) {
 		   its own margin so the band still starts at the viewport edge. */
 		--td-band-inset: calc(-50vw - -593px);
 	}
-}
 
-@media only screen and (min-width: 1500px) {
-	main:not(:has(.td-home)) {
+	@media only screen and (min-width: 1500px) {
 		--td-band-header: url("illustrations/1920px/generic_header.png");
 		--td-band-header-size: 1920px;
 		--td-band-header-height: 846px;
@@ -129,89 +121,81 @@ main:not(:has(.td-home)) {
 		--td-band-footer-height: 250px;
 		--td-band-footer-bottom: -220px;
 	}
-}
 
-/* Header band and wordmark. The band's own top is the page title's offset
-   from the top of the page column, so headerLogoStyle's 50px becomes that
-   much further down inside the band. left: 50% with a -50vw margin centres
-   the band on the viewport whatever padding main has (the static position
-   it fell back to before sat the band main's padding to the right). */
-main:not(:has(.td-home))::before {
-	background-image: var(--td-wordmark), var(--td-band-header);
-	background-position:
-		center calc(50px - var(--td-band-header-top)),
-		center top;
-	background-repeat: no-repeat;
-	background-size: var(--td-wordmark-size), var(--td-band-header-size);
-	content: "";
-	display: block;
-	height: var(--td-band-header-height);
-	left: 50%;
-	margin: 0 0 0 -50vw;
-	position: absolute;
-	top: var(--td-band-header-top);
-	width: 100vw;
-	z-index: -1;
-}
+	/* Header band and wordmark. The band's own top is the page title's offset
+	   from the top of the page column, so headerLogoStyle's 50px becomes that
+	   much further down inside the band. left: 50% with a -50vw margin centres
+	   the band on the viewport whatever padding main has (the static position
+	   it fell back to before sat the band main's padding to the right). */
+	&::before {
+		background-image: var(--td-wordmark), var(--td-band-header);
+		background-position:
+			center calc(50px - var(--td-band-header-top)),
+			center top;
+		background-repeat: no-repeat;
+		background-size: var(--td-wordmark-size), var(--td-band-header-size);
+		content: "";
+		display: block;
+		height: var(--td-band-header-height);
+		left: 50%;
+		margin: 0 0 0 -50vw;
+		position: absolute;
+		top: var(--td-band-header-top);
+		width: 100vw;
+		z-index: -1;
+	}
 
-/* Footer band, mainStyle's ::after. main already carries the bottom margin the
-   band hangs into. */
-main:not(:has(.td-home))::after {
-	background-image: var(--td-band-footer);
-	background-position: center top;
-	background-repeat: no-repeat;
-	background-size: var(--td-band-footer-size);
-	bottom: var(--td-band-footer-bottom);
-	content: "";
-	display: block;
-	height: var(--td-band-footer-height);
-	left: 50%;
-	margin: 0 0 0 -50vw;
-	position: absolute;
-	width: 100vw;
-	z-index: -1;
-}
+	/* Footer band, mainStyle's ::after. main already carries the bottom margin the
+	   band hangs into. */
+	&::after {
+		background-image: var(--td-band-footer);
+		background-position: center top;
+		background-repeat: no-repeat;
+		background-size: var(--td-band-footer-size);
+		bottom: var(--td-band-footer-bottom);
+		content: "";
+		display: block;
+		height: var(--td-band-footer-height);
+		left: 50%;
+		margin: 0 0 0 -50vw;
+		position: absolute;
+		width: 100vw;
+		z-index: -1;
+	}
 
-/* pageHeadingGenericStyle's padding-top: the hero on the listing pages (its
-   h1 is visually hidden, pages.css), the theme's content pages' title and the
-   directory pages' title. */
-main:not(:has(.td-home)) > [data-scope="hero"][data-part="root"],
-main:not(:has(.td-home)) [data-scope="page-hero"][data-part="title"],
-main:not(:has(.td-home)) [data-scope="content-page"][data-part="title"] {
-	padding-top: var(--td-title-padding-top);
-}
+	/* pageHeadingGenericStyle's padding-top: the hero on the listing pages (its
+	   h1 is visually hidden, pages.css), the theme's content pages' title and the
+	   directory pages' title. */
+	> [data-scope="hero"][data-part="root"],
+	[data-scope="page-hero"][data-part="title"],
+	[data-scope="content-page"][data-part="title"] {
+		padding-top: var(--td-title-padding-top);
+	}
 
-/* The show pages' box starts where the listing pages' panel does. */
-main:not(:has(.td-home)) > div:has(> [data-scope="hero"][data-part="root"]) {
-	margin-top: var(--td-title-padding-top);
+	/* The show pages' box starts where the listing pages' panel does. */
+	> div:has(> [data-scope="hero"][data-part="root"]) {
+		margin-top: var(--td-title-padding-top);
+	}
 }
 
 /* pageHeadingAboutStyle: the About page's own header band. The girl with the
    afro is a separate image, drawn in about.css. */
 body main:has([data-scope="content-page"][data-part="root"][data-page-slug="about"]) {
 	--td-band-header: url("illustrations/320px/about_1_header.png");
-}
 
-@media only screen and (min-width: 600px) {
-	body main:has([data-scope="content-page"][data-part="root"][data-page-slug="about"]) {
+	@media only screen and (min-width: 600px) {
 		--td-band-header: url("illustrations/768px/about_1_header.png");
 	}
-}
 
-@media only screen and (min-width: 900px) {
-	body main:has([data-scope="content-page"][data-part="root"][data-page-slug="about"]) {
+	@media only screen and (min-width: 900px) {
 		--td-band-header: url("illustrations/1024px/about_1_header.png");
 	}
-}
 
-@media only screen and (min-width: 1200px) {
-	body main:has([data-scope="content-page"][data-part="root"][data-page-slug="about"]) {
+	@media only screen and (min-width: 1200px) {
 		--td-band-header: url("illustrations/1366px/about_1_header.png");
 	}
-}
 
-@media only screen and (min-width: 1500px) {
-	body main:has([data-scope="content-page"][data-part="root"][data-page-slug="about"]) {
+	@media only screen and (min-width: 1500px) {
 		--td-band-header: url("illustrations/1920px/about_1_header.png");
 		--td-band-header-height: 1150px;
 		--td-band-header-top: -130px;
