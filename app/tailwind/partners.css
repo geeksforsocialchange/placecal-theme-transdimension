@@ -273,8 +273,9 @@
 /* Phones drop the separate label: with nothing chosen the box reads "Type" or
    "Location" instead of "Show all", and the text not shown stays for screen readers. */
 @media only screen and (max-width: 599px) {
+	/* Read off the checked radio, not the button's state, so the swap is instant; :where keeps the old weight */
 	[data-scope="partner-index"][data-part="root"] [data-scope="filter"][data-part="toggle-value"],
-	[data-scope="partner-index"][data-part="root"] [data-scope="filter"][data-part="toggle-button"]:not([data-state="active"]) [data-scope="filter"][data-part="toggle-label"] {
+	[data-scope="partner-index"][data-part="root"] [data-scope="partner-filter"][data-part="filter"]:not(:has(:where([data-scope="filter"][data-part="option"]) input:checked)) [data-scope="filter"][data-part="toggle-label"] {
 		background-color: var(--color-background);
 		border: 2px solid var(--color-primary);
 		border-radius: 0.3rem;
@@ -293,8 +294,8 @@
 		width: 100%;
 	}
 
-	[data-scope="partner-index"][data-part="root"] [data-scope="filter"][data-part="toggle-button"][data-state="active"] [data-scope="filter"][data-part="toggle-label"],
-	[data-scope="partner-index"][data-part="root"] [data-scope="filter"][data-part="toggle-button"]:not([data-state="active"]) [data-scope="filter"][data-part="toggle-value"] {
+	[data-scope="partner-index"][data-part="root"] [data-scope="partner-filter"][data-part="filter"]:has(:where([data-scope="filter"][data-part="option"]) input:checked) [data-scope="filter"][data-part="toggle-label"],
+	[data-scope="partner-index"][data-part="root"] [data-scope="partner-filter"][data-part="filter"]:not(:has(:where([data-scope="filter"][data-part="option"]) input:checked)) [data-scope="filter"][data-part="toggle-value"] {
 		border: 0;
 		clip-path: inset(50%);
 		height: 1px;

@@ -60,7 +60,8 @@ RSpec.describe 'host contract' do
     let(:css) do
       Dir[Transdimension::Engine.root.join('app/tailwind/**/*.css')].sum('') { |path| File.read(path) }.gsub(%r{/\*.*?\*/}m, '')
     end
-    let(:compounds) { css.scan(/\[data-scope="([a-z-]+)"\]((?:\[[^\]]*\]|:[a-z-]+(?:\([^)]*\))?)*)/) }
+    # A pseudo-class argument naming a scope is left to be read as its own compound.
+    let(:compounds) { css.scan(/\[data-scope="([a-z-]+)"\]((?:\[[^\]]*\]|:[a-z-]+(?:\((?![^)]*data-scope)[^)]*\))?)*)/) }
     let(:contract) { PlaceCal::Theming.contract }
 
     it 'targets only scopes core declares' do
