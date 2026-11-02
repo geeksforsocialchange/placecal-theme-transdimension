@@ -16,7 +16,7 @@ class Transdimension::Views::About < Views::ThemeContentPage
 
   private
 
-  # About's sections are their own boxes, so they skip the markdown-content column.
+  # About's sections are their own boxes, so they skip the markdown column.
   def page_content
     page_body
   end

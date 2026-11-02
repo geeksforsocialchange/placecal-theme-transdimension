@@ -3,18 +3,18 @@
 
 /* The directory hero is a light band with a breadcrumb; TD's is the same
    starfield title as everywhere else. */
-main > section.bg-foreground {
+[data-scope="page-hero"][data-part="root"] {
 	background-color: transparent;
 	color: var(--color-foreground);
 	padding: 0;
 }
 
-main > section.bg-foreground nav {
+[data-scope="page-hero"][data-part="breadcrumb"] {
 	display: none;
 }
 
-main > section.bg-foreground .hero-title,
-main > .container-public > h1[data-scope="content-page"][data-part="title"] {
+[data-scope="page-hero"][data-part="title"],
+[data-scope="content-page"][data-part="title"] {
 	color: var(--color-foreground);
 	font-size: 2.1rem;
 	font-style: italic;
@@ -28,20 +28,20 @@ main > .container-public > h1[data-scope="content-page"][data-part="title"] {
 }
 
 @media only screen and (min-width: 600px) {
-	main > section.bg-foreground .hero-title,
-	main > .container-public > h1[data-scope="content-page"][data-part="title"] {
+	[data-scope="page-hero"][data-part="title"],
+	[data-scope="content-page"][data-part="title"] {
 		font-size: 2.5rem;
 	}
 }
 
 @media only screen and (min-width: 900px) {
-	main > section.bg-foreground .hero-title,
-	main > .container-public > h1[data-scope="content-page"][data-part="title"] {
+	[data-scope="page-hero"][data-part="title"],
+	[data-scope="content-page"][data-part="title"] {
 		font-size: 3.1rem;
 	}
 }
 
-.markdown-content {
+[data-scope="markdown"][data-part="root"] {
 	background-color: var(--color-background);
 	border: 1px solid var(--color-primary);
 	border-radius: 0.3rem;
@@ -51,32 +51,32 @@ main > .container-public > h1[data-scope="content-page"][data-part="title"] {
 }
 
 @media only screen and (min-width: 600px) {
-	.markdown-content {
+	[data-scope="markdown"][data-part="root"] {
 		padding: 1rem 1.5rem 2rem;
 	}
 }
 
 /* TextHeavyPage.elm bodyStyle: the measure the long-form body keeps. */
-.markdown-content > * {
+[data-scope="markdown"][data-part="root"] > * {
 	margin-inline: auto;
 }
 
 @media only screen and (min-width: 600px) {
-	.markdown-content > * {
+	[data-scope="markdown"][data-part="root"] > * {
 		max-width: 636px;
 		padding-inline: 2.5rem;
 	}
 }
 
 @media only screen and (min-width: 900px) {
-	.markdown-content > * {
+	[data-scope="markdown"][data-part="root"] > * {
 		padding-inline: 0;
 	}
 }
 
 /* Global.elm introTextLargeStyle applied to the first paragraph, which is the
    standfirst TextHeavyPage passes as the page's big text. */
-.markdown-content > p:first-child {
+[data-scope="markdown"][data-part="root"] > p:first-child {
 	color: var(--color-primary);
 	font-size: 1.6rem;
 	font-style: italic;
@@ -88,14 +88,14 @@ main > .container-public > h1[data-scope="content-page"][data-part="title"] {
 }
 
 @media only screen and (min-width: 600px) {
-	.markdown-content > p:first-child {
+	[data-scope="markdown"][data-part="root"] > p:first-child {
 		font-size: 1.9rem;
 		line-height: 2.1rem;
 	}
 }
 
 @media only screen and (min-width: 900px) {
-	.markdown-content > p:first-child {
+	[data-scope="markdown"][data-part="root"] > p:first-child {
 		font-size: 2.5rem;
 		line-height: 3.1rem;
 		max-width: 838px;
@@ -103,43 +103,43 @@ main > .container-public > h1[data-scope="content-page"][data-part="title"] {
 }
 
 /* TransMarkdown headerStyle: every heading is pink, h2 centred. */
-.markdown-content h2,
-.markdown-content h3,
-.markdown-content h4,
-.markdown-content h5,
-.markdown-content h6 {
+[data-scope="markdown"][data-part="root"] h2,
+[data-scope="markdown"][data-part="root"] h3,
+[data-scope="markdown"][data-part="root"] h4,
+[data-scope="markdown"][data-part="root"] h5,
+[data-scope="markdown"][data-part="root"] h6 {
 	color: var(--color-primary);
 	line-height: 1.2em;
 	margin-block: 1em;
 }
 
-.markdown-content h2 {
+[data-scope="markdown"][data-part="root"] h2 {
 	margin-block-start: 2em;
 	text-align: center;
 }
 
 @media only screen and (min-width: 1200px) {
-	.markdown-content p,
-	.markdown-content li {
+	[data-scope="markdown"][data-part="root"] p,
+	[data-scope="markdown"][data-part="root"] li {
 		font-size: 1.2rem;
 	}
 }
 
 /* TransMarkdown ulStyle and ulLiStyle: no marker, a pink square drawn in the
    left gutter instead. */
-.markdown-content ul {
+[data-scope="markdown"][data-part="root"] ul {
 	list-style: none;
 	margin-block: 2em;
 	padding-left: 0;
 }
 
-.markdown-content ul > li {
+[data-scope="markdown"][data-part="root"] ul > li {
 	font-weight: 600;
 	padding-left: 1.5rem;
 	position: relative;
 }
 
-.markdown-content ul > li::before {
+[data-scope="markdown"][data-part="root"] ul > li::before {
 	color: var(--color-primary);
 	content: "\25A0";
 	font-size: 1.5em;
@@ -148,14 +148,14 @@ main > .container-public > h1[data-scope="content-page"][data-part="title"] {
 	top: -0.25em;
 }
 
-.markdown-content ol {
+[data-scope="markdown"][data-part="root"] ol {
 	list-style-type: decimal;
 	margin-block: 1em;
 	padding-left: 2em;
 }
 
 @media only screen and (min-width: 900px) {
-	.markdown-content ul > li {
+	[data-scope="markdown"][data-part="root"] ul > li {
 		margin-block: 0.5em;
 	}
 }
@@ -169,7 +169,7 @@ main > .container-public > h1[data-scope="content-page"][data-part="title"] {
 
 /* Global.elm textBoxPinkStyle. Core's opening paragraph is the copy TD puts in
    the panel; TD's heading above it has no core equivalent. */
-main > .container-editorial > [data-scope="get-in-touch"][data-part="intro"] {
+[data-scope="get-in-touch"][data-part="intro"] {
 	background-color: var(--color-primary);
 	/* The panel sits flush on top of the form box, so its own bottom corners
 	   are square and it carries no gap. */
@@ -186,7 +186,7 @@ main > .container-editorial > [data-scope="get-in-touch"][data-part="intro"] {
 }
 
 @media only screen and (min-width: 600px) {
-	main > .container-editorial > [data-scope="get-in-touch"][data-part="intro"] {
+	[data-scope="get-in-touch"][data-part="intro"] {
 		font-size: 1.9rem;
 		line-height: 2.1rem;
 		padding-inline: 1.5rem;
@@ -194,7 +194,7 @@ main > .container-editorial > [data-scope="get-in-touch"][data-part="intro"] {
 }
 
 @media only screen and (min-width: 900px) {
-	main > .container-editorial > [data-scope="get-in-touch"][data-part="intro"] {
+	[data-scope="get-in-touch"][data-part="intro"] {
 		font-size: 2.5rem;
 		line-height: 3.1rem;
 		/* JoinUs.elm: the panel sits flush under the page title, with rem 3
@@ -207,7 +207,7 @@ main > .container-editorial > [data-scope="get-in-touch"][data-part="intro"] {
 
 /* Core's editorial container adds a gutter above the panel; TD's panel butts
    onto the page title's padding like every other intro panel. */
-main > .container-editorial {
+[data-scope="get-in-touch"][data-part="root"] {
 	padding-block: 0;
 }
 
@@ -447,36 +447,30 @@ textarea[data-scope="contact-form"][data-part="control"] {
    with the list itself left at the inherited 1rem. The rule used to say 1.5rem
    against that comment, and outranked the 1200px rule below on specificity. */
 @media only screen and (min-width: 900px) {
-	.markdown-content > p:not(:first-child),
-	.markdown-content > ul > li,
-	.markdown-content > ol > li {
+	[data-scope="markdown"][data-part="root"] > p:not(:first-child),
+	[data-scope="markdown"][data-part="root"] > ul > li,
+	[data-scope="markdown"][data-part="root"] > ol > li {
 		font-size: 1.2rem;
 		line-height: 1.5;
 	}
 
-	.markdown-content {
+	[data-scope="markdown"][data-part="root"] {
 		padding-top: 2.5rem;
 	}
 }
 
 /* JoinUs.elm: the intro panel spans the content width, flush above the
    form box. */
-main > .container-editorial [data-scope="get-in-touch"][data-part="intro"] {
+[data-scope="get-in-touch"][data-part="intro"] {
 	margin-inline: 0;
 	max-width: none;
 }
 
 /* JoinUs.elm: the intro panel and the form box run the full content width
    and sit flush against each other. */
-main > .container-editorial:has(> [data-scope="get-in-touch"][data-part="intro"]) {
+[data-scope="get-in-touch"][data-part="root"] {
 	max-width: none;
 	padding-inline: 0;
-}
-
-main > .container-editorial > [data-scope="get-in-touch"][data-part="intro"] + * {
-	border-top-left-radius: 0;
-	border-top-right-radius: 0;
-	margin-top: 0;
 }
 
 /* JoinUs.elm: form labels are 1.1rem allcaps. */
@@ -491,7 +485,7 @@ main > .container-editorial > [data-scope="get-in-touch"][data-part="intro"] + *
    closing element is styled further up this file (the rule here has to come
    after it to win). */
 @media only screen and (min-width: 1500px) {
-	main > .container-editorial > [data-scope="get-in-touch"][data-part="intro"] {
+	[data-scope="get-in-touch"][data-part="intro"] {
 		padding-bottom: 5rem;
 	}
 }

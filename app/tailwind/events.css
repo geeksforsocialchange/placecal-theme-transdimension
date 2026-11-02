@@ -619,11 +619,11 @@
 /* The iCal and CSV links below the box, as small dark buttons (Button.jsx) */
 
 /* Core's bottom margin on the box's wrapper would collapse with the row's 2.5rem and win */
-.container-public:has([data-scope="event-index"][data-part="browser"]) {
+[data-scope="event-index"][data-part="root"] {
 	margin-bottom: 0;
 }
 
-.container-public:has([data-scope="event-index"][data-part="browser"]) + [data-scope="meta"][data-part="root"] {
+main:has([data-scope="event-index"][data-part="root"]) [data-scope="meta"][data-part="root"] {
 	background: none;
 	display: flex;
 	flex-wrap: wrap;
@@ -635,11 +635,11 @@
 
 /* contents, not a nested flex box: core sizes this wrapper narrower than the
    two buttons, which then wrapped under each other */
-.container-public:has([data-scope="event-index"][data-part="browser"]) + [data-scope="meta"][data-part="root"] .container-public {
+main:has([data-scope="event-index"][data-part="root"]) [data-scope="meta"][data-part="content"] {
 	display: contents;
 }
 
-.container-public:has([data-scope="event-index"][data-part="browser"]) + [data-scope="meta"][data-part="root"] a {
+main:has([data-scope="event-index"][data-part="root"]) [data-scope="meta"][data-part="root"] a {
 	background-color: var(--color-background);
 	border: 2px solid var(--color-primary);
 	border-radius: 0.3rem;
@@ -658,14 +658,14 @@
 }
 
 @media only screen and (hover: hover) and (pointer: fine) {
-	.container-public:has([data-scope="event-index"][data-part="browser"]) + [data-scope="meta"][data-part="root"] a:hover {
+	main:has([data-scope="event-index"][data-part="root"]) [data-scope="meta"][data-part="root"] a:hover {
 		background-color: var(--color-tertiary);
 		border-color: var(--color-foreground);
 		color: var(--color-foreground);
 	}
 }
 
-.container-public:has([data-scope="event-index"][data-part="browser"]) + [data-scope="meta"][data-part="root"] a:focus-visible {
+main:has([data-scope="event-index"][data-part="root"]) [data-scope="meta"][data-part="root"] a:focus-visible {
 	outline: 2px solid var(--color-foreground);
 	outline-offset: 2px;
 }

@@ -86,8 +86,11 @@ main {
 
 /* The listing content box is exactly as wide as the intro panel above it
    (PageTemplate.elm puts both inside one contentWrapperStyle), so the
-   container core wraps it in gives up its own gutter to <main>. */
-main > .container-public {
+   container core wraps it in gives up its own gutter to <main>, as the
+   content pages' columns do. */
+[data-scope="event-index"][data-part="root"],
+[data-scope="content-page"][data-part="root"],
+[data-scope="markdown-page"][data-part="root"] {
 	max-width: none;
 	padding-block: 0;
 	padding-inline: 0;
@@ -299,7 +302,7 @@ main > [data-scope="hero"][data-part="root"]:has([data-scope="hero"][data-part="
 }
 
 /* A static page's rules sit closer than the page-level hr's. */
-.markdown-content hr {
+[data-scope="markdown"][data-part="root"] hr {
 	margin: 1.5rem 0;
 }
 

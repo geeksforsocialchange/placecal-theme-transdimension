@@ -41,7 +41,7 @@ main > div[vocab] {
 }
 
 /* Core rules off the breadcrumb before the article; TD does not draw one. */
-main > div[vocab] > .container-public > hr {
+[data-scope="article"][data-part="divider"] {
 	display: none;
 }
 
