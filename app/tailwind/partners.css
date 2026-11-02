@@ -129,7 +129,7 @@
 	position: relative;
 }
 
-/* SearchInput.jsx: mauve fill, no border, white 600 text, pink placeholder.
+/* SearchInput.jsx: mauve fill, no border, white 600 text, white 400 placeholder.
    Full width on phones, 220px from 600px. */
 [data-scope="partner-index"][data-part="root"] [data-scope="partner-filter"][data-part="filter"][data-variant="search"] {
 	flex-basis: 100%;
@@ -191,8 +191,10 @@
 	background-color: var(--color-primary);
 }
 
+/* Pink on mauve is 2.82:1, so the placeholder is white and told apart from typed text by weight. */
 [data-scope="partner-index"][data-part="root"] input[data-scope="partner-filter"][data-part="search"]::placeholder {
-	color: var(--color-primary);
+	color: var(--color-foreground);
+	font-weight: 400;
 	opacity: 1;
 }
 
@@ -417,11 +419,11 @@
 	transition: color 300ms linear;
 }
 
-/* Badge.jsx in TD's mauve, pink label, 0.3rem radius. */
+/* Badge.jsx in TD's mauve; white label, as pink on mauve is only 2.82:1. */
 [data-scope="partner-preview"][data-part="neighbourhood"] span {
 	background-color: var(--td-mauve);
 	border-radius: 0.3rem;
-	color: var(--color-primary);
+	color: var(--color-foreground);
 	display: inline-block;
 	font-size: 0.78rem;
 	font-weight: 700;
