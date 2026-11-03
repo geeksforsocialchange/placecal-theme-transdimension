@@ -82,7 +82,8 @@ main {
    content pages' columns do. */
 [data-scope="event-index"][data-part="root"],
 [data-scope="content-page"][data-part="root"],
-[data-scope="markdown-page"][data-part="root"] {
+[data-scope="markdown-page"][data-part="root"],
+[data-scope="not-found"][data-part="root"] {
 	max-width: none;
 	padding-block: 0;
 	padding-inline: 0;

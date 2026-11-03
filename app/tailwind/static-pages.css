@@ -14,7 +14,8 @@
 }
 
 [data-scope="page-hero"][data-part="title"],
-[data-scope="content-page"][data-part="title"] {
+[data-scope="content-page"][data-part="title"],
+[data-scope="not-found"][data-part="title"] {
 	color: var(--color-foreground);
 	font-size: 2.1rem;
 	font-style: italic;
@@ -32,6 +33,26 @@
 
 	@media only screen and (min-width: 900px) {
 		font-size: 3.1rem;
+	}
+}
+
+/* The not-found page reads as a content page with only its standfirst: the
+   line in pink intro type, alone in the content box. */
+[data-scope="not-found"][data-part="body"] {
+	background-color: var(--color-background);
+	border: 1px solid var(--color-primary);
+	border-radius: 0.3rem;
+	color: var(--color-primary);
+	font-size: 1.6rem;
+	font-style: italic;
+	font-weight: 500;
+	line-height: 2rem;
+	margin: 0;
+	padding: 2.5rem 0.75rem;
+	text-align: center;
+
+	@media only screen and (min-width: 600px) {
+		padding-inline: 1.5rem;
 	}
 }
 

@@ -164,11 +164,12 @@ main:not(:has(.td-home)) {
 	}
 
 	/* pageHeadingGenericStyle's padding-top: the hero on the listing pages (its
-	   h1 is visually hidden, pages.css), the theme's content pages' title and the
+	   h1 is visually hidden, pages.css), the theme's content pages' title, the not-found title and the
 	   directory pages' title. */
 	> [data-scope="hero"][data-part="root"],
 	[data-scope="page-hero"][data-part="title"],
-	[data-scope="content-page"][data-part="title"] {
+	[data-scope="content-page"][data-part="title"],
+	[data-scope="not-found"][data-part="title"] {
 		padding-top: var(--td-title-padding-top);
 	}
 
