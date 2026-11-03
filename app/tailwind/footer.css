@@ -112,7 +112,8 @@
 	background-color: var(--color-background);
 	padding: 1rem 0;
 	display: grid;
-	grid-template-columns: 1fr;
+	/* minmax(0, ...) so the newsletter heading wraps at 320px instead of widening the page */
+	grid-template-columns: minmax(0, 1fr);
 	justify-items: center;
 }
 
@@ -227,9 +228,10 @@
 	margin: 0.5rem 0 1rem;
 	text-align: center;
 	text-transform: uppercase;
-	white-space: nowrap;
 
+	/* One line from 600px; below that it may wrap rather than widen a 320px page */
 	@media only screen and (min-width: 600px) {
+		white-space: nowrap;
 		margin: 1rem auto;
 	}
 }

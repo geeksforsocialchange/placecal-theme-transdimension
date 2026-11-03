@@ -106,6 +106,8 @@
 	/* every rule and border in TD is pink (Global.elm hrStyle, contentWrapperStyle) */
 	--color-rules: #ff7aa7;
 	--color-rules-dark: #ff7aa7;
+	/* Core's tertiary is plum here, 2.6:1 on the navy; field edges need 3:1 */
+	--color-control-border: var(--color-rules);
 	--color-map-stripe-second: #ff7aa7;
 	--color-print-grey: #dadada;
 	/* "plain white surface" is a dark blue surface here */

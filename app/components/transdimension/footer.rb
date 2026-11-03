@@ -116,7 +116,7 @@ class Transdimension::Components::Footer < Components::Base
          data: signup_controller_data) do
       label(class: 'td-footer__subhead', for: 'signup') { t('transdimension.footer.signup_label') }
       div(class: 'td-footer__signup-fields', data: { newsletter_signup_target: 'fields' }) do
-        input(class: 'td-footer__signup-input', id: 'signup', type: 'email', required: true,
+        input(class: 'td-footer__signup-input', id: 'signup', type: 'email', autocomplete: 'email', required: true,
               placeholder: t('transdimension.footer.signup_placeholder'), data: { newsletter_signup_target: 'email' })
         button(class: 'td-btn td-btn--pink', type: 'submit') { t('transdimension.footer.signup_button') }
       end
