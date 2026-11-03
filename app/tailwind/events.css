@@ -9,40 +9,36 @@
 	padding: 1rem 1rem 2rem;
 	/* On the grid, not the cards, so a day boundary keeps the same gap */
 	row-gap: 2rem;
-}
 
-[data-scope="event-index"][data-part="browser"] [data-scope="event-list"][data-part="day"] [data-scope="event"][data-part="root"] {
-	margin-top: 0;
-}
-
-/* The design runs straight from the day strip into the cards */
-[data-scope="event-index"][data-part="browser"] > hr {
-	display: none;
-}
-
-/* From 600px the 24px above the region row is the row's own margin */
-@media only screen and (min-width: 600px) {
-	[data-scope="event-index"][data-part="browser"] {
+	/* From 600px the 24px above the region row is the row's own margin */
+	@media only screen and (min-width: 600px) {
 		padding: 0 1.5rem 3rem;
 		row-gap: 2.5rem;
 	}
-}
 
-@media only screen and (min-width: 900px) {
-	[data-scope="event-index"][data-part="browser"] {
+	@media only screen and (min-width: 900px) {
 		column-gap: 1.75rem;
 		grid-template-columns: repeat(2, minmax(0, 1fr));
 		padding: 0 2rem 6.25rem;
 	}
-}
 
-[data-scope="event-index"][data-part="browser"] > [data-scope="event-index"][data-part="paginator"],
-[data-scope="event-index"][data-part="browser"] :is([data-scope="event-list"][data-part="empty"], [data-scope="event-list"][data-part="truncated"]) {
-	grid-column: 1 / -1;
-}
+	[data-scope="event-list"][data-part="day"] [data-scope="event"][data-part="root"] {
+		margin-top: 0;
+	}
 
-[data-scope="event-index"][data-part="browser"] > [data-scope="event-list"][data-part="day"] {
-	display: contents;
+	/* The design runs straight from the day strip into the cards */
+	> hr {
+		display: none;
+	}
+
+	> [data-scope="event-index"][data-part="paginator"],
+	:is([data-scope="event-list"][data-part="empty"], [data-scope="event-list"][data-part="truncated"]) {
+		grid-column: 1 / -1;
+	}
+
+	> [data-scope="event-list"][data-part="day"] {
+		display: contents;
+	}
 }
 
 /* The paginator: core's wrappers go display: contents, so it is one flex row
@@ -63,27 +59,27 @@
 		margin-inline: 2rem;
 	}
 
-	& [data-scope="event-index"][data-part="context"],
-	& [data-scope="event-index"][data-part="context"] [data-scope="breadcrumb"][data-part="root"],
-	& [data-scope="event-index"][data-part="context"] [data-scope="breadcrumb"][data-part="controls"],
-	& [data-scope="event-index"][data-part="context"] [data-scope="event-index"][data-part="filter-bar"] {
+	[data-scope="event-index"][data-part="context"],
+	[data-scope="event-index"][data-part="context"] [data-scope="breadcrumb"][data-part="root"],
+	[data-scope="event-index"][data-part="context"] [data-scope="breadcrumb"][data-part="controls"],
+	[data-scope="event-index"][data-part="context"] [data-scope="event-index"][data-part="filter-bar"] {
 		display: contents;
 	}
 
 	/* The timeline's tabs repeat the day strip and its arrows are not in the design */
-	& [data-scope="timeline"][data-part="root"] {
+	[data-scope="timeline"][data-part="root"] {
 		display: none;
 	}
 
 	/* The region pills take a row of their own; a flex item's max-width caps it even at flex-basis 100% */
-	& [data-scope="region-filter"][data-part="root"] {
+	[data-scope="region-filter"][data-part="root"] {
 		flex-basis: 100%;
 		max-width: none;
 		order: 1;
 	}
 
 	/* The two toggles share a centred line, 28px apart; full width so an opened dropdown spans the box */
-	& [data-scope="event-filter"][data-part="toggles"] {
+	[data-scope="event-filter"][data-part="toggles"] {
 		column-gap: 2rem;
 		display: flex;
 		flex-basis: 100%;
@@ -91,27 +87,27 @@
 		justify-content: center;
 		order: 6;
 		row-gap: 0;
-	}
 
-	& [data-scope="event-filter"][data-part="toggles"] [data-scope="event-filter"][data-part="filter"],
-	& [data-scope="event-filter"][data-part="toggles"] [data-scope="event-filter"][data-part="form"] {
-		display: contents;
-	}
+		[data-scope="event-filter"][data-part="filter"],
+		[data-scope="event-filter"][data-part="form"] {
+			display: contents;
+		}
 
-	/* "Filter events" first, then "Pick a date" */
-	& [data-scope="event-filter"][data-part="toggles"] [data-scope="event-filter"][data-part="toggle"]:has([data-scope="event-filter"][data-part="toggle-button"][data-variant="date"]) {
-		order: 2;
-	}
+		/* "Filter events" first, then "Pick a date" */
+		[data-scope="event-filter"][data-part="toggle"]:has([data-scope="event-filter"][data-part="toggle-button"][data-variant="date"]) {
+			order: 2;
+		}
 
-	/* An opened dropdown takes its own full-width line under both toggles */
-	& [data-scope="event-filter"][data-part="toggles"] [data-scope="event-filter"][data-part="dropdown"] {
-		flex-basis: 100%;
-		order: 3;
+		/* An opened dropdown takes its own full-width line under both toggles */
+		[data-scope="event-filter"][data-part="dropdown"] {
+			flex-basis: 100%;
+			order: 3;
+		}
 	}
 
 	/* "Showing Wed 21 Oct, Sorted by name. Reset filters": its own centred line
 	   under the toggles. */
-	& [data-scope="event-filter"][data-part="applied"] {
+	[data-scope="event-filter"][data-part="applied"] {
 		color: var(--color-primary-light);
 		flex-basis: 100%;
 		font-size: 1rem;
@@ -120,7 +116,7 @@
 		text-align: center;
 	}
 
-	& [data-scope="event-filter"][data-part="applied-reset"] {
+	[data-scope="event-filter"][data-part="applied-reset"] {
 		/* core's Breadcrumb link draws a border-bottom as well: one underline, not two */
 		border-bottom: 0;
 		color: var(--color-foreground);
@@ -140,12 +136,12 @@
 	   centred allcaps label, pink + that becomes − when open.
 	--------------------------------------------------------------------------- */
 
-	& [data-scope="event-filter"][data-part="toggle"] {
+	[data-scope="event-filter"][data-part="toggle"] {
 		display: flex;
 		justify-content: center;
 	}
 
-	& [data-scope="event-filter"][data-part="toggle-button"] {
+	[data-scope="event-filter"][data-part="toggle-button"] {
 		align-items: center;
 		background: none;
 		border: 0;
@@ -159,47 +155,47 @@
 		letter-spacing: 1.9px;
 		padding: 0.5rem 0;
 		text-transform: uppercase;
-	}
 
-	/* A non-default sort, view or repeats setting: the closed toggle goes pink */
-	& [data-scope="event-filter"][data-part="toggle-button"][data-state="active"] {
-		color: var(--color-primary);
-	}
+		/* A non-default sort, view or repeats setting: the closed toggle goes pink */
+		&[data-state="active"] {
+			color: var(--color-primary);
+		}
 
-	& [data-scope="event-filter"][data-part="toggle-button"]:focus-visible {
-		outline: 2px solid var(--color-foreground);
-		outline-offset: 2px;
-	}
+		&:focus-visible {
+			outline: 2px solid var(--color-foreground);
+			outline-offset: 2px;
+		}
 
-	/* Swaps core's triangle for FilterToggle.jsx's pink +/−; the label stays the
-	   accessible name, so the glyph is decorative. */
-	& [data-scope="event-filter"][data-part="toggle-button"] svg {
-		display: none;
+		/* Swaps core's triangle for FilterToggle.jsx's pink +/−; the label stays the
+		   accessible name, so the glyph is decorative. */
+		svg {
+			display: none;
+		}
+
+		&::after {
+			color: var(--color-primary);
+			content: "+";
+			font-size: 1.6rem;
+			font-weight: 400;
+			line-height: 0.8;
+		}
+
+		&[aria-expanded="true"]::after {
+			content: "\2212";
+		}
 	}
 
 	/* Core's [data-scope="event-filter"][data-part="link"] carries its own border-bottom (a 2px underline
 	   under the idle caption); FilterToggle.jsx draws no rule under the label. */
-	& [data-scope="event-filter"][data-part="toggle"] [data-scope="event-filter"][data-part="link"] {
+	[data-scope="event-filter"][data-part="toggle"] [data-scope="event-filter"][data-part="link"] {
 		border-bottom: 0;
-	}
-
-	& [data-scope="event-filter"][data-part="toggle-button"]::after {
-		color: var(--color-primary);
-		content: "+";
-		font-size: 1.6rem;
-		font-weight: 400;
-		line-height: 0.8;
-	}
-
-	& [data-scope="event-filter"][data-part="toggle-button"][aria-expanded="true"]::after {
-		content: "\2212";
 	}
 
 	/* Filter dropdown, Select.jsx arranged Events.elm's way: the radio groups in
 	   a row 28px apart, each in the box Select.jsx draws round a select. */
 
 	/* In flow under the toggles rather than core's absolutely placed card */
-	& [data-scope="event-filter"][data-part="dropdown"] {
+	[data-scope="event-filter"][data-part="dropdown"] {
 		background: none;
 		box-shadow: none;
 		display: grid;
@@ -212,25 +208,23 @@
 		position: static;
 		text-align: left;
 		white-space: normal;
-	}
 
-	@media only screen and (min-width: 600px) {
-		& [data-scope="event-filter"][data-part="dropdown"] {
+		@media only screen and (min-width: 600px) {
 			grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr));
 			max-width: none;
 		}
+
+		/* The state attribute outranks the display: grid above */
+		&[data-state="closed"] {
+			display: none;
+		}
+
+		hr {
+			display: none;
+		}
 	}
 
-	/* The state attribute outranks the display: grid above */
-	& [data-scope="event-filter"][data-part="dropdown"][data-state="closed"] {
-		display: none;
-	}
-
-	& [data-scope="event-filter"][data-part="dropdown"] hr {
-		display: none;
-	}
-
-	& [data-scope="event-filter"][data-part="group"] {
+	[data-scope="event-filter"][data-part="group"] {
 		background-color: var(--color-background);
 		border: 2px solid var(--color-primary);
 		border-radius: 0.3rem;
@@ -241,20 +235,20 @@
 	/* Phones: one box, the groups divided by core's own <hr>s, not three boxes
 	   with 28px between them. */
 	@media only screen and (max-width: 599px) {
-		& [data-scope="event-filter"][data-part="dropdown"] {
+		[data-scope="event-filter"][data-part="dropdown"] {
 			border: 2px solid var(--color-primary);
 			border-radius: 0.3rem;
 			gap: 0;
 			padding: 0;
 		}
 
-		& [data-scope="event-filter"][data-part="group"] {
+		[data-scope="event-filter"][data-part="group"] {
 			border: 0;
 			border-radius: 0;
 			padding: 0.5rem 0.75rem;
 		}
 
-		& [data-scope="event-filter"][data-part="dropdown"] hr {
+		[data-scope="event-filter"][data-part="dropdown"] hr {
 			border: 0;
 			border-top: 1px solid var(--color-primary);
 			display: block;
@@ -262,68 +256,69 @@
 		}
 	}
 
-	& [data-scope="event-filter"][data-part="option"] {
+	[data-scope="event-filter"][data-part="option"] {
 		align-items: center;
 		display: flex;
 		gap: 0.5rem;
 		padding: 0.2rem 0;
+
+		input[type="radio"] {
+			accent-color: var(--color-primary);
+			flex: none;
+			margin: 0;
+		}
 	}
 
-	& [data-scope="event-filter"][data-part="option"] input[type="radio"] {
-		accent-color: var(--color-primary);
-		flex: none;
-		margin: 0;
-	}
-
-	& [data-scope="event-filter"][data-part="label"] {
+	[data-scope="event-filter"][data-part="label"] {
 		color: var(--color-foreground);
 		cursor: pointer;
 		font-size: 1rem;
 		font-weight: 400;
 	}
 
-	& [data-scope="event-filter"][data-part="option"]:has(input:checked) [data-scope="event-filter"][data-part="label"] {
+	[data-scope="event-filter"][data-part="option"]:has(input:checked) [data-scope="event-filter"][data-part="label"] {
 		color: var(--color-primary);
 	}
+}
 
-	/* ---------------------------------------------------------------------------
-	   Day strip (DayStrip.jsx): Today, Tomorrow, five day names, one row, equal
-	   widths. 14px above / 40px below; selected day fills pink, hover fills
-	   purple with a white border.
-	--------------------------------------------------------------------------- */
+/* ---------------------------------------------------------------------------
+   Day strip (DayStrip.jsx): Today, Tomorrow, five day names, one row, equal
+   widths. 14px above / 40px below; selected day fills pink, hover fills
+   purple with a white border.
+--------------------------------------------------------------------------- */
 
-	/* A zero flex-basis always fits the line; whatever does not fit scrolls */
-	& [data-scope="event-filter"][data-part="day-strip"] {
-		flex: 1 1 0;
-		margin: 0 0 0.5rem;
-		min-width: 0;
-		order: 3;
-		overflow-x: auto;
-	}
+/* A zero flex-basis always fits the line; whatever does not fit scrolls */
+[data-scope="event-index"][data-part="paginator"] [data-scope="event-filter"][data-part="day-strip"] {
+	flex: 1 1 0;
+	margin: 0 0 0.5rem;
+	min-width: 0;
+	order: 3;
+	overflow-x: auto;
 
 	/* Phones: a cut-off fourth button and a fade at the edge say "this scrolls" */
 	@media only screen and (max-width: 599px) {
-		& [data-scope="event-filter"][data-part="day-strip"] {
-			mask-image: linear-gradient(to right, #000 calc(100% - 2.5rem), transparent);
-			scrollbar-width: none;
-		}
+		mask-image: linear-gradient(to right, #000 calc(100% - 2.5rem), transparent);
+		scrollbar-width: none;
 	}
 
 	@media only screen and (min-width: 600px) {
 		/* 0.5rem plus the toggles' own 0.5rem padding reads as the 1rem above the strip */
-		& [data-scope="event-filter"][data-part="day-strip"] {
-			margin-bottom: 0.5rem;
-		}
+		margin-bottom: 0.5rem;
 	}
 
-	& [data-scope="event-filter"][data-part="day-strip"] [data-scope="event-filter"][data-part="day-strip-list"] {
+	/* The seven buttons fit from 900px, so no scrollbar */
+	@media only screen and (min-width: 900px) {
+		overflow-x: visible;
+	}
+
+	[data-scope="event-filter"][data-part="day-strip-list"] {
 		display: flex;
 		flex-wrap: nowrap;
 		gap: 0.5rem;
 		justify-content: stretch;
 	}
 
-	& [data-scope="event-filter"][data-part="day-strip"] [data-scope="event-filter"][data-part="day-strip-item"] {
+	[data-scope="event-filter"][data-part="day-strip-item"] {
 		flex: 1 1 0;
 		list-style-type: none;
 		margin: 0;
@@ -331,7 +326,7 @@
 		min-width: 88px;
 	}
 
-	& [data-scope="event-filter"][data-part="day-strip"] [data-scope="pill"][data-part="root"] {
+	[data-scope="pill"][data-part="root"] {
 		background-color: var(--color-background);
 		border: 2px solid var(--color-primary);
 		border-radius: 0.3rem;
@@ -349,52 +344,41 @@
 			background-color 300ms;
 		white-space: nowrap;
 		width: auto;
-	}
 
-	& [data-scope="event-filter"][data-part="day-strip"] [data-scope="pill"][data-part="root"][aria-current="date"] {
-		background-color: var(--color-primary);
-		border-color: var(--color-primary);
-		color: var(--color-foreground-dark);
-	}
-
-	/* The design's strip is seven days, with no "Future events" button */
-	& [data-scope="event-filter"][data-part="day-strip"] [data-scope="event-filter"][data-part="day-strip-item"][data-variant="all"] {
-		display: none;
-	}
-
-	/* The seven buttons fit from 900px, so no scrollbar */
-	@media only screen and (min-width: 900px) {
-		& [data-scope="event-filter"][data-part="day-strip"] {
-			overflow-x: visible;
+		&[aria-current="date"] {
+			background-color: var(--color-primary);
+			border-color: var(--color-primary);
+			color: var(--color-foreground-dark);
 		}
-	}
 
-	@media only screen and (hover: hover) and (pointer: fine) {
-		& [data-scope="event-filter"][data-part="day-strip"] [data-scope="pill"][data-part="root"]:hover {
-			background-color: var(--color-tertiary);
-			border-color: var(--color-foreground);
-			color: var(--color-foreground);
+		@media only screen and (hover: hover) and (pointer: fine) {
+			&:hover {
+				background-color: var(--color-tertiary);
+				border-color: var(--color-foreground);
+				color: var(--color-foreground);
+			}
 		}
-	}
 
-	& [data-scope="event-filter"][data-part="day-strip"] [data-scope="pill"][data-part="root"]:focus-visible {
-		outline: 2px solid var(--color-foreground);
-		outline-offset: 2px;
-	}
+		&:focus-visible {
+			outline: 2px solid var(--color-foreground);
+			outline-offset: 2px;
+		}
 
-	@media only screen and (min-width: 600px) {
-		& [data-scope="event-filter"][data-part="day-strip"] [data-scope="pill"][data-part="root"] {
+		@media only screen and (min-width: 600px) {
 			font-size: 1rem;
 		}
-	}
 
-	/* Live's day buttons at tablet landscape: 1.2rem on a 1.5 line, 41px tall */
-	@media only screen and (min-width: 900px) {
-		& [data-scope="event-filter"][data-part="day-strip"] [data-scope="pill"][data-part="root"] {
+		/* Live's day buttons at tablet landscape: 1.2rem on a 1.5 line, 41px tall */
+		@media only screen and (min-width: 900px) {
 			font-size: 1.2rem;
 			line-height: 1.5;
 			padding: 0.2rem 0.2rem 0.3rem;
 		}
+	}
+
+	/* The design's strip is seven days, with no "Future events" button */
+	[data-scope="event-filter"][data-part="day-strip-item"][data-variant="all"] {
+		display: none;
 	}
 }
 
@@ -426,168 +410,172 @@
 	}
 }
 
-[data-scope="event-list"][data-part="day"] [data-scope="event"][data-part="details"] {
-	border-width: 0;
-	display: contents;
-	font-size: inherit;
-	padding: 0;
-}
-
-[data-scope="event-list"][data-part="day"] [data-scope="event"][data-part="detail"] {
-	grid-column: 2;
-	margin: 0;
-	min-width: 0;
-	overflow-wrap: anywhere;
-}
-
-[data-scope="event-list"][data-part="day"] [data-scope="event"][data-part="icon"] {
-	display: none;
-}
-
-/* The header part wraps the title and core's neighbourhood badge, which is hidden below */
-[data-scope="event-list"][data-part="day"] [data-scope="event"][data-part="header"] {
-	align-items: flex-end;
-	border-bottom: 2px solid var(--color-primary);
-	column-gap: 0.75rem;
-	display: flex;
-	grid-column: 2;
-	grid-row: 1;
-	justify-content: space-between;
-	/* 10/6 not 8/8: the italic title's descender space reads as less above the rule */
-	margin-bottom: 0.375rem;
-	min-width: 0;
-	padding-bottom: 0.625rem;
-	transition: border-color 500ms linear;
-}
-
-[data-scope="event-list"][data-part="day"] [data-scope="event"][data-part="title"] {
-	margin: 0;
-	min-width: 0;
-	overflow-wrap: anywhere;
-}
-
-[data-scope="event-list"][data-part="day"] [data-scope="event"][data-part="title"] a {
-	color: var(--color-foreground);
-	display: block;
-	font-size: 1.2rem;
-	font-style: italic;
-	font-weight: 500;
-	line-height: 1.25rem;
-	text-decoration: none;
-	transition: color 500ms linear;
-}
-
-/* Live site's card type steps (Events.elm): title and day number grow from tablet up. */
-@media only screen and (min-width: 600px) {
-	[data-scope="event-list"][data-part="day"] [data-scope="event"][data-part="root"] {
-		margin-top: 2.5rem;
+[data-scope="event-list"][data-part="day"] {
+	[data-scope="event"][data-part="details"] {
+		border-width: 0;
+		display: contents;
+		font-size: inherit;
+		padding: 0;
 	}
 
-	[data-scope="event-list"][data-part="day"] [data-scope="event"][data-part="title"] a {
-		font-size: 1.5rem;
-		line-height: 1.877rem;
+	[data-scope="event"][data-part="detail"] {
+		grid-column: 2;
+		margin: 0;
+		min-width: 0;
+		overflow-wrap: anywhere;
 	}
 
-	/* -0.25rem puts the day number's glyph top level with the title's (checked
-	   in WebKit and Chromium screenshots; element boxes mislead here) */
-	[data-scope="event-list"][data-part="day"] [data-scope="event"][data-part="detail"][data-variant="date"] {
-		margin-top: -0.25rem;
+	[data-scope="event"][data-part="icon"] {
+		display: none;
 	}
 
-	[data-scope="event-list"][data-part="day"] [data-scope="event"][data-part="detail"][data-variant="date"]::first-line {
-		font-size: 3.1222rem;
+	/* The header part wraps the title and core's neighbourhood badge, which is hidden below */
+	[data-scope="event"][data-part="header"] {
+		align-items: flex-end;
+		border-bottom: 2px solid var(--color-primary);
+		column-gap: 0.75rem;
+		display: flex;
+		grid-column: 2;
+		grid-row: 1;
+		justify-content: space-between;
+		/* 10/6 not 8/8: the italic title's descender space reads as less above the rule */
+		margin-bottom: 0.375rem;
+		min-width: 0;
+		padding-bottom: 0.625rem;
+		transition: border-color 500ms linear;
 	}
-}
 
-/* The live site's cards carry no neighbourhood badge */
-[data-scope="event-list"][data-part="day"] [data-scope="event"][data-part="neighbourhood"] {
-	display: none;
-}
+	[data-scope="event"][data-part="title"] {
+		margin: 0;
+		min-width: 0;
+		overflow-wrap: anywhere;
 
-[data-scope="event-list"][data-part="day"] [data-scope="event"][data-part="detail"][data-variant="time"] {
-	grid-row: 2;
-}
+		a {
+			color: var(--color-foreground);
+			display: block;
+			font-size: 1.2rem;
+			font-style: italic;
+			font-weight: 500;
+			line-height: 1.25rem;
+			text-decoration: none;
+			transition: color 500ms linear;
+		}
+	}
 
-/* EventCard.jsx has no duration line */
-[data-scope="event-list"][data-part="day"] [data-scope="event"][data-part="detail"][data-variant="duration"] {
-	display: none;
-}
+	/* Live site's card type steps (Events.elm): title and day number grow from tablet up. */
+	@media only screen and (min-width: 600px) {
+		[data-scope="event"][data-part="root"] {
+			margin-top: 2.5rem;
+		}
 
-/* EventCard.jsx's line order: time, repeat, online, place, then organiser.
-   An absent line leaves an empty min-content row, which collapses. */
-[data-scope="event-list"][data-part="day"] [data-scope="event"][data-part="detail"][data-variant="repeats"] {
-	grid-row: 3;
-}
+		[data-scope="event"][data-part="title"] a {
+			font-size: 1.5rem;
+			line-height: 1.877rem;
+		}
 
-[data-scope="event-list"][data-part="day"] [data-scope="event"][data-part="detail"][data-variant="online"] {
-	grid-row: 4;
-}
+		/* -0.25rem puts the day number's glyph top level with the title's (checked
+		   in WebKit and Chromium screenshots; element boxes mislead here) */
+		[data-scope="event"][data-part="detail"][data-variant="date"] {
+			margin-top: -0.25rem;
 
-[data-scope="event-list"][data-part="day"] [data-scope="event"][data-part="detail"][data-variant="place"] {
-	grid-row: 5;
-}
+			&::first-line {
+				font-size: 3.1222rem;
+			}
+		}
+	}
 
-[data-scope="event-list"][data-part="day"] [data-scope="event"][data-part="detail"][data-variant="organiser"] {
-	grid-row: 6;
-}
+	/* The live site's cards carry no neighbourhood badge */
+	[data-scope="event"][data-part="neighbourhood"] {
+		display: none;
+	}
 
-/* Live site's 1.2rem detail lines kept over the design's 1rem for readability (review 2026-10-19). */
-[data-scope="event-list"][data-part="day"] [data-scope="event"][data-part="detail"],
-[data-scope="event-list"][data-part="day"] [data-scope="event"][data-part="detail"] a {
-	color: var(--color-foreground);
-	font-size: 1.2rem;
-	line-height: 28px;
-	text-decoration: none;
-}
+	[data-scope="event"][data-part="detail"][data-variant="time"] {
+		grid-row: 2;
+	}
 
-[data-scope="event-list"][data-part="day"] [data-scope="event"][data-part="detail"] a:hover {
-	color: var(--color-primary-light);
-}
+	/* EventCard.jsx has no duration line */
+	[data-scope="event"][data-part="detail"][data-variant="duration"] {
+		display: none;
+	}
 
-/* Events.elm eventDateStyle / eventDayStyle / eventMonthStyle. Core prints the
-   whole date as one string ("08 Sep"), so the column is narrowed until the
-   month wraps onto its own line and ::first-line gives the day number its own
-   size and colour. A real day/month split is the core slot this approximates
-   (doc/core-slots-needed.md). */
-[data-scope="event-list"][data-part="day"] [data-scope="event"][data-part="detail"][data-variant="date"] {
-	align-self: start;
-	color: var(--color-primary);
-	display: block;
-	font-size: 1.2rem;
-	font-weight: 900;
-	grid-column: 1;
-	grid-row: 1 / span 6;
-	letter-spacing: 1.9px;
-	line-height: 1.5;
-	text-align: center;
-	text-transform: uppercase;
-	transition: color 500ms linear;
-}
+	/* EventCard.jsx's line order: time, repeat, online, place, then organiser.
+	   An absent line leaves an empty min-content row, which collapses. */
+	[data-scope="event"][data-part="detail"][data-variant="repeats"] {
+		grid-row: 3;
+	}
 
-[data-scope="event-list"][data-part="day"] [data-scope="event"][data-part="detail"][data-variant="date"]::first-line {
-	color: var(--color-foreground);
-	font-size: 2.5rem;
-	font-weight: 400;
-	letter-spacing: normal;
-	line-height: 1;
+	[data-scope="event"][data-part="detail"][data-variant="online"] {
+		grid-row: 4;
+	}
+
+	[data-scope="event"][data-part="detail"][data-variant="place"] {
+		grid-row: 5;
+	}
+
+	[data-scope="event"][data-part="detail"][data-variant="organiser"] {
+		grid-row: 6;
+	}
+
+	/* Live site's 1.2rem detail lines kept over the design's 1rem for readability (review 2026-10-19). */
+	[data-scope="event"][data-part="detail"],
+	[data-scope="event"][data-part="detail"] a {
+		color: var(--color-foreground);
+		font-size: 1.2rem;
+		line-height: 28px;
+		text-decoration: none;
+	}
+
+	[data-scope="event"][data-part="detail"] a:hover {
+		color: var(--color-primary-light);
+	}
+
+	/* Events.elm eventDateStyle / eventDayStyle / eventMonthStyle. Core prints the
+	   whole date as one string ("08 Sep"), so the column is narrowed until the
+	   month wraps onto its own line and ::first-line gives the day number its own
+	   size and colour. A real day/month split is the core slot this approximates
+	   (doc/core-slots-needed.md). */
+	[data-scope="event"][data-part="detail"][data-variant="date"] {
+		align-self: start;
+		color: var(--color-primary);
+		display: block;
+		font-size: 1.2rem;
+		font-weight: 900;
+		grid-column: 1;
+		grid-row: 1 / span 6;
+		letter-spacing: 1.9px;
+		line-height: 1.5;
+		text-align: center;
+		text-transform: uppercase;
+		transition: color 500ms linear;
+
+		&::first-line {
+			color: var(--color-foreground);
+			font-size: 2.5rem;
+			font-weight: 400;
+			letter-spacing: normal;
+			line-height: 1;
+		}
+	}
+
+	@media only screen and (hover: hover) and (pointer: fine) {
+		[data-scope="event"][data-part="root"]:hover {
+			[data-scope="event"][data-part="header"] {
+				border-bottom-color: var(--color-foreground);
+			}
+
+			[data-scope="event"][data-part="title"] a {
+				color: var(--color-primary);
+			}
+
+			[data-scope="event"][data-part="detail"][data-variant="date"] {
+				color: var(--color-foreground);
+			}
+		}
+	}
 }
 
 [data-scope="event"][data-part="organiser-prefix"] {
 	margin-right: 0.3em;
-}
-
-@media only screen and (hover: hover) and (pointer: fine) {
-	[data-scope="event-list"][data-part="day"] [data-scope="event"][data-part="root"]:hover [data-scope="event"][data-part="header"] {
-		border-bottom-color: var(--color-foreground);
-	}
-
-	[data-scope="event-list"][data-part="day"] [data-scope="event"][data-part="root"]:hover [data-scope="event"][data-part="title"] a {
-		color: var(--color-primary);
-	}
-
-	[data-scope="event-list"][data-part="day"] [data-scope="event"][data-part="root"]:hover [data-scope="event"][data-part="detail"][data-variant="date"] {
-		color: var(--color-foreground);
-	}
 }
 
 /* ---------------------------------------------------------------------------
@@ -596,15 +584,17 @@
    fine against the dark box without a bespoke treatment.
 --------------------------------------------------------------------------- */
 
-[data-scope="event-index"][data-part="browser"] :is([data-scope="event-list"][data-part="empty"], [data-scope="event-list"][data-part="truncated"]) {
-	color: var(--color-foreground);
-	font-size: 1rem;
-	margin: 0 0 1rem;
-	text-align: center;
-}
+[data-scope="event-index"][data-part="browser"] {
+	:is([data-scope="event-list"][data-part="empty"], [data-scope="event-list"][data-part="truncated"]) {
+		color: var(--color-foreground);
+		font-size: 1rem;
+		margin: 0 0 1rem;
+		text-align: center;
+	}
 
-[data-scope="event-index"][data-part="browser"] [data-scope="event-list"][data-part="empty"] a {
-	color: var(--color-primary);
+	[data-scope="event-list"][data-part="empty"] a {
+		color: var(--color-primary);
+	}
 }
 
 /* The iCal and CSV links below the box, as small dark buttons (Button.jsx) */
@@ -622,6 +612,37 @@ main:has([data-scope="event-index"][data-part="root"]) [data-scope="meta"][data-
 	justify-content: center;
 	margin: 2.5rem 0 0;
 	padding: 0;
+
+	a {
+		background-color: var(--color-background);
+		border: 2px solid var(--color-primary);
+		border-radius: 0.3rem;
+		box-sizing: border-box;
+		color: var(--color-foreground);
+		font-size: 0.875rem;
+		font-weight: 600;
+		/* core's 24px right margin pulled the pair off centre */
+		margin: 0;
+		padding: 0.2rem 0.9rem 0.3rem;
+		text-decoration: none;
+		transition:
+			background-color 300ms,
+			border-color 300ms,
+			color 300ms;
+
+		@media only screen and (hover: hover) and (pointer: fine) {
+			&:hover {
+				background-color: var(--color-tertiary);
+				border-color: var(--color-foreground);
+				color: var(--color-foreground);
+			}
+		}
+
+		&:focus-visible {
+			outline: 2px solid var(--color-foreground);
+			outline-offset: 2px;
+		}
+	}
 }
 
 /* contents, not a nested flex box: core sizes this wrapper narrower than the
@@ -629,35 +650,3 @@ main:has([data-scope="event-index"][data-part="root"]) [data-scope="meta"][data-
 main:has([data-scope="event-index"][data-part="root"]) [data-scope="meta"][data-part="content"] {
 	display: contents;
 }
-
-main:has([data-scope="event-index"][data-part="root"]) [data-scope="meta"][data-part="root"] a {
-	background-color: var(--color-background);
-	border: 2px solid var(--color-primary);
-	border-radius: 0.3rem;
-	box-sizing: border-box;
-	color: var(--color-foreground);
-	font-size: 0.875rem;
-	font-weight: 600;
-	/* core's 24px right margin pulled the pair off centre */
-	margin: 0;
-	padding: 0.2rem 0.9rem 0.3rem;
-	text-decoration: none;
-	transition:
-		background-color 300ms,
-		border-color 300ms,
-		color 300ms;
-}
-
-@media only screen and (hover: hover) and (pointer: fine) {
-	main:has([data-scope="event-index"][data-part="root"]) [data-scope="meta"][data-part="root"] a:hover {
-		background-color: var(--color-tertiary);
-		border-color: var(--color-foreground);
-		color: var(--color-foreground);
-	}
-}
-
-main:has([data-scope="event-index"][data-part="root"]) [data-scope="meta"][data-part="root"] a:focus-visible {
-	outline: 2px solid var(--color-foreground);
-	outline-offset: 2px;
-}
-

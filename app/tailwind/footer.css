@@ -30,38 +30,38 @@
 .td-footer__wordmark {
 	padding: 1rem;
 	text-align: center;
-}
 
-.td-footer__wordmark img {
-	display: block;
-	width: 100%;
-	max-width: 225px;
-	margin: 1rem auto;
+	img {
+		display: block;
+		width: 100%;
+		max-width: 225px;
+		margin: 1rem auto;
+	}
 }
 
 .td-footer__nav {
 	padding: 1rem 1rem 3rem;
 	margin-bottom: 1rem;
-}
 
-.td-footer__nav li {
-	text-align: center;
-	font-weight: 600;
-	margin: 0.5rem;
-	font-size: 1.1rem;
-	line-height: 1.5;
-}
+	li {
+		text-align: center;
+		font-weight: 600;
+		margin: 0.5rem;
+		font-size: 1.1rem;
+		line-height: 1.5;
+	}
 
-/* The theme's white link with a pink underline is invisible on the pink band. */
-.td-footer__nav a {
-	color: var(--color-background);
-	text-decoration: none;
-	transition: color 300ms;
-}
+	/* The theme's white link with a pink underline is invisible on the pink band. */
+	a {
+		color: var(--color-background);
+		text-decoration: none;
+		transition: color 300ms;
 
-@media only screen and (hover: hover) and (pointer: fine) {
-	.td-footer__nav a:hover {
-		color: var(--color-foreground);
+		@media only screen and (hover: hover) and (pointer: fine) {
+			&:hover {
+				color: var(--color-foreground);
+			}
+		}
 	}
 }
 
@@ -87,18 +87,18 @@
 		padding: 1rem;
 		margin-bottom: 0;
 		max-width: 55%;
-	}
 
-	.td-footer__nav ul {
-		display: flex;
-		flex-wrap: wrap;
-		justify-content: flex-end;
-		/* core's list margin would make the pink band a row taller */
-		margin: 0;
-	}
+		ul {
+			display: flex;
+			flex-wrap: wrap;
+			justify-content: flex-end;
+			/* core's list margin would make the pink band a row taller */
+			margin: 0;
+		}
 
-	.td-footer__nav li {
-		margin: 0 0.55rem;
+		li {
+			margin: 0 0.55rem;
+		}
 	}
 }
 
@@ -132,11 +132,11 @@
 	display: flex;
 	flex-direction: column;
 	margin-bottom: 1rem;
-}
 
-/* auto side margins would shrink the label to its text as a flex item */
-.td-footer__signup .td-footer__subhead {
-	margin-inline: 0;
+	/* auto side margins would shrink the label to its text as a flex item */
+	.td-footer__subhead {
+		margin-inline: 0;
+	}
 }
 
 /* Stacked: the note reads better under the heading than under the button */
@@ -168,19 +168,19 @@
 	padding: 0.5rem 1rem;
 	text-align: center;
 	width: 100%;
+
+	&::placeholder {
+		color: var(--color-foreground);
+	}
+
+	&:focus {
+		border-color: var(--color-foreground);
+	}
 }
 
 .td-footer__signup[aria-busy="true"] .td-btn {
 	opacity: 0.6;
 	pointer-events: none;
-}
-
-.td-footer__signup-input::placeholder {
-	color: var(--color-foreground);
-}
-
-.td-footer__signup-input:focus {
-	border-color: var(--color-foreground);
 }
 
 .td-footer__signup .td-btn {
@@ -228,10 +228,8 @@
 	text-align: center;
 	text-transform: uppercase;
 	white-space: nowrap;
-}
 
-@media only screen and (min-width: 600px) {
-	.td-footer__subhead {
+	@media only screen and (min-width: 600px) {
 		margin: 1rem auto;
 	}
 }
@@ -241,16 +239,16 @@
 	justify-content: center;
 	align-items: center;
 	margin: 2rem 0;
-}
 
-.td-footer__social-list li {
-	margin: 0 1rem;
-}
+	li {
+		margin: 0 1rem;
+	}
 
-.td-footer__social-list img {
-	display: block;
-	width: 40px;
-	height: 40px;
+	img {
+		display: block;
+		width: 40px;
+		height: 40px;
+	}
 }
 
 .td-footer__logo-list {
@@ -259,36 +257,36 @@
 	justify-content: center;
 	align-items: center;
 	margin: 2rem 0;
-}
 
-.td-footer__logo-list li {
-	display: flex;
-	flex-direction: column;
-	text-align: center;
-}
+	li {
+		display: flex;
+		flex-direction: column;
+		text-align: center;
 
-/* PageFooter.elm logoListItemStyle: a white "+" between the two logos */
-.td-footer__logo-list li::after {
-	color: var(--color-foreground);
-	content: "+";
-	display: block;
-	font-size: 2rem;
-	margin: 1rem 1.5rem;
-	text-align: center;
-}
+		/* PageFooter.elm logoListItemStyle: a white "+" between the two logos */
+		&::after {
+			color: var(--color-foreground);
+			content: "+";
+			display: block;
+			font-size: 2rem;
+			margin: 1rem 1.5rem;
+			text-align: center;
+		}
 
-.td-footer__logo-list li:last-child::after {
-	display: none;
-}
+		&:last-child::after {
+			display: none;
+		}
+	}
 
-.td-footer__logo-list img {
-	display: block;
-	height: 48px;
-	width: auto;
-}
+	img {
+		display: block;
+		height: 48px;
+		width: auto;
+	}
 
-.td-footer__logo-list a {
-	display: block;
+	a {
+		display: block;
+	}
 }
 
 @media only screen and (min-width: 600px) {
@@ -301,15 +299,15 @@
 	.td-footer__logo-list {
 		flex-direction: row;
 		align-items: center;
-	}
 
-	.td-footer__logo-list li {
-		flex-direction: row;
-		align-items: center;
-	}
+		li {
+			flex-direction: row;
+			align-items: center;
 
-	.td-footer__logo-list li::after {
-		margin: 0 1.5rem;
+			&::after {
+				margin: 0 1.5rem;
+			}
+		}
 	}
 }
 
@@ -339,10 +337,10 @@
 
 	.td-footer__social-list {
 		justify-content: flex-start;
-	}
 
-	.td-footer__social-list li:first-child {
-		margin-left: 0;
+		li:first-child {
+			margin-left: 0;
+		}
 	}
 
 	.td-footer__signup,
@@ -358,7 +356,6 @@
 		margin-right: 0;
 	}
 }
-
 
 /* ---------------------------------------------------------------------------
    Bottom band: legal text, credits, copyright and the PlaceCal lockup
@@ -382,10 +379,8 @@
 	/* 0.5rem on phones: the Elm 2rem plus the block padding wrapped every line twice */
 	margin: 1rem 0.5rem;
 	text-align: center;
-}
 
-@media only screen and (min-width: 600px) {
-	.td-footer__info {
+	@media only screen and (min-width: 600px) {
 		margin: 1rem 2rem;
 	}
 }
@@ -404,11 +399,11 @@
 	color: var(--color-background);
 	text-decoration-color: var(--color-background);
 	transition: color 300ms;
-}
 
-@media only screen and (hover: hover) and (pointer: fine) {
-	.td-footer__legal a:hover {
-		color: var(--color-tertiary);
+	@media only screen and (hover: hover) and (pointer: fine) {
+		&:hover {
+			color: var(--color-tertiary);
+		}
 	}
 }
 
@@ -418,11 +413,11 @@
 	width: 192px;
 	max-width: 100%;
 	margin: 3rem auto 1rem;
-}
 
-.td-footer__powered-by img {
-	display: block;
-	width: 100%;
+	img {
+		display: block;
+		width: 100%;
+	}
 }
 
 /* Not in PageFooter.elm: a way back to admin for site administrators, kept
@@ -432,18 +427,18 @@
 	line-height: 1.2875;
 	margin: 0.5rem 0 0;
 	text-align: center;
-}
 
-.td-footer__login a {
-	text-decoration-line: underline;
+	a {
+		text-decoration-line: underline;
+	}
 }
 
 /* Measured against the live footer (WP 3.8): the two blocks abut, and the
    space between them is their own padding, not a margin. */
 .td-footer__legal .td-footer__block {
 	margin-block: 0;
-}
 
-.td-footer__legal .td-footer__block + .td-footer__block .td-footer__info--title {
-	margin-top: 0;
+	+ .td-footer__block .td-footer__info--title {
+		margin-top: 0;
+	}
 }

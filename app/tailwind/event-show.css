@@ -78,176 +78,166 @@ main > div:not([vocab]) > [data-scope="hero"][data-part="root"] {
 	color: var(--color-foreground-dark);
 	margin: -1px -1px 0;
 	padding: 1rem;
-}
 
-@media only screen and (min-width: 600px) {
-	main > div:not([vocab]) > [data-scope="hero"][data-part="root"] {
+	@media only screen and (min-width: 600px) {
 		padding-inline: 2.5rem;
 	}
-}
 
-@media only screen and (min-width: 900px) {
-	main > div:not([vocab]) > [data-scope="hero"][data-part="root"] {
+	@media only screen and (min-width: 900px) {
 		padding-inline: 4rem;
 	}
-}
 
-@media only screen and (min-width: 1500px) {
-	main > div:not([vocab]) > [data-scope="hero"][data-part="root"] {
+	@media only screen and (min-width: 1500px) {
 		padding-bottom: 2rem;
 	}
-}
 
-/* The event/partner name, the page's only h1, at live's sizes. */
-main > div:not([vocab]) > [data-scope="hero"][data-part="root"] [data-scope="hero"][data-part="title"] {
-	color: var(--color-foreground-dark);
-	font-size: 1.6rem;
-	font-style: italic;
-	font-weight: 500;
-	line-height: 1.25;
-	/* the italic glyphs sit low in their line box: 2px less above, 2px more below */
-	margin: 0.875rem auto 1.125rem;
-	max-width: 838px;
-	padding: 0;
-}
+	/* The event/partner name, the page's only h1, at live's sizes. */
+	[data-scope="hero"][data-part="title"] {
+		color: var(--color-foreground-dark);
+		font-size: 1.6rem;
+		font-style: italic;
+		font-weight: 500;
+		line-height: 1.25;
+		/* the italic glyphs sit low in their line box: 2px less above, 2px more below */
+		margin: 0.875rem auto 1.125rem;
+		max-width: 838px;
+		padding: 0;
 
-@media only screen and (min-width: 600px) {
-	main > div:not([vocab]) > [data-scope="hero"][data-part="root"] [data-scope="hero"][data-part="title"] {
-		font-size: 1.9rem;
-		line-height: 2.1rem;
+		@media only screen and (min-width: 600px) {
+			font-size: 1.9rem;
+			line-height: 2.1rem;
+		}
+
+		@media only screen and (min-width: 900px) {
+			font-size: 2.5rem;
+			line-height: 1.24;
+			margin: 0.75rem auto 1.25rem;
+		}
 	}
 }
 
-@media only screen and (min-width: 900px) {
-	main > div:not([vocab]) > [data-scope="hero"][data-part="root"] [data-scope="hero"][data-part="title"] {
-		font-size: 2.5rem;
-		line-height: 1.24;
-		margin: 0.75rem auto 1.25rem;
+[data-scope="event"][data-variant="page"] {
+	/* "By <organiser>" under the event name, in the panel: core's standfirst slot,
+	   so the listing panel's big pink type is undone here. */
+	[data-scope="hero"][data-part="standfirst"] {
+		background: none;
+		border: 0;
+		color: var(--color-foreground-dark);
+		font-size: 1rem;
+		font-style: normal;
+		font-weight: 500;
+		line-height: 1.5;
+		/* bottom margin set by ink: the panel reads 40px above the title and below this line */
+		margin: -0.5rem auto 1.05rem;
+		max-width: 838px;
+		padding: 0;
+
+		@media only screen and (min-width: 900px) {
+			font-size: 1.2rem;
+			margin: -0.75rem auto 1.15rem;
+		}
+
+		a {
+			color: var(--color-foreground-dark);
+			text-decoration: underline;
+			text-decoration-thickness: 1px;
+			text-underline-offset: 3px;
+		}
 	}
-}
 
-/* "By <organiser>" under the event name, in the panel: core's standfirst slot,
-   so the listing panel's big pink type is undone here. */
-[data-scope="event"][data-variant="page"] [data-scope="hero"][data-part="standfirst"] {
-	background: none;
-	border: 0;
-	color: var(--color-foreground-dark);
-	font-size: 1rem;
-	font-style: normal;
-	font-weight: 500;
-	line-height: 1.5;
-	/* bottom margin set by ink: the panel reads 40px above the title and below this line */
-	margin: -0.5rem auto 1.05rem;
-	max-width: 838px;
-	padding: 0;
-}
+	/* The organiser now reads in the panel, so the details line would repeat it;
+	   the neighbourhood and duration lines are cut too (2026-10-20 review). */
+	[data-scope="event"][data-part="detail"][data-variant="organiser"],
+	[data-scope="event"][data-part="detail"][data-variant="neighbourhood"],
+	[data-scope="event"][data-part="detail"][data-variant="duration"] {
+		display: none;
+	}
 
-[data-scope="event"][data-variant="page"] [data-scope="hero"][data-part="standfirst"] a {
-	color: var(--color-foreground-dark);
-	text-decoration: underline;
-	text-decoration-thickness: 1px;
-	text-underline-offset: 3px;
-}
+	/* Event.elm: the header stack under the title panel (date, then time ·
+	   duration · repeats, then "By {organiser}"), centred, 10px gaps, no icons.
+	   Core emits one flat run of icon-and-text detail parts in source
+	   order time, duration, date, repeats/online, organiser, place; the rules
+	   below use `order` to regroup them into three rows and hide the pairs the
+	   design does not want here (place/online are covered by the address column
+	   instead). */
+	[data-scope="event"][data-part="details"] {
+		align-items: center;
+		border-bottom: 0;
+		column-gap: 0.4em;
+		display: flex;
+		flex-direction: row;
+		flex-wrap: wrap;
+		justify-content: center;
+		margin-bottom: 0;
+		padding: 2rem 0 0;
+		row-gap: 0;
+		text-align: center;
 
-@media only screen and (min-width: 900px) {
-	[data-scope="event"][data-variant="page"] [data-scope="hero"][data-part="standfirst"] {
+		/* Two break points split the row into three: date alone, then the
+		   time/duration/repeats trio, then the organiser line; the second is live's rule. */
+		&::before {
+			content: "";
+			flex-basis: 100%;
+			height: 0;
+			order: -3;
+		}
+
+		&::after {
+			border-top: 1px solid var(--color-primary);
+			content: "";
+			flex-basis: 100%;
+			height: 0;
+			margin: 2rem 0 0;
+			order: -1;
+		}
+	}
+
+	[data-scope="event"][data-part="detail"] {
+		color: var(--color-foreground);
+		flex: none;
+		justify-content: center;
+		margin: 0;
+		max-width: 100%;
+		text-align: center;
+	}
+
+	[data-scope="event"][data-part="icon"] {
+		display: none;
+	}
+
+	[data-scope="event"][data-part="detail"][data-variant="date"] {
+		font-size: 1.8rem;
+		font-weight: 900;
+		letter-spacing: normal;
+		line-height: 1.5;
+		margin-bottom: -0.5rem;
+		order: -4;
+		text-transform: uppercase;
+	}
+
+	[data-scope="event"][data-part="detail"][data-variant="time"],
+	[data-scope="event"][data-part="detail"][data-variant="repeats"],
+	[data-scope="event"][data-part="detail"][data-variant="online"] {
+		color: var(--color-primary);
 		font-size: 1.2rem;
-		margin: -0.75rem auto 1.15rem;
+		font-weight: 600;
+		letter-spacing: 1.9px;
+		line-height: 1.5;
+		order: -2;
+		text-transform: uppercase;
 	}
-}
 
-/* The organiser now reads in the panel, so the details line would repeat it;
-   the neighbourhood and duration lines are cut too (2026-10-20 review). */
-[data-scope="event"][data-variant="page"] [data-scope="event"][data-part="detail"][data-variant="organiser"],
-[data-scope="event"][data-variant="page"] [data-scope="event"][data-part="detail"][data-variant="neighbourhood"],
-[data-scope="event"][data-variant="page"] [data-scope="event"][data-part="detail"][data-variant="duration"] {
-	display: none;
-}
+	[data-scope="event"][data-part="detail"][data-variant="repeats"]::before,
+	[data-scope="event"][data-part="detail"][data-variant="online"]::before {
+		content: "\00a0\00b7\00a0";
+	}
 
-/* Event.elm: the header stack under the title panel (date, then time ·
-   duration · repeats, then "By {organiser}"), centred, 10px gaps, no icons.
-   Core emits one flat run of icon-and-text detail parts in source
-   order time, duration, date, repeats/online, organiser, place; the rules
-   below use `order` to regroup them into three rows and hide the pairs the
-   design does not want here (place/online are covered by the address column
-   instead). */
-[data-scope="event"][data-variant="page"] [data-scope="event"][data-part="details"] {
-	align-items: center;
-	border-bottom: 0;
-	column-gap: 0.4em;
-	display: flex;
-	flex-direction: row;
-	flex-wrap: wrap;
-	justify-content: center;
-	margin-bottom: 0;
-	padding: 2rem 0 0;
-	row-gap: 0;
-	text-align: center;
-}
-
-/* Two break points split the row into three: date alone, then the
-   time/duration/repeats trio, then the organiser line; the second is live's rule. */
-[data-scope="event"][data-variant="page"] [data-scope="event"][data-part="details"]::before {
-	content: "";
-	flex-basis: 100%;
-	height: 0;
-	order: -3;
-}
-
-[data-scope="event"][data-variant="page"] [data-scope="event"][data-part="details"]::after {
-	border-top: 1px solid var(--color-primary);
-	content: "";
-	flex-basis: 100%;
-	height: 0;
-	margin: 2rem 0 0;
-	order: -1;
-}
-
-[data-scope="event"][data-variant="page"] [data-scope="event"][data-part="detail"] {
-	color: var(--color-foreground);
-	flex: none;
-	justify-content: center;
-	margin: 0;
-	max-width: 100%;
-	text-align: center;
-}
-
-[data-scope="event"][data-variant="page"] [data-scope="event"][data-part="icon"] {
-	display: none;
-}
-
-[data-scope="event"][data-variant="page"] [data-scope="event"][data-part="detail"][data-variant="date"] {
-	font-size: 1.8rem;
-	font-weight: 900;
-	letter-spacing: normal;
-	line-height: 1.5;
-	margin-bottom: -0.5rem;
-	order: -4;
-	text-transform: uppercase;
-}
-
-[data-scope="event"][data-variant="page"] [data-scope="event"][data-part="detail"][data-variant="time"],
-[data-scope="event"][data-variant="page"] [data-scope="event"][data-part="detail"][data-variant="repeats"],
-[data-scope="event"][data-variant="page"] [data-scope="event"][data-part="detail"][data-variant="online"] {
-	color: var(--color-primary);
-	font-size: 1.2rem;
-	font-weight: 600;
-	letter-spacing: 1.9px;
-	line-height: 1.5;
-	order: -2;
-	text-transform: uppercase;
-}
-
-[data-scope="event"][data-variant="page"] [data-scope="event"][data-part="detail"][data-variant="repeats"]::before,
-[data-scope="event"][data-variant="page"] [data-scope="event"][data-part="detail"][data-variant="online"]::before {
-	content: "\00a0\00b7\00a0";
-}
-
-/* Covered by the address column (online) or dropped as noise on this page
-   (place: the venue, when it differs from the organiser, has its own
-   column further down). */
-[data-scope="event"][data-variant="page"] [data-scope="event"][data-part="detail"][data-variant="place"] {
-	display: none;
+	/* Covered by the address column (online) or dropped as noise on this page
+	   (place: the venue, when it differs from the organiser, has its own
+	   column further down). */
+	[data-scope="event"][data-part="detail"][data-variant="place"] {
+		display: none;
+	}
 }
 
 /* WP 2.14: the details row, the body and the info columns share one left
@@ -260,18 +250,12 @@ main > div:not([vocab]) > [data-scope="hero"][data-part="root"] [data-scope="her
 	margin-inline: 0;
 	max-width: none;
 	padding-inline: 0.75rem;
-}
 
-@media only screen and (min-width: 600px) {
-	[data-scope="event"][data-part="content"],
-	[data-scope="event-details"][data-part="root"] {
+	@media only screen and (min-width: 600px) {
 		padding-inline: 1.5rem;
 	}
-}
 
-@media only screen and (min-width: 900px) {
-	[data-scope="event"][data-part="content"],
-	[data-scope="event-details"][data-part="root"] {
+	@media only screen and (min-width: 900px) {
 		padding-inline: 2rem;
 	}
 }
@@ -290,17 +274,13 @@ main > div:not([vocab]) > [data-scope="hero"][data-part="root"] [data-scope="her
 	margin: 0 auto 1em;
 	max-width: 636px;
 	text-align: left;
-}
 
-@media only screen and (min-width: 600px) and (max-width: 899px) {
-	[data-scope="event-details"][data-part="description"] > p {
+	@media only screen and (min-width: 600px) and (max-width: 899px) {
 		margin-inline: 4rem;
 		max-width: none;
 	}
-}
 
-@media only screen and (min-width: 1200px) {
-	[data-scope="event-details"][data-part="description"] > p {
+	@media only screen and (min-width: 1200px) {
 		font-size: 1.2rem;
 	}
 }
@@ -321,13 +301,13 @@ main > div:not([vocab]) > [data-scope="hero"][data-part="root"] [data-scope="her
 	margin: 0.75rem auto 0;
 	padding: 0.2rem 0.9rem 0.3rem;
 	width: fit-content;
-}
 
-@media only screen and (hover: hover) and (pointer: fine) {
-	[data-scope="event-details"][data-part="links"] [data-scope="button"][data-part="root"]:hover {
-		background-color: var(--color-primary-light);
-		border-color: var(--color-primary-light);
-		color: var(--color-foreground-dark);
+	@media only screen and (hover: hover) and (pointer: fine) {
+		&:hover {
+			background-color: var(--color-primary-light);
+			border-color: var(--color-primary-light);
+			color: var(--color-foreground-dark);
+		}
 	}
 }
 
@@ -353,18 +333,16 @@ main > div:not([vocab]) > [data-scope="hero"][data-part="root"] [data-scope="her
 	margin-top: 2.5rem !important;
 	padding-top: 2rem;
 	row-gap: 2rem;
-}
 
-@media only screen and (min-width: 600px) {
-	[data-scope="event-details"][data-part="info"] {
+	@media only screen and (min-width: 600px) {
 		grid-template-columns: repeat(2, minmax(0, 1fr));
 		padding-top: 3rem;
 	}
-}
 
-/* A grid item's margin cannot collapse with the rule above it. */
-[data-scope="event-details"][data-part="info"] [data-scope="ruled-heading"][data-part="root"] {
-	margin-top: 0;
+	/* A grid item's margin cannot collapse with the rule above it. */
+	[data-scope="ruled-heading"][data-part="root"] {
+		margin-top: 0;
+	}
 }
 
 /* Live's column headings: 1rem bold allcaps pink, 1.6rem above the text. */
@@ -378,16 +356,16 @@ main > div:not([vocab]) > [data-scope="hero"][data-part="root"] [data-scope="her
 /* The organiser's name heads the column, in the same plain line as the rest */
 [data-scope="event-details"][data-part="contact-name"] {
 	margin: 0;
-}
 
-[data-scope="event-details"][data-part="contact-name"] a {
-	color: var(--color-foreground);
-	font-weight: 500;
-	text-decoration: none;
-}
+	a {
+		color: var(--color-foreground);
+		font-weight: 500;
+		text-decoration: none;
 
-[data-scope="event-details"][data-part="contact-name"] a:hover {
-	text-decoration: underline;
+		&:hover {
+			text-decoration: underline;
+		}
+	}
 }
 
 /* The "More from {organiser}" section is cut from TD's event page. */

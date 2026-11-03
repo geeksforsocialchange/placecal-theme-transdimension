@@ -25,18 +25,12 @@
 	padding-bottom: 1rem;
 	padding-top: 2rem;
 	text-align: center;
-}
 
-@media only screen and (min-width: 600px) {
-	[data-scope="page-hero"][data-part="title"],
-	[data-scope="content-page"][data-part="title"] {
+	@media only screen and (min-width: 600px) {
 		font-size: 2.5rem;
 	}
-}
 
-@media only screen and (min-width: 900px) {
-	[data-scope="page-hero"][data-part="title"],
-	[data-scope="content-page"][data-part="title"] {
+	@media only screen and (min-width: 900px) {
 		font-size: 3.1rem;
 	}
 }
@@ -48,115 +42,105 @@
 	box-sizing: border-box;
 	max-width: none;
 	padding: 1rem 0.75rem 2rem;
-}
 
-@media only screen and (min-width: 600px) {
-	[data-scope="markdown"][data-part="root"] {
+	@media only screen and (min-width: 600px) {
 		padding: 1rem 1.5rem 2rem;
 	}
-}
 
-/* TextHeavyPage.elm bodyStyle: the measure the long-form body keeps. */
-[data-scope="markdown"][data-part="root"] > * {
-	margin-inline: auto;
-}
+	/* TextHeavyPage.elm bodyStyle: the measure the long-form body keeps. */
+	> * {
+		margin-inline: auto;
 
-@media only screen and (min-width: 600px) {
-	[data-scope="markdown"][data-part="root"] > * {
-		max-width: 636px;
-		padding-inline: 2.5rem;
+		@media only screen and (min-width: 600px) {
+			max-width: 636px;
+			padding-inline: 2.5rem;
+		}
+
+		@media only screen and (min-width: 900px) {
+			padding-inline: 0;
+		}
 	}
-}
 
-@media only screen and (min-width: 900px) {
-	[data-scope="markdown"][data-part="root"] > * {
-		padding-inline: 0;
+	/* Global.elm introTextLargeStyle applied to the first paragraph, which is the
+	   standfirst TextHeavyPage passes as the page's big text. */
+	> p:first-child {
+		color: var(--color-primary);
+		font-size: 1.6rem;
+		font-style: italic;
+		font-weight: 500;
+		line-height: 2rem;
+		margin-block-end: 2em;
+		max-width: none;
+		text-align: center;
+
+		@media only screen and (min-width: 600px) {
+			font-size: 1.9rem;
+			line-height: 2.1rem;
+		}
+
+		@media only screen and (min-width: 900px) {
+			font-size: 2.5rem;
+			line-height: 3.1rem;
+			max-width: 838px;
+		}
 	}
-}
 
-/* Global.elm introTextLargeStyle applied to the first paragraph, which is the
-   standfirst TextHeavyPage passes as the page's big text. */
-[data-scope="markdown"][data-part="root"] > p:first-child {
-	color: var(--color-primary);
-	font-size: 1.6rem;
-	font-style: italic;
-	font-weight: 500;
-	line-height: 2rem;
-	margin-block-end: 2em;
-	max-width: none;
-	text-align: center;
-}
-
-@media only screen and (min-width: 600px) {
-	[data-scope="markdown"][data-part="root"] > p:first-child {
-		font-size: 1.9rem;
-		line-height: 2.1rem;
+	/* TransMarkdown headerStyle: every heading is pink, h2 centred. */
+	h2,
+	h3,
+	h4,
+	h5,
+	h6 {
+		color: var(--color-primary);
+		line-height: 1.2em;
+		margin-block: 1em;
 	}
-}
 
-@media only screen and (min-width: 900px) {
-	[data-scope="markdown"][data-part="root"] > p:first-child {
-		font-size: 2.5rem;
-		line-height: 3.1rem;
-		max-width: 838px;
+	h2 {
+		margin-block-start: 2em;
+		text-align: center;
 	}
-}
 
-/* TransMarkdown headerStyle: every heading is pink, h2 centred. */
-[data-scope="markdown"][data-part="root"] h2,
-[data-scope="markdown"][data-part="root"] h3,
-[data-scope="markdown"][data-part="root"] h4,
-[data-scope="markdown"][data-part="root"] h5,
-[data-scope="markdown"][data-part="root"] h6 {
-	color: var(--color-primary);
-	line-height: 1.2em;
-	margin-block: 1em;
-}
-
-[data-scope="markdown"][data-part="root"] h2 {
-	margin-block-start: 2em;
-	text-align: center;
-}
-
-@media only screen and (min-width: 1200px) {
-	[data-scope="markdown"][data-part="root"] p,
-	[data-scope="markdown"][data-part="root"] li {
-		font-size: 1.2rem;
+	@media only screen and (min-width: 1200px) {
+		p,
+		li {
+			font-size: 1.2rem;
+		}
 	}
-}
 
-/* TransMarkdown ulStyle and ulLiStyle: no marker, a pink square drawn in the
-   left gutter instead. */
-[data-scope="markdown"][data-part="root"] ul {
-	list-style: none;
-	margin-block: 2em;
-	padding-left: 0;
-}
+	/* TransMarkdown ulStyle and ulLiStyle: no marker, a pink square drawn in the
+	   left gutter instead. */
+	ul {
+		list-style: none;
+		margin-block: 2em;
+		padding-left: 0;
+	}
 
-[data-scope="markdown"][data-part="root"] ul > li {
-	font-weight: 600;
-	padding-left: 1.5rem;
-	position: relative;
-}
+	ul > li {
+		font-weight: 600;
+		padding-left: 1.5rem;
+		position: relative;
 
-[data-scope="markdown"][data-part="root"] ul > li::before {
-	color: var(--color-primary);
-	content: "\25A0";
-	font-size: 1.5em;
-	left: 0;
-	position: absolute;
-	top: -0.25em;
-}
+		&::before {
+			color: var(--color-primary);
+			content: "\25A0";
+			font-size: 1.5em;
+			left: 0;
+			position: absolute;
+			top: -0.25em;
+		}
+	}
 
-[data-scope="markdown"][data-part="root"] ol {
-	list-style-type: decimal;
-	margin-block: 1em;
-	padding-left: 2em;
-}
+	ol {
+		list-style-type: decimal;
+		margin-block: 1em;
+		padding-left: 2em;
+	}
 
-@media only screen and (min-width: 900px) {
-	[data-scope="markdown"][data-part="root"] ul > li {
-		margin-block: 0.5em;
+	@media only screen and (min-width: 900px) {
+		ul > li {
+			margin-block: 0.5em;
+		}
 	}
 }
 
@@ -183,18 +167,14 @@
 	margin-bottom: 0;
 	padding: 2rem 0.75rem;
 	text-align: center;
-}
 
-@media only screen and (min-width: 600px) {
-	[data-scope="get-in-touch"][data-part="intro"] {
+	@media only screen and (min-width: 600px) {
 		font-size: 1.9rem;
 		line-height: 2.1rem;
 		padding-inline: 1.5rem;
 	}
-}
 
-@media only screen and (min-width: 900px) {
-	[data-scope="get-in-touch"][data-part="intro"] {
+	@media only screen and (min-width: 900px) {
 		font-size: 2.5rem;
 		line-height: 3.1rem;
 		/* JoinUs.elm: the panel sits flush under the page title, with rem 3
@@ -217,10 +197,8 @@
 	border-radius: 0.3rem;
 	box-sizing: border-box;
 	padding: 1rem 0.75rem 2rem;
-}
 
-@media only screen and (min-width: 600px) {
-	[data-scope="contact-form"][data-part="card"] {
+	@media only screen and (min-width: 600px) {
 		padding: 2rem 1.5rem;
 	}
 }
@@ -234,19 +212,15 @@
 [data-scope="contact-form"][data-part="grid"] {
 	display: block;
 	margin: 2rem 0;
-}
 
-@media only screen and (min-width: 600px) {
-	[data-scope="contact-form"][data-part="grid"] {
+	@media only screen and (min-width: 600px) {
 		display: flex;
 		flex-wrap: wrap;
 		gap: 0;
 		justify-content: space-between;
 	}
-}
 
-@media only screen and (min-width: 1200px) {
-	[data-scope="contact-form"][data-part="grid"] {
+	@media only screen and (min-width: 1200px) {
 		margin: 2rem auto;
 		max-width: 900px;
 	}
@@ -274,14 +248,14 @@
 	margin: 0.25rem 0;
 	text-align: center;
 	text-transform: uppercase;
-}
 
-[data-scope="contact-form"][data-part="label"] [data-scope="field"][data-part="optional"],
-[data-scope="contact-form"][data-part="label"] [data-scope="field"][data-part="required"] {
-	color: var(--color-primary);
-	letter-spacing: normal;
-	margin-left: 0.35rem;
-	text-transform: none;
+	[data-scope="field"][data-part="optional"],
+	[data-scope="field"][data-part="required"] {
+		color: var(--color-primary);
+		letter-spacing: normal;
+		margin-left: 0.35rem;
+		text-transform: none;
+	}
 }
 
 /* Global.elm textInputStyle */
@@ -293,21 +267,19 @@
 	color: var(--color-foreground);
 	padding: 0.5rem 0.75rem;
 	width: 100%;
-}
 
-[data-scope="contact-form"][data-part="control"]::placeholder {
-	color: var(--color-foreground);
-	opacity: 0.7;
+	&::placeholder {
+		color: var(--color-foreground);
+		opacity: 0.7;
+	}
 }
 
 /* JoinUs.elm textAreaStyle */
 textarea[data-scope="contact-form"][data-part="control"] {
 	height: 140px;
 	padding: 1rem 1.5rem;
-}
 
-@media only screen and (min-width: 600px) {
-	textarea[data-scope="contact-form"][data-part="control"] {
+	@media only screen and (min-width: 600px) {
 		height: 100px;
 	}
 }
@@ -316,12 +288,12 @@ textarea[data-scope="contact-form"][data-part="control"] {
 :is([data-scope="contact-form"][data-part="field"][data-variant="wide"], [data-scope="contact-form"][data-part="choice-group"]) {
 	margin: 1.5rem 0;
 	width: 100%;
-}
 
-@media only screen and (min-width: 600px) {
-	:is([data-scope="contact-form"][data-part="field"][data-variant="wide"], [data-scope="contact-form"][data-part="choice-group"]) [data-scope="contact-form"][data-part="choices"] {
-		display: flex;
-		justify-content: center;
+	[data-scope="contact-form"][data-part="choices"] {
+		@media only screen and (min-width: 600px) {
+			display: flex;
+			justify-content: center;
+		}
 	}
 }
 
@@ -353,44 +325,42 @@ textarea[data-scope="contact-form"][data-part="control"] {
 	display: block;
 	text-align: center;
 	width: 100%;
-}
 
-[data-scope="contact-form"][data-part="actions"] [data-scope="button"][data-part="root"] {
-	background-color: var(--color-primary);
-	border: 0.2rem solid var(--color-primary);
-	border-radius: 0.3rem;
-	color: var(--color-background);
-	cursor: pointer;
-	display: block;
-	font-size: 1.2rem;
-	font-weight: 600;
-	margin: 1rem auto 0;
-	max-width: max-content;
-	padding: 0.25rem 4rem;
-	text-align: center;
-}
+	[data-scope="button"][data-part="root"] {
+		background-color: var(--color-primary);
+		border: 0.2rem solid var(--color-primary);
+		border-radius: 0.3rem;
+		color: var(--color-background);
+		cursor: pointer;
+		display: block;
+		font-size: 1.2rem;
+		font-weight: 600;
+		margin: 1rem auto 0;
+		max-width: max-content;
+		padding: 0.25rem 4rem;
+		text-align: center;
 
-@media only screen and (hover: hover) and (pointer: fine) {
-	[data-scope="contact-form"][data-part="actions"] [data-scope="button"][data-part="root"]:hover {
-		background-color: var(--color-primary-light);
-		border-color: var(--color-primary-light);
+		@media only screen and (hover: hover) and (pointer: fine) {
+			&:hover {
+				background-color: var(--color-primary-light);
+				border-color: var(--color-primary-light);
+			}
+		}
 	}
-}
 
-/* JoinUs.elm formHelperStyle */
-[data-scope="contact-form"][data-part="actions"] [data-scope="contact-form"][data-part="note"] {
-	color: var(--color-primary);
-	font-size: 0.875rem;
-	font-weight: 600;
-	line-height: 1.3em;
-	margin: 1rem 0 0;
-	max-width: none;
-	text-align: center;
-}
+	/* JoinUs.elm formHelperStyle */
+	[data-scope="contact-form"][data-part="note"] {
+		color: var(--color-primary);
+		font-size: 0.875rem;
+		font-weight: 600;
+		line-height: 1.3em;
+		margin: 1rem 0 0;
+		max-width: none;
+		text-align: center;
 
-@media only screen and (min-width: 600px) {
-	[data-scope="contact-form"][data-part="actions"] [data-scope="contact-form"][data-part="note"] {
-		font-size: 1rem;
+		@media only screen and (min-width: 600px) {
+			font-size: 1rem;
+		}
 	}
 }
 
@@ -435,11 +405,11 @@ textarea[data-scope="contact-form"][data-part="control"] {
 	padding: 0;
 	text-decoration: underline;
 	text-decoration-color: var(--color-primary);
-}
 
-[data-scope="email-cta"][data-part="root"] [data-scope="button"][data-part="root"]:hover {
-	background: none;
-	color: var(--color-primary);
+	&:hover {
+		background: none;
+		color: var(--color-primary);
+	}
 }
 
 /* TextHeavyPage.elm bodyStyle: the long-form body reads at 1.2rem. Measured on
@@ -447,15 +417,15 @@ textarea[data-scope="contact-form"][data-part="control"] {
    with the list itself left at the inherited 1rem. The rule used to say 1.5rem
    against that comment, and outranked the 1200px rule below on specificity. */
 @media only screen and (min-width: 900px) {
-	[data-scope="markdown"][data-part="root"] > p:not(:first-child),
-	[data-scope="markdown"][data-part="root"] > ul > li,
-	[data-scope="markdown"][data-part="root"] > ol > li {
-		font-size: 1.2rem;
-		line-height: 1.5;
-	}
-
 	[data-scope="markdown"][data-part="root"] {
 		padding-top: 2.5rem;
+
+		> p:not(:first-child),
+		> ul > li,
+		> ol > li {
+			font-size: 1.2rem;
+			line-height: 1.5;
+		}
 	}
 }
 

@@ -29,22 +29,16 @@ main:has(.td-home) {
 
 .td-home {
 	margin: 0 0.75rem;
-}
 
-@media only screen and (min-width: 600px) {
-	.td-home {
+	@media only screen and (min-width: 600px) {
 		margin: 0 1.5rem;
 	}
-}
 
-@media only screen and (min-width: 900px) {
-	.td-home {
+	@media only screen and (min-width: 900px) {
 		margin: 0 5rem;
 	}
-}
 
-@media only screen and (min-width: 1200px) {
-	.td-home {
+	@media only screen and (min-width: 1200px) {
 		margin: 0 6rem;
 	}
 }
@@ -60,43 +54,12 @@ main:has(.td-home) {
 	border-radius: 0.3rem;
 	padding: 1rem 1rem 4rem 1rem;
 	margin-bottom: 2rem;
-}
 
-.td-section::before {
-	content: "";
-	display: block;
-	width: 100vw;
-	background-size: 420px;
-	background-position: center;
-	background-repeat: no-repeat;
-	position: absolute;
-	z-index: -1;
-	/* The illustration bands are 100vw wide with the artwork centred; centring
-	   the pseudo-element on the viewport (sections are themselves centred)
-	   places the art exactly where Index.elm's full-bleed backgrounds sit,
-	   whatever the section's own margins are. */
-	left: 50%;
-	transform: translateX(-50%);
-}
-
-@media only screen and (min-width: 600px) {
-	.td-section {
+	@media only screen and (min-width: 600px) {
 		padding-bottom: 3rem;
 	}
 
-	.td-section::before {
-		background-size: 900px;
-	}
-}
-
-@media only screen and (min-width: 900px) {
-	.td-section::before {
-		background-size: 1200px;
-	}
-}
-
-@media only screen and (min-width: 1200px) {
-	.td-section {
+	@media only screen and (min-width: 1200px) {
 		padding: 3rem 1rem 3rem 1rem;
 		/* Index.elm sectionStyle: the intro and news panels sit 7rem inside the
 		   wrapper (measured at 1440: x 208 to 1232 in a 1248 wrapper). */
@@ -104,22 +67,45 @@ main:has(.td-home) {
 		margin-right: 7rem;
 	}
 
-	.td-section::before {
-		background-size: 1366px;
-	}
-}
-
-@media only screen and (min-width: 1500px) {
-	.td-section {
+	@media only screen and (min-width: 1500px) {
 		/* content 950 plus the 1rem side padding: these boxes are border-box */
 		max-width: 982px;
 		margin-left: auto;
 		margin-right: auto;
 	}
 
-	/* Art scaled to 1600 at this tier so the panels sit higher on a laptop (review 2026-10-19). */
-	.td-section::before {
-		background-size: 1600px;
+	&::before {
+		content: "";
+		display: block;
+		width: 100vw;
+		background-size: 420px;
+		background-position: center;
+		background-repeat: no-repeat;
+		position: absolute;
+		z-index: -1;
+		/* The illustration bands are 100vw wide with the artwork centred; centring
+		   the pseudo-element on the viewport (sections are themselves centred)
+		   places the art exactly where Index.elm's full-bleed backgrounds sit,
+		   whatever the section's own margins are. */
+		left: 50%;
+		transform: translateX(-50%);
+
+		@media only screen and (min-width: 600px) {
+			background-size: 900px;
+		}
+
+		@media only screen and (min-width: 900px) {
+			background-size: 1200px;
+		}
+
+		@media only screen and (min-width: 1200px) {
+			background-size: 1366px;
+		}
+
+		/* Art scaled to 1600 at this tier so the panels sit higher on a laptop (review 2026-10-19). */
+		@media only screen and (min-width: 1500px) {
+			background-size: 1600px;
+		}
 	}
 }
 
@@ -146,59 +132,51 @@ main:has(.td-home) {
 
 .td-section--intro {
 	margin-top: 430px;
-}
 
-.td-section--intro::before {
-	background-image: url("illustrations/320px/homepage_1_header.png");
-	height: 626px;
-	top: -550px;
-}
-
-@media only screen and (min-width: 600px) {
-	.td-section--intro {
+	@media only screen and (min-width: 600px) {
 		margin-top: 820px;
 	}
 
-	.td-section--intro::before {
-		background-image: url("illustrations/768px/homepage_1_header.png");
-		height: 960px;
-		top: -900px;
-	}
-}
-
-@media only screen and (min-width: 900px) {
-	.td-section--intro {
+	@media only screen and (min-width: 900px) {
 		margin-top: 550px;
 	}
 
-	.td-section--intro::before {
-		background-image: url("illustrations/1024px/homepage_1_header.png");
-		height: 792px;
-		top: -650px;
-	}
-}
-
-@media only screen and (min-width: 1200px) {
-	.td-section--intro {
+	@media only screen and (min-width: 1200px) {
 		margin-top: 750px;
 	}
 
-	.td-section--intro::before {
-		background-image: url("illustrations/1366px/homepage_1_header.png");
-		height: 1142px;
-		top: -850px;
-	}
-}
-
-@media only screen and (min-width: 1500px) {
-	.td-section--intro {
+	@media only screen and (min-width: 1500px) {
 		margin-top: 815px;
 	}
 
-	.td-section--intro::before {
-		background-image: url("illustrations/1920px/homepage_1_header.png");
-		height: 1088px;
-		top: -915px;
+	&::before {
+		background-image: url("illustrations/320px/homepage_1_header.png");
+		height: 626px;
+		top: -550px;
+
+		@media only screen and (min-width: 600px) {
+			background-image: url("illustrations/768px/homepage_1_header.png");
+			height: 960px;
+			top: -900px;
+		}
+
+		@media only screen and (min-width: 900px) {
+			background-image: url("illustrations/1024px/homepage_1_header.png");
+			height: 792px;
+			top: -650px;
+		}
+
+		@media only screen and (min-width: 1200px) {
+			background-image: url("illustrations/1366px/homepage_1_header.png");
+			height: 1142px;
+			top: -850px;
+		}
+
+		@media only screen and (min-width: 1500px) {
+			background-image: url("illustrations/1920px/homepage_1_header.png");
+			height: 1088px;
+			top: -915px;
+		}
 	}
 }
 
@@ -308,40 +286,16 @@ main:has(.td-home) {
 	/* 3rem at every width, not just 600px up: less dead space above "View all events" on phones (review 2026-10-19). */
 	padding-bottom: 3rem;
 	margin-top: 250px;
-}
 
-.td-section--events::before {
-	background-image: url("illustrations/320px/homepage_3.png");
-	height: 240px;
-	top: -250px;
-}
-
-@media only screen and (min-width: 600px) {
-	.td-section--events {
+	@media only screen and (min-width: 600px) {
 		margin-top: 175px;
 	}
 
-	.td-section--events::before {
-		background-image: url("illustrations/768px/homepage_3.png");
-		height: 200px;
-		top: -195px;
-	}
-}
-
-@media only screen and (min-width: 900px) {
-	.td-section--events {
+	@media only screen and (min-width: 900px) {
 		margin-top: 150px;
 	}
 
-	.td-section--events::before {
-		background-image: url("illustrations/1024px/homepage_3.png");
-		height: 280px;
-		top: -230px;
-	}
-}
-
-@media only screen and (min-width: 1200px) {
-	.td-section--events {
+	@media only screen and (min-width: 1200px) {
 		/* Index.elm: the events box is the full width of the wrapper, wider
 		   than the intro and news panels. */
 		margin-left: 0;
@@ -350,25 +304,41 @@ main:has(.td-home) {
 		padding: 28px 32px 48px;
 	}
 
-	.td-section--events::before {
-		background-image: url("illustrations/1366px/homepage_3.png");
-		height: 200px;
-		top: -200px;
-	}
-}
-
-@media only screen and (min-width: 1500px) {
-	.td-section--events {
+	@media only screen and (min-width: 1500px) {
 		max-width: 1182px;
 		margin-left: auto;
 		margin-right: auto;
 		margin-top: 180px;
 	}
 
-	.td-section--events::before {
-		background-image: url("illustrations/1920px/homepage_3.png");
-		height: 208px;
-		top: -183px;
+	&::before {
+		background-image: url("illustrations/320px/homepage_3.png");
+		height: 240px;
+		top: -250px;
+
+		@media only screen and (min-width: 600px) {
+			background-image: url("illustrations/768px/homepage_3.png");
+			height: 200px;
+			top: -195px;
+		}
+
+		@media only screen and (min-width: 900px) {
+			background-image: url("illustrations/1024px/homepage_3.png");
+			height: 280px;
+			top: -230px;
+		}
+
+		@media only screen and (min-width: 1200px) {
+			background-image: url("illustrations/1366px/homepage_3.png");
+			height: 200px;
+			top: -200px;
+		}
+
+		@media only screen and (min-width: 1500px) {
+			background-image: url("illustrations/1920px/homepage_3.png");
+			height: 208px;
+			top: -183px;
+		}
 	}
 }
 
@@ -385,47 +355,47 @@ main:has(.td-home) {
 	/* No box inset here: `.td-news` (the card, below) carries its own
 	   padding, so the generic .td-section box inset is switched off. */
 	padding: 0;
-}
 
-.td-section--news::before {
-	background-image: url("illustrations/320px/homepage_4.png");
-	height: 240px;
-	top: -240px;
-}
+	&::before {
+		background-image: url("illustrations/320px/homepage_4.png");
+		height: 240px;
+		top: -240px;
+	}
 
-.td-section--news::after {
-	content: "";
-	display: block;
-	width: 100vw;
-	background-image: url("illustrations/320px/homepage_5.png");
-	background-size: 420px;
-	background-position: center;
-	background-repeat: no-repeat;
-	position: absolute;
-	z-index: -1;
-	margin: 0 -1.75rem;
-	bottom: -230px;
-	height: 240px;
+	&::after {
+		content: "";
+		display: block;
+		width: 100vw;
+		background-image: url("illustrations/320px/homepage_5.png");
+		background-size: 420px;
+		background-position: center;
+		background-repeat: no-repeat;
+		position: absolute;
+		z-index: -1;
+		margin: 0 -1.75rem;
+		bottom: -230px;
+		height: 240px;
+	}
 }
 
 @media only screen and (min-width: 600px) {
 	.td-section--news {
 		margin-top: 175px;
 		margin-bottom: 150px;
-	}
 
-	.td-section--news::before {
-		background-image: url("illustrations/768px/homepage_4.png");
-		height: 200px;
-		top: -195px;
-	}
+		&::before {
+			background-image: url("illustrations/768px/homepage_4.png");
+			height: 200px;
+			top: -195px;
+		}
 
-	.td-section--news::after {
-		background-image: url("illustrations/768px/homepage_5.png");
-		background-size: 900px;
-		height: 200px;
-		bottom: -170px;
-		margin: 0 -2.5rem;
+		&::after {
+			background-image: url("illustrations/768px/homepage_5.png");
+			background-size: 900px;
+			height: 200px;
+			bottom: -170px;
+			margin: 0 -2.5rem;
+		}
 	}
 }
 
@@ -433,20 +403,20 @@ main:has(.td-home) {
 	.td-section--news {
 		margin-top: 150px;
 		margin-bottom: 150px;
-	}
 
-	.td-section--news::before {
-		background-image: url("illustrations/1024px/homepage_4.png");
-		height: 280px;
-		top: -230px;
-	}
+		&::before {
+			background-image: url("illustrations/1024px/homepage_4.png");
+			height: 280px;
+			top: -230px;
+		}
 
-	.td-section--news::after {
-		background-image: url("illustrations/1024px/homepage_5.png");
-		background-size: 1200px;
-		height: 280px;
-		bottom: -220px;
-		margin: 0 -6rem;
+		&::after {
+			background-image: url("illustrations/1024px/homepage_5.png");
+			background-size: 1200px;
+			height: 280px;
+			bottom: -220px;
+			margin: 0 -6rem;
+		}
 	}
 }
 
@@ -458,20 +428,20 @@ main:has(.td-home) {
 		max-width: 916px;
 		margin-left: auto;
 		margin-right: auto;
-	}
 
-	.td-section--news::before {
-		background-image: url("illustrations/1366px/homepage_4.png");
-		height: 237px;
-		top: -200px;
-	}
+		&::before {
+			background-image: url("illustrations/1366px/homepage_4.png");
+			height: 237px;
+			top: -200px;
+		}
 
-	.td-section--news::after {
-		background-image: url("illustrations/1366px/homepage_5.png");
-		background-size: 1366px;
-		height: 237px;
-		bottom: -200px;
-		margin: 0 -14rem;
+		&::after {
+			background-image: url("illustrations/1366px/homepage_5.png");
+			background-size: 1366px;
+			height: 237px;
+			bottom: -200px;
+			margin: 0 -14rem;
+		}
 	}
 }
 
@@ -479,20 +449,20 @@ main:has(.td-home) {
 	.td-section--news {
 		margin-top: 183px;
 		margin-bottom: 192px;
-	}
 
-	.td-section--news::before {
-		background-image: url("illustrations/1920px/homepage_4.png");
-		height: 208px;
-		top: -208px;
-	}
+		&::before {
+			background-image: url("illustrations/1920px/homepage_4.png");
+			height: 208px;
+			top: -208px;
+		}
 
-	.td-section--news::after {
-		background-image: url("illustrations/1920px/homepage_5.png");
-		background-size: 1600px;
-		height: 208px;
-		bottom: -175px;
-		margin: 0 calc(-50vw - -475px);
+		&::after {
+			background-image: url("illustrations/1920px/homepage_5.png");
+			background-size: 1600px;
+			height: 208px;
+			bottom: -175px;
+			margin: 0 calc(-50vw - -475px);
+		}
 	}
 }
 
@@ -559,50 +529,50 @@ main:has(.td-home) {
 	background-color: var(--color-foreground);
 	color: var(--color-background);
 	border-color: var(--color-foreground);
-}
 
-.td-button--white:active,
-.td-button--white:focus {
-	background-color: var(--color-background);
-	color: var(--color-foreground);
+	&:active,
+	&:focus {
+		background-color: var(--color-background);
+		color: var(--color-foreground);
+	}
 }
 
 .td-button--pink {
 	background-color: var(--color-primary);
 	color: var(--color-background);
 	border-color: var(--color-primary);
-}
 
-.td-button--pink:active,
-.td-button--pink:focus {
-	background-color: var(--color-foreground);
-	border-color: var(--color-foreground);
+	&:active,
+	&:focus {
+		background-color: var(--color-foreground);
+		border-color: var(--color-foreground);
+	}
 }
 
 .td-button--dark {
 	background-color: var(--color-background);
 	color: var(--color-foreground);
 	border-color: var(--color-primary);
-}
 
-.td-button--dark:active,
-.td-button--dark:focus {
-	background-color: var(--color-primary);
-	color: var(--color-background);
-	border-color: var(--color-foreground);
+	&:active,
+	&:focus {
+		background-color: var(--color-primary);
+		color: var(--color-background);
+		border-color: var(--color-foreground);
+	}
 }
 
 .td-button--pink-on-light {
 	background-color: var(--color-primary);
 	color: var(--color-background);
 	border-color: var(--color-primary);
-}
 
-.td-button--pink-on-light:active,
-.td-button--pink-on-light:focus {
-	background-color: var(--color-background);
-	color: var(--color-foreground);
-	border-color: var(--color-foreground);
+	&:active,
+	&:focus {
+		background-color: var(--color-background);
+		color: var(--color-foreground);
+		border-color: var(--color-foreground);
+	}
 }
 
 @media only screen and (hover: hover) and (pointer: fine) {
@@ -655,22 +625,16 @@ main:has(.td-home) {
 	row-gap: 0;
 	/* Keeps 81px under the last card now the cards have no bottom margin. */
 	margin: 0 0 2rem;
-}
 
-
-@media only screen and (min-width: 900px) {
-	.td-events [data-scope="event-list"][data-part="day"] {
+	@media only screen and (min-width: 900px) {
 		grid-template-columns: repeat(2, minmax(0, 1fr));
 		margin-top: 1rem;
 	}
-}
 
-@media only screen and (min-width: 1200px) {
-	.td-events [data-scope="event-list"][data-part="day"] {
+	@media only screen and (min-width: 1200px) {
 		margin-top: 2rem;
 	}
 }
-
 
 /* ---------------------------------------------------------------------------
    News card, Theme/Page/News.elm viewNewsArticle
@@ -690,16 +654,12 @@ main:has(.td-home) {
 	padding: 1rem 1.25rem 4rem;
 	margin: 0 0 3rem;
 	color: var(--color-foreground);
-}
 
-@media only screen and (min-width: 600px) {
-	.td-news {
+	@media only screen and (min-width: 600px) {
 		padding: 2rem 2rem 4rem;
 	}
-}
 
-@media only screen and (min-width: 1200px) {
-	.td-news {
+	@media only screen and (min-width: 1200px) {
 		padding: 3rem 2rem 4rem;
 	}
 }
@@ -736,6 +696,13 @@ main:has(.td-home) {
 	transition:
 		color 300ms,
 		border-color 300ms;
+
+	@media only screen and (hover: hover) and (pointer: fine) {
+		&:hover {
+			color: var(--color-primary);
+			border-bottom-color: var(--color-foreground);
+		}
+	}
 }
 
 .td-news__meta {
@@ -757,13 +724,6 @@ main:has(.td-home) {
 	-webkit-box-orient: vertical;
 	-webkit-line-clamp: 3;
 	overflow: hidden;
-}
-
-@media only screen and (hover: hover) and (pointer: fine) {
-	.td-news__link:hover {
-		color: var(--color-primary);
-		border-bottom-color: var(--color-foreground);
-	}
 }
 
 @media only screen and (min-width: 600px) {

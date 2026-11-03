@@ -2,6 +2,44 @@
 
 require 'rails_helper'
 
+# Reads nested CSS as the full selectors its rules stand for, so a part nested in a root keeps its scope.
+module NestedSelectors
+  DEPTH = { '(' => 1, ')' => -1 }.freeze
+
+  module_function
+
+  def resolve(css)
+    stack = []
+    css.scan(/[^{};]*[{};]/).each_with_object([]) do |token, selectors|
+      if token.end_with?('}')
+        stack.pop
+      elsif token.end_with?('{')
+        stack << rule(token.chop.strip, stack.compact.last)
+        selectors.concat(stack.last.to_a)
+      end
+    end
+  end
+
+  # An at-rule is nil on the stack, so its rules nest under the style rule outside it.
+  def rule(prelude, parents)
+    return if prelude.start_with?('@')
+
+    list = split(prelude)
+    return list unless parents
+
+    parents.product(list).map { |parent, child| child.include?('&') ? child.gsub('&', parent) : "#{parent} #{child}" }
+  end
+
+  def split(list)
+    depth = 0
+    parts = list.chars.slice_when do |char, _|
+      depth += DEPTH.fetch(char, 0)
+      char == ',' && depth.zero?
+    end
+    parts.map { |part| part.join.delete_suffix(',').strip }
+  end
+end
+
 # What this engine says to a PlaceCal::Theme (#3368). The guards themselves are
 # core's (PlaceCal::Extension, exercised by core's own fixture-engine specs);
 # what is this repo's is the settings the theme block fills in.
@@ -58,7 +96,8 @@ RSpec.describe 'host contract' do
   # Core's styling hooks (core doc/extensions.md, "Styling hooks"): a scope, part or variant core drops fails here.
   describe 'styling hooks' do
     let(:css) do
-      Dir[Transdimension::Engine.root.join('app/tailwind/**/*.css')].sum('') { |path| File.read(path) }.gsub(%r{/\*.*?\*/}m, '')
+      source = Dir[Transdimension::Engine.root.join('app/tailwind/**/*.css')].sum('') { |path| File.read(path) }
+      NestedSelectors.resolve(source.gsub(%r{/\*.*?\*/}m, '')).join("\n")
     end
     # A pseudo-class argument naming a scope is left to be read as its own compound.
     let(:compounds) { css.scan(/\[data-scope="([a-z-]+)"\]((?:\[[^\]]*\]|:[a-z-]+(?:\((?![^)]*data-scope)[^)]*\))?)*)/) }
