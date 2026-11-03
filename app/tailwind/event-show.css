@@ -24,6 +24,11 @@
 	padding-top: 2.375rem;
 }
 
+/* With no map to close it, the box closes itself */
+main:not(:has(> [data-scope="map"][data-part="root"])) > [data-scope="event-details"][data-part="root"] {
+	border-bottom: 1px solid var(--color-primary);
+}
+
 /* The map continues the box's side borders */
 main > [data-scope="map"][data-part="root"] {
 	border: 1px solid var(--color-primary);
@@ -268,7 +273,7 @@ main > div:not([vocab]) > [data-scope="hero"][data-part="root"] {
 }
 
 /* Live's description: one body size throughout, in a 636px measure. */
-[data-scope="event-details"][data-part="description"] > p {
+[data-scope="event-details"][data-part="description"] > :is(p, ul, ol) {
 	font-size: 1rem;
 	line-height: 1.5;
 	margin: 0 auto 1em;
@@ -282,6 +287,20 @@ main > div:not([vocab]) > [data-scope="hero"][data-part="root"] {
 
 	@media only screen and (min-width: 1200px) {
 		font-size: 1.2rem;
+	}
+}
+
+[data-scope="event-details"][data-part="description"] {
+	> ul {
+		list-style-type: disc;
+	}
+
+	> ol {
+		list-style-type: decimal;
+	}
+
+	> :is(ul, ol) {
+		padding-left: 1.5em;
 	}
 }
 
