@@ -173,11 +173,18 @@ main > div[vocab] [data-scope="article"][data-part="content"] {
 	> p:first-child {
 		font-size: 1.4rem;
 		line-height: 1.4;
-		margin-block-end: 2em;
+		margin-block: 1em 2em;
 	}
 
 	p {
 		font-size: 1rem;
+	}
+
+	/* Core's heading scale, not the page-title size TD gives every h1 */
+	h1 {
+		font-size: var(--text-2xl);
+		font-weight: 700;
+		line-height: inherit;
 	}
 }
 
