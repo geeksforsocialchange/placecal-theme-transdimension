@@ -309,13 +309,16 @@ main > [data-scope="hero"][data-part="root"]:has([data-scope="hero"][data-part="
 	}
 
 	[data-scope="region-filter"][data-part="root"] {
+		/* fit-content sizes the row from flex-basis 0, too narrow for "Manchester" */
+		max-width: none;
+
 		[data-scope="region-filter"][data-part="list"] {
 			width: 100%;
 		}
 
+		/* No min-width: 0, so a pill too narrow for its name wraps to the next row instead of clipping */
 		[data-scope="region-filter"][data-part="item"] {
 			flex: 1 1 0;
-			min-width: 0;
 
 			[data-scope="pill"][data-part="root"] {
 				width: 100%;
