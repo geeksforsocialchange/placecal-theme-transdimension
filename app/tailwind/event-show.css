@@ -24,6 +24,11 @@
 	padding-top: 2.375rem;
 }
 
+/* With no map to close it, the box closes itself */
+main:not(:has(> [data-scope="map"][data-part="root"])) > [data-scope="event-details"][data-part="root"] {
+	border-bottom: 1px solid var(--color-primary);
+}
+
 /* The map continues the box's side borders */
 main > [data-scope="map"][data-part="root"] {
 	border: 1px solid var(--color-primary);
@@ -267,21 +272,27 @@ main > div:not([vocab]) > [data-scope="hero"][data-part="root"] {
 	}
 }
 
-/* Live's description: one body size throughout, in a 636px measure. */
-[data-scope="event-details"][data-part="description"] > p {
-	font-size: 1rem;
-	line-height: 1.5;
-	margin: 0 auto 1em;
-	max-width: 636px;
-	text-align: left;
+/* Live's description: one body size throughout, in a 636px measure. Rules keep the box's full width. */
+[data-scope="event-details"][data-part="description"] {
+	> :not(hr) {
+		margin-inline: auto;
+		max-width: 636px;
+		text-align: left;
 
-	@media only screen and (min-width: 600px) and (max-width: 899px) {
-		margin-inline: 4rem;
-		max-width: none;
+		@media only screen and (min-width: 600px) and (max-width: 899px) {
+			margin-inline: 4rem;
+			max-width: none;
+		}
 	}
 
-	@media only screen and (min-width: 1200px) {
-		font-size: 1.2rem;
+	> :is(p, ul, ol, dl, blockquote) {
+		font-size: 1rem;
+		line-height: 1.5;
+		margin-block: 0 1em;
+
+		@media only screen and (min-width: 1200px) {
+			font-size: 1.2rem;
+		}
 	}
 }
 

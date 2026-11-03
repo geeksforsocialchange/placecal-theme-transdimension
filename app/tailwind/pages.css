@@ -416,9 +416,9 @@ main > [data-scope="hero"][data-part="root"]:has([data-scope="hero"][data-part="
    event and partner pages, without the ruled heading's 3px rule, and the headings in their own text. */
 [data-scope="event-details"][data-part="root"] [data-scope="ruled-heading"][data-part="root"],
 [data-scope="partner-details"][data-part="details"] [data-scope="ruled-heading"][data-part="root"],
-[data-scope="event-details"][data-part="description"] h2,
-[data-scope="partner-details"][data-part="description"] h2,
-[data-scope="partner-details"][data-part="aside"] h2 {
+[data-scope="event-details"][data-part="description"] :is(h1, h2),
+[data-scope="partner-details"][data-part="description"] :is(h1, h2),
+[data-scope="partner-details"][data-part="aside"] :is(h1, h2) {
 	border-bottom: 0;
 	color: var(--color-primary);
 	display: block;

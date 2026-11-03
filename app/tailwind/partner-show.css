@@ -79,6 +79,18 @@ main > div:has(> [data-scope="partner-details"][data-part="root"]) {
 		column-gap: 2.5rem;
 		grid-template-areas: "main right";
 		grid-template-columns: minmax(0, 1fr) 24rem;
+
+		/* No image, opening times or accessibility: the main column centres on its own */
+		&:has(> [data-scope="partner-details"][data-part="aside"]:empty) {
+			grid-template-areas: "main";
+			grid-template-columns: minmax(0, 40rem);
+			justify-content: center;
+
+			/* Its grid area would otherwise add an empty column and gap */
+			> [data-scope="partner-details"][data-part="aside"] {
+				display: none;
+			}
+		}
 	}
 
 	/* Live's spacing for the partner page's section headings */
