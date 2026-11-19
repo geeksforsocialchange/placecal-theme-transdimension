@@ -276,36 +276,6 @@ main > div:has(> [data-scope="partner-details"][data-part="root"]) {
 	white-space: nowrap;
 }
 
-/* Select.jsx: dark fill, 2px pink border, pink 600 text, pink chevron. A
-   plain <select> with no wrapper span to hang a pseudo-element triangle off,
-   so the chevron is a background-image instead of the reference's bordered
-   span. */
-[data-scope="partner-details"][data-part="events-repeating"] {
-	appearance: none;
-	background-color: var(--color-background);
-	background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='9'%3E%3Cpolygon points='0,0 14,0 7,9' fill='%23ff7aa7'/%3E%3C/svg%3E");
-	background-position: right 0.7rem center;
-	background-repeat: no-repeat;
-	background-size: 0.7rem 0.45rem;
-	border: 2px solid var(--color-primary);
-	border-radius: 0.3rem;
-	color: var(--color-primary);
-	cursor: pointer;
-	font-family: inherit;
-	font-size: 1rem;
-	font-weight: 600;
-	/* the label's tracking would otherwise reach the options, as the partners Type toggle has none */
-	letter-spacing: normal;
-	line-height: 1.25;
-	padding: 0.2rem 2.2rem 0.3rem 0.75rem;
-	text-transform: none;
-
-	&:focus-visible {
-		outline: 2px solid var(--color-foreground);
-		outline-offset: 2px;
-	}
-}
-
 /* "Show N more days", centred under the cards */
 [data-scope="partner-details"][data-part="events-actions"] {
 	display: flex;

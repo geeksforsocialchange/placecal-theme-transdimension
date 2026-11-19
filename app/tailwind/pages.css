@@ -93,8 +93,7 @@ main {
 	display: none;
 }
 
-/* Live's show pages have no back link and no section name above the title. */
-[data-scope="hero"][data-part="back"],
+/* Live's show pages have no section name above the title. */
 [data-scope="hero"][data-part="kicker"] {
 	display: none;
 }

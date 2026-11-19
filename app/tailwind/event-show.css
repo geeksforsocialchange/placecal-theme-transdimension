@@ -151,9 +151,8 @@ main > div:not([vocab]) > [data-scope="hero"][data-part="root"] {
 	}
 
 	/* The organiser now reads in the panel, so the details line would repeat it;
-	   the neighbourhood and duration lines are cut too (2026-10-20 review). */
+	   the duration line is cut too (2026-10-20 review). */
 	[data-scope="event"][data-part="detail"][data-variant="organiser"],
-	[data-scope="event"][data-part="detail"][data-variant="neighbourhood"],
 	[data-scope="event"][data-part="detail"][data-variant="duration"] {
 		display: none;
 	}
