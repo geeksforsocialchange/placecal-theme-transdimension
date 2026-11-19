@@ -28,14 +28,10 @@ module Transdimension
     DONATE_URL = 'https://donorbox.org/the-trans-dimension'
 
     # Covik Sans comes from Adobe Typekit (D16: the licence is held), kit
-    # qwi3qrw. Core's font_stylesheet slot renders exactly the tags the Elm
-    # site's elm-pages.config.mjs headTagsTemplate emitted: the two
-    # preconnects, the preload and the stylesheet link.
-    #
-    # One deviation, and it predates this slot. Elm loads the stylesheet with
-    # media="print" and an onload handler that swaps it to "all", with a
-    # <noscript> copy as the fallback, so the font never blocks the first
-    # paint. Same font, one render-blocking request, no inline JavaScript.
+    # qwi3qrw. Core's font_stylesheet slot renders the tags the Elm site's
+    # elm-pages.config.mjs headTagsTemplate emitted: the two preconnects, the
+    # preload, and the stylesheet as print media switched to all on load with
+    # a <noscript> copy, so the font never blocks the first paint.
     TYPEKIT_CSS = 'https://use.typekit.net/qwi3qrw.css'
     TYPEKIT_PRECONNECT = %w[https://use.typekit.net https://p.typekit.net].freeze
 

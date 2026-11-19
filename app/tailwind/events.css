@@ -429,7 +429,7 @@
 		display: none;
 	}
 
-	/* The header part wraps the title and core's neighbourhood badge, which is hidden below */
+	/* The header part wraps the title */
 	[data-scope="event"][data-part="header"] {
 		align-items: flex-end;
 		border-bottom: 2px solid var(--color-primary);
@@ -482,11 +482,6 @@
 				font-size: 3.1222rem;
 			}
 		}
-	}
-
-	/* The live site's cards carry no neighbourhood badge */
-	[data-scope="event"][data-part="neighbourhood"] {
-		display: none;
 	}
 
 	[data-scope="event"][data-part="detail"][data-variant="time"] {

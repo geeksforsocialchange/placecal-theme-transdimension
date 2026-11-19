@@ -37,6 +37,24 @@ RSpec.describe 'Trans Dimension homepage', type: :request do
     expect(response.body).to include('Greater Manchester Trans Organisers Fund')
   end
 
+  it 'preloads the intro header art for each width the stylesheet paints it at' do
+    get 'http://transdimension.lvh.me/'
+
+    preloads = response.parsed_body.css('head link[rel="preload"][as="image"]')
+    expect(preloads.pluck('media')).to eq(Transdimension::Views::Home::HEADER_ART.values)
+    expect(preloads.pluck('href')).to all(match(%r{/assets/transdimension/illustrations/\d+px/homepage_1_header-[0-9a-f]+\.png}))
+    expect(preloads.pluck('fetchpriority').uniq).to eq(['high'])
+  end
+
+  it "lazy-loads the latest article's image, which is below the fold" do
+    Article.last.update!(article_image: Rack::Test::UploadedFile.new(Rails.root.join('spec/fixtures/files/good-cat-picture.jpg'), 'image/jpeg'))
+    get 'http://transdimension.lvh.me/'
+
+    image = response.parsed_body.at_css('img.td-news__image')
+    expect(image['loading']).to eq('lazy')
+    expect(image['decoding']).to eq('async')
+  end
+
   it "draws the events with core's card, the one the listing page uses" do
     get 'http://transdimension.lvh.me/'
 

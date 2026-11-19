@@ -21,9 +21,20 @@ class Transdimension::Views::Home < Views::Base
   # columns, not Index.elm's original eight.
   MAX_EVENTS = 8
 
+  # The intro's header art for each width home.css paints it at. It's the page's largest paint, and as a
+  # CSS background the browser would find it only after both stylesheets load.
+  HEADER_ART = {
+    320 => '(max-width: 599.98px)',
+    768 => '(min-width: 600px) and (max-width: 899.98px)',
+    1024 => '(min-width: 900px) and (max-width: 1199.98px)',
+    1366 => '(min-width: 1200px) and (max-width: 1499.98px)',
+    1920 => '(min-width: 1500px)'
+  }.freeze
+
   def view_template
     content_for(:title) { t('transdimension.home.meta_title') }
     content_for(:description) { t('transdimension.home.meta_description') }
+    content_for(:theme_head) { header_art_preloads }
 
     div(class: 'td-home') do
       render_intro
@@ -33,6 +44,13 @@ class Transdimension::Views::Home < Views::Base
   end
 
   private
+
+  def header_art_preloads
+    view_context.safe_join(HEADER_ART.map do |width, media|
+      view_context.tag.link(rel: 'preload', as: 'image', fetchpriority: 'high', media:,
+                            href: view_context.image_path("transdimension/illustrations/#{width}px/homepage_1_header.png"))
+    end)
+  end
 
   def render_intro
     section(class: 'td-section td-section--intro') do
