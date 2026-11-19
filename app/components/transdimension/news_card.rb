@@ -44,7 +44,7 @@ class Transdimension::Components::NewsCard < Components::Base
   def render_image
     return if news_article.article_image.blank?
 
-    image_tag(news_article.article_image.url, class: 'td-news__image', alt: '')
+    image_tag(news_article.article_image.url, class: 'td-news__image', alt: '', loading: 'lazy', decoding: 'async')
   end
 
   def render_meta
